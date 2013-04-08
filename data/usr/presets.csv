@@ -1,0 +1,5 @@
+name,vol,tone,neck,middle,bridge,split
+Default,11.0,11.0,False,False,True,False
+mellow,5,5,False,True,False,False
+jazz,10,8,True,False,True,True
+rock,10,10,False,False,True,False
