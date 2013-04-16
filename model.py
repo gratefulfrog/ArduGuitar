@@ -15,8 +15,8 @@ useBluetooth = False
 
 
 import sys,time
-from threading import Timer
-import thread
+import threading
+from Queue import *
 from PySide import QtGui
 
 import config
@@ -24,51 +24,34 @@ import preset
 import hal
 import gui
 
-class RepeatedTimer(object):
-    def __init__(self, interval, function, semaphore, *args, **kwargs):
-        self._timer     = None
-        self.interval   = interval
-        self.function   = function
-        self.args       = args
-        self.kwargs     = kwargs
-        self.is_running = False
-        self.lk = semaphore
-        self.start()
+class HalThread(threading.Thread):
+    def __init__(self, arduGuitarConf, comm, q):
+        super(HalThread,self).__init__()
+        self.dictQ = q
+        self.setDaemon(True)
+        self.hal = hal.Hal(arduGuitarConf,comm) 
 
-    def _run(self):
-        self.is_running = False
-        self.start()
-        self.lk.acquire()
-        #print "timer entered critical section"
-        self.function(*self.args, **self.kwargs)
-        #print "timer exiting critical section"
-        self.lk.release()
-
-    def start(self):
-        if not self.is_running:
-            self._timer = Timer(self.interval, self._run)
-            self._timer.setDaemon(True)  # so that it will exit if main exits
-            self._timer.start()
-            self.is_running = True
-
-    def stop(self):
-        self._timer.cancel()
-        self.is_running = False
-
+    def run(self):
+        print ("HalThread running.")
+        while(True):
+            dictItem = self.dictQ.get()
+            self.hal.update(dictItem)
+            self.dictQ.task_done()
 
 class Model():
     def __init__(self,arduGuitarConf,comm=True): 
         # com argument is to allow execution without a bluetooth connection
         # first, create a semaphore for threading protection
-        self.lk = thread.allocate_lock()
+        #self.lk = thread.allocate_lock()
+        self.q = Queue()
+        self.halThread = HalThread(arduGuitarConf,comm,self.q) 
+        self.halThread.start()
 
         # create the dictionary for the current settings:
         # vol, tone, pickups, split
         self.currentSettings = {}
         # get the conf
         self.conf = arduGuitarConf        
-        # get a Hal object instance
-        self.hal = hal.Hal(self.conf,comm) 
 
         # get the presets
         self.preset = preset.Preset(self.conf)
@@ -84,20 +67,12 @@ class Model():
         # here we finish the init of the GUI
         self.gui.finishInit()
 
-        # create the heartbeat timer and start it going
-        # I wonder if this is really useful/necessary?
-        # pass the semaphore to it for use in mutex-ing
-        """
-        rt = RepeatedTimer(self.conf.model.heartbeatTimer,
-                           self.hal.ok,
-                           self.lk)
-        """
-# use a try block to insure that clean up takes place on exit
+        # use a try block to insure that clean up takes place on exit
         try:
             sys.exit(app.exec_())
         finally:
-            # stop timer and save presets to file.
-            #rt.stop()
+            #  save presets to file.
+            #self.halThread.stop()
             self.preset.toFile()
 
     #########################
@@ -243,16 +218,10 @@ class Model():
         if len(tempD)>0:
             # first refresh gui !
             self.updateGui()
-            # if there are any settings left to process
-            # obtain solo acess to hardware
-            self.lk.acquire()
-            # print "update entering critical section"
-            # call the hardware abstraction layer to handle hardware update
-            self.hal.update(tempD)                
-            #print "update exiting critical section"
-            # release the lock so others can access the hardware
-            self.lk.release()
-            # don't forget to update the gui display.
+            # if there are any settings left to process, then enqueue
+            # them so the HalThread can process them!
+            self.q.put_nowait(tempD)  
+            print ('put on queue' + str(tempD))
 
 
     def updateGui(self):

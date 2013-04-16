@@ -29,6 +29,7 @@ class Hal():
         self.conf = arduGuitarConf
         # get a Protocol object instance
         self.protocol = protocol.Protocol(arduGuitarConf,comm)
+        print("hal created!")
 
     def ok(self):
         # this asks the protocol to check the hardware-heartbeat
@@ -42,11 +43,12 @@ class Hal():
         (pin,value) tuple,
         send a list of those tuples to the protocol
         """
+        print("called hal.update")
         outgoingTupleLis = []
         for key in argDict.keys():
             if argDict[key] != None: 
                 outgoingTupleLis += self.buildTuples(key,argDict[key])
-        #print outgoingTupleLis
+        print outgoingTupleLis
         self.protocol.send(outgoingTupleLis)
 
     def buildTuples(self,key,val):
