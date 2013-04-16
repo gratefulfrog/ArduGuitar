@@ -59,14 +59,14 @@ class Preset {
 class PresetPack {
   final int nbPresets = 5;
   Preset rock   = new Preset(11,11,false,false,false,true),
-         blues  = new Preset(11,8,true,false,false,true),
-         jazz   =  new Preset(8,8,true,false,true,false),
-         comp   =  new Preset(6,5,true,false,false,false),
-         lead   =  new Preset(11,11,false,true,false,true),
+         woman  = new Preset(11,0,true,true,false,true),
+         jazz   =  new Preset(8,6,true,false,false,false),
+         comp   =  new Preset(8,11,false,true,false,false),
+         lead   =  new Preset(11,11,true,true,false,true),
          pLis[] = {rock,blues,jazz,comp,lead};
 
   final String names[] = { "Rock",
-                           "Blues",
+                           "Woman",
                            "Jazz",
                            "Comp",
                            "Lead"};

@@ -37,7 +37,7 @@ boolean down = false;
 color colors[] = new color[5];
 
 String names[] = { "Rock",
-                   "Blues",
+                   "Woman",
                    "Jazz",
                    "Comp",
                    "Lead"};
@@ -106,7 +106,7 @@ void draw() {
   fill(0,0,100);
   //textAlign(RIGHT,TOP);
   textAlign(CENTER,TOP);
-  textSize(64);
+  textSize(54);
   text(vtString("vol: ",vol),width/2,2); //width*3/4,2);
   //textAlign(RIGHT,BOTTOM);
   textAlign(CENTER,BOTTOM);
