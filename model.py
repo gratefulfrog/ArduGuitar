@@ -34,8 +34,14 @@ class HalThread(threading.Thread):
     def run(self):
         print ("HalThread running.")
         while(True):
-            dictItem = self.dictQ.get()
-            self.hal.update(dictItem)
+            (dictItem,settingsDict) = self.dictQ.get()
+            # dictItem is the dictionary of changes in settings since last update
+            # settingsDict is the full set of current settings, just in case of error..
+            try:
+                self.hal.update(dictItem)
+            except btSerialError:
+                print "caught an error"
+                self.hal.update(setttingsDict)
             self.dictQ.task_done()
 
 class Model():
@@ -220,7 +226,8 @@ class Model():
             self.updateGui()
             # if there are any settings left to process, then enqueue
             # them so the HalThread can process them!
-            self.q.put_nowait(tempD)  
+            # also enqueue the current settings in case of error...
+            self.q.put_nowait((tempD,self.currentSettings))  
             print ('put on queue' + str(tempD))
 
 
