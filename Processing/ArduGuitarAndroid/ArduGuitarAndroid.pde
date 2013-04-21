@@ -28,6 +28,8 @@ KetaiBluetooth bt;
 
 BlockingQueue q;
 
+PresetPack presets;
+
 PImage base;
 PImage overlays[] = new PImage[4];
 
@@ -41,6 +43,7 @@ String names[] = { "Rock",
                    "Jazz",
                    "Comp",
                    "Lead"};
+String tableFileName = "//sdcard/ArduGuitar/data.tsv";
 String errorKey = "e";
 String btName = "linvor";
 //String btAddress = "00:12:11:19:08:54";  
@@ -65,12 +68,12 @@ int vol = 11,
     pt=11,
     xRange[] = new int[4],
     yRange[]= new int[4];
-int colorHues = {0, //red
-		 60, //yellow
-		 120, // green
-		 240, //blue
-		 300};  // violet
-                 // O // turquoise
+int colorHues[] = {0, //red
+		   60, //yellow
+		   120, // green
+		   240, //blue
+		   300};  // violet
+                   // O // turquoise
 int colorSat = 100,
     colorBrit = 100;
 int configDelay = 750;
@@ -92,7 +95,7 @@ void sendVolTone(){
 	"09" + nf(tOut,3);                    
     doSend(outgoing);
 }
-void   sendPickups(){
+void sendPickups(){
     // this needs to be adapted to model/hal/etc.
     String s[]= {"02","03","04","05"},
 	outgoing = "";
@@ -132,7 +135,7 @@ void setupGUI(){
     orientation(LANDSCAPE);
 
     colorMode(HSB, 359, 100, 100);
-    for (int i=0;i<colors.length();i++){
+    for (int i=0;i<colors.length;i++){
 	colors[i] = color(colorHues[i],colorSat,colorBrit);
     }
 
@@ -143,8 +146,101 @@ void setupGUI(){
     ellipseMode(CENTER);
 }
 
+void setupPresets(){
+  loadPresets();
+  doPreset(names[0]); 
+}
+
+void loadPresets(){
+  Preset rock   = new Preset(11,11,false,false,false,true),
+         woman  = new Preset(11,0,true,true,false,true),
+         jazz   =  new Preset(8,6,true,false,false,false),
+         comp   =  new Preset(8,11,false,true,false,false),
+         lead   =  new Preset(11,11,true,true,false,true),
+         pLis[] = {rock,woman,jazz,comp,lead};
+  presets = new PresetPack();
+  Table tsv = null;
+  try {
+    tsv = loadTable(tableFileName, "tsv");  
+  } 
+  catch (Exception e) {  
+    println("Table load failed: " + e);
+    tsv = null;  
+    print("failed to open, creating new presets...");
+    for (int i=0; i<names.length;i++){
+      presets.put(names[i],pLis[i]);
+    }
+  }
+  if (tsv != null) {
+    for (int row = 1; row < tsv.getRowCount(); row++){
+      presets.put(names[row-1], rowToPreset(tsv,row));
+      println("adding..." + names[row-1]);
+    }
+  }
+  currentPreset = 0;
+}
+
+Preset rowToPreset(Table tsv, int row){
+  int vals[] = new int[6];
+  for (int i=0;i<6;i++){
+    vals[i] = tsv.getInt(row,i);
+  }
+  boolean pVec[] = new boolean[4];
+  for (int i=0;i<4;i++){
+    if (vals[2+i]==0){
+      pVec[i]=false;
+    }
+    else {
+      pVec[i]=true;
+    }
+  }
+  return new Preset(vals[0],vals[1],pVec);
+}
+
+void unloadPresets(){
+  Table table = createTable();
+  String tableCols[] = { "vol",
+                         "tone",
+                         "neck",
+                         "middle",
+                         "bNorth",
+                         "bBoth"};
+  
+  println("unloading presets");
+  for (int i=0;i<tableCols.length;i++){
+    table.addColumn(tableCols[i]);
+  }
+  for (int i=0;i<names.length;i++){
+    TableRow newRow = table.addRow();
+    Preset p = presets.get(names[i]);
+    for (int j=0;j<tableCols.length;j++){
+      newRow.setInt(tableCols[j],p.getAsInt(j));
+    }
+  }
+  try {
+    saveTable(table, tableFileName); 
+  }
+  catch (Exception e) { 
+    println("Save Failed: " + e);
+  }
+  println("rows written: " + table.getRowCount());
+}
+
+void doPreset(String name){
+  for (int i=0;i<selected.length;i++){
+    selected[i] = presets.get(name).selectors()[i];
+  }
+  vol  = presets.get(name).vol();
+  tone = presets.get(name).tone();
+  if (!isConfiguring){
+    sendVolTone();
+    sendPickups();
+  }
+}
+  
 void setup() {
     setupGUI();
+    setupPresets();
     setupKetaiAndBT();
 }
 
@@ -154,7 +250,7 @@ void connectingMsg(){
     textAlign(CENTER);
     textSize(textSizeInit);
     stroke(0,0,colorBrit);
-    text("Connecting to " + btName +"...",width/2,textS);  // will be overwritten by background()...
+    text("Connecting to " + btName +"...",width/2,textSizeInit);  // will be overwritten by background()...
     bogus++;
 }
 
@@ -245,6 +341,8 @@ void onTap(float x, float y){
     if (isConfiguring){
 	return;
     }
+    boolean sendPickupsFlag = true;
+    
     if (x < width/4) {
 	selected[0]= !selected[0];
     }
@@ -264,15 +362,19 @@ void onTap(float x, float y){
 	}
     }
     else {
+        sendPickupsFlag = false;
 	for (int i=0;i< 5;i++){
 	    if (y < height*(i+1)/5) {
 		println("color selected: " + i);
 		currentPreset = i;
+                doPreset(names[i]);
 		break;
 	    }
 	}
     }
-    sendPickups();
+    if (sendPickupsFlag){
+      sendPickups();
+    }
 }
 
 void onLongPress(float x, float y){
@@ -291,7 +393,8 @@ void onLongPress(float x, float y){
     }
     else {
 	// do stuff
-	onTap(x,y);
+	//onTap(x,y);
+        saveToPreset(x,y);
 	vibe.vibrate(1000);
 	println("vibrate!");    
     }
@@ -313,10 +416,34 @@ void keyPressed() {
 	return;
     }
     if (key == CODED && keyCode == MENU) {
-	println("menu press!");
-	vibe.vibrate(1000);
+	println("Maine-Menu press!");
+	//saveToPreset(currentPreset);
+        unloadPresets();
+        vibe.vibrate(1000);
     }
 }
+
+void saveToPreset(float x,float y){
+  int selected = 0;
+  for (int i=0;i< 5;i++){
+    if (y < height*(i+1)/5) {
+      println("color selected: " + i);
+      selected = i;
+      break;
+    }
+  }
+  saveToPreset(selected);
+  onTap(x,y);
+}
+  
+void saveToPreset(int i) {
+  presets.get(names[i]).setVol(vol);
+  presets.get(names[i]).setTone(tone);
+  presets.get(names[i]).setSelectors(selected);
+  vibe.vibrate(1000);
+  println("Preset: " + names[i] + " updated!");
+}  
+  
 
 void mousePressed() {
     if (isConfiguring){
