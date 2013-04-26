@@ -1,0 +1,46 @@
+class ArduGuitarModel {
+    Hal hal;
+    PresetPack presets;
+    boolean selected[];
+    int vt[2],
+	v=0,
+	t=1;
+    ArduGuitarConf.ModelConf mc;
+
+    public ArduGuitarModel(ArduGuitarConf ac){
+	mc = ac.mc;
+	hal = new Hal(ac);
+	presets = new PresetPack(ac);
+    }
+    
+    void doPreset(String name){
+	for (int i=0;i<selected.length;i++){
+	    selected[i] = presets.get(name).selectors()[i];
+	}
+	vt[v]  = presets.get(name).vol();
+	vt[t] = presets.get(name).tone();
+	if (!isConfiguring){
+	    hal.sendVolTone(vt);
+	    hal.sendPickups(selected);
+	}
+    }
+    void setupPresets(){
+	loadPresets();
+	doPreset(names[0]); 
+    }
+}
+
+  boolean toggleSelectors(){
+   // toggle any on to all off
+   // toggle all off to all on
+   // return true if final state is all on
+   // return false if final state is all off
+  boolean allOn = false;
+  for (int i=0;i< nbSelectors;i++){
+    allOn |= selectors[i];
+  }
+  for (int i=0;i< nbSelectors;i++){
+    selectors[i] = !allOn;
+  }
+  return !allOn;
+  }  
