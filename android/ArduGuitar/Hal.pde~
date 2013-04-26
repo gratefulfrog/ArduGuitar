@@ -1,0 +1,68 @@
+class Hal {
+    ArduGuitarConf.HalConf conf;
+    private final BlockingQueue q;
+    public boolean isConfiguring = true;
+
+    public Hal(ArduGuitarConf ac){
+	conf = ac.hc;
+	prot = new Protocol(ac);	
+	bt.start();
+	println(bt.getPairedDeviceNames());
+	q = new LinkedBlockingQueue();
+	SenderThread sender = new SenderThread(bt, q);
+	sender.start();
+	while(isConfiguring){
+	    isConfiguring = !bt.connectToDeviceByName(ac.bc.btName);    
+	    if (!isConfiguring){
+		delay(configDelay);
+	    }
+	}
+    }
+    public void update(int vt[]){
+	// stuff
+	String outgoing = "";
+	// first make the volume
+	for(int i=0;i<conf.volPins.length;i++){
+	    outgoing += volPins[i] + conf.volPWM[i][round(vt[0]*conf.vtFactor)];
+	}
+	// then add the tone
+	outgoing += tonePin + conf.tonePWM[i][round(vt[1]*conf.vtFactor)];
+	doSend(outgoing);
+    }
+    public void update(boolean selectors[]){
+	String outgoing = "";
+	// handle first neck, middle and bridgeNorth
+	for (int i=0;i<selectors.length-1;i++){
+	    outgoing +=selectorPins[i];
+	    if (selectors[i]){
+		outgoing += conf.onOff[0];
+	    }
+	    else {
+		outgoing += conf.onOff[1];
+	    }
+	}
+	// now if Bridgeboth or bridgeNorth then bridge is on
+	outgoing+=selectorPins[3];
+	if (selectors[3] || selectors[2]){
+	    outgoing += conf.onOff[0];
+	}
+	else {
+	    outgoing += conf.onOff[1];
+	}
+	doSend(outgoing);
+    }
+    public void update(int vt[],boolean selectors[]){
+	update(vt);
+	update(selectors);
+    }
+    void doSend(String msg){
+	try {
+	    q.put(msg);
+	    println("sending: " + msg);
+	}
+	catch (InterruptedException ex) {
+	    println("ERROR sending: " + msg);
+	}
+    }
+}
+    
