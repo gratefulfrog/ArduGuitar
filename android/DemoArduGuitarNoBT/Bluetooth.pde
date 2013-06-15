@@ -3,7 +3,7 @@
  */
 
 KetaiBluetooth bt;
-
+/*
 ///////////////////////////////////////////////////////////////////////////
 /////    The following code is required to enable bluetooth at startup. ////
 void onCreate(Bundle savedInstanceState) {
@@ -14,6 +14,7 @@ void onActivityResult(int requestCode, int resultCode, Intent data) {
   bt.onActivityResult(requestCode, resultCode, data);
 }
 ///////////////////////////////////////////////////////////////////////////
+*/
 
 class SenderThread extends Thread {
   private final BlockingQueue queue;
