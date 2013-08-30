@@ -68,6 +68,10 @@ void pwmSetup(){
 void serialSetup(){
   // configure the Serial Object, then wait for the port to be ready
   SERIAL_CLASS.begin(9600);
+  //SERIAL_CLASS.begin(115200);  // seems to add clicking?
+  //SERIAL_CLASS.begin(1200);  // way too slow!
+
+  
   while(!SERIAL_CLASS);
   //msg("initialized.");
 }
