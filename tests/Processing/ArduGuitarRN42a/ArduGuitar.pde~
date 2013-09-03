@@ -1,6 +1,11 @@
 /*
-  Android ArduGuitar 100 good to go!  
+  Android Pickups with a synchroized queue...
+  can simulate error to be sure error handling is ok
 */
+
+///////////////   SET THIS TO FALSE for PRODUCTION /////////
+
+boolean simulateErrorsOnLongPress = true;
 
 ////////////////////////////////////////////////////////////
 
@@ -29,47 +34,36 @@ class ArduGuitarGui {
     boolean down = false;  
 
     public int 
-        pv,
+	pv,
 	pt,
 	xI = 0,
 	yI = 0,
 	xRange[],
 	yRange[],
-	currentPreset = 0,
-        bogus;
+	currentPreset = 0;
   
-    public ArduGuitarGui(ArduGuitarConf arduConf, KetaiGesture g, KetaiVibrate v){
-        //println("creating gui instance.");
+    public Gui(ArduGuitarConf arduConf){
 	conf = arduConf.gc;
-        //println("conf created.");
-
-        xRange = new int[arduConf.mc.nbPickups];
-        //println("xRange created.");
-        yRange = new int[arduConf.mc.nbPickups];      
-        //println("yRange created.");
-        gesture = g;
-        vibe = v;
-        bogus = conf.bogus;
-	//println("about to do colormode.");
-        colorMode(HSB, 359, 100, 100);
+	pv = model.vol();
+	pt=model.tone();
+	orientation(LANDSCAPE);
+	colorMode(HSB, 359, 100, 100);
+	colors = new color[model.presets.nbPresets()];
+	for (int i=0;i<conf.colors.length;i++){
+	    colors[i] = color(conf.colorHues[i],conf.colorSat,conf.colorBrit);
+	}
+	setupKetaiGui();
 	smooth();
 	fill(255);
 	noStroke();
-        //println("about to load images.");
 	loadImages();
 	ellipseMode(CENTER);
-        //println("exiting gui constructor.");
     }
-    void finishInit(){
-      //println("about to call model methods....");
-      pv = model.vol();
-      pt = model.tone();
-      colors = new color[model.presets.nbPresets()];
-      //println("length of colors:" + colors.length);
-      for (int i=0;i<colors.length;i++){
-        colors[i] = color(conf.colorHues[i],conf.colorSat,conf.colorBrit);
-      }
+    void setupKetaiGui(){
+	gesture = new KetaiGesture(this);
+	vibe = new KetaiVibrate(this);
     }
+    
     void loadImages(){
 	base = loadImage(conf.baseFile);
 	overlays = new PImage[conf.nbOverlays];
@@ -86,11 +80,11 @@ class ArduGuitarGui {
     }
     
     void drawPickups(){
-	image(base,0,0,width,height);
+	image(base,0,0);
 	
 	for (int i=0;i<model.selectorsVec.length;i++){
 	    if (model.selectorsVec[i])
-		image(overlays[i],0,0,width,height);
+		image(overlays[i],0,0);
 	}
     }
 
@@ -110,9 +104,9 @@ class ArduGuitarGui {
 		fill(colors[i]);
 	    }
 	    ellipse(xEllipse,yEllipse,wEllipse,yInc/2);
-	    fill(color((hue(colors[i])+180)%360,conf.colorSat,conf.colorBrit));
+	    fill(color((hue(colors[i])+180)%360,colorSat,colorBrit));
 	    textAlign(CENTER,CENTER);
-	    text(model.presets.presetNames[i],xEllipse,yText+yInc/2);
+	    text(model.presets.names[i],xEllipse,yText+yInc/2);
 	    noStroke();
 	    yEllipse += yInc;
 	    yText += yInc;
@@ -144,41 +138,29 @@ ArduGuitarModel model;
 ArduGuitarGui gui;
 
 void setup() {
-     orientation(LANDSCAPE);
-     //println("oreintation landscape.");
-     KetaiGesture ges = new KetaiGesture(this);
-     KetaiVibrate vib = new KetaiVibrate(this);    
-     model =  new ArduGuitarModel(ac,ges,vib);
-     //println("created model.");
-     gui = model.gui;
-     gui.finishInit();
-     println("leaving setup...");     
+     model =  new ArduGuitarModel(ac);
+     gui = model.gui();     
 }
 
 void connectingMsg(){
     background(0,0,0);
     fill(0,0,100);
     textAlign(CENTER);
-    textSize(ac.gc.textSizeInit);
-    stroke(0,0,ac.gc.colorBrit);
-    text("Connecting to " + ac.bc.btName +"...",width/2,ac.gc.textSizeInit);  
+    textSize(textSizeInit);
+    stroke(0,0,colorBrit);
+    text("Connecting to " + ac.bt.btName +"...",width/2,conf.gui.textSizeInit);  
     // will be overwritten by background()...
-    gui.bogus++;
 }
 
 void draw() {
-    if (gui.bogus<0){
-     connectingMsg();
-    } 
-    else if (model.hal.isConfiguring){
-        if(model.hal.doConnect()){
-          model.doPreset(model.currentPresetName);
-        }
+    if (model.hal.isConfiguring){
+	connectingMsg();
     }
     else {  // we're connected!
 	gui.draw();
     }
 }
+
 
 void onTap(float x, float y){       
     if (model.hal.isConfiguring){
@@ -186,30 +168,30 @@ void onTap(float x, float y){
     }
     boolean sendPickupsFlag = true;
     
-    if (x < width*ac.gc.nXF) {
+    if (x < width*conf.nXF) {
 	model.setSelector(0, !model.selector(0));;
     }
-    else if (x < width*ac.gc.mXF) {   
+    else if (x < width*conf.mXF) {   
 	model.setSelector(1, !model.selector(1));
     }
-    else if (x < width*ac.gc.bnXF) {
+    else if (x < width*conf.bnXF) {
 	model.setSelector(2, !model.selector(2));
-	if (model.selector(2)){
+	if (model.setSelector(2)){
 	    model.setSelector(3,false);
 	}
     }
-    else if (x < width*ac.gc.bbXF){
+    else if (x < width*conf.bbXF){
 	model.setSelector(3, !model.selector(3));
-	if (model.selector(3)){
+	if (model.setSelector(3)){
 	    model.setSelector(2,false);
 	}
     }
     else {
 	for (int i=0;i<model.presets.nbPresets();i++){
 	    if (y < height*(i+1)/model.presets.nbPresets()) {
-		//println("color selected: " + i);
-		gui.currentPreset = i;
-                model.doPreset(model.presets.presetNames[i]);
+		println("color selected: " + i);
+		currentPreset = i;
+                model.doPreset(model.preset.presetNames[i]);
 		break;
 	    }
 	}
@@ -220,14 +202,24 @@ void onLongPress(float x, float y){
     if (model.hal.isConfiguring){
 	return;
     }
-    if (x < width*ac.gc.bbXF) {
-	//println(" doAllOnOff!");
+    if (x < width*conf.bbXF) {
+	println(" doAllOnOff!");
 	model.toggleSelectors();
+	/*if (simulateErrorsOnLongPress){
+	    doSend("17300");
+	    println("Simlating an error... 17300");
+	}
+	else {
+	    doAllOnOff();
+	}
+	*/
     }
     else {
-	saveToPreset(x,y);
+	// do stuff
+	//onTap(x,y);
+        saveToPreset(x,y);
 	gui.vibe.vibrate(1000);
-	//println("vibrate!");    
+	println("vibrate!");    
     }
 }
 
@@ -236,7 +228,8 @@ void keyPressed() {
 	return;
     }
     if (key == CODED && keyCode == MENU) {
-	//println("Maine-Menu press!");
+	println("Maine-Menu press!");
+	//saveToPreset(currentPreset);
         model.presets.unload();
         gui.vibe.vibrate(1000);
     }
@@ -244,9 +237,9 @@ void keyPressed() {
 
 void saveToPreset(float x,float y){
   int selected = 0;
-  for (int i=0;i< model.presets.nbPresets();i++){
+  for (int i=0;i< 5;i++){
       if (y < height*(i+1)/model.presets.nbPresets()) {
-      //println("color selected: " + i);
+      println("color selected: " + i);
       selected = i;
       break;
     }
@@ -259,13 +252,13 @@ void saveToPreset(int i) {
     Preset p = model.presets.get(model.presets.presetNames[i]);
     p.setVol(model.vol());
     p.setTone(model.tone());
-    p.setSelectors(model.selectors());
+    p.setSelectors(model.getSelectors());
     gui.vibe.vibrate(1000);
-    //println("Preset: " + model.presets.presetNames[i] + " updated!");
+    println("Preset: " + model.presets.presetNames[i] + " updated!");
 }  
   
 void mousePressed() {
-    if (model.hal.isConfiguring){
+    if (isConfiguring){
 	return;
     }
     if(!gui.down){
@@ -275,29 +268,29 @@ void mousePressed() {
 	gui.pt = model.tone();
 	gui.down = true;
     }
-    //println("pressed");
+    println("pressed");
 }
 
 void mouseDragged(){
-    if (model.hal.isConfiguring){
+    if (isConfiguring){
 	return;
     }
-    if (gui.xI>=width*ac.gc.bbXF){
+    if (xI>=width*gui.conf.bbXF){
 	return;
     }
     checkDirection();
-    model.setVol(constrain(round(map(mouseX - gui.xI,
-				     gui.xRange[0],
-				     gui.xRange[1],
-				     gui.xRange[2],
-				     gui.xRange[3])),
-			   ac.mc.minVT,ac.mc.maxVT));
-    model.setTone(constrain(round(map(mouseY - gui.yI, 
-				      gui.yRange[0],
-				      gui.yRange[1],
-				      gui.yRange[2],
-				      gui.yRange[3])),
-			    ac.mc.minVT,ac.mc.maxVT));
+    model.setVol(constrain(round(map(mouseX - xI,
+				     xRange[0],
+				     xRange[1],
+				     xRange[2],
+				     xRange[3])),
+			   ac.mc.minVT,ac.mc.maxVT);
+    tone = constrain(round(map(mouseY - yI, 
+			       yRange[0],
+			       yRange[1],
+			       yRange[2],
+			       yRange[3])),
+		     ac.mc.minVT,ac.mc.maxVT);
 }
 
 void checkDirection(){
@@ -331,7 +324,7 @@ void checkDirection(){
 
 void mouseReleased() {
     gui.down = false;
-    //println("released");
+    println("released");
 }
 
 public boolean surfaceTouchEvent(MotionEvent event) {

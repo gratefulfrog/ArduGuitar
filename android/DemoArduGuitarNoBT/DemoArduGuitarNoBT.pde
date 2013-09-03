@@ -86,11 +86,11 @@ class ArduGuitarGui {
     }
     
     void drawPickups(){
-	image(base,0,0);
+	image(base,0,0,width,height);
 	
 	for (int i=0;i<model.selectorsVec.length;i++){
 	    if (model.selectorsVec[i])
-		image(overlays[i],0,0);
+		image(overlays[i],0,0,width,height);
 	}
     }
 

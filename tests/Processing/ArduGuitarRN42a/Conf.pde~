@@ -1,18 +1,17 @@
 class ArduGuitarConf {
     public class GuiConf {
-	public String 
-	    baseFile       = "Pickups1196x768.png",
+	public String baseFile       = "Pickups1196x768.png",
 	    overlayFiles[] = {"neck1196x768.png",
 			      "middle1196x768.png",
 			      "bridgeNorth1196x768.png",
 			      "bridgeBoth1196x768.png"};
-	public int nbOverlays;
+	public int nbOverlays = 4;
+	
 	public int textSizeInit= 48,
 	    textSizeEllipse = 32,
 	    textSizeVT = 54;
 
-	public int bogus = -60;   // -60 => startup message for 1 second 
-	// isConfiguring now handles this
+	public int bogus = -60;   // -60 => startup message for 1 second
 	public int colorHues[] = {0, //red
 				  60, //yellow
 				  120, // green
@@ -30,50 +29,31 @@ class ArduGuitarConf {
 	    bnXF = 5.0/8.0,
 	    bbXF= 7.0/8.0;
 
-	public int strokeWeight = 4;
-
+	public int configDelay = 750;
+	
 	public GuiConf(ArduGuitarConf.ModelConf mc){
-	    //overlays = new PImage[mc.nbPickups];
-	    nbOverlays= overlayFiles.length;
+	    overlays = new PImage[mc.nbPickups];
+	    xRange = new int[mc.nbPickups];
+	    yRange = new int[mc.nbPickups];      
 	}
     }
     public class ModelConf {
 	public int nbPickups = 4;
-	public int vt[] = {11, 11},
-	    minVT = 0,
-	    maxVT = 11;
+
+	public int currentPreset = 0;
+	public int vol = 11,
+	    tone = 11,
+	    pv=11,
+	    pt=11;
 	public ModelConf(){
 	}
     }
     public class HalConf {
-        public int configDelay = 750;
-	public float vtFactor = 5.0/11.0;
-	public String volPins[] = {"09","10","12"},
-	    tonePin   = "11",
-	    selectorPins[]   = {"02", //neck
-				"03", // middlePin
-				"05",  // splitPin
-				"04"}, //bridgePin
-
-	    onOff[] = {"255","000"}, // true, false
-	    // this is the factor used to convert Gui scale vol and tone on [0,11]
-	    // to Arduino scale on [0,5]
-	    // Model.guiVTMax, and the denominator Model.arduinoVTMax
-	    // vol levels: [0,1,2,3,4,5]
-	    volPWM[][]  = {{"000","012","014","018","027","255"},
-			   // volPWM[0]-> volPins[0]
-			   {"255","030","020","015","013","000"},
-			   // volPWM[1]-> volPins[1]
-			   {"000","000","000","000","000","255"}},  
-	                   // 3rd vactrol for max volume
-	                   // volPWM[2]-> volPins[2]
-	    // tone levels: [0,1,2,3,4,5]
-	    tonePWM[] = {"255","090","046","027","017","000"};
-
 	public HalConf(ArduGuitarConf.ModelConf mc){
 	}
     }
     public class PresetsConf {
+	public int nbPresets;
 	public String names[] = {"Rock",
 				 "Woman",
 				 "Jazz",
@@ -98,13 +78,16 @@ class ArduGuitarConf {
 				      "bNorth",
 				      "bBoth"};
 	public PresetsConf(ArduGuitarConf.ModelConf mc){
+	    nbPresets = names.length;
+	}
+    }
+    public class ProtocolConf {
+	public String errorKey = "e";
+	public ProtocolConf(ArduGuitarConf.ModelConf mc){
 	}
     }
     public class BluetoothConf {
-	public int errorRecoveryDelay = 50;
-	public String errorKey = "e";
-	public String btName = "no bluetooth module";
-
+	public String btName = "linvor";
 	//String btAddress = "00:12:11:19:08:54";  
 	// linvor on-board Ibanez RG-140  -- 
 	// doesn't work because of bug in Ketai???
@@ -115,13 +98,15 @@ class ArduGuitarConf {
     public GuiConf gc;
     public HalConf hc;
     public PresetsConf psc;
-    public BluetoothConf bc;
+    public ProtocolConf pc;
+    public BluetoothConf bt;
     
     public ArduGuitarConf() {
 	mc = new ModelConf();
 	gc = new GuiConf(mc);
 	hc = new HalConf(mc);
 	psc =  new PresetsConf(mc);
+	pc = new ProtocolConf(mc);
 	bc = new BluetoothConf(mc);
     }
 }

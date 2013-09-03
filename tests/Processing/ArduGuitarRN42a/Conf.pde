@@ -103,9 +103,9 @@ class ArduGuitarConf {
     public class BluetoothConf {
 	public int errorRecoveryDelay = 50;
 	public String errorKey = "e";
-	public String btName = "no bluetooth module";
+	public String btName = "RN42-461A";
 
-	//String btAddress = "00:12:11:19:08:54";  
+	//String btAddress = "00:06:66:60:46:1A";  
 	// linvor on-board Ibanez RG-140  -- 
 	// doesn't work because of bug in Ketai???
 	public BluetoothConf(ArduGuitarConf.ModelConf mc){

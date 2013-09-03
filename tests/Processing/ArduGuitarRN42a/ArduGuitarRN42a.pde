@@ -1,5 +1,6 @@
 /*
   Android ArduGuitar 100 good to go!  
+  version reserved for testing...
 */
 
 ////////////////////////////////////////////////////////////
@@ -86,11 +87,20 @@ class ArduGuitarGui {
     }
     
     void drawPickups(){
-	image(base,0,0,width,height);
+	image(base,
+              0,
+              0,
+              width, 
+              height);
 	
 	for (int i=0;i<model.selectorsVec.length;i++){
 	    if (model.selectorsVec[i])
-		image(overlays[i],0,0,width,height);
+		image(overlays[i],
+                      0,
+                      0,
+                      width,
+                      height);
+
 	}
     }
 
