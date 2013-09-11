@@ -7,6 +7,7 @@
 Cycle c;
 
 void setupCycle(){
+  // this routine instatiates the Cylce object and starts it cycling
   String names[] = {"1 sec", "2 sec", "3 sec", "4 sec"};
   int    delays[] = {1000,2000,3000,4000};
   

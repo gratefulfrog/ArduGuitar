@@ -15,7 +15,7 @@ class Cycle {
   
   void reset(){
     if (cycling()){
-      quit();
+      quit();  
     }
     index = 0;
   }
