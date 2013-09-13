@@ -25,10 +25,13 @@ class Hal {
       return !isConfiguring;
       */
       // this is for no bluetooth only
+      delay(conf.configDelay);
       isConfiguring = false;
-      return isConfiguring;
+      return !isConfiguring;
       // end of no bt 
     }
+    // FIX
+    /*
     public void updateVol(int v){
        if (isConfiguring){
             return;
@@ -40,6 +43,18 @@ class Hal {
         }
         doSend(outgoing);
     }
+    */
+    String getVolString(int v){
+        String outgoing = "";
+        if (v != conf.setVecOkVal){
+          // first make the volume
+          for(int i=0;i<conf.volPins.length;i++){
+            outgoing += conf.volPins[i] + conf.volPWM[i][round(v*conf.vtFactor)];
+          }
+        }  
+        return outgoing;
+    }
+    /*  
     public void updateTone(int t){
        if (isConfiguring){
             return;
@@ -49,6 +64,17 @@ class Hal {
         outgoing += conf.tonePin + conf.tonePWM[round(t*conf.vtFactor)];
         doSend(outgoing);
     }
+    */
+    String getToneString(int t){
+        String outgoing = "";
+        if (t != conf.setVecOkVal){
+          // then add the tone
+          outgoing += conf.tonePin + conf.tonePWM[round(t*conf.vtFactor)];
+        }
+        return outgoing;
+    }
+    
+    /* FIX : testing removal of this function
     public void update(int vt[]){
        if (isConfiguring){
             return;
@@ -63,6 +89,9 @@ class Hal {
 	outgoing += conf.tonePin + conf.tonePWM[round(vt[1]*conf.vtFactor)];
 	doSend(outgoing);
     }
+    */
+    // FIX
+    /*
     public void update(boolean selectors[]){
         if (isConfiguring){
             return;
@@ -88,6 +117,20 @@ class Hal {
 	}
 	doSend(outgoing);
     }
+    */
+    String getSelectorsString(int setVecFull[]){
+      String outgoing = "";
+      // handle all the selectors, since mgt of BN and BB has already been done!
+      for (int i=0;i<setVecFull.length-2;i++){
+        if (setVecFull[i] != conf.setVecOkVal){
+          outgoing +=conf.selectorPins[i] + conf.onOff[setVecFull[i]];
+        }
+      }
+     return outgoing;
+    }
+    // END FIX
+    // FIX
+    /*
     public void update(int vt[],boolean selectors[]){
        if (isConfiguring){
             return;
@@ -95,8 +138,24 @@ class Hal {
 	update(vt);
 	update(selectors);
     }
+    */
+    // FIX STARTS
+    public void minUpdate(int sv[]) { // just update all elements in the arg setVec
+       if (isConfiguring){
+            return;
+       }
+       String outgoing = getSelectorsString(sv) + 
+                         getVolString(sv[sv.length-2]) + 
+                         getToneString(sv[sv.length-1]) ;
+      doSend(outgoing);              
+    }
+    
+    // FIX ENDS
+    
     void doSend(String msg){
       println("simulated sending: " + msg);
+      // TEMP  FIX !!
+      model.confirmSet();
       /* out comment for not bt
 	try {
 	    q.put(msg);

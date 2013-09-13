@@ -82,5 +82,9 @@ void onBluetoothDataEvent(String who, byte[] data){
 	delay(ac.bc.errorRecoveryDelay);
 	model.reset();
     }
+    // FIX 
+    else {
+      model.confirmSet();
+    }
 }
 

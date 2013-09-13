@@ -44,10 +44,17 @@ class ArduGuitarConf {
 	public int vt[] = {11, 11},
 	    minVT = 0,
 	    maxVT = 11;
+        // FIX
+        public int setVecOkVal = -1,
+                   svVolIndex = 4,  // == nbPickups
+                   svToneIndex = 5; // == svVolIndex +1
+        
 	public ModelConf(){
 	}
     }
     public class HalConf {
+        // FIX
+        public int setVecOkVal;
         public int configDelay = 750;
 	public float vtFactor = 5.0/11.0;
 	public String volPins[] = {"09","10","12"},
@@ -57,7 +64,9 @@ class ArduGuitarConf {
 				"05",  // splitPin
 				"04"}, //bridgePin
 
-	    onOff[] = {"255","000"}, // true, false
+	    //FIX
+            //onOff[] = {"255","000"}, // true, false
+            onOff[] = {"000", "255"}, // 0, 1
 	    // this is the factor used to convert Gui scale vol and tone on [0,11]
 	    // to Arduino scale on [0,5]
 	    // Model.guiVTMax, and the denominator Model.arduinoVTMax
@@ -73,6 +82,7 @@ class ArduGuitarConf {
 	    tonePWM[] = {"255","090","046","027","017","000"};
 
 	public HalConf(ArduGuitarConf.ModelConf mc){
+          setVecOkVal = mc.setVecOkVal;
 	}
     }
     public class PresetsConf {
