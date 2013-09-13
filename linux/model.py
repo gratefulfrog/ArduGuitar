@@ -3,6 +3,12 @@
 
 """
 model.py 
+usage:
+to connect via bluetooth
+$ ./model.py True
+to run with no bluetooth
+$ ./model.py 
+----
 needs to manage everything:
  - Gui
  - Preset
@@ -10,7 +16,8 @@ needs to manage everything:
    - protocol 
      -btSerial
 """
-# this is for testing without the Bluetooth connection
+# this is for testing without the Bluetooth connection,
+# set to True to always connect to bluetooth
 useBluetooth = False
 
 

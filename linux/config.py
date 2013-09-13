@@ -14,8 +14,8 @@ import sys
 class LocalConf():
     # these values may need updating on your system
     class BTSerialConf():
-        #sockethwTpl = ('00:12:11:19:08:54', 1) # (host, channel) tuple for linvor
-        sockethwTpl = ('00:06:66:60:46:1A', 1) # (host, channel) tuple for BlueSMIRF
+        sockethwTpl = ('00:12:11:19:08:54', 1) # (host, channel) tuple for linvor
+        #sockethwTpl = ('00:06:66:60:46:1A', 1) # (host, channel) tuple for BlueSMIRF
 
     class PresetConf():
         presetDir = "data/usr/"
