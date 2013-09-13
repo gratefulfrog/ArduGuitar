@@ -1,5 +1,8 @@
 /*
-  Android ArduGuitar 100 good to go!  
+  2013 09 13 Android ArduGuitar RN42, 
+  with minimal data transimission,
+  with init problem corrected,
+  100 good to go!  
 */
 
 ////////////////////////////////////////////////////////////
@@ -35,8 +38,7 @@ class ArduGuitarGui {
 	yI = 0,
 	xRange[],
 	yRange[],
-	currentPreset = 0,
-        bogus;
+	currentPreset = 0;
   
     public ArduGuitarGui(ArduGuitarConf arduConf, KetaiGesture g, KetaiVibrate v){
         //println("creating gui instance.");
@@ -49,7 +51,6 @@ class ArduGuitarGui {
         //println("yRange created.");
         gesture = g;
         vibe = v;
-        bogus = conf.bogus;
 	//println("about to do colormode.");
         colorMode(HSB, 359, 100, 100);
 	smooth();
@@ -163,15 +164,14 @@ void connectingMsg(){
     stroke(0,0,ac.gc.colorBrit);
     text("Connecting to " + ac.bc.btName +"...",width/2,ac.gc.textSizeInit);  
     // will be overwritten by background()...
-    gui.bogus++;
+    //gui.bogus++;
 }
 
 void draw() {
-    if (gui.bogus<0){
-     connectingMsg();
-    } 
-    else if (model.hal.isConfiguring){
+    connectingMsg();
+    if (model.hal.isConfiguring){
         if(model.hal.doConnect()){
+          println("connected, calling do preset.");
           model.doPreset(model.currentPresetName);
         }
     }
@@ -187,21 +187,21 @@ void onTap(float x, float y){
     boolean sendPickupsFlag = true;
     
     if (x < width*ac.gc.nXF) {
-	model.setSelector(0, !model.selector(0));;
+	model.setSelector(0, !model.selector(0), false);;
     }
     else if (x < width*ac.gc.mXF) {   
-	model.setSelector(1, !model.selector(1));
+	model.setSelector(1, !model.selector(1), false);
     }
     else if (x < width*ac.gc.bnXF) {
-	model.setSelector(2, !model.selector(2));
+	model.setSelector(2, !model.selector(2), model.selector(2));
 	if (model.selector(2)){
-	    model.setSelector(3,false);
+	    model.setSelector(3,false, false);
 	}
     }
     else if (x < width*ac.gc.bbXF){
-	model.setSelector(3, !model.selector(3));
+	model.setSelector(3, !model.selector(3), model.selector(3));
 	if (model.selector(3)){
-	    model.setSelector(2,false);
+	    model.setSelector(2,false, false);
 	}
     }
     else {
@@ -291,13 +291,15 @@ void mouseDragged(){
 				     gui.xRange[1],
 				     gui.xRange[2],
 				     gui.xRange[3])),
-			   ac.mc.minVT,ac.mc.maxVT));
+			   ac.mc.minVT,ac.mc.maxVT),
+                 false);
     model.setTone(constrain(round(map(mouseY - gui.yI, 
 				      gui.yRange[0],
 				      gui.yRange[1],
 				      gui.yRange[2],
 				      gui.yRange[3])),
-			    ac.mc.minVT,ac.mc.maxVT));
+			    ac.mc.minVT,ac.mc.maxVT),
+                  false);
 }
 
 void checkDirection(){

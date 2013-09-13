@@ -1,5 +1,6 @@
 /**  Threaded Android bluetooth Comms with queue
  *  at last something that works!!!
+ * 2013 09 13 updates for minimized data
  */
 
 KetaiBluetooth bt;
@@ -65,8 +66,9 @@ class SenderThread extends Thread {
 // (created in KetaiBluetooth))
 void onBluetoothDataEvent(String who, byte[] data){
     if (model.hal.isConfiguring){
-    return;
+      return;
     }
+    
     String incoming = "";
     for (int i=0;i<data.length;i++){
 	incoming += char(data[i]);
@@ -76,6 +78,10 @@ void onBluetoothDataEvent(String who, byte[] data){
 	println("BT RECEIVE ERROR DETECTED!!!");
 	delay(ac.bc.errorRecoveryDelay);
 	model.reset();
+    }
+    // FIX 
+    else {
+      model.confirmSet();
     }
 }
 

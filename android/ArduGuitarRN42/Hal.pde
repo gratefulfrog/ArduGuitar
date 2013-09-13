@@ -1,97 +1,77 @@
-class Hal {
-    ArduGuitarConf.HalConf conf;
-    private final BlockingQueue q;
-    public boolean isConfiguring = true;
+// * 2013 09 13 updates for minimized data
+// maybe not correction of non-transmission of initial preset?
 
-    public Hal(ArduGuitarConf ac){
-	conf = ac.hc;	
-	bt.start();
-	println(bt.getPairedDeviceNames());
-	q = new LinkedBlockingQueue();
-        SenderThread sender = new SenderThread(bt, q, ac);
-        sender.start();
+class Hal {
+  ArduGuitarConf.HalConf conf;
+  private final BlockingQueue q;
+  public boolean isConfiguring = true;
+
+  public Hal(ArduGuitarConf ac){
+    conf = ac.hc;	
+    bt.start();
+    println(bt.getPairedDeviceNames());
+    q = new LinkedBlockingQueue();
+    SenderThread sender = new SenderThread(bt, q, ac);
+    sender.start();
+  }
+  public boolean doConnect(){
+    isConfiguring = !bt.connectToDeviceByName(ac.bc.btName);    
+    if (!isConfiguring){
+      delay(conf.configDelay);
     }
-    public boolean doConnect(){
-      isConfiguring = !bt.connectToDeviceByName(ac.bc.btName);    
-      if (!isConfiguring){
-          delay(conf.configDelay);
+    return !isConfiguring;
+  }
+  String getVolString(int v){
+    String outgoing = "";
+    if (v != conf.setVecOkVal){
+      // first make the volume
+      for(int i=0;i<conf.volPins.length;i++){
+        outgoing += conf.volPins[i] + conf.volPWM[i][round(v*conf.vtFactor)];
       }
-      return !isConfiguring;
+    }  
+    return outgoing;
+  }
+  String getToneString(int t){
+    String outgoing = "";
+    if (t != conf.setVecOkVal){
+      // then add the tone
+      outgoing += conf.tonePin + conf.tonePWM[round(t*conf.vtFactor)];
     }
-    public void updateVol(int v){
-       if (isConfiguring){
-            return;
-        }
-        String outgoing = "";
-        // first make the volume
-        for(int i=0;i<conf.volPins.length;i++){
-          outgoing += conf.volPins[i] + conf.volPWM[i][round(v*conf.vtFactor)];
-        }
-        doSend(outgoing);
+    return outgoing;
+  }
+  String getSelectorsString(int setVecFull[]){
+    String outgoing = "";
+    // handle all the selectors, since mgt of BN and BB has already been done!
+    for (int i=0;i<setVecFull.length-2;i++){
+      if (setVecFull[i] != conf.setVecOkVal){
+        outgoing +=conf.selectorPins[i] + conf.onOff[setVecFull[i]];
+      }
     }
-    public void updateTone(int t){
-       if (isConfiguring){
-            return;
-        }
-        String outgoing = "";
-        // then add the tone
-        outgoing += conf.tonePin + conf.tonePWM[round(t*conf.vtFactor)];
-        doSend(outgoing);
+    return outgoing;
+  }
+
+  // FIX STARTS
+  public void minUpdate(int sv[]) { // just update all elements in the arg setVec
+    if (isConfiguring){
+      return;
     }
-    public void update(int vt[]){
-       if (isConfiguring){
-            return;
-        }
-	
-	String outgoing = "";
-	// first make the volume
-	for(int i=0;i<conf.volPins.length;i++){
-	    outgoing += conf.volPins[i] + conf.volPWM[i][round(vt[0]*conf.vtFactor)];
-	}
-	// then add the tone
-	outgoing += conf.tonePin + conf.tonePWM[round(vt[1]*conf.vtFactor)];
-	doSend(outgoing);
-    }
-    public void update(boolean selectors[]){
-        if (isConfiguring){
-            return;
-        }
-	String outgoing = "";
-	// handle first neck, middle and bridgeNorth
-	for (int i=0;i<selectors.length-1;i++){
-	    outgoing +=conf.selectorPins[i];
-	    if (selectors[i]){
-		outgoing += conf.onOff[0];
-	    }
-	    else {
-		outgoing += conf.onOff[1];
-	    }
-	}
-	// now if Bridgeboth or bridgeNorth then bridge is on
-	outgoing+=conf.selectorPins[3];
-	if (selectors[3] || selectors[2]){
-	    outgoing += conf.onOff[0];
-	}
-	else {
-	    outgoing += conf.onOff[1];
-	}
-	doSend(outgoing);
-    }
-    public void update(int vt[],boolean selectors[]){
-       if (isConfiguring){
-            return;
-        }
-	update(vt);
-	update(selectors);
-    }
-    void doSend(String msg){
-	try {
-	    q.put(msg);
-	    //println("sending: " + msg);
-	}
-	catch (InterruptedException ex) {
-	    println("ERROR sending: " + msg);
-	}
-    }
-}
+    String outgoing = getSelectorsString(sv) + 
+                      getVolString(sv[sv.length-2]) + 
+                      getToneString(sv[sv.length-1]) ;
+    if (outgoing != "") {
+      doSend(outgoing);
+    }        
+  }
+  // FIX ENDS
     
+  void doSend(String msg){
+    try {
+      q.put(msg);
+      println("enqueing: " + msg);
+    }
+    catch (InterruptedException ex) {
+      println("ERROR sending: " + msg);
+    }
+  }
+}
+
