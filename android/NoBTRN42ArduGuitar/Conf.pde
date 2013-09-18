@@ -13,7 +13,7 @@ class ArduGuitarConf {
 	    textSizeEllipse = 32,
 	    textSizeVT = 54;
 
-	public int bogus = -60;   // -60 => startup message for 1 second 
+	// public int bogus = -60;   // -60 => startup message for 1 second 
 	// isConfiguring now handles this
 	public int colorHues[] = {0, //red
 				  60, //yellow
@@ -65,7 +65,6 @@ class ArduGuitarConf {
 				"04"}, //bridgePin
 
 	    //FIX
-            //onOff[] = {"255","000"}, // true, false
             onOff[] = {"000", "255"}, // 0, 1
 	    // this is the factor used to convert Gui scale vol and tone on [0,11]
 	    // to Arduino scale on [0,5]

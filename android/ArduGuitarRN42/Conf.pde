@@ -47,7 +47,7 @@ class ArduGuitarConf {
 	       maxVT = 11;
     // FIX
     public int setVecOkVal = -1,
-               svVolIndex = 4,  // == nbPickups
+               svVolIndex = 4,  // == nbPickups + split
                svToneIndex = 5;  // == svVolIndex +1
 
     public ModelConf(){

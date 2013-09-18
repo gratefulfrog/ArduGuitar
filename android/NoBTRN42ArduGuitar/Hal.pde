@@ -25,25 +25,12 @@ class Hal {
       return !isConfiguring;
       */
       // this is for no bluetooth only
-      delay(conf.configDelay);
+      //delay(conf.configDelay);
       isConfiguring = false;
       return !isConfiguring;
       // end of no bt 
     }
     // FIX
-    /*
-    public void updateVol(int v){
-       if (isConfiguring){
-            return;
-        }
-        String outgoing = "";
-        // first make the volume
-        for(int i=0;i<conf.volPins.length;i++){
-          outgoing += conf.volPins[i] + conf.volPWM[i][round(v*conf.vtFactor)];
-        }
-        doSend(outgoing);
-    }
-    */
     String getVolString(int v){
         String outgoing = "";
         if (v != conf.setVecOkVal){
@@ -54,17 +41,6 @@ class Hal {
         }  
         return outgoing;
     }
-    /*  
-    public void updateTone(int t){
-       if (isConfiguring){
-            return;
-        }
-        String outgoing = "";
-        // then add the tone
-        outgoing += conf.tonePin + conf.tonePWM[round(t*conf.vtFactor)];
-        doSend(outgoing);
-    }
-    */
     String getToneString(int t){
         String outgoing = "";
         if (t != conf.setVecOkVal){
@@ -72,52 +48,7 @@ class Hal {
           outgoing += conf.tonePin + conf.tonePWM[round(t*conf.vtFactor)];
         }
         return outgoing;
-    }
-    
-    /* FIX : testing removal of this function
-    public void update(int vt[]){
-       if (isConfiguring){
-            return;
-        }
-	
-	String outgoing = "";
-	// first make the volume
-	for(int i=0;i<conf.volPins.length;i++){
-	    outgoing += conf.volPins[i] + conf.volPWM[i][round(vt[0]*conf.vtFactor)];
-	}
-	// then add the tone
-	outgoing += conf.tonePin + conf.tonePWM[round(vt[1]*conf.vtFactor)];
-	doSend(outgoing);
-    }
-    */
-    // FIX
-    /*
-    public void update(boolean selectors[]){
-        if (isConfiguring){
-            return;
-        }
-	String outgoing = "";
-	// handle first neck, middle and bridgeNorth
-	for (int i=0;i<selectors.length-1;i++){
-	    outgoing +=conf.selectorPins[i];
-	    if (selectors[i]){
-		outgoing += conf.onOff[0];
-	    }
-	    else {
-		outgoing += conf.onOff[1];
-	    }
-	}
-	// now if Bridgeboth or bridgeNorth then bridge is on
-	outgoing+=conf.selectorPins[3];
-	if (selectors[3] || selectors[2]){
-	    outgoing += conf.onOff[0];
-	}
-	else {
-	    outgoing += conf.onOff[1];
-	}
-	doSend(outgoing);
-    }
-    */
+    }    
     String getSelectorsString(int setVecFull[]){
       String outgoing = "";
       // handle all the selectors, since mgt of BN and BB has already been done!
@@ -130,16 +61,6 @@ class Hal {
     }
     // END FIX
     // FIX
-    /*
-    public void update(int vt[],boolean selectors[]){
-       if (isConfiguring){
-            return;
-        }
-	update(vt);
-	update(selectors);
-    }
-    */
-    // FIX STARTS
     public void minUpdate(int sv[]) { // just update all elements in the arg setVec
        if (isConfiguring){
             return;
@@ -154,7 +75,7 @@ class Hal {
     
     void doSend(String msg){
       println("simulated sending: " + msg);
-      // TEMP  FIX !!
+      // for not BT version only  !!
       model.confirmSet();
       /* out comment for not bt
 	try {

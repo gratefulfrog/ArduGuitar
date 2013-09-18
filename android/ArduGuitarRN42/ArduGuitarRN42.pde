@@ -89,10 +89,25 @@ class ArduGuitarGui {
     void drawPickups(){
 	image(base,0,0,width,height);
 	
-	for (int i=0;i<model.selectorsVec.length;i++){
+	for (int i=0;i<model.selectorsVec.length-2;i++){
 	    if (model.selectorsVec[i])
 		image(overlays[i],0,0,width,height);
 	}
+        // now for the bridge and split
+        // if the Bridge is off, then do nothing
+        if(!model.selectorsVec[model.selectorsVec.length-1]){
+          return;
+        }
+        // so at least some of the brdige is on!
+        // is the split on?
+        else if (model.selectorsVec[model.selectorsVec.length-2]) {
+          // then that's what we show
+          image(overlays[model.selectorsVec.length-2],0,0,width,height);
+        }
+        // otherwise it's Bridge both!
+        else {
+          image(overlays[model.selectorsVec.length-1],0,0,width,height);
+        } 
     }
 
     void drawPresetButtons(){
@@ -168,23 +183,22 @@ void connectingMsg(){
 }
 
 void draw() {
+  if (model.hal.isConfiguring){
     connectingMsg();
-    if (model.hal.isConfiguring){
-        if(model.hal.doConnect()){
-          println("connected, calling do preset.");
-          model.doPreset(model.currentPresetName);
-        }
+    if(model.hal.doConnect()){
+      println("connected, calling do preset.");
+      model.doPreset(model.currentPresetName);
     }
-    else {  // we're connected!
-	gui.draw();
-    }
+  }
+  else {  // we're connected!
+    gui.draw();
+  }
 }
 
 void onTap(float x, float y){       
     if (model.hal.isConfiguring){
 	return;
     }
-    boolean sendPickupsFlag = true;
     
     if (x < width*ac.gc.nXF) {
 	model.setSelector(0, !model.selector(0), false);;
@@ -193,17 +207,39 @@ void onTap(float x, float y){
 	model.setSelector(1, !model.selector(1), false);
     }
     else if (x < width*ac.gc.bnXF) {
-	model.setSelector(2, !model.selector(2), model.selector(2));
-	if (model.selector(2)){
-	    model.setSelector(3,false, false);
-	}
+      // so we tapped Bridge North
+      // if we are bridge split, we turn the bridge all off
+      // if we are bridge both, we split,
+      // if we are bridge off, we split
+      if (model.selector(2) && model.selector(3)){
+        model.setSelector(2,false, true);
+        model.setSelector(3,false, false);
+      }
+      else if (model.selector(3)){
+        model.setSelector(2,true, false);
+      }
+      else if (!model.selector(3)){
+        model.setSelector(2,true, true);
+        model.setSelector(3,true, false);
+      } 
     }
     else if (x < width*ac.gc.bbXF){
-	model.setSelector(3, !model.selector(3), model.selector(3));
-	if (model.selector(3)){
-	    model.setSelector(2,false, false);
-	}
+      // so we tapped Bridge Both
+      // if we are split, we un-split
+      // if we are brdige Both, we turn bridge off
+      // if we are bridge off, we turn bridge on
+      if (model.selector(2) && model.selector(3)){
+        model.setSelector(2,false, false);
+      }
+      else if (model.selector(3)){
+        model.setSelector(3,false, false);
+      }
+      else if (!model.selector(3)){
+        model.setSelector(2,false, true);
+        model.setSelector(3,true, false);
+      }
     }
+    // otherwise we deal with presets
     else {
 	for (int i=0;i<model.presets.nbPresets();i++){
 	    if (y < height*(i+1)/model.presets.nbPresets()) {

@@ -12,9 +12,7 @@ class ArduGuitarModel {
     ArduGuitarConf.ModelConf conf;
     // FIX
     public float vtFactor;
-    public int setVec[],  // used to set update only the minimum and only once.
-               svVolIndex,
-               svToneIndex;
+    public int setVec[];  // used to set update only the minimum and only once.
 
     public ArduGuitarModel(ArduGuitarConf ac, KetaiGesture g,KetaiVibrate v){
 	conf = ac.mc;
@@ -30,8 +28,6 @@ class ArduGuitarModel {
 	currentPresetName = presets.presetNames[0];
         // FIX
         setVec = new int[conf.nbPickups +2];
-        svVolIndex = conf.nbPickups;
-        svToneIndex = svVolIndex +1; 
         confirmSet();
 
         //println("about to create the gui instance.");
@@ -69,9 +65,9 @@ class ArduGuitarModel {
         selectorsVec[i] = b;
         setVec[i] = int(b);
         println("setting setVec[" +str(i) + "] to " + str(setVec[i]));
-        if (!wait){
-          hal.minUpdate(setVec);
-        }
+      }
+      if (!wait){
+        hal.minUpdate(setVec);
       }
     }
     // FIX
@@ -96,10 +92,11 @@ class ArduGuitarModel {
     public void setVol(int vol, boolean wait){
       // FIX
       if (round(vt[v]*vtFactor) != round(vol*vtFactor) ) {
-        setVec[svVolIndex] = vol;
-        if (!wait){
-          hal.minUpdate(setVec);
-        }
+        setVec[conf.svVolIndex] = vol;
+        
+      }
+      if (!wait){
+        hal.minUpdate(setVec);
       }
       vt[v] = vol;
     }
@@ -110,10 +107,10 @@ class ArduGuitarModel {
     public void setTone(int tone, boolean wait){
       // FIX
       if (round(vt[t]*vtFactor) != round(tone*vtFactor) ) {
-        setVec[svToneIndex] = tone;        
-        if (!wait){
-          hal.minUpdate(setVec);
-        }
+        setVec[conf.svToneIndex] = tone;        
+      }
+      if (!wait){
+        hal.minUpdate(setVec);
       }
       vt[t] = tone;
     }

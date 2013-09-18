@@ -35,8 +35,8 @@ class ArduGuitarGui {
 	yI = 0,
 	xRange[],
 	yRange[],
-	currentPreset = 0,
-        bogus;
+	currentPreset = 0;
+        //bogus;
   
     public ArduGuitarGui(ArduGuitarConf arduConf, KetaiGesture g, KetaiVibrate v){
         //println("creating gui instance.");
@@ -49,7 +49,7 @@ class ArduGuitarGui {
         //println("yRange created.");
         gesture = g;
         vibe = v;
-        bogus = conf.bogus;
+        //bogus = conf.bogus;
 	//println("about to do colormode.");
         colorMode(HSB, 359, 100, 100);
 	smooth();
@@ -86,12 +86,27 @@ class ArduGuitarGui {
     }
     
     void drawPickups(){
-	image(base,0,0,width,height);
-	
-	for (int i=0;i<model.selectorsVec.length;i++){
-	    if (model.selectorsVec[i])
-		image(overlays[i],0,0,width,height);
-	}
+      image(base,0,0,width,height);
+  
+      for (int i=0;i<model.selectorsVec.length-2;i++){
+        if (model.selectorsVec[i])
+        image(overlays[i],0,0,width,height);
+      }
+      // now for the bridge and split
+      // if the Bridge is off, then do nothing
+      if(!model.selectorsVec[model.selectorsVec.length-1]){
+        return;
+      }
+      // so at least some of the brdige is on!
+      // is the split on?
+      else if (model.selectorsVec[model.selectorsVec.length-2]) {
+        // then that's what we show
+        image(overlays[model.selectorsVec.length-2],0,0,width,height);
+      }
+      // otherwise it's Bridge both!
+      else {
+        image(overlays[model.selectorsVec.length-1],0,0,width,height);
+      } 
     }
 
     void drawPresetButtons(){
@@ -163,63 +178,82 @@ void connectingMsg(){
     stroke(0,0,ac.gc.colorBrit);
     text("Connecting to " + ac.bc.btName +"...",width/2,ac.gc.textSizeInit);  
     // will be overwritten by background()...
-    gui.bogus++;
+    // for no bt version only
+    //int start = millis();
+    //while(millis()-start < 1000);
+    // end for no bt version only
 }
 
 void draw() {
-    if (gui.bogus<0){
-     connectingMsg();
-    } 
-    else if (model.hal.isConfiguring){
-        if(model.hal.doConnect()){
-          model.doPreset(model.currentPresetName);
-        }
+  if (model.hal.isConfiguring){
+    connectingMsg();
+    if(model.hal.doConnect()){
+      println("connected, calling do preset.");
+      model.doPreset(model.currentPresetName);
     }
-    else {  // we're connected!
-	gui.draw();
-    }
+  }
+  else {  // we're connected!
+    gui.draw();
+  }
 }
 
 void onTap(float x, float y){       
-    if (model.hal.isConfiguring){
-	return;
-    }
-    boolean sendPickupsFlag = true;
+  if (model.hal.isConfiguring){
+    return;
+  }
     
-    if (x < width*ac.gc.nXF) {
-	model.setSelector(0, !model.selector(0));;
-        println("onTap: setSelector 0");
+  if (x < width*ac.gc.nXF) {
+    model.setSelector(0, !model.selector(0), false);;
+  }
+  else if (x < width*ac.gc.mXF) {   
+    model.setSelector(1, !model.selector(1), false);
+  }
+  else if (x < width*ac.gc.bnXF) {
+    // so we tapped Bridge North
+    // if we are bridge split, we turn the bridge all off
+    // if we are bridge both, we split,
+    // if we are bridge off, we split
+    if (model.selector(2) && model.selector(3)){
+      model.setSelector(2,false, true);
+      model.setSelector(3,false, false);
     }
-    else if (x < width*ac.gc.mXF) {   
-	model.setSelector(1, !model.selector(1));
-        println("onTap: setSelector 1");
+    else if (model.selector(3)){
+      model.setSelector(2,true, false);
     }
-    else if (x < width*ac.gc.bnXF) {
-	model.setSelector(2, !model.selector(2));
-	if (model.selector(2)){
-	    model.setSelector(3,false);
-	}
-        println("onTap: setSelector 2 and 3");
+    else if (!model.selector(3)){
+      model.setSelector(2,true, true);
+      model.setSelector(3,true, false);
+    } 
+  }
+  else if (x < width*ac.gc.bbXF){
+    // so we tapped Bridge Both
+    // if we are split, we un-split
+    // if we are brdige Both, we turn bridge off
+    // if we are bridge off, we turn bridge on
+    if (model.selector(2) && model.selector(3)){
+      model.setSelector(2,false, false);
     }
-    else if (x < width*ac.gc.bbXF){
-	model.setSelector(3, !model.selector(3));
-	if (model.selector(3)){
-	    model.setSelector(2,false);
-	}
-        println("onTap: setSelector 3 and 2");
+    else if (model.selector(3)){
+      model.setSelector(3,false, false);
     }
-    else {
-	for (int i=0;i<model.presets.nbPresets();i++){
-	    if (y < height*(i+1)/model.presets.nbPresets()) {
-		//println("color selected: " + i);
-		gui.currentPreset = i;
-                model.doPreset(model.presets.presetNames[i]);
-		break;
-	    }
-	}
-        println("onTap: doing presets");
+    else if (!model.selector(3)){
+      model.setSelector(2,false, true);
+      model.setSelector(3,true, false);
     }
+  }
+  // otherwise we deal with presets
+  else {
+    for (int i=0;i<model.presets.nbPresets();i++){
+      if (y < height*(i+1)/model.presets.nbPresets()) {
+        //println("color selected: " + i);
+        gui.currentPreset = i;
+        model.doPreset(model.presets.presetNames[i]);
+        break;
+      }
+    }
+  }
 }
+
 
 void onLongPress(float x, float y){
     if (model.hal.isConfiguring){
@@ -293,17 +327,19 @@ void mouseDragged(){
     }
     checkDirection();
     model.setVol(constrain(round(map(mouseX - gui.xI,
-				     gui.xRange[0],
-				     gui.xRange[1],
-				     gui.xRange[2],
-				     gui.xRange[3])),
-			   ac.mc.minVT,ac.mc.maxVT));
+                                     gui.xRange[0],
+                                     gui.xRange[1],
+                                     gui.xRange[2],
+                                     gui.xRange[3])),
+                           ac.mc.minVT,ac.mc.maxVT),
+                 false);
     model.setTone(constrain(round(map(mouseY - gui.yI, 
-				      gui.yRange[0],
-				      gui.yRange[1],
-				      gui.yRange[2],
-				      gui.yRange[3])),
-			    ac.mc.minVT,ac.mc.maxVT));
+                                      gui.yRange[0],
+                                      gui.yRange[1],
+                                      gui.yRange[2],
+                                      gui.yRange[3])),
+                            ac.mc.minVT,ac.mc.maxVT),
+                  false);
     println("MouseDragged");
 }
 
