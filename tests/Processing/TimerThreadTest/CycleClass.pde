@@ -1,5 +1,4 @@
 class Cycle {
-  
   boolean cycling = false;
   public TimerThread timer;
   int index = 0;
@@ -11,6 +10,36 @@ class Cycle {
       Pair p = new Pair(slis[i],ilis[i]);
       plis.add(p);
     }
+  }
+  
+  Cycle(String cycleFileName){
+    plis = new PairList();
+    Table tsv = null;
+    try {
+      tsv = loadTable(cycleFileName, "header, tsv");  
+    } 
+    catch (Exception e) {  
+      println("Table load failed: " + e);
+      tsv = null;  
+      println("failed to open cycle table, aborting...");
+      exit();
+    }
+    if (tsv != null) {
+      for (int row = 0; row < tsv.getRowCount(); row++){
+        Pair p = new Pair(tsv.getString(row,0), tsv.getInt(row,1));
+        addPair(p);  
+        println("adding..." + tsv.getString(row,0) + " " + str(tsv.getInt(row,1)));
+      }
+      println("data loaded OK!");
+    }
+    else {
+      println("data load FAILED!");
+      exit();
+    }
+  }
+  
+  void addPair(Pair p){
+     plis.add(p);
   }
   
   void reset(){
