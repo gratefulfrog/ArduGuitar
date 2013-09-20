@@ -95,6 +95,14 @@ class PresetPack {
 	}
 	if (tsv != null) {
 	    for (int row = 1; row < tsv.getRowCount(); row++){
+                // if the name == conf.cycleLabel, then load the cycle file and continue the loop
+                /* 
+                if (tsv.getString(row,0) == conf.cycleLabel){
+                  c = new Cycle(conf.cycleFileName);
+                  println("creating cycles & adding..." + tsv.getString(row,0));
+                  continue;
+                }
+                */
 		put(tsv.getString(row,0), rowToPreset(tsv,row));
 		presetNames[row-1]=tsv.getString(row,0);
 		//println("adding..." + tsv.getString(row,0));

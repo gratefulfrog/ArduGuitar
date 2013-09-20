@@ -3,35 +3,43 @@
  * while allowing mouse interaction
  */
 
-
+// start specifics for android version
+///*
 import ketai.ui.*;
 import android.view.MotionEvent;
 KetaiGesture ges;
 boolean androidVersion = true;
+//*/
+// end android specifics
 
-//set to false to run on PC
+// start non-android specifcs
+///*
 //boolean androidVersion = false;
+//*/
+// end non android specifics
 
 int bColor = 0,
     fColor = 255,
-    tSize  = 50;
+    tSize  = 50,
+    cStartDelay = 1000;
 
 Cycle c;
 
-void setupCycle(){
-  // this routine instatiates the Cylce object and starts it cycling
-  //String names[] = {"1 sec", "2 sec", "3 sec", "4 sec"};
-  String cycleFileName;
+String getCycleFileName() {
   if (androidVersion){ 
-    cycleFileName = "//sdcard/ArduGuitar/cycle.tsv";
+    return "//sdcard/ArduGuitar/cycle.tsv";
   }
   else {
-    cycleFileName =  "/home/bob/ArduGuitar/android/cycle.tsv" ;
+    return "/home/bob/ArduGuitar/android/cycle.tsv" ;
   }
+} 
 
+void setupCycle(){
+  // this routine instatiates the Cylce object and starts it cycling
+  String cycleFileName = getCycleFileName();
   c = new Cycle(cycleFileName);  
   println("waiting 5 seconds...");  
-  delay(5000);
+  delay(cStartDelay);
   c.reset();
   c.startCycle(); 
 }  
@@ -47,8 +55,11 @@ void setupDisplay(){
 }
 
 void setup() {
-  // androidVersion
+  // specifcs for android
+  ///*
   ges = new KetaiGesture(this);
+  //*/
+  // end android specifics
   setupDisplay();
   setupCycle();
 }
@@ -83,13 +94,17 @@ void mouseClicked(){
   text("CLICK: cycle is active? " + c.cycling(),width/2,height/2);
 }
 
+// start android specifics
 // from Ketai and Android
-// androidVersion
-
+// 
+///*
 public boolean surfaceTouchEvent(MotionEvent event) {
     //call to keep mouseX, mouseY, etc updated
     super.surfaceTouchEvent(event);
     //forward event to class for processing
     return ges.surfaceTouchEvent(event);
 }
+// 
+//*/
+// end android specifics
 

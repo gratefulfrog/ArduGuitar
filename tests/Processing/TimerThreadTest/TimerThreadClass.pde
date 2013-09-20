@@ -16,18 +16,14 @@ class TimerThread extends Thread {
     super.start();
   }
  
-  void reset(int del){
-    endMillis = millis() + del;
-    running = true;
-  }
- 
   boolean expired(){
     return !running;
   }
  
   void run () {
     try {
-      while (true) {
+      //while (true) {
+      while (running) {
         if (millis() >= endMillis){
          running = false; 
         } 
@@ -41,7 +37,7 @@ class TimerThread extends Thread {
  
   // Our method that quits the thread
   void quit() {
-    System.out.println(str(delay) + "ms timer is quitting..."); 
+    System.out.println(str(delay) + "ms timer is quitting at " + str(millis()/1000) +"s"); 
     running = false;  // Setting running to false ends the loop in run()
     // IUn case the thread is waiting. . .
     interrupt();

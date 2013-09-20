@@ -4,6 +4,7 @@ class Cycle {
   int index = 0;
   PairList plis;
 
+  // instanciate from 2 lists
   Cycle(String slis[], int ilis[]){
     plis = new PairList();
     for (int i=0;i< min(slis.length,ilis.length);i++){
@@ -12,6 +13,9 @@ class Cycle {
     }
   }
   
+  // instantiate from a tsv file
+  // format :
+  // <preset name> <tab>  <time before next preset>
   Cycle(String cycleFileName){
     plis = new PairList();
     Table tsv = null;
