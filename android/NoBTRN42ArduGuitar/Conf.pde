@@ -49,6 +49,7 @@ class ArduGuitarConf {
                    svVolIndex = 4,  // == nbPickups
                    svToneIndex = 5; // == svVolIndex +1
         
+        String cyclePresetLabel = "Auto";
 	public ModelConf(){
 	}
     }
@@ -101,6 +102,7 @@ class ArduGuitarConf {
 					{false,true,false,false},
 					{true,true,false,true}};
 	public String tableFileName = "//sdcard/ArduGuitar/data.tsv";
+        public String cycleFileName = "//sdcard/ArduGuitar/cycle.tsv";
 	public String tableCols[] = { "name",
 				      "vol",
 				      "tone",

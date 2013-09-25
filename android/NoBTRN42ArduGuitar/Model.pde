@@ -6,11 +6,14 @@ class ArduGuitarModel {
     int vt[],
 	v=0,
 	t=1;
-    public String currentPresetName;
+    public String currentPresetName,
+                  preAutoPresetName;
     ArduGuitarConf.ModelConf conf;
     // FIX
     public float vtFactor;
     public int setVec[];  // used to set update only the minimum and only once.
+
+    boolean cycling = false;
 
     public ArduGuitarModel(ArduGuitarConf ac, KetaiGesture g,KetaiVibrate v){
 	conf = ac.mc;
@@ -28,16 +31,60 @@ class ArduGuitarModel {
         setVec = new int[conf.nbPickups +2];
         confirmSet();
         // end fix
+        
+        cycling = false;
 
         //println("about to create the gui instance.");
 	gui = new ArduGuitarGui(ac,g,v);
     }    
     void doPreset(String name){
-        currentPresetName = name;
-        setSelectors(presets.get(name).selectors(),true);    
-        setVol(presets.get(name).vol(),true);
-        setTone(presets.get(name).tone(), false);
+        print("called doPreset with preset: " + name +".");
+        if (name.equals(conf.cyclePresetLabel)){
+          startCycle();
+        }
+        else {
+          currentPresetName = name;
+          setSelectors(presets.get(name).selectors(),true);    
+          setVol(presets.get(name).vol(),true);
+          setTone(presets.get(name).tone(), false);
+        }
     }
+    
+    void startCycle() {
+      print("startCycling called");
+      cycling = true;
+      preAutoPresetName = currentPresetName;
+      presets.startCycling();
+      doPreset(presets.c.currentName());
+    }
+    
+    boolean isCycling(){
+      return cycling;
+    }
+        
+    boolean isCurrentPresetIndex(int i){
+      return (currentPresetName.equals(presets.presetNames[i]) || 
+              (isCycling() && presets.presetNames[i].equals(conf.cyclePresetLabel)));
+    }
+    
+    void incCycle(){
+      //print("incCycle called");
+      if (cycling && presets.incCycle()){
+        print("new preset cycled");
+        doPreset(presets.c.currentName());
+      }
+    }
+    
+    void stopCycling(){
+      print("stopCycling called");
+      if(cycling){
+        presets.stopCycling();
+        cycling = false;
+        doPreset(preAutoPresetName);
+        print("Cycling stopped");
+      }
+    }
+    /*  never called, never tested... out commented 2013 09 22
     void saveCurrentPreset(){
 	savePreset(currentPresetName);
     }
@@ -45,6 +92,7 @@ class ArduGuitarModel {
 	Preset p = new Preset(vt,selectorsVec);
 	presets.put(name,p);
     }
+    */
     public void setSelectors(boolean s[],boolean wait){
       for (int i=0;i<s.length;i++){
         // FIX

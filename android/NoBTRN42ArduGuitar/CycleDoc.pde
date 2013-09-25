@@ -21,4 +21,8 @@ at Cycle start:
 *  The model must instantiate the Cycle object and follow up on the incrementing via the gui's draw calls. Thus the gui.draw()
    must call the model's cycling mechanism for testing the passage of time;
    
+
+model.conf:
+  String cyclePresetLabel ; ok 
+   
 */

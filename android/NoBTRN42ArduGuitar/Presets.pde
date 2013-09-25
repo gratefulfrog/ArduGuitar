@@ -51,13 +51,14 @@ class Preset {
 }
 
 class PresetPack {
+    Cycle c;
     HashMap hm;                   
     ArduGuitarConf conf;
     public String presetNames[];
     public PresetPack(ArduGuitarConf ac){  // init to defaults
 	hm = new HashMap();
 	conf = ac;
-	presetNames = new String[ac.psc.names.length];
+	presetNames = new String[conf.psc.names.length];
 	load();
         //println(presetNames[0]);
     }
@@ -85,7 +86,7 @@ class PresetPack {
     public void load(){
 	Table tsv = null;
 	try {
-	    tsv = loadTable(ac.psc.tableFileName, "tsv");  
+	    tsv = loadTable(conf.psc.tableFileName, "tsv");  
 	} 
 	catch (Exception e) {  
 	    println("Table load failed: " + e);
@@ -95,17 +96,19 @@ class PresetPack {
 	}
 	if (tsv != null) {
 	    for (int row = 1; row < tsv.getRowCount(); row++){
-                // if the name == conf.cycleLabel, then load the cycle file and continue the loop
-                /* 
-                if (tsv.getString(row,0) == conf.cycleLabel){
-                  c = new Cycle(conf.cycleFileName);
-                  println("creating cycles & adding..." + tsv.getString(row,0));
-                  continue;
-                }
-                */
-		put(tsv.getString(row,0), rowToPreset(tsv,row));
-		presetNames[row-1]=tsv.getString(row,0);
-		//println("adding..." + tsv.getString(row,0));
+              if (tsv.getString(row,0).equals("")){
+                println("empty name in presets file! Please correct this!");
+                continue;
+              }
+              // if the name == conf.cycleLabel, then load the cycle file and continue the loop
+              if (conf.mc.cyclePresetLabel.equals(tsv.getString(row,0))){
+                c = new Cycle(conf.psc.cycleFileName);
+                println("creating cycles & adding..." + tsv.getString(row,0));
+              }
+                
+              put(tsv.getString(row,0), rowToPreset(tsv,row));
+	      presetNames[row-1]=tsv.getString(row,0);
+	      println("adding..." + tsv.getString(row,0));
 	    }
 	}
     }
@@ -139,23 +142,51 @@ class PresetPack {
 	Table table = createTable();
 	
 	println("unloading presets");
-	for (int i=0;i<ac.psc.tableCols.length;i++){
-	    table.addColumn(ac.psc.tableCols[i]);
+	for (int i=0;i<conf.psc.tableCols.length;i++){
+	    table.addColumn(conf.psc.tableCols[i]);
 	}
-	for (int i=0;i<ac.psc.names.length;i++){
+	for (int i=0;i<conf.psc.names.length;i++){
 	    TableRow newRow = table.addRow();
 	    Preset p = get(presetNames[i]);
-	    newRow.setString(ac.psc.tableCols[0],presetNames[i]);
-	    for (int j=1;j<ac.psc.tableCols.length;j++){
-		newRow.setInt(ac.psc.tableCols[j],p.getAsInt(j-1));
+	    newRow.setString(conf.psc.tableCols[0],presetNames[i]);
+	    for (int j=1;j<conf.psc.tableCols.length;j++){
+              if (!conf.mc.cyclePresetLabel.equals(presetNames[i])){
+	        newRow.setInt(conf.psc.tableCols[j],p.getAsInt(j-1));
+              }
+              else {
+                newRow.setInt(conf.psc.tableCols[j],0);
+              }
 	    }
 	}
 	try {
-	    saveTable(table, ac.psc.tableFileName); 
+	  saveTable(table, conf.psc.tableFileName); 
 	}
 	catch (Exception e) { 
-	    println("Save Failed: " + e);
+	  println("Save Failed: " + e);
 	}
-	//println("rows written: " + table.getRowCount());
+	println("preset rows written: " + table.getRowCount());
     }
+    
+    public void startCycling(){
+      c.reset();
+      c.startCycle();
+    }
+   
+    public boolean incCycle() {
+      boolean ret = false; 
+      if (c.cycleTimeUp()) {
+        ret = true;
+        c.incCycle();
+      }
+      return ret;
+    }
+
+    public void stopCycling(){
+      if(c.cycling()) {
+        c.quit();
+      }
+    }
+
+
+
 }

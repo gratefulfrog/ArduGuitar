@@ -34,8 +34,8 @@ class ArduGuitarGui {
 	xI = 0,
 	yI = 0,
 	xRange[],
-	yRange[],
-	currentPreset = 0;
+	yRange[];
+	//currentPreset = 0;
         //bogus;
   
     public ArduGuitarGui(ArduGuitarConf arduConf, KetaiGesture g, KetaiVibrate v){
@@ -80,6 +80,7 @@ class ArduGuitarGui {
     
     void draw(){
 	background(0,0,0,0);
+        model.incCycle();
 	drawPickups();
 	drawPresetButtons();
 	drawVT();
@@ -121,7 +122,7 @@ class ArduGuitarGui {
 	    stroke(colors[i]);
 	    strokeWeight(conf.strokeWeight);
 	    fill(0,0,0,0);
-	    if (currentPreset==i){
+	    if (model.isCurrentPresetIndex(i)){
 		fill(colors[i]);
 	    }
 	    ellipse(xEllipse,yEllipse,wEllipse,yInc/2);
@@ -201,7 +202,8 @@ void onTap(float x, float y){
   if (model.hal.isConfiguring){
     return;
   }
-    
+  model.stopCycling();  
+
   if (x < width*ac.gc.nXF) {
     model.setSelector(0, !model.selector(0), false);;
   }
@@ -246,7 +248,7 @@ void onTap(float x, float y){
     for (int i=0;i<model.presets.nbPresets();i++){
       if (y < height*(i+1)/model.presets.nbPresets()) {
         //println("color selected: " + i);
-        gui.currentPreset = i;
+        //gui.currentPreset = i;
         model.doPreset(model.presets.presetNames[i]);
         break;
       }
@@ -256,10 +258,13 @@ void onTap(float x, float y){
 
 
 void onLongPress(float x, float y){
-    if (model.hal.isConfiguring){
-	return;
-    }
-    if (x < width*ac.gc.bbXF) {
+  if (model.hal.isConfiguring){
+    return;
+  }
+
+  model.stopCycling();
+
+  if (x < width*ac.gc.bbXF) {
 	//println(" doAllOnOff!");
 	model.toggleSelectors();
     }
@@ -275,6 +280,9 @@ void keyPressed() {
     if (model.hal.isConfiguring){
 	return;
     }
+    
+    model.stopCycling();
+    
     if (key == CODED && keyCode == MENU) {
 	//println("Maine-Menu press!");
         model.presets.unload();
@@ -296,6 +304,10 @@ void saveToPreset(float x,float y){
 }
   
 void saveToPreset(int i) {
+    // we do nothing if it's the cycle preset
+    if (model.conf.cyclePresetLabel.equals(model.presets.presetNames[i])) {
+      return;
+    }
     Preset p = model.presets.get(model.presets.presetNames[i]);
     p.setVol(model.vol());
     p.setTone(model.tone());
@@ -305,42 +317,47 @@ void saveToPreset(int i) {
 }  
   
 void mousePressed() {
-    if (model.hal.isConfiguring){
-	return;
-    }
-    if(!gui.down){
-	gui.xI = mouseX;
-	gui.yI = mouseY;
-	gui.pv = model.vol();
-	gui.pt = model.tone();
-	gui.down = true;
-    }
-    println("MousePressed");
+  if (model.hal.isConfiguring){
+    return;
+  }
+
+  //model.stopCycling();
+
+  if(!gui.down){
+    gui.xI = mouseX;
+    gui.yI = mouseY;
+    gui.pv = model.vol();
+    gui.pt = model.tone();
+    gui.down = true;
+  }
+  println("MousePressed");
 }
 
 void mouseDragged(){
-    if (model.hal.isConfiguring){
-	return;
-    }
-    if (gui.xI>=width*ac.gc.bbXF){
-	return;
-    }
-    checkDirection();
-    model.setVol(constrain(round(map(mouseX - gui.xI,
-                                     gui.xRange[0],
-                                     gui.xRange[1],
-                                     gui.xRange[2],
-                                     gui.xRange[3])),
-                           ac.mc.minVT,ac.mc.maxVT),
-                 false);
-    model.setTone(constrain(round(map(mouseY - gui.yI, 
-                                      gui.yRange[0],
-                                      gui.yRange[1],
-                                      gui.yRange[2],
-                                      gui.yRange[3])),
-                            ac.mc.minVT,ac.mc.maxVT),
-                  false);
-    println("MouseDragged");
+  if (model.hal.isConfiguring){
+    return;
+  }
+  
+  if (gui.xI>=width*ac.gc.bbXF){
+    return;
+  }
+  model.stopCycling();
+  checkDirection();
+  model.setVol(constrain(round(map(mouseX - gui.xI,
+                                   gui.xRange[0],
+                                   gui.xRange[1],
+                                   gui.xRange[2],
+                                   gui.xRange[3])),
+                         ac.mc.minVT,ac.mc.maxVT),
+               false);
+  model.setTone(constrain(round(map(mouseY - gui.yI, 
+                                    gui.yRange[0],
+                                    gui.yRange[1],
+                                    gui.yRange[2],
+                                    gui.yRange[3])),
+                          ac.mc.minVT,ac.mc.maxVT),
+                false);
+  println("MouseDragged");
 }
 
 void checkDirection(){
