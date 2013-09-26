@@ -5,7 +5,8 @@ class Hal {
   ArduGuitarConf.HalConf conf;
   private final BlockingQueue q;
   public boolean isConfiguring = true;
-
+  String lastMsgEqueued = "";
+  
   public Hal(ArduGuitarConf ac){
     conf = ac.hc;	
     bt.start();
@@ -58,7 +59,7 @@ class Hal {
     String outgoing = getSelectorsString(sv) + 
                       getVolString(sv[sv.length-2]) + 
                       getToneString(sv[sv.length-1]) ;
-    if (outgoing != "") {
+    if (!outgoing.equals("")) {
       doSend(outgoing);
     }        
   }
@@ -66,8 +67,11 @@ class Hal {
     
   void doSend(String msg){
     try {
-      q.put(msg);
-      println("enqueing: " + msg);
+      if (!msg.equals(lastMsgEqueued)){
+        lastMsgEqueued = msg;
+        q.put(msg);
+        println("enqueing: " + msg);
+      }
     }
     catch (InterruptedException ex) {
       println("ERROR sending: " + msg);

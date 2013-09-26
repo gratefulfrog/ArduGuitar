@@ -10,8 +10,8 @@ class ArduGuitarConf {
 			      "bridgeBoth1196x768.png"};
 	public int nbOverlays;
 	public int textSizeInit= 48,
-	    textSizeEllipse = 32,
-	    textSizeVT = 54;
+	           textSizeEllipse = 32,
+	           textSizeVT = 54;
 
 	// public int bogus = -60;   // -60 => startup message for 1 second 
 	// isConfiguring now handles this
@@ -42,8 +42,8 @@ class ArduGuitarConf {
     public class ModelConf {
 	public int nbPickups = 4;
 	public int vt[] = {11, 11},
-	    minVT = 0,
-	    maxVT = 11;
+	           minVT = 0,
+	           maxVT = 11;
         // FIX
         public int setVecOkVal = -1,
                    svVolIndex = 4,  // == nbPickups

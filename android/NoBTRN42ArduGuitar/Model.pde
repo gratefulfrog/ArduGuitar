@@ -76,7 +76,7 @@ class ArduGuitarModel {
     }
     
     void stopCycling(){
-      print("stopCycling called");
+      //print("stopCycling called");
       if(cycling){
         presets.stopCycling();
         cycling = false;
@@ -84,15 +84,7 @@ class ArduGuitarModel {
         print("Cycling stopped");
       }
     }
-    /*  never called, never tested... out commented 2013 09 22
-    void saveCurrentPreset(){
-	savePreset(currentPresetName);
-    }
-    void savePreset(String name){
-	Preset p = new Preset(vt,selectorsVec);
-	presets.put(name,p);
-    }
-    */
+
     public void setSelectors(boolean s[],boolean wait){
       for (int i=0;i<s.length;i++){
         // FIX
@@ -139,11 +131,10 @@ class ArduGuitarModel {
       // FIX
       if (round(vt[v]*vtFactor) != round(vol*vtFactor) ) {
         setVec[conf.svVolIndex] = vol;
-        
       }
       if (!wait){
         hal.minUpdate(setVec);
-      }
+      }  
       vt[v] = vol;
     }
     public int vol(){

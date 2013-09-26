@@ -186,7 +186,4 @@ class PresetPack {
         c.quit();
       }
     }
-
-
-
 }

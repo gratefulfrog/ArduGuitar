@@ -68,7 +68,9 @@ class Hal {
        String outgoing = getSelectorsString(sv) + 
                          getVolString(sv[sv.length-2]) + 
                          getToneString(sv[sv.length-1]) ;
-      doSend(outgoing);              
+       if (!outgoing.equals("")) {
+         doSend(outgoing);
+       }        
     }
     
     // FIX ENDS

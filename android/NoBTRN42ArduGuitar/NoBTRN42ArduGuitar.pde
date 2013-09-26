@@ -320,9 +320,6 @@ void mousePressed() {
   if (model.hal.isConfiguring){
     return;
   }
-
-  //model.stopCycling();
-
   if(!gui.down){
     gui.xI = mouseX;
     gui.yI = mouseY;
@@ -330,7 +327,7 @@ void mousePressed() {
     gui.pt = model.tone();
     gui.down = true;
   }
-  println("MousePressed");
+  //println("MousePressed");
 }
 
 void mouseDragged(){
@@ -349,7 +346,7 @@ void mouseDragged(){
                                    gui.xRange[2],
                                    gui.xRange[3])),
                          ac.mc.minVT,ac.mc.maxVT),
-               false);
+               true);
   model.setTone(constrain(round(map(mouseY - gui.yI, 
                                     gui.yRange[0],
                                     gui.yRange[1],
@@ -357,7 +354,7 @@ void mouseDragged(){
                                     gui.yRange[3])),
                           ac.mc.minVT,ac.mc.maxVT),
                 false);
-  println("MouseDragged");
+  //println("MouseDragged");
 }
 
 void checkDirection(){
@@ -391,7 +388,7 @@ void checkDirection(){
 
 void mouseReleased() {
     gui.down = false;
-    println("mouseReleased");
+    //println("mouseReleased");
 }
 
 public boolean surfaceTouchEvent(MotionEvent event) {

@@ -37,8 +37,7 @@ class ArduGuitarGui {
 	xI = 0,
 	yI = 0,
 	xRange[],
-	yRange[],
-	currentPreset = 0;
+	yRange[];
   
     public ArduGuitarGui(ArduGuitarConf arduConf, KetaiGesture g, KetaiVibrate v){
         //println("creating gui instance.");
@@ -81,7 +80,8 @@ class ArduGuitarGui {
     
     void draw(){
 	background(0,0,0,0);
-	drawPickups();
+        model.incCycle();
+        drawPickups();
 	drawPresetButtons();
 	drawVT();
     }
@@ -122,7 +122,7 @@ class ArduGuitarGui {
 	    stroke(colors[i]);
 	    strokeWeight(conf.strokeWeight);
 	    fill(0,0,0,0);
-	    if (currentPreset==i){
+	    if (model.isCurrentPresetIndex(i)){
 		fill(colors[i]);
 	    }
 	    ellipse(xEllipse,yEllipse,wEllipse,yInc/2);
@@ -179,7 +179,6 @@ void connectingMsg(){
     stroke(0,0,ac.gc.colorBrit);
     text("Connecting to " + ac.bc.btName +"...",width/2,ac.gc.textSizeInit);  
     // will be overwritten by background()...
-    //gui.bogus++;
 }
 
 void draw() {
@@ -199,9 +198,11 @@ void onTap(float x, float y){
     if (model.hal.isConfiguring){
 	return;
     }
-    
+  
+    model.stopCycling();    
+  
     if (x < width*ac.gc.nXF) {
-	model.setSelector(0, !model.selector(0), false);;
+	model.setSelector(0, !model.selector(0), false);
     }
     else if (x < width*ac.gc.mXF) {   
 	model.setSelector(1, !model.selector(1), false);
@@ -244,7 +245,6 @@ void onTap(float x, float y){
 	for (int i=0;i<model.presets.nbPresets();i++){
 	    if (y < height*(i+1)/model.presets.nbPresets()) {
 		//println("color selected: " + i);
-		gui.currentPreset = i;
                 model.doPreset(model.presets.presetNames[i]);
 		break;
 	    }
@@ -256,6 +256,9 @@ void onLongPress(float x, float y){
     if (model.hal.isConfiguring){
 	return;
     }
+  
+    model.stopCycling();
+  
     if (x < width*ac.gc.bbXF) {
 	//println(" doAllOnOff!");
 	model.toggleSelectors();
@@ -271,6 +274,9 @@ void keyPressed() {
     if (model.hal.isConfiguring){
 	return;
     }
+
+    model.stopCycling();
+    
     if (key == CODED && keyCode == MENU) {
 	//println("Maine-Menu press!");
         model.presets.unload();
@@ -292,6 +298,10 @@ void saveToPreset(float x,float y){
 }
   
 void saveToPreset(int i) {
+    // we do nothing if it's the cycle preset
+    if (model.conf.cyclePresetLabel.equals(model.presets.presetNames[i])) {
+      return;
+    }  
     Preset p = model.presets.get(model.presets.presetNames[i]);
     p.setVol(model.vol());
     p.setTone(model.tone());
@@ -321,6 +331,7 @@ void mouseDragged(){
     if (gui.xI>=width*ac.gc.bbXF){
 	return;
     }
+    model.stopCycling();
     checkDirection();
     model.setVol(constrain(round(map(mouseX - gui.xI,
 				     gui.xRange[0],
@@ -328,7 +339,7 @@ void mouseDragged(){
 				     gui.xRange[2],
 				     gui.xRange[3])),
 			   ac.mc.minVT,ac.mc.maxVT),
-                 false);
+                 true);
     model.setTone(constrain(round(map(mouseY - gui.yI, 
 				      gui.yRange[0],
 				      gui.yRange[1],
@@ -336,6 +347,7 @@ void mouseDragged(){
 				      gui.yRange[3])),
 			    ac.mc.minVT,ac.mc.maxVT),
                   false);
+    //println("MouseDragged");
 }
 
 void checkDirection(){
