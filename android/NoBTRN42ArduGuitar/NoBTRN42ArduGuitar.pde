@@ -158,6 +158,8 @@ class ArduGuitarGui {
 
 ArduGuitarModel model;
 ArduGuitarGui gui;
+int pause = 0;
+boolean stopPause = false;
 
 void setup() {
      orientation(LANDSCAPE);
@@ -168,33 +170,38 @@ void setup() {
      //println("created model.");
      gui = model.gui;
      gui.finishInit();
-     println("leaving setup...");     
+     pause = gui.conf.connectIterationPause;
+     //println("leaving setup...");     
 }
 
-void connectingMsg(){
+void connectingMsg(boolean notConnected){
     background(0,0,0);
     fill(0,0,100);
     textAlign(CENTER);
     textSize(ac.gc.textSizeInit);
     stroke(0,0,ac.gc.colorBrit);
-    text("Connecting to " + ac.bc.btName +"...",width/2,ac.gc.textSizeInit);  
-    // will be overwritten by background()...
-    // for no bt version only
-    //int start = millis();
-    //while(millis()-start < 1000);
-    // end for no bt version only
+    if (notConnected){
+      text("Connecting to " + ac.bc.btName +"...",width/2,ac.gc.textSizeInit);
+    }
+    else {
+      text("Connected to " + ac.bc.btName +"!!!",width/2,ac.gc.textSizeInit);
+    }
 }
 
 void draw() {
   if (model.hal.isConfiguring){
-    connectingMsg();
-    if(model.hal.doConnect()){
-      println("connected, calling do preset.");
-      model.doPreset(model.currentPresetName);
-    }
+    connectingMsg(model.hal.isConfiguring);
+    model.hal.doConnect();
   }
-  else {  // we're connected!
+  else if (!stopPause && --pause == 0){  // we're connected!
+    model.doPreset(model.currentPresetName);
+    stopPause = true;
+  }
+  else if (stopPause) {
     gui.draw();
+  }
+  else {
+    connectingMsg(model.hal.isConfiguring);
   }
 }
 

@@ -96,7 +96,7 @@ class ArduGuitarModel {
         }
       }
       if (!wait){
-        hal.minUpdate(setVec);
+        hal.minUpdate(setVec, false);
       }
     }
     public void setSelector(int i, boolean b,boolean wait){
@@ -107,7 +107,7 @@ class ArduGuitarModel {
         println("setting setVec[" +str(i) + "] to " + str(setVec[i]));
       }
       if (!wait){
-        hal.minUpdate(setVec);
+        hal.minUpdate(setVec, false);
       }
     }
     // FIX
@@ -120,7 +120,7 @@ class ArduGuitarModel {
     public void reset() {
     // call this when the hardware is confused after transmission error
     // FIX
-      hal.minUpdate(setVec);
+      hal.minUpdate(setVec, true);
     }
     
     public boolean[] selectors(){
@@ -135,7 +135,7 @@ class ArduGuitarModel {
         setVec[conf.svVolIndex] = vol;
       }
       if (!wait){
-        hal.minUpdate(setVec);
+        hal.minUpdate(setVec, false);
       }  
       vt[v] = vol;
     }
@@ -149,7 +149,7 @@ class ArduGuitarModel {
         setVec[conf.svToneIndex] = tone;        
       }
       if (!wait){
-        hal.minUpdate(setVec);
+        hal.minUpdate(setVec, false);
       }
       vt[t] = tone;
     }

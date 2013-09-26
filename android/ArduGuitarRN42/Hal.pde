@@ -6,6 +6,7 @@ class Hal {
   private final BlockingQueue q;
   public boolean isConfiguring = true;
   String lastMsgEqueued = "";
+  int connectCount = 0;
   
   public Hal(ArduGuitarConf ac){
     conf = ac.hc;	
@@ -16,12 +17,17 @@ class Hal {
     sender.start();
   }
   public boolean doConnect(){
-    isConfiguring = !bt.connectToDeviceByName(ac.bc.btName);    
-    if (!isConfiguring){
-      delay(conf.configDelay);
+    if (isConfiguring){
+      if (connectCount++ == 0){
+        isConfiguring = !bt.connectToDeviceByName(ac.bc.btName);
+      }
+      else if (connectCount >= conf.connectionIterationLimit) {
+        connectCount = 0;
+      }
     }
     return !isConfiguring;
   }
+  
   String getVolString(int v){
     String outgoing = "";
     if (v != conf.setVecOkVal){
@@ -52,7 +58,7 @@ class Hal {
   }
 
   // FIX STARTS
-  public void minUpdate(int sv[]) { // just update all elements in the arg setVec
+  public void minUpdate(int sv[],boolean force) { // just update all elements in the arg setVec
     if (isConfiguring){
       return;
     }
@@ -60,14 +66,14 @@ class Hal {
                       getVolString(sv[sv.length-2]) + 
                       getToneString(sv[sv.length-1]) ;
     if (!outgoing.equals("")) {
-      doSend(outgoing);
+      doSend(outgoing,force);
     }        
   }
   // FIX ENDS
     
-  void doSend(String msg){
+  void doSend(String msg,boolean force){
     try {
-      if (!msg.equals(lastMsgEqueued)){
+      if (force || !msg.equals(lastMsgEqueued)){
         lastMsgEqueued = msg;
         q.put(msg);
         println("enqueing: " + msg);

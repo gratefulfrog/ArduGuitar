@@ -43,7 +43,7 @@ class ArduGuitarGui {
         //println("creating gui instance.");
 	conf = arduConf.gc;
         //println("conf created.");
-
+        
         xRange = new int[arduConf.mc.nbPickups];
         //println("xRange created.");
         yRange = new int[arduConf.mc.nbPickups];      
@@ -158,6 +158,8 @@ class ArduGuitarGui {
 
 ArduGuitarModel model;
 ArduGuitarGui gui;
+int pause = 0;
+boolean stopPause = false;
 
 void setup() {
      orientation(LANDSCAPE);
@@ -168,29 +170,40 @@ void setup() {
      //println("created model.");
      gui = model.gui;
      gui.finishInit();
-     println("leaving setup...");     
+     pause = gui.conf.connectIterationPause;
+     //println("leaving setup...");     
 }
 
-void connectingMsg(){
+void connectingMsg(boolean notConnected){
     background(0,0,0);
     fill(0,0,100);
     textAlign(CENTER);
     textSize(ac.gc.textSizeInit);
     stroke(0,0,ac.gc.colorBrit);
-    text("Connecting to " + ac.bc.btName +"...",width/2,ac.gc.textSizeInit);  
+    if (notConnected){
+      text("Connecting to " + ac.bc.btName +"...",width/2,ac.gc.textSizeInit);
+    }
+    else {
+      text("Connected to " + ac.bc.btName +"!!!",width/2,ac.gc.textSizeInit);
+    }
+    
     // will be overwritten by background()...
 }
 
 void draw() {
   if (model.hal.isConfiguring){
-    connectingMsg();
-    if(model.hal.doConnect()){
-      println("connected, calling do preset.");
-      model.doPreset(model.currentPresetName);
-    }
+    connectingMsg(model.hal.isConfiguring);
+    model.hal.doConnect();
   }
-  else {  // we're connected!
+  else if (!stopPause && --pause == 0){  // we're connected!
+    model.doPreset(model.currentPresetName);
+    stopPause = true;
+  }
+  else if (stopPause) {
     gui.draw();
+  }
+  else {
+    connectingMsg(model.hal.isConfiguring);
   }
 }
 

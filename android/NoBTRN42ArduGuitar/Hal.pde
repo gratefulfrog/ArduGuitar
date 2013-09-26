@@ -18,18 +18,21 @@ class Hal {
     }
     public boolean doConnect(){
       /* out comment for no bluetooth version
-      isConfiguring = !bt.connectToDeviceByName(ac.bc.btName);    
-      if (!isConfiguring){
-          delay(conf.configDelay);
+      if (isConfiguring){
+        if (connectCount++ == 0){
+          isConfiguring = !bt.connectToDeviceByName(ac.bc.btName);
+        }
+        else if (connectCount >= conf.connectionIterationLimit) {
+          connectCount = 0;
+        }
       }
-      return !isConfiguring;
       */
       // this is for no bluetooth only
-      //delay(conf.configDelay);
       isConfiguring = false;
       return !isConfiguring;
       // end of no bt 
     }
+    
     // FIX
     String getVolString(int v){
         String outgoing = "";
@@ -61,7 +64,7 @@ class Hal {
     }
     // END FIX
     // FIX
-    public void minUpdate(int sv[]) { // just update all elements in the arg setVec
+    public void minUpdate(int sv[], boolean force) { // just update all elements in the arg setVec
        if (isConfiguring){
             return;
        }
@@ -69,13 +72,13 @@ class Hal {
                          getVolString(sv[sv.length-2]) + 
                          getToneString(sv[sv.length-1]) ;
        if (!outgoing.equals("")) {
-         doSend(outgoing);
+         doSend(outgoing, force);
        }        
     }
     
     // FIX ENDS
     
-    void doSend(String msg){
+    void doSend(String msg, boolean force){
       println("simulated sending: " + msg);
       // for not BT version only  !!
       model.confirmSet();

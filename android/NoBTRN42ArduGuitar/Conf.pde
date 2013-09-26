@@ -2,6 +2,7 @@
 
 class ArduGuitarConf {
     public class GuiConf {
+        public int connectIterationPause = 250;
 	public String 
 	    baseFile       = "Pickups1196x768.png",
 	    overlayFiles[] = {"neck1196x768.png",
@@ -13,8 +14,6 @@ class ArduGuitarConf {
 	           textSizeEllipse = 32,
 	           textSizeVT = 54;
 
-	// public int bogus = -60;   // -60 => startup message for 1 second 
-	// isConfiguring now handles this
 	public int colorHues[] = {0, //red
 				  60, //yellow
 				  120, // green
@@ -54,6 +53,7 @@ class ArduGuitarConf {
 	}
     }
     public class HalConf {
+        public int connectionIterationLimit = 100;
         // FIX
         public int setVecOkVal;
         public int configDelay = 750;

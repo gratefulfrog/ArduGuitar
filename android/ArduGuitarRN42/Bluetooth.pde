@@ -69,6 +69,7 @@ void onBluetoothDataEvent(String who, byte[] data){
       return;
     }
     
+    
     String incoming = "";
     for (int i=0;i<data.length;i++){
 	incoming += char(data[i]);
@@ -76,7 +77,9 @@ void onBluetoothDataEvent(String who, byte[] data){
     println("Bt Recd: " + incoming);
     if (match(incoming, ac.bc.errorKey) != null) {
 	println("BT RECEIVE ERROR DETECTED!!!");
-	delay(ac.bc.errorRecoveryDelay);
+	int start = millis();
+        while(millis()-start < ac.bc.errorRecoveryDelay);
+        //delay(ac.bc.errorRecoveryDelay);
 	model.reset();
     }
     // FIX 
