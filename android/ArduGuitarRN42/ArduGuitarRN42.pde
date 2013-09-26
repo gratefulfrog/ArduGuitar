@@ -181,10 +181,10 @@ void connectingMsg(boolean notConnected){
     textSize(ac.gc.textSizeInit);
     stroke(0,0,ac.gc.colorBrit);
     if (notConnected){
-      text("Connecting to " + ac.bc.btName +"...",width/2,ac.gc.textSizeInit);
+      text("Connecting to " + ac.bc.btName + " ...",width/2,height/2);
     }
     else {
-      text("Connected to " + ac.bc.btName +"!!!",width/2,ac.gc.textSizeInit);
+      text("Connected to " + ac.bc.btName + " !!!",width/2,height/2);
     }
     
     // will be overwritten by background()...

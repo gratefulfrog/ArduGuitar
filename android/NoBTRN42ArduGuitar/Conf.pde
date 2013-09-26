@@ -2,7 +2,7 @@
 
 class ArduGuitarConf {
     public class GuiConf {
-        public int connectIterationPause = 250;
+        public int connectIterationPause = 275;
 	public String 
 	    baseFile       = "Pickups1196x768.png",
 	    overlayFiles[] = {"neck1196x768.png",
