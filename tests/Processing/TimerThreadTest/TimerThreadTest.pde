@@ -1,6 +1,7 @@
 /* TimerThreadTest
  * Uses a Timer to change the display
  * while allowing mouse interaction
+ * Now integrated into main devt.
  */
 
 // start specifics for android version
