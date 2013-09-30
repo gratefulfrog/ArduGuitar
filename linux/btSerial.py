@@ -112,6 +112,7 @@ def main():
     sk = BTSerial(conf.bt) 
     sk.connect() 
     print "Connected"
+    print bluetooth.SERIAL_PORT_CLASS
 
     while(True):
         s = raw_input("? ")

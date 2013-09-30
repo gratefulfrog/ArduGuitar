@@ -105,7 +105,7 @@ class ArduGuitarConf():
         # this is the factor used to convert Gui scale vol and tone on [0,11]
         # to Arduino scale on [0,5]
         vtDiviser = None #
-        11.0/5.0  #  note that the numerator must be the value of
+        # 11.0/5.0  #  note that the numerator must be the value of
         # Model.guiVTMax, and the denominator Model.arduinoVTMax
         # vol levels: [0,1,2,3,4,5]
         volPWM  = [[0,12,14,18,27,255],
