@@ -5,6 +5,14 @@ Electric guitars with Arduinos inside
 
 by gratefulfrog on www.arduguitar.org
 
+V1.0 : a fully functional Android App with Automation capability!
+
+The sound is near perfect, there are no known bugs! 
+
+Now using a heavily shielded Sparkfun BlueSMIRF bluetooth board and micro_protocol_03 at 115200 baud.
+
+-------------
+
 V0.0 : A working Android App controlling an electric guitar!
 
 The Processing code in the android directory works with the Arduino Micro code in the micro_protocol_02 directory to collectively form the first major milestone of the project: A fully functional android app communicating with the Ibanez RG140 circuit. 
