@@ -8,9 +8,8 @@
 #define CYCLERCLASS_H
 
 #include "biInc.h"
-#include "misc.h"
 
-class cyclerClass: private biInc {
+class cyclerClass: public biInc {
   public:
     cyclerClass(int nbStates);
     int getState() const;

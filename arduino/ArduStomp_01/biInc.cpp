@@ -1,11 +1,17 @@
 #include "biInc.h"
 
 biInc::biInc(int mx): _maxVal(mx), _incVal(1) {
-  _val = _minVal;  
+  _val = _minVal-1;  // to provoke update at presets  
 }
     
 int biInc::getVal() const {
   return _val;
+}
+
+void biInc::setVal(int v)  {
+  if (v <= _maxVal && v >= _minVal){
+    _val = v;
+  }
 }
 
 void biInc::inc(int i){

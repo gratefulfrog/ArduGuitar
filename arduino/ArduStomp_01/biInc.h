@@ -7,7 +7,7 @@
 #ifndef BIINC_H
 #define BIINC_H
 
-#include "misc.h"
+#include <Arduino.h>
 
 class biInc {
   protected:  
@@ -15,13 +15,13 @@ class biInc {
     const int _maxVal,
               _incVal;
     int _val;
-  
+    
   public:
     biInc(int mx); // min is zero and start is zero
     int getVal() const;
+    void setVal(int v);
     void inc(int i);
 };
-
 
 #endif
 
