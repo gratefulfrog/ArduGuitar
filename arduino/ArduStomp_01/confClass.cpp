@@ -114,6 +114,7 @@ String confClass::incVT(int i, int sens){ // id =0 Vol, id = 1 tone
   if (newVal != oldVal) { //something to do
     ret += vtString (i);
   }
+  
   return ret;
 }
   

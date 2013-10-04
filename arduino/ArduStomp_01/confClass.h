@@ -49,12 +49,8 @@ class confClass {
                       toneSettingsStrings[6];
   
   const static int presets[][5],
-                    autoSetting[],
-                    nbPresets;
-  
-  static biInc vtSettings[2]; 
-  static cyclerClass pupSettings[3];
-  
+                   autoSetting[];
+
   String setVT(int id, int val);
   String setPup(int id, int val);
   
@@ -63,9 +59,13 @@ class confClass {
   String vtString (int i);
   String pupString(int i);
   
-  cyclerClass currentPreset;
-  
  public:
+  const static int nbPresets;
+
+  static biInc vtSettings[2]; 
+  static cyclerClass pupSettings[3];
+  cyclerClass currentPreset;
+
   confClass();
   String incVT(int id, int sens); // id =0 Vol, id = 1 tone
   String incPup(int id);  
