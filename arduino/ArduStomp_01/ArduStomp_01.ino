@@ -2,21 +2,19 @@
  * code to command the ARduGuitar from an arduino based stomp box.
  */
 
-#define DEBUG
 #include <Arduino.h>
-#include "biInc.h" 
-#include "cyclerClass.h" 
 #include "confClass.h" 
+#include "actuatorClass.h"
 
-#define VUP_PIN 1
-#define VDW_PIN 2
-#define TUP_PIN 3
-#define TDW_PIN 4
-#define N_PIN   5
-#define M_PIN   6
-#define B_PN    7
-#define P_PIN   8
-#define A_PIN   9
+#define VUP_PIN 2
+#define VDW_PIN 3
+#define TUP_PIN 4
+#define TDW_PIN 5
+#define N_PIN   6
+#define M_PIN   7
+#define B_PN    8
+#define P_PIN   9
+#define A_PIN   10
 
 int pins[]= {VUP_PIN,
              VDW_PIN,
@@ -30,18 +28,9 @@ int pins[]= {VUP_PIN,
 
 const int nbButtons = 9;
 
-const String buttonNames[] = {"Vol Up",
-                              "Vol Down",
-                              "Tone Up",
-                              "Tone Down",
-                              "Neck",
-                              "Middle",
-                              "Bridge",
-                              "Preset",
-                              "Auto"};
-
 confClass conf;
 
+// LED status
 boolean neckLed = false,
         middleLed = false,
         bridgeLed[] = {false,false},
@@ -51,6 +40,74 @@ boolean neckLed = false,
         autoLed = false,
         powerLed = true,
         connectLed = false;
+
+////////////////////////////////////////////////////////////
+////////////////////// for debugging  //////////////////////
+////////////////////////////////////////////////////////////
+/// these show*Led* fucntions need to be replaced with calls
+/// that actuall control the leds!
+/////
+const String buttonNames[] = {"Vol Up",
+                              "Vol Down",
+                              "Tone Up",
+                              "Tone Down",
+                              "Neck",
+                              "Middle",
+                              "Bridge",
+                              "Preset",
+                              "Auto"};
+void showVolLeds(){
+  String   s = "Vol: ";
+  for (int i=0;i<5;i++){
+    s += String(volLed[i])  +" ";
+  }
+  msg(s);
+}
+
+void showNeckLed(){
+  msg("Neck: " +String(neckLed));
+}
+void showMiddleLed(){
+  msg("Middle: " +String(middleLed));
+}
+void showBridgeLeds(){
+  String s = "Bridge: ";
+  for (int i=0;i<2;i++){
+    s += String(bridgeLed[i]) +" ";
+  }
+  msg(s);
+}  
+void showToneLeds(){
+  String  s = "Tone: ";
+  for (int i=0;i<5;i++){
+    s += String(toneLed[i]) +" ";
+  }
+  msg(s);
+}
+void showPresetLeds(){
+String  s = "Preset: ";
+  for (int i=0;i<4;i++){
+    s += String(presetsLed[i]) +" ";
+  }
+  msg(s);
+}
+void showPowConLeds(){
+  msg("Power: " +String(powerLed));
+  msg("Connected: " +String(connectLed));
+}  
+void showLeds(){
+  showPowConLeds();
+  showNeckLed();
+  showMiddleLed();
+  showBridgeLeds();
+  showVolLeds();
+  showToneLeds();
+  showPresetLeds();
+}
+
+////////////////////////////////////////////////////////////
+////////////////////// end debugging  //////////////////////
+////////////////////////////////////////////////////////////
 
 void vtLeds(boolean arr[],int nb,int level){
   // set leds for vol, tone, presets
@@ -63,33 +120,58 @@ void vtLeds(boolean arr[],int nb,int level){
     }
   }
 }
-String volUp(){
+
+long lastActionTime = 0;
+const long minActionDelay = 300;
+
+boolean actionDelayOK(){
+  // don't allow more than one button press per unit of minActionDelay!
+  if(millis()-lastActionTime > minActionDelay){
+    lastActionTime = millis();
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+void testAndSend(String s, void (*f)()){
+  if (!s.equals("")){
+    (*f)();
+    commBT(s);
+  }
+} 
+void volUp(){
+  if (!actionDelayOK()){
+    return;
+  }
   String ret = conf.incVT(0,1);
   vtLeds(volLed,5,conf.vtSettings[0].getVal());
-  //msg("called VolUp, returning: " + ret);
-  return ret;
+  testAndSend(ret,&showVolLeds);
 }
-
-String volDown(){
+void volDown(){
+  if (!actionDelayOK()){
+    return;
+  }
   String ret = conf.incVT(0,-1);
   vtLeds(volLed,5,conf.vtSettings[0].getVal());
-  //msg("called VolDown, returning: " + ret);
-  return ret;
+  testAndSend(ret,&showVolLeds);
 }
-
-String toneUp(){
+void toneUp(){
+  if (!actionDelayOK()){
+    return;
+  }
   String ret = conf.incVT(1,1);
   vtLeds(toneLed,5,conf.vtSettings[1].getVal());
-  //msg("called toneUp, returning: " + ret);
-  return ret;
+  testAndSend(ret,&showToneLeds);
 }
-String toneDown(){
+void toneDown(){
+  if (!actionDelayOK()){
+    return;
+  }
   String ret = conf.incVT(1,-1);
   vtLeds(toneLed,5,conf.vtSettings[1].getVal());  
-  //msg("called toneDown, returning: " + ret);
-  return ret;
+  testAndSend(ret,&showToneLeds);
 }
-
 void setNeckLed(){
   neckLed = conf.pupSettings[0].getState() >0;
 }
@@ -105,157 +187,110 @@ void setBridgeLed(){
       bridgeLed[0] = true;
   }
 } 
-
-String neck(){
+void neck(){
+  if (!actionDelayOK()){
+    return;
+  }
   String ret = conf.incPup(0);
   setNeckLed();
-  return ret;
+  testAndSend(ret,&showNeckLed);
 }
-String middle(){
+void middle(){
+  if (!actionDelayOK()){
+    return;
+  }
   String ret = conf.incPup(1);
   setMiddleLed();
-  return ret;
+  testAndSend(ret,&showMiddleLed);
 }
-String bridge(){
+void bridge(){
+  if (!actionDelayOK()){
+    return;
+  }
   String ret = conf.incPup(2);
   setBridgeLed();
-  return ret;
+  testAndSend(ret,&showBridgeLeds);
 }
-
 void setPresetLed(){
   for(int i = 0; i<conf.nbPresets;i++){
     presetsLed[i] = false;
   }
   presetsLed[conf.currentPreset.getState()] = true;  
 }
-
-String preset() {
-  String ret =  conf.incPreset();  
+void preset() {
+  if (!actionDelayOK()){
+    return;
+  }  
+  String ret =  conf.incPreset(false);  
   setPresetLed();
-  return ret;
+  testAndSend(ret,&showPresetLeds);
 }
+// needs a true function here!
+void autoL(){;}
 
-String autoL(){;}
-
-
-typedef String (*buttonFuncPtr)();
-
-buttonFuncPtr buttonFuncs[]= { &volUp,     
-                               &volDown,
-                               &toneUp,
-                               &toneDown,
-                               &neck,
-                               &middle,
-                               &bridge,
-                               &preset,
-                               &autoL};
-
-
+doerFunPtr buttonFuncs[]= { &volUp,     
+                            &volDown,
+                            &toneUp,
+                            &toneDown,
+                            &neck,
+                            &middle,
+                            &bridge,
+                            &preset,
+                            &autoL};
 
 void msg(String s){
-  #ifdef DEBUG
   Serial.print(s + '\n');
-  #endif
 }
 
-void setupPins(){
+actuatorClass *actuators[nbButtons];
+
+void setupActuators(){
    for (int i=0;i<nbButtons;i++){
-     pinMode(pins[i],INPUT);
+     actuators[i] = new actuatorClass(pins[i],buttonFuncs[i]);
    }
-   msg("Pins setup!");
+   msg("Actuators setup!");
 }
 
 void setupData(){
-  msg("Setup Data!");
-  commBT(conf.incPreset());
+  commBT(conf.incPreset(true));
   vtLeds(volLed,5,conf.vtSettings[0].getVal());
   vtLeds(toneLed,5,conf.vtSettings[1].getVal());
   setNeckLed();
   setMiddleLed();
   setBridgeLed();
   setPresetLed();
+  msg("Data setup!");
 }
 
+// needs to be updated for BT usage...
 void commBT(String s){
-  msg("BT Send: " + s);
-}
-
-boolean buttonPressedNow(int i){
- // just for tests
- int pressed[] =  {0,0,0,0,0,
-                   1,1,1,1,1,
-                   2,2,2,2,2,
-                   3,3,3,3,3,
-                   4,4,
-                   5,5,
-                   6,6,6,
-                   7,7,7,7};
- static int current = 0;
- boolean result =  i== pressed[current];
- if (result){
-   current = (current + 1)% 31;
-   msg("pressed: "+ String(i) + ": " + buttonNames[i]);
-   
- }
- return  result;
-}
-
-void checkButtons(){
-  for (int i=0;i<nbButtons;i++){
-    if(buttonPressedNow(i)){
-      commBT((*buttonFuncs[i])());
-      break;
-    }    
+  if(!s.equals(String(""))){
+    msg("BT Send: " + s);
   }
 }
 
-
-void setLeds(){
-  showLeds();
-}
-
-void showLeds(){
-  msg("Power: " +String(powerLed));
-  msg("Connected: " +String(connectLed));
-  msg("Neck: " +String(neckLed));
-  msg("Middle: " +String(middleLed));
-  String s = "Bridge: ";
-  for (int i=0;i<2;i++){
-    s += String(bridgeLed[i]) +" ";
-  }
-  msg(s);
-  s = "Vol: ";
-  for (int i=0;i<5;i++){
-    s += String(volLed[i])  +" ";
-  }
-  msg(s);
-  s = "Tone: ";
-  for (int i=0;i<5;i++){
-    s += String(toneLed[i]) +" ";
-  }
-  msg(s);
-  s = "Preset: ";
-  for (int i=0;i<4;i++){
-    s += String(presetsLed[i]) +" ";
-  }
-  msg(s);
+/// needs to be updated to real version after debugging!
+void  connectBT(){
+  connectLed = true;
+  msg("Connected!");
 }
 
 void setup(){
-   Serial.begin(9600);
-   msg("Starting...");
-   setupPins();
-   setupData();
-   setLeds();
-   msg("5 seconds delay...");
-   delay (5000);
+  delay (5000);
+  Serial.begin(9600);
+  msg("Starting...");
+  setupActuators();
+  setupData();
+  connectBT();
+  showLeds();
+  msg("5 seconds delay...");
+  delay (5000);
+  msg("looping...");
  }
 
 void loop(){
-  msg("\n\n=======");
-  checkButtons();
-  //msg("vol val: " + String(conf.vtSettings[0].getVal()));
-  setLeds();
-  delay(2000);
+  for (int i = 0;i<nbButtons;i++){
+    actuators[i]->update();
+  }
 }
 

@@ -27,6 +27,8 @@
  http://www.arduino.cc/en/Tutorial/Debounce
  */
 
+#include "deBounceButton.h"
+
 // constants won't change. They're used here to 
 // set pin numbers:
 const int buttonPin = 2;    // the number of the pushbutton pin

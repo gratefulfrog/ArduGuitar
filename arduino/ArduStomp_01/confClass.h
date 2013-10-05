@@ -51,10 +51,10 @@ class confClass {
   const static int presets[][5],
                    autoSetting[];
 
-  String setVT(int id, int val);
-  String setPup(int id, int val);
+  String setVT(int id, int val,boolean force);
+  String setPup(int id, int val,boolean force);
   
-  String setPreset(int id);  
+  String setPreset(int id,boolean force);  
   
   String vtString (int i);
   String pupString(int i);
@@ -69,7 +69,7 @@ class confClass {
   confClass();
   String incVT(int id, int sens); // id =0 Vol, id = 1 tone
   String incPup(int id);  
-  String incPreset();
+  String incPreset(boolean force);
 };
 
 

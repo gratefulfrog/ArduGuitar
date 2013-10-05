@@ -31,32 +31,37 @@ cyclerClass confClass::pupSettings[3] = {cyclerClass(2),
                                          cyclerClass(3)}; // neck, middle, bridge
 
 
-String confClass::setVT(int id, int val){
+String confClass::setVT(int id, int val, boolean force){
   String ret = "";
-  if (val >= 0 &&
-      val <= 5 && 
-      vtSettings[id].getVal() !=val) { // then there's something to do
+  //Serial.print("at call  vtSettings[id].getVal() = " + String(vtSettings[id].getVal()));
+  if (force || 
+      (val >= 0 &&
+       val <= 5 && 
+       vtSettings[id].getVal() !=val)) { // then there's something to do
     vtSettings[id].setVal(val);
     ret += vtString(id);
   }
+  //Serial.print("called confconfClass::setVT(" + String(id) +", " + String(val));
+
+  //Serial.print("...returning: " + ret + ".\n");
   return ret;
 }
   
-String confClass::setPreset(int pid) { // pid is a preset id
+String confClass::setPreset(int pid, boolean force) { // pid is a preset id
   String ret = "";
   // first vol and tone
   int i=0;
   for (; i<2;i++){
-    ret += setVT(i, presets[pid][i]);
+    ret += setVT(i, presets[pid][i],force);
   }
   for(int j=0;i<5;j++,i++){
-    ret+= setPup(j, presets[pid][i]);
+    ret+= setPup(j, presets[pid][i], force);
   }
   return ret;
 }
 String confClass::vtString (int i){
   int val = vtSettings[i].getVal();
-  //Serial.print ("calling vtString on: " + String(i) + " with val: " + String(val) + "\n");
+  //Serial.print ("calling vtString on: " + String(i) + " with val: " + String(val) + ".\n");
   String ret = "";
   if (i == 1){  // tone to do
     ret += tonePinString + toneSettingsStrings[val];
@@ -91,10 +96,10 @@ String confClass::pupString(int i){
   return ret;
 }
     
-String confClass::setPup(int i, int v) {
+String confClass::setPup(int i, int v,boolean force) {
   String ret = "";
-  if ((v <2 || (i==2 && v<3)) &&
-      pupSettings[i].getVal() != v)  { // something to do
+  if ((force ||(v <2 || (i==2 && v<3)) &&
+                pupSettings[i].getVal() != v))  { // something to do
     pupSettings[i].setVal(v);
     ret += pupString(i);
   }
@@ -103,7 +108,7 @@ String confClass::setPup(int i, int v) {
   
 // public:
 confClass::confClass(): currentPreset(4){
-  setPreset(currentPreset.getVal());
+  setPreset(currentPreset.getVal(),false);
   }
 
 String confClass::incVT(int i, int sens){ // id =0 Vol, id = 1 tone
@@ -123,9 +128,9 @@ String confClass::incPup(int i) {  // always something to do
   return pupString(i);
 }
 
-String confClass::incPreset(){
+String confClass::incPreset(boolean force){
   currentPreset.incState();
-  return setPreset(currentPreset.getVal());
+  return setPreset(currentPreset.getVal(),force);
 }  
 
 
