@@ -58,18 +58,22 @@ class confClass {
   
   String vtString (int i);
   String pupString(int i);
+  String autoString();
   
  public:
   const static int nbPresets;
 
   static biInc vtSettings[2]; 
   static cyclerClass pupSettings[3];
+  static cyclerClass autoSettings;
   cyclerClass currentPreset;
 
   confClass();
   String incVT(int id, int sens); // id =0 Vol, id = 1 tone
   String incPup(int id);  
   String incPreset(boolean force);
+  String incAuto();
+  
 };
 
 

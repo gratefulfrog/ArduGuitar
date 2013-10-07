@@ -18,7 +18,7 @@ const String confClass::onOffString[] = {"000","255"},// off,on, i.e. 0,1
   
 const int confClass::presets[][5] =  //vol, tone, neck, middle, bridge
                                     {{0,   0,    0,    0,      0},  //{3,   5,    0,    1,      1},  // 0
-                                     {5,   2,    1,    1,      1},  // 1
+                                     {2,   2,    1,    1,      1},  // 1
                                      {5,   1,    1,    0,      0},  // 2
                                      {4,   5,    0,    1,      1}}, // 3
           confClass::autoSetting[] = {2, 200, 3, 200},
@@ -26,10 +26,11 @@ const int confClass::presets[][5] =  //vol, tone, neck, middle, bridge
   
 biInc confClass::vtSettings[2] = {biInc(5), 
                                   biInc(5)};  // vol tone
+      
 cyclerClass confClass::pupSettings[3] = {cyclerClass(2),
                                          cyclerClass(2), 
                                          cyclerClass(3)}; // neck, middle, bridge
-
+cyclerClass confClass::autoSettings = cyclerClass(2);
 
 String confClass::setVT(int id, int val, boolean force){
   String ret = "";
@@ -109,6 +110,7 @@ String confClass::setPup(int i, int v,boolean force) {
 // public:
 confClass::confClass(): currentPreset(4){
   setPreset(currentPreset.getVal(),false);
+  autoSettings.setVal(0);
   }
 
 String confClass::incVT(int i, int sens){ // id =0 Vol, id = 1 tone
@@ -127,6 +129,18 @@ String confClass::incPup(int i) {  // always something to do
   pupSettings[i].incState();
   return pupString(i);
 }
+
+// this will return empty even when ready
+String confClass::autoString(){
+  String ret = ""; // there can be no meaningful auto string... so fix testAndSend
+  return ret;
+}
+  
+String confClass::incAuto() {  // always something to do
+  autoSettings.incState();
+  return autoString();
+}
+
 
 String confClass::incPreset(boolean force){
   currentPreset.incState();
