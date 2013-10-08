@@ -20,19 +20,21 @@ const int confClass::presets[][5] =  //vol, tone, neck, middle, bridge
                                     {{0,   0,    0,    0,      0},  //{3,   5,    0,    1,      1},  // 0
                                      {5,   5,    1,    1,      1},  // 1
                                      {5,   1,    1,    0,      0},  // 2
-                                     {4,   5,    0,    1,      1}}, // 3
+                                     {4,   5,    0,    1,      1}}; // 3
+          /*
           confClass::autoPairs[][2] = {{0, 1000},  // preset ID, delayMillis
                                        {1, 2000}},
           confClass::nbAutoPairs = 2,
           confClass::nbPresets =  4;  // presetID, delayMillis ...
-  
+          */
+          
 biInc confClass::vtSettings[2] = {biInc(5), 
                                   biInc(5)};  // vol tone
       
 cyclerClass confClass::pupSettings[3] = {cyclerClass(2),
                                          cyclerClass(2), 
                                          cyclerClass(3)}; // neck, middle, bridge
-cyclerClass confClass::autoSettings = cyclerClass(2);
+//cyclerClass confClass::autoSettings = cyclerClass(2);
 
 String confClass::setVT(int id, int val, boolean force){
   String ret = "";
@@ -110,17 +112,18 @@ String confClass::setPup(int i, int v,boolean force) {
 }
   
 // public:
-confClass::confClass(): currentPreset(4), currentAutoIndex(0), lastAutoTime(0){
+confClass::confClass(): currentPreset(4), autoPreset(){ //currentAutoIndex(0), lastAutoTime(0){
   setPreset(currentPreset.getVal(),false);
-  autoSettings.setVal(0);
+  //autoSettings.setVal(0);
   }
 
 String confClass::incVT(int i, int sens){ // id =0 Vol, id = 1 tone
   String ret = "";
   int oldVal = vtSettings[i].getVal();
-  vtSettings[i].inc(sens);
-  int newVal = vtSettings[i].getVal();
-  if (newVal != oldVal) { //something to do
+  //vtSettings[i].inc(sens);
+  //int newVal = vtSettings[i].getVal();
+  //if (newVal != oldVal) { //something to do
+  if(vtSettings[i].inc(sens) != oldVal){
     ret += vtString (i);
   }
   
@@ -131,7 +134,7 @@ String confClass::incPup(int i) {  // always something to do
   pupSettings[i].incState();
   return pupString(i);
 }
-  
+/*
 String confClass::incAuto() {  // always something to do
   String ret = "";
   autoSettings.incState();
@@ -144,7 +147,20 @@ String confClass::incAuto() {  // always something to do
   }
   return ret;
 }
+*/
 
+String confClass::incAuto() {  // always something to do
+  String ret = "";
+  int presetIndex = autoPreset.inc();
+  if (autoPreset.running()){
+    //Serial.println("autorunning");
+    currentPreset.setVal(presetIndex);
+    ret = setPreset(currentPreset.getVal(),true);
+  }
+  return ret;
+}
+
+/*
 String confClass::checkAuto(){
   String ret = "";
   long now = millis();
@@ -157,14 +173,26 @@ String confClass::checkAuto(){
   }
   return ret;
 }
+*/
 
-boolean confClass::autoRunning(){
-  return autoSettings.getState()>0;
+String confClass::checkAuto(){
+  String ret = "";
+  int newPreset = autoPreset.check();
+  if (newPreset != currentPreset.getVal()){
+    //Serial.println("Doing an auto!");
+    currentPreset.setVal(newPreset);
+    ret = setPreset(currentPreset.getVal(),true);
+  }
+  return ret;
+}
+
+boolean confClass::autoRunning() const{
+  return autoPreset.running();
 }
   
-String confClass::incPreset(boolean force){
-  currentPreset.incState();
-  return setPreset(currentPreset.getVal(),force);
+String confClass::incPreset(boolean force) {
+  //currentPreset.incState();
+  //return setPreset(currentPreset.getVal(),force);
+  return setPreset(currentPreset.incState(),force);
 }  
-
 

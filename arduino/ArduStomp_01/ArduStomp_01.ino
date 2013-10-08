@@ -108,8 +108,7 @@ void registerWrite() {
 ////////////////////////////////////////////////////////////
 ////////////////////// for debugging  //////////////////////
 ////////////////////////////////////////////////////////////
-/// these show*Led* fucntions need to be replaced with calls
-/// that actuall control the leds!
+/// these show*Led* fucntions need to be updated to get rid of msg part
 /////
 const String buttonNames[] = {"Vol Up",
                               "Vol Down",
@@ -120,6 +119,7 @@ const String buttonNames[] = {"Vol Up",
                               "Bridge",
                               "Preset",
                               "Auto"};
+                             
 void showVolLeds(){
   String   s = "Vol: ";
   /*
@@ -233,7 +233,6 @@ void volDown(){
   }
   autoOff();
   String ret = conf.incVT(0,-1);
-  //vtLeds(volLed,5,conf.vtSettings[0].getVal());
   vtLeds(getBools(VOL),indexLis[VOL][1],conf.vtSettings[0].getVal());
   testAndSend(ret,&showVolLeds);
 }
@@ -243,7 +242,6 @@ void toneUp(){
   }
   autoOff();
   String ret = conf.incVT(1,1);
-  //vtLeds(toneLed,5,conf.vtSettings[1].getVal());
   vtLeds(getBools(TONE),indexLis[TONE][1],conf.vtSettings[1].getVal());
   testAndSend(ret,&showToneLeds);
 }
@@ -253,16 +251,13 @@ void toneDown(){
   }
   autoOff();
   String ret = conf.incVT(1,-1);
-  //vtLeds(toneLed,5,conf.vtSettings[1].getVal());  
   vtLeds(getBools(TONE),indexLis[TONE][1],conf.vtSettings[1].getVal());
   testAndSend(ret,&showToneLeds);
 }
 void setNeckLed(){
-  // neckLed = conf.pupSettings[0].getState() >0;
   *getBools(NECK)  = conf.pupSettings[0].getState() >0;
 }
 void setMiddleLed(){
-  //middleLed = conf.pupSettings[1].getState() >0;
   *getBools(MIDDLE) = conf.pupSettings[1].getState() >0;
 }
 void setBridgeLed(){
@@ -319,15 +314,13 @@ void preset() {
   autoOff();  
   String ret =  conf.incPreset(false);  
   setPresetLed();
-  //testAndSend(ret,&showPresetLeds);
-  testAndSend(ret,&showLeds);
+  testAndSend(ret,&showPresetLeds);
 }
 
 void setAutoLed(){
   *getBools(AUTO)  = conf.autoRunning(); //conf.autoSettings.getState() >0;
 }
 
-// needs a true function here!
 void autoIt(){
   if (!actionDelayOK()){
     return;
@@ -335,13 +328,14 @@ void autoIt(){
   String ret = conf.incAuto();
   setAutoLed();
   setPresetLed();
-  testAndSend(ret,&showLeds);
+  testAndSend(ret,&showAutoLed);
 }
 
 void autoOff(){
   if (conf.autoRunning()){
     conf.incAuto();
     setAutoLed();
+    showAutoLed();
   }
 }
 
@@ -370,9 +364,7 @@ void setupActuators(){
 
 void setupData(){
   commBT(conf.incPreset(true));
-  //vtLeds(volLed,5,conf.vtSettings[0].getVal());
   vtLeds(getBools(VOL),indexLis[VOL][1],conf.vtSettings[0].getVal());
-  //vtLeds(toneLed,5,conf.vtSettings[1].getVal());
   vtLeds(getBools(TONE),indexLis[TONE][1],conf.vtSettings[1].getVal());
   setNeckLed();
   setMiddleLed();
@@ -391,7 +383,6 @@ void commBT(String s){
 /// needs to be updated to real version after debugging!
 void  connectBT(){
   *getBools(CONNECT) =  true;
-  //connectLed = true;
   msg("Connected!");
 }
 
@@ -401,10 +392,9 @@ void powerOn(){
 }
 
 void checkAuto(){
-  //String ret =  conf.incPreset(false);  
   String ret = conf.checkAuto();
   setPresetLed();
-  testAndSend(ret,&showLeds);
+  testAndSend(ret,&showPresetLeds);
 }
 
 void setup(){
@@ -421,11 +411,11 @@ void setup(){
   connectBT();        // ok
   setupActuators();   // ok
   setupData();        // ok
+  showLeds();         // ok  leds are set to show that we are ready for action!
   msg("5 seconds delay...");
   delay (5000);
   msg("looping...");
-  showLeds();         // ok  leds are set to show that we are ready for action!
- }
+}
 
 void loop(){
   for (int i = 0;i<nbButtons;i++){

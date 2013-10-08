@@ -37,7 +37,7 @@
 #define CONF_H
 
 #include <Arduino.h>
-#include "cyclerClass.h"
+#include "autoClass.h"
 
 class confClass {
  private:
@@ -48,9 +48,9 @@ class confClass {
                       volSettingsStrings[3][6], 
                       toneSettingsStrings[6];
   
-  const static int presets[][5],
-                   autoPairs[][2],
-                   nbAutoPairs;
+  const static int presets[][5];
+                   //autoPairs[][2],
+                   //nbAutoPairs;
 
   String setVT(int id, int val,boolean force);
   String setPup(int id, int val,boolean force);
@@ -60,16 +60,17 @@ class confClass {
   String vtString (int i);
   String pupString(int i);
   //String autoString();
-  int currentAutoIndex;
-  long lastAutoTime;
+  //int currentAutoIndex;
+  //long lastAutoTime;
   
  public:
-  const static int nbPresets;
+  const static int nbPresets = 4;
 
   static biInc vtSettings[2]; 
   static cyclerClass pupSettings[3];
-  static cyclerClass autoSettings;
+  //static cyclerClass autoSettings;
   cyclerClass currentPreset;
+  autoClass autoPreset;
 
   confClass();
   String incVT(int id, int sens); // id =0 Vol, id = 1 tone
@@ -77,8 +78,7 @@ class confClass {
   String incPreset(boolean force);
   String incAuto();
   String checkAuto();
-  boolean autoRunning();
+  boolean autoRunning() const;
 };
-
 
 #endif

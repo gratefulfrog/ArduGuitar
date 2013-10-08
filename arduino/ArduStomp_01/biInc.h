@@ -20,7 +20,7 @@ class biInc {
     biInc(int mx); // min is zero and start is zero
     int getVal() const;
     void setVal(int v);
-    void inc(int i);
+    int inc(int i);
 };
 
 #endif

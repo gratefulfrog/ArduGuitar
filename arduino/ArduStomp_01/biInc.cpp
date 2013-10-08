@@ -14,8 +14,8 @@ void biInc::setVal(int v)  {
   }
 }
 
-void biInc::inc(int i){
+int biInc::inc(int i){
   int increment = i > 0 ? _incVal : -_incVal;
-  _val = min(max(_val + increment,_minVal),_maxVal);
+  return _val = min(max(_val + increment,_minVal),_maxVal);
 }   
 

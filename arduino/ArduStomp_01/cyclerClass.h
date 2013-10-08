@@ -13,7 +13,7 @@ class cyclerClass: public biInc {
   public:
     cyclerClass(int nbStates);
     int getState() const;
-    void incState();
+    int incState();
 };
 #endif
 
