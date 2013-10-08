@@ -266,15 +266,6 @@ void setMiddleLed(){
   *getBools(MIDDLE) = conf.pupSettings[1].getState() >0;
 }
 void setBridgeLed(){
-  /*
-  bridgeLed[0] = bridgeLed[1] = false;
-  switch(conf.pupSettings[2].getState()){
-    case 1:
-      bridgeLed[1] = true;
-    case 2:
-      bridgeLed[0] = true;
-  }
-  */
   getBools(BRIDGE)[0] = getBools(BRIDGE)[1] = false;
   switch(conf.pupSettings[2].getState()){
     case 1:
@@ -311,12 +302,6 @@ void bridge(){
   testAndSend(ret,&showBridgeLeds);
 }
 void setPresetLed(){
-  /*
-  for(int i = 0; i<conf.nbPresets;i++){
-    presetsLed[i] = false;
-  }
-  presetsLed[conf.currentPreset.getState()] = true;  
-  */
   for(int i = 0; i<conf.nbPresets;i++){
     getBools(PRESET)[i] = false;
   }
@@ -339,7 +324,7 @@ void preset() {
 }
 
 void setAutoLed(){
-  *getBools(AUTO)  = conf.autoSettings.getState() >0;
+  *getBools(AUTO)  = conf.autoRunning(); //conf.autoSettings.getState() >0;
 }
 
 // needs a true function here!
@@ -349,12 +334,13 @@ void autoIt(){
   }
   String ret = conf.incAuto();
   setAutoLed();
-  testAndSend(ret,&showAutoLed);
+  setPresetLed();
+  testAndSend(ret,&showLeds);
 }
 
 void autoOff(){
-  if (conf.autoSettings.getState() > 0){
-    conf.autoSettings.setVal(0);
+  if (conf.autoRunning()){
+    conf.incAuto();
     setAutoLed();
   }
 }
@@ -414,6 +400,13 @@ void powerOn(){
   msg("Power On!");
 }
 
+void checkAuto(){
+  //String ret =  conf.incPreset(false);  
+  String ret = conf.checkAuto();
+  setPresetLed();
+  testAndSend(ret,&showLeds);
+}
+
 void setup(){
   pinMode(latchPin, OUTPUT);
   pinMode(dataPin, OUTPUT);  
@@ -428,15 +421,18 @@ void setup(){
   connectBT();        // ok
   setupActuators();   // ok
   setupData();        // ok
-  showLeds();         // ok
   msg("5 seconds delay...");
   delay (5000);
   msg("looping...");
+  showLeds();         // ok  leds are set to show that we are ready for action!
  }
 
 void loop(){
   for (int i = 0;i<nbButtons;i++){
     actuators[i]->update();
+  }
+  if (conf.autoRunning()){
+    checkAuto();
   }
 }
 

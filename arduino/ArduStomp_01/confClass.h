@@ -49,7 +49,8 @@ class confClass {
                       toneSettingsStrings[6];
   
   const static int presets[][5],
-                   autoSetting[];
+                   autoPairs[][2],
+                   nbAutoPairs;
 
   String setVT(int id, int val,boolean force);
   String setPup(int id, int val,boolean force);
@@ -58,7 +59,9 @@ class confClass {
   
   String vtString (int i);
   String pupString(int i);
-  String autoString();
+  //String autoString();
+  int currentAutoIndex;
+  long lastAutoTime;
   
  public:
   const static int nbPresets;
@@ -73,7 +76,8 @@ class confClass {
   String incPup(int id);  
   String incPreset(boolean force);
   String incAuto();
-  
+  String checkAuto();
+  boolean autoRunning();
 };
 
 

@@ -18,10 +18,12 @@ const String confClass::onOffString[] = {"000","255"},// off,on, i.e. 0,1
   
 const int confClass::presets[][5] =  //vol, tone, neck, middle, bridge
                                     {{0,   0,    0,    0,      0},  //{3,   5,    0,    1,      1},  // 0
-                                     {2,   2,    1,    1,      1},  // 1
+                                     {5,   5,    1,    1,      1},  // 1
                                      {5,   1,    1,    0,      0},  // 2
                                      {4,   5,    0,    1,      1}}, // 3
-          confClass::autoSetting[] = {2, 200, 3, 200},
+          confClass::autoPairs[][2] = {{0, 1000},  // preset ID, delayMillis
+                                       {1, 2000}},
+          confClass::nbAutoPairs = 2,
           confClass::nbPresets =  4;  // presetID, delayMillis ...
   
 biInc confClass::vtSettings[2] = {biInc(5), 
@@ -108,7 +110,7 @@ String confClass::setPup(int i, int v,boolean force) {
 }
   
 // public:
-confClass::confClass(): currentPreset(4){
+confClass::confClass(): currentPreset(4), currentAutoIndex(0), lastAutoTime(0){
   setPreset(currentPreset.getVal(),false);
   autoSettings.setVal(0);
   }
@@ -129,19 +131,37 @@ String confClass::incPup(int i) {  // always something to do
   pupSettings[i].incState();
   return pupString(i);
 }
-
-// this will return empty even when ready
-String confClass::autoString(){
-  String ret = ""; // there can be no meaningful auto string... so fix testAndSend
-  return ret;
-}
   
 String confClass::incAuto() {  // always something to do
+  String ret = "";
   autoSettings.incState();
-  return autoString();
+  if (autoRunning()){
+    //Serial.print("in incAuto: auto running!");
+    lastAutoTime = millis();
+    currentAutoIndex = 0;
+    currentPreset.setVal(autoPairs[currentAutoIndex][0]);
+    ret = setPreset(currentPreset.getVal(),true);
+  }
+  return ret;
 }
 
+String confClass::checkAuto(){
+  String ret = "";
+  long now = millis();
+  if (now - lastAutoTime > autoPairs[currentAutoIndex][1]) { //then next preset
+    //Serial.println("Doing an auto!");
+    currentAutoIndex = (currentAutoIndex + 1 ) % nbAutoPairs;
+    lastAutoTime = now;
+    currentPreset.setVal(autoPairs[currentAutoIndex][0]);
+    ret = setPreset(currentPreset.getVal(),true);
+  }
+  return ret;
+}
 
+boolean confClass::autoRunning(){
+  return autoSettings.getState()>0;
+}
+  
 String confClass::incPreset(boolean force){
   currentPreset.incState();
   return setPreset(currentPreset.getVal(),force);
