@@ -115,8 +115,9 @@ class ArduGuitarConf {
   public class BluetoothConf {
     public int errorRecoveryDelay = 50;
     public String errorKey = "e";
-    public String btName = "RN42-461A";
-
+    //public String btName = "RN42-461A";
+    public String btName = "arduguitar-01";
+    
     //String btAddress = "00:06:66:60:46:1A";  
     // linvor on-board Ibanez RG-140  -- 
     // doesn't work because of bug in Ketai???
