@@ -1,3 +1,7 @@
+/*  outQueue:
+ * a class to encapuslate the queueing of arrays of chars, no null terminator.
+ */
+
 #ifndef OUTQUEUE_H
 #define OUTQUEUE_H
 

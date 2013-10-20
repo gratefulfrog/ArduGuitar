@@ -1,3 +1,7 @@
+/*  outQueue:
+ * a class to encapuslate the queueing of arrays of chars, no null terminator.
+ */
+
 #include "outQueue.h"
 
 outQueue::outQueue(){
