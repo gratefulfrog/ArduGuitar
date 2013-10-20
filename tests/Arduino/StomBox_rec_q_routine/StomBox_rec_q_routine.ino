@@ -78,14 +78,12 @@ void doInit(){
 
 void setup(){
   Serial.begin(115200);
+  while (!initialized){
+    doInit();
+  }
 }
 
 void loop(){
-  if(initialized){
-    processIncomingAtom();
-    readIntoAtom();
-  }
-  else{
-    doInit();
-  }
+  processIncomingAtom();
+  readIntoAtom();
 }

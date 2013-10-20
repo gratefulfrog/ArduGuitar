@@ -112,8 +112,7 @@ void checkInit(){
   if (Serial1.available()>0){
     char c = Serial1.read();
     if (c==initChar){
-      initialized= true;
-      ok2Send = true;
+      ok2Send = initialized= true;
       Serial1.write(initChar);
       delay(100);
     }
@@ -128,19 +127,17 @@ void setup(){
   while(!Serial);
   Serial1.begin(115200); // for comm to toher arduino
   while(!Serial1);
-  //delay(5000);
+  delay(5000);
+  while (!initialized){
+    checkInit();
+  }
   Serial.println("Ready!");
 }
     
 void loop(){
-  if (initialized){
-    // read and process anything from the Serial Monitor; this includes sending to other arduino
-    processSerialMonitorIncoming(); 
-    // read an process replies from other arduino; includes writing to serial montior and error handling
-    ProcessSerial1Incoming();   
-  }
-  else{
-    checkInit();
-  }
+  // read and process anything from the Serial Monitor; this includes sending to other arduino
+  processSerialMonitorIncoming(); 
+  // read an process replies from other arduino; includes writing to serial montior and error handling
+  ProcessSerial1Incoming();   
 }
 
