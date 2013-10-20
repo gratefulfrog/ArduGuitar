@@ -1,23 +1,16 @@
 /*
-  Example Bluetooth Serial Passthrough Sketch
- by: Jim Lindblom
- SparkFun Electronics
- date: February 26, 2013
- license: Public domain
-
- This example sketch allows RN-42 bluetooth module to
- communicate via Serial1 on an Arduino Micro or Leonardo 
+ * This example sketch allows RN-42 bluetooth module to
+ * communicate via Serial1 on an Arduino Micro or Leonardo 
  
- RN42 behavoir:
- power on: slow red blink
- command mode: quick red blink, searching for a connection... needs up to 10 seconds!
- connected: solid green
- loss of connection: slow red blink
- connection re-established (only with last connected RN42!): solid green
- 
+ * RN42 behavoir:
+ * - power on: slow red blink
+ * - command mode: quick red blink, searching for a connection... needs up to 10 seconds!
+ * - connected: solid green
+ * - loss of connection: slow red blink
+ * - connection re-established (only with last connected RN42!): solid green 
  */
 
-String commandModeConfirmationString = "CMD";
+const String commandModeConfirmationString = "CMD";
 
 void setup(){
   setupRN42AndConnect();
@@ -33,7 +26,7 @@ void setupRN42AndConnect(){
   clearRN42Output();
 }
 
-void   clearRN42Output(){
+void clearRN42Output(){
   while (Serial1.available()){
     Serial1.read();  
   }
@@ -59,20 +52,17 @@ boolean setupCommandMode(){
 }
 
 void setupSerial(){
-  Serial.begin(9600);  // Begin the serial monitor at 9600bps
+  Serial.begin(115200);  // Begin the serial monitor at 115200bps
   while(!Serial);
 }
 
-void loop()
-{
-  if(Serial1.available())  // If the bluetooth sent any characters
-  {
-    // Send any characters the bluetooth prints to the serial monitor
+void loop() {
+  if(Serial1.available()){  // If the bluetooth sent any characters
+    // Send any characters from the bluetooth to the serial monitor
     Serial.print((char)Serial1.read());  
   }
-  if(Serial.available())  // If stuff was typed in the serial monitor
-  {
-    // Send any characters the Serial monitor prints to the bluetooth
+  if(Serial.available()) {  // If stuff was typed in the serial monitor
+    // Send any characters typed at the Serial monitor to the bluetooth
     Serial1.print((char)Serial.read());
   }
 }
