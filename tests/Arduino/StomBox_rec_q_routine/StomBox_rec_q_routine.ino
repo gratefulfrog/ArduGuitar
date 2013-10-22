@@ -10,31 +10,17 @@ const char initChar = 'A';
 const int incomingMsgSize = 5,
           outgoingMsgSize = 6;
 
-int currentCharCount = 0,   // how many chars we've read
-    errorClearCount = incomingMsgSize;
+int currentCharCount = 0;   // how many chars we've read
 
 char incomingBuffer[incomingMsgSize]= "";
 char outgoingBuffer[outgoingMsgSize] = "";
 
-void readIntoAtom(){
-  // if there's something to read, add it to the incoming buffer and update the
-  // charcter count
-  if (Serial.available() > 0) {
-    // read one char and add it to the buffer if ok:
-    char c = Serial.read();
-    if (c !=initChar){
-      incomingBuffer[currentCharCount++] = c;
-    }
-  }
-}
 
 void doComm(){
   //Serial.write((byte*)outgoingBuffer,outgoingMsgSize);
-  
   for (int i=0;i<outgoingMsgSize;i++){
     Serial.write(outgoingBuffer[i]);
   } 
-  
 } 
 
 void executeIncomingString(){
@@ -51,14 +37,22 @@ void executeIncomingString(){
 }
 
 void processIncomingAtom(){
-  // read characters on the Serial object one by one,
   // if a full message has been read, process it and reset counter
-  // otherwise continue reading
-  //
-  // If we have a full message and can process it
+  // otherwise do nothing
   if (currentCharCount == incomingMsgSize) {
     executeIncomingString();
     currentCharCount = 0;
+  }
+}
+void readIntoAtom(){
+  // if there's something to read, add it to the incoming buffer and update the
+  // charcter count
+  if (Serial.available() > 0) {
+    // read one char and add it to the buffer if ok:
+    char c = Serial.read();
+    if (c !=initChar){
+      incomingBuffer[currentCharCount++] = c;
+    }
   }
 }
 
