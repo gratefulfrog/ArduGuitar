@@ -88,7 +88,7 @@ void onBluetoothDataEvent(String who, byte[] data){
         model.hal.initialized = true;
       }
       else{ // ignore since we got an extra initChar! (I hope).
-        msg("received extra init char");
+        println("received extra init char");
       }  
     }
     // FIX 
