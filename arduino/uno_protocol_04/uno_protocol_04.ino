@@ -1,7 +1,5 @@
-/* micro_protocol 04:
- * seems to work with the guitar but more tests are needed
- * NOTE: THE SERIAL MONITOR MIUST BE ACTIVE FOR THIS TO START UP
- * uses ArduCom librairy
+/* uno_protocol 04:
+ * uses ArduCom librairy, fixed to work for tests on a uno
  * 2013 09 12: uses progressive changing of PWM values to try to reduce "popping" sounds in amp
  * clears incoming buffer on error...
  * implements a serial protocol for receiving 5 bytes and translating them into
@@ -16,7 +14,7 @@
  */
 
 // change USB_SERIAL to 0 to use the tx and rx pins
-#define USB_SERIAL 0  
+#define USB_SERIAL 1  
 #if (USB_SERIAL)
 #define SERIAL_CLASS Serial
 #define SERIAL_CLASS_STRING "Serial"
@@ -130,6 +128,7 @@ boolean isPWM(const int p){
   // returns true if p is a member of pwmPins
   return isIn(p,pwmPins,nbPWMPins);
 }
+
 
 void  clearIncoming(){
   // somthing has gone wrong, clear the incoming serial stream.
@@ -259,7 +258,7 @@ void pinSetup(){
 }
 
 void setup(){
-  pwmSetup();
+  //pwmSetup();
   serialSetup();
   //protocolSetup();
   pinSetup();

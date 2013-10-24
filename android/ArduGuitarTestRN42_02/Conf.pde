@@ -117,8 +117,8 @@ class ArduGuitarConf {
     public String errorKey = "e";
     public String initChar = "A";
     //public String btName = "RN42-461A";
-    public String btName = "arduguitar-01";
-    //public String btName = "arduguitar-02";
+    //public String btName = "arduguitar-01";
+    public String btName = "arduguitar-02";
     
     //String btAddress = "00:06:66:60:46:1A";  
     // linvor on-board Ibanez RG-140  -- 
