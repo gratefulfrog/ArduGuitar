@@ -16,23 +16,23 @@
  This example code is in the public domain.
  	 
  */
- 
 #include <SD.h>
-
-File myFile;
-
-char dFile[] = "data.tsv",
-     cFile[] = "cycle.tsv";
 
 struct presetStruct{
   String name;
   int val[6];
 } ;
 
-struct autoStruct{
+struct autoStruct {
   String name;
   int ms;
-};
+} ;
+
+File myFile;
+
+char dFile[] = "data.tsv",
+     cFile[] = "cycle.tsv";
+
 
 struct presetStruct presets[4];
 struct autoStruct autos[10];
