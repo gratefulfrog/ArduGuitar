@@ -31,9 +31,13 @@ Woman	1500
 Jazz	1500
 Comp	1500
 
+ ***  THIS IS DUMB! Put it in the other order:
+ 14 bits of delay  !!!
+ 2 bits of index !!!
+
  * the struct autoStruct is a circular linked list of unsigned ints which encode
  i:2 the index of the presset in the mapp
- i:14  the delay in milliseconds must be less than or equal to 2^15 -1  32767
+ i:14  the delay in milliseconds must be less than or equal to 2^14 -1 = 16383
 
 output cycling:
 9: 1500
@@ -51,7 +55,7 @@ Done.
 
 #include <SD.h>
 
-#define MAX_DELAY   (32767)
+#define MAX_DELAY   (16383)
 #define A_DELAY (0B11111111111111)
 #define A_SHIFT (14)
 #define A_INDEX (0B11)
