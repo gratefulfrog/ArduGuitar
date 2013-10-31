@@ -43,12 +43,12 @@
 
 class confClass {
  private:
-  const static String onOffString[2], //{"000","255"};// off, on, i.e. 0,1
-                      pickupPinStrings[4],
-                      volPinStrings[3],
-                      tonePinString,  
-                      volSettingsStrings[3][6], 
-                      toneSettingsStrings[6];
+  const static char onOffString[][4], //{"000","255"};// off, on, i.e. 0,1
+                      pickupPinStrings[][3],
+                      volPinStrings[][3],
+                      tonePinString[],  
+                      volSettingsStrings[][6][4], 
+                      toneSettingsStrings[][4];
   
   String setVT(byte id, byte val,boolean force);
   String setPup(byte id, byte val,boolean force);

@@ -4,17 +4,17 @@
  
 #include "confClass.h"
 
-const String confClass::onOffString[] = {"000","255"},// off,on, i.e. 0,1
-             confClass::pickupPinStrings[]   = {"02", //neck
+const char confClass::onOffString[][4] = {"000","255"},// off,on, i.e. 0,1
+           confClass::pickupPinStrings[][3]   = {"02", //neck
                                                 "03", // middlePin
        		                                "04", //bridgePin
                                                 "05"},  // splitPin
-             confClass::volPinStrings[] = {"09","10","12"},
-             confClass::tonePinString    = "11",
-             confClass::volSettingsStrings[][6] = {{"000","012","014","018","027","255"},  // volPWM[0]-> volPins[0]
-    		                                   {"255","030","020","015","013","000"},  // volPWM[1]-> volPins[1]
-		                                   {"000","000","000","000","000","255"}}, // 3rd vactrol for max volume: volPWM[2]-> volPins[2]
-             confClass::toneSettingsStrings[] = {"255","090","046","027","017","000"};  // tone levels: [0,1,2,3,4,5]  
+           confClass::volPinStrings[][3] = {"09","10","12"},
+           confClass::tonePinString[]    = "11",
+             confClass::volSettingsStrings[][6][4] = {{"000","012","014","018","027","255"},  // volPWM[0]-> volPins[0]
+    		                                      {"255","030","020","015","013","000"},  // volPWM[1]-> volPins[1]
+		                                      {"000","000","000","000","000","255"}}, // 3rd vactrol for max volume: volPWM[2]-> volPins[2]
+             confClass::toneSettingsStrings[][4] = {"255","090","046","027","017","000"};  // tone levels: [0,1,2,3,4,5]  
           
 biInc confClass::vtSettings[2] = {biInc(5), 
                                   biInc(5)};  // vol tone
@@ -59,11 +59,11 @@ String confClass::vtString (byte i){
   //Serial.print ("calling vtString on: " + String(i) + " with val: " + String(val) + ".\n");
   String ret = "";
   if (i == 1){  // tone to do
-    ret += tonePinString + toneSettingsStrings[val];
+    ret += String(tonePinString) + String(toneSettingsStrings[val]);
   }
   else {
     for (int i=0;i < 3; i++){
-      ret += volPinStrings[i] + volSettingsStrings[i][val];
+      ret += String(volPinStrings[i]) + String(volSettingsStrings[i][val]);
     }
   }
   return ret;
@@ -73,18 +73,18 @@ String confClass::pupString(byte i){
   int v = pupSettings[i].getVal();
   String ret = "";
   if (i < 2){    
-    ret += pickupPinStrings[i]  + onOffString[v];
+    ret += String(pickupPinStrings[i])  + String(onOffString[v]);
   }
   else {
     switch(v) {
       case 0:  // bridge off
-        ret += pickupPinStrings[2] + onOffString[0] + pickupPinStrings[3] + onOffString[0];
+        ret += String(pickupPinStrings[2]) + String(onOffString[0]) + String(pickupPinStrings[3]) + String(onOffString[0]);
         break;
       case 1:  // bridge both
-        ret += pickupPinStrings[2] + onOffString[1] + pickupPinStrings[3] + onOffString[0];
+        ret += String(pickupPinStrings[2]) + String(onOffString[1]) + String(pickupPinStrings[3]) + String(onOffString[0]);
         break;
       case 2:  // bridge split
-        ret += pickupPinStrings[2] + onOffString[1] + pickupPinStrings[3] + onOffString[1];
+        ret += String(pickupPinStrings[2]) + String(onOffString[1]) + String(pickupPinStrings[3]) + String(onOffString[1]);
         break;
     }
   }
