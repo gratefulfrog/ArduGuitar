@@ -125,7 +125,8 @@ String confClass::incVT(byte i, int sens){ // id =0 Vol, id = 1 tone
 }
   
 String confClass::incPup(byte i) {  // always something to do
-  pupSettings[i].incState();
+  //pupSettings[i].incState();
+  pupSettings[i].inc();
   return pupString(i);
 }
 // FIX

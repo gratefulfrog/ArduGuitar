@@ -38,7 +38,6 @@
 
 #include <Arduino.h>
 #include <SDReader.h>
-#include "biInc.h"
 #include "cyclerClass.h"
 
 class confClass {
