@@ -42,6 +42,50 @@
 
 class confClass {
  private:
+   const byte offOn[] = {0,255},
+              pickupPins[] = {2,3,4,5},
+              volPins[]    = {9,10,12},
+              tonePin      = 11,
+              volSettings[][6] = {{0,  12,14,18,27,255},  // volPWM[0]-> volPins[0]
+    		                  {255,30,20,15,13,  0},  // volPWM[1]-> volPins[1]
+                                  {0,   0, 0, 0, 0,255}}, // 3rd vactrol for max volume: volPWM[2]-> volPins[2]
+              toneSettings[4]  =  {255,90,46,27,17,  0};
+              
+  void pickupMsg(char *b, byte pickupID){
+     b2a(b,pickupPins[pickupId]); // the pin
+     b2a(b+2,offOn[pickupSettings(pickupId)]);  // the value
+  }
+  void toneMsg(char *b){
+     b2a(b,tonePin); // the pin
+     b2a(b+2,toneSettings[toneVal()]); // the value
+  }
+  void volMsg(char *b){
+    for (byte i =0;i<3,i++){
+      b2a(b[i*5],volPins[i]);  // the pin
+      b2a(b[i*5)+2],volSettings[i][volVal()]);
+    }
+  }  
+  void b2a(char *buf, byte b){
+    if(b<100){
+      buf[0] = b/10;
+      buf[1] = b%10;
+    }
+    else{
+      buf[0] = b/100;
+      buf[1] = (b%100)/10;
+      buf[2] = b%10;
+    }
+  }
+  /*
+  vol:3
+  tone:3
+  neck:1
+  middle:1
+  bridgeN:1
+  BridgeB:1
+  */
+  unsigned int currentSettings = 0;  
+                
   const static char onOffString[][4], //{"000","255"};// off, on, i.e. 0,1
                       pickupPinStrings[][3],
                       volPinStrings[][3],
