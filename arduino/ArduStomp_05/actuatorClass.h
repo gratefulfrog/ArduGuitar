@@ -27,7 +27,7 @@ class actuatorClass {
     deBounceButton   b;
     
   public:
-    actuatorClass(int pin, doerFunPtr f);
+    actuatorClass(byte pin, doerFunPtr f);
     void update();  
 };
 
