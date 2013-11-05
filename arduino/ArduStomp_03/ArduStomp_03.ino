@@ -548,14 +548,14 @@ void setup(){
 }
 
 void loop(){
-  for (int i = 0;i<nbButtons;i++){
-    actuators[i]->update();
-    //actuators[i].update();
+  for (byte b = 0;i<NB_ACTUATORS;v++){
+    if(actuators[b]->update()){
+      break;
   }
   if (conf.autoRunning()){
     checkAuto();
   }
-  c->stepLoop();
+  as->c->stepLoop();
 }
 
 
