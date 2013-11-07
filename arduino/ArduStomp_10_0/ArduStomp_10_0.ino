@@ -1,3 +1,4 @@
+//  -*-C++-*-
 /* ArduStomp_10_0
  * rething after SRAM and PROGMEM issues:
  ** make it simpler
@@ -10,6 +11,7 @@
  */
 
 #include <Arduino.h>
+#include <SPI.h>
 #include <ArduConf00.h>
 #include <State.h>
 #include <DebounceButton.h>
@@ -18,13 +20,11 @@
 #include <RN42autoConnectOpt.h>
 #include <SD.h>
 #include <SDReader.h>
+#include <LEDManager.h>
 #include <Actuator.h>
 #include <ArduStomp.h>
 
 ///////////////////////////////////////////////////////
-
-
-
 void setup(){
   ArduStomp::init();
   Actuator::init(ArduStomp::as);
@@ -32,11 +32,12 @@ void setup(){
 
 void loop(){
   if(Actuator::allOK){
-      for (byte b = 0;i<NB_ACTUATORS;b++){
-        if (actuators[b]->update()){
-	  break;
-        }
+    for (byte b = 0;b<NB_ACTUATORS;b++){
+      if (Actuator::actuators[b] && 
+          Actuator::actuators[b]->update()){
+	break;
       }
+    }
   }
   if(Actuator::allOK){
     ArduStomp::as->checkAuto();
