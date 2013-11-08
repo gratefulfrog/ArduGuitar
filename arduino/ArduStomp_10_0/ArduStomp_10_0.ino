@@ -24,12 +24,60 @@
 #include <Actuator.h>
 #include <ArduStomp.h>
 
-///////////////////////////////////////////////////////
-void setup(){
-  ArduStomp::init();
-  Actuator::init(ArduStomp::as);
+int freeRam (){
+  extern int __heap_start, *__brkval;
+  int v;
+  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 }
 
+///////////////////////////////////////////////////////
+void setup(){
+  Serial.begin(115200);
+  while(!Serial);
+  delay(5000);
+  Serial.println("Starting...");
+  Serial.print("Free Ram: ");
+  Serial.println(freeRam());
+
+  ArduStomp::init();
+  Serial.println("return from ArduStomp::init()...");
+  Serial.print("Free Ram: ");
+  Serial.println(freeRam());
+  
+  Actuator::init(ArduStomp::as);
+  Serial.println("return from Actuator::init(ArduStomp::as)...");
+  Serial.print("Free Ram: ");
+  Serial.println(freeRam());
+  LEDManager::set(ArduConf00::powerID,1);     // set the power led
+  LEDManager::set(ArduConf00::connectID,1);     // set the connect led
+
+}
+/*
+void loop(){
+  ArduStomp::as->stepAlarm();
+  //delay(5000);
+  Serial.print("Free Ram: ");
+  Serial.println(freeRam());
+}
+/*
+void loop(){
+  ArduStomp::as->stepAlarm();
+}
+*/
+void loop(){}
+/*
+void loop(){
+  if(Actuator::allOK){
+    for (byte b = 0;b<NB_ACTUATORS;b++){
+      if (Actuator::actuators[b] && 
+          Actuator::actuators[b]->update()){
+	break;
+      }
+    }
+  }
+}
+*/
+/*
 void loop(){
   if(Actuator::allOK){
     for (byte b = 0;b<NB_ACTUATORS;b++){
@@ -48,4 +96,4 @@ void loop(){
   }
 }
 
-
+*/
