@@ -49,7 +49,6 @@ void setup(){
   freeRam();
   ArduStomp::as->doPreset();
   Serial.println("Xsetup");
-
 }
 /*
 void loop(){
@@ -92,7 +91,7 @@ void loop(){
     }
   }
   if(Actuator::allOK){
-    //ArduStomp::as->checkAuto();
+    ArduStomp::as->checkAuto();
     ArduStomp::as->com->stepLoop();
   }
   else{ // it's broken, tell the world!
