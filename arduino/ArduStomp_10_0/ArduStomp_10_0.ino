@@ -25,9 +25,6 @@
 #include <ArduStomp.h>
 #include <outils.h>
 
-// temp for DEBUG
-long lastRamCheckTime = millis();
-int freeRameCheckDelay = 10000;
 
 ///////////////////////////////////////////////////////
 void setup(){
@@ -38,18 +35,41 @@ void setup(){
   freeRam();
 
   ArduStomp::init();
-  Serial.println("XArduStomp::init");
+  //Serial.println("XArduStomp::init");
   //freeRam();
   
   Actuator::init(ArduStomp::as);
-  Serial.println("XActuator::init");
+  //Serial.println("XActuator::init");
   //freeRam();
   LEDManager::set(ArduConf00::powerID,1);     // set the power led
   LEDManager::set(ArduConf00::connectID,1);     // set the connect led
   freeRam();
   ArduStomp::as->doPreset();
-  Serial.println("Xsetup");
+  //Serial.println("Xsetup");
 }
+
+void loop(){
+  if(Actuator::allOK){
+    for (byte b = 0;b<NB_ACTUATORS;b++){
+      freeRam();
+      if (Actuator::actuators[b] && 
+          Actuator::actuators[b]->update()){
+	break;
+      }
+    }
+  }
+  if(Actuator::allOK){
+    ArduStomp::as->checkAuto();
+    ArduStomp::as->com->stepLoop();
+  }
+  else{ // it's broken, tell the world!
+    ArduStomp::as->stepAlarm();
+  }
+  //ArduStomp::as->com->stepLoop();
+  checkRam();
+}
+
+
 /*
 void loop(){
   ArduStomp::as->stepAlarm();
@@ -73,33 +93,7 @@ void loop(){
   }
 }
 */
-void checkRam(){
-  if (millis() - lastRamCheckTime > freeRameCheckDelay){
-    lastRamCheckTime = millis();
-    freeRam(true);
-  }
-}  
 
-void loop(){
-  if(Actuator::allOK){
-    for (byte b = 0;b<NB_ACTUATORS;b++){
-      freeRam();
-      if (Actuator::actuators[b] && 
-          Actuator::actuators[b]->update()){
-	break;
-      }
-    }
-  }
-  if(Actuator::allOK){
-    ArduStomp::as->checkAuto();
-    ArduStomp::as->com->stepLoop();
-  }
-  else{ // it's broken, tell the world!
-    ArduStomp::as->stepAlarm();
-  }
-  //ArduStomp::as->com->stepLoop();
-  checkRam();
-}
 
 /*
 void loop(){
