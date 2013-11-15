@@ -41,8 +41,6 @@ void setup(){
   Actuator::init(ArduStomp::as);
   //Serial.println("XActuator::init");
   //freeRam();
-  LEDManager::set(ArduConf00::powerID,1);     // set the power led
-  LEDManager::set(ArduConf00::connectID,1);     // set the connect led
   freeRam();
   ArduStomp::as->doPreset();
   //Serial.println("Xsetup");
