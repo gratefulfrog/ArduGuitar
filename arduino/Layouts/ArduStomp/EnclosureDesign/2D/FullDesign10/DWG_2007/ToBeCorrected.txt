@@ -20,6 +20,8 @@
    move the slot on the SD card reader plate forward 1.5mm.
 7. Fixed in FullDesign10_3mm_text_all_arcs_mirror_15_Laid_out.dwg
    mark all arcs to id side!
+9. Fixed:
+   Remove bolt fittings from front an back panel.
 
 At cut time: 
 1. Be sure that the text is backwards but upright.
