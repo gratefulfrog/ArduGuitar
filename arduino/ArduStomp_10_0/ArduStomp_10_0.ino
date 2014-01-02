@@ -1,5 +1,10 @@
 //  -*-C++-*-
 /* ArduStomp_10_0
+ * 2014 02 02:
+ *  all debugging removed.
+ *  Loaded in Arduino Micro 2014 02 02 15:20
+ *  tested stand alone, 2014 01 02 15:20
+ *********************
  * rething after SRAM and PROGMEM issues:
  ** make it simpler
  ** make it more efficient in mem usage
@@ -29,10 +34,10 @@
 ///////////////////////////////////////////////////////
 void setup(){
   Serial.begin(115200);
-  while(!Serial);
-  delay(5000);
+  //while(!Serial);
+  //delay(5000);
   //Serial.println("Starting");
-  freeRam();
+  //freeRam();
 
   ArduStomp::init();
   //Serial.println("XArduStomp::init");
@@ -41,7 +46,6 @@ void setup(){
   Actuator::init(ArduStomp::as);
   //Serial.println("XActuator::init");
   //freeRam();
-  freeRam();
   ArduStomp::as->doPreset();
   //Serial.println("Xsetup");
 }
@@ -49,7 +53,7 @@ void setup(){
 void loop(){
   if(Actuator::allOK){
     for (byte b = 0;b<NB_ACTUATORS;b++){
-      freeRam();
+      //freeRam();
       if (Actuator::actuators[b] && 
           Actuator::actuators[b]->update()){
 	break;
@@ -63,53 +67,6 @@ void loop(){
   else{ // it's broken, tell the world!
     ArduStomp::as->stepAlarm();
   }
-  //ArduStomp::as->com->stepLoop();
-  checkRam();
+  //checkRam();
 }
 
-
-/*
-void loop(){
-  ArduStomp::as->stepAlarm();
-  //delay(5000);
-  freeRam();
-}
-/*
-void loop(){
-  ArduStomp::as->stepAlarm();
-  freeRam();
-}
-*/
-//void loop(){}
-/*
-void loop(){
-  if(Actuator::allOK){
-    for (byte b = 0;b<NB_ACTUATORS;b++){
-      if (Actuator::actuators[b])
-          freeRam();
-      }
-  }
-}
-*/
-
-
-/*
-void loop(){
-  if(Actuator::allOK){
-    for (byte b = 0;b<NB_ACTUATORS;b++){
-      if (Actuator::actuators[b] && 
-          Actuator::actuators[b]->update()){
-	break;
-      }
-    }
-  }
-  if(Actuator::allOK){
-    ArduStomp::as->checkAuto();
-    ArduStomp::as->com->stepLoop();
-  }
-  else{ // it's broken, tell the world!
-    ArduStomp::as->stepAlarm();
-  }
-}
-
-*/
