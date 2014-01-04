@@ -1,0 +1,52 @@
+Tod:
+4. get the thickness of the 6mm plexi when it is available to be sure, my guess
+   is that it, like the wood, is 6.2mm thick.
+---
+Done:
+1. Fixed in FullDesign10_6mm_mirror_reverse13_laid_out.dwg 
+   Check the engraved line on the back for millions of copies of the line,
+2. Fixed in FullDesign10_6mm_mirror_reverse13_laid_out.dwg 
+   fix the position of the neck middle and bridge labels,
+6. Fixed in FullDesign10_3mm_text_all_arcs_mirror_15_Laid_out.dwg
+   move the slot on the SD card reader plate forward 1.5mm.
+7. Fixed in FullDesign10_3mm_text_all_arcs_mirror_15_Laid_out.dwg
+   mark all arcs to id side!
+9. Fixed:
+   Remove bolt fittings from front an back panel.
+10.Fixed in Plexi_6x6_2thick_v11_1.dwg
+   reduce the height of front and back panel so no milling will be needed post
+   laser cutting: this means offsetting the mark upwards, then trimming the
+   original top sections so only the lowest horizontal line is the top.
+8. Fixed in Plexi_6x6_2thick_v11_1.dwg
+   set the length of the bolt slots to 16mm so that the bolts fit with no 
+   cutting!!
+   if they are all extended to 16mm, before offset, then 50mm long bolts fit
+   the arcs (30+6+16 = 52 >50) and for the short ones, 16+6 = 22 > 20.
+5. Done in the Arcs, worked perfectly! Plexi_3_target6x6_2thick_v11_1.dwg
+   square hole units are components so they adjust automatically everywhere!
+3. Done in both 6mm and 3mm files:
+   Plexi_6x6_2thick_v11_1.dwg
+   Plexi_3_target6x6_2thick_v11_1.dwg
+   correct all the holes which depend on the width of the 6mm wood or plexi.
+   - currently they are at 5.8 x 5.8 which makes 6.1 x 6.1.
+   - they should be 5.8 on the cut side and 6.1 on the width side so as to
+     obtain a final hole 6.1 x 6.4 for a peg 5.9 x 6.2.  So that means that
+     the dimension before offset is 6 x 6.3 leading to 5.8 x 6.1 after offset
+     leading to 6.1 x 6.4 after cut.
+
+At cut time: 
+1. Be sure that the text is backwards but upright.
+2. Make one more test in 6mm & 3mm plexiglass, tiny small scale!
+3. Use wood for the 6mm base, plexiglass everywhere else!
+
+Now:
+1. Done 2013 12 23
+   pay for the work done
+2. Done 2014 01 02:
+   order 6mm & 3mm transparent plexi.
+
+When the plexi has arrived:
+1. measure the exact thicknesses to confirm the cut width.
+2. make a test with both 6mm and 3mm to check the conforming.
+2. remodel as needed.
+
