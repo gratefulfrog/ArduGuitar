@@ -1,6 +1,12 @@
-Tod:
-4. get the thickness of the 6mm plexi when it is available to be sure, my guess
-   is that it, like the wood, is 6.2mm thick.
+When the plexi has arrived:
+1. measure the exact thicknesses to confirm the cut width.
+2. remodel as needed.
+
+At cut time: 
+1. Be sure that the text is backwards but upright.
+2. Make one more test in 6mm & 3mm plexiglass, tiny small scale!
+3. Use wood for the 6mm base, plexiglass everywhere else!
+
 ---
 Done:
 1. Fixed in FullDesign10_6mm_mirror_reverse13_laid_out.dwg 
@@ -12,7 +18,9 @@ Done:
 7. Fixed in FullDesign10_3mm_text_all_arcs_mirror_15_Laid_out.dwg
    mark all arcs to id side!
 9. Fixed:
-   Remove bolt fittings from front an back panel.
+   Remove bolt fittings from front and back panel.
+4. Fixed in Plexi_6x6_2thick_v11_1.dwg
+   Model based on guess of 6.2mm for plexi
 10.Fixed in Plexi_6x6_2thick_v11_1.dwg
    reduce the height of front and back panel so no milling will be needed post
    laser cutting: this means offsetting the mark upwards, then trimming the
@@ -33,20 +41,9 @@ Done:
      obtain a final hole 6.1 x 6.4 for a peg 5.9 x 6.2.  So that means that
      the dimension before offset is 6 x 6.3 leading to 5.8 x 6.1 after offset
      leading to 6.1 x 6.4 after cut.
-
-At cut time: 
-1. Be sure that the text is backwards but upright.
-2. Make one more test in 6mm & 3mm plexiglass, tiny small scale!
-3. Use wood for the 6mm base, plexiglass everywhere else!
-
-Now:
+----
+Other Stuff:
 1. Done 2013 12 23
    pay for the work done
 2. Done 2014 01 02:
    order 6mm & 3mm transparent plexi.
-
-When the plexi has arrived:
-1. measure the exact thicknesses to confirm the cut width.
-2. make a test with both 6mm and 3mm to check the conforming.
-2. remodel as needed.
-
