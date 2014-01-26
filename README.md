@@ -5,6 +5,13 @@ Electric guitars with Arduinos inside
 
 by gratefulfrog on www.arduguitar.org
 
+V1.1 : ArduStomp and ArduGuitar updated functionality
+
+The ArduStomp pedal interface works well and the updated Android GUI does too!
+
+Now ready to move on to Ardu2 !
+-------------
+
 V1.0 : a fully functional Android App with Automation capability!
 
 The sound is near perfect, there are no known bugs! 
