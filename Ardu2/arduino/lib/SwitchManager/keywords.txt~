@@ -1,0 +1,6 @@
+SwitchControl	KEYWORD1
+init	KEYWORD2
+setSwitchVal	KEYWORD2
+executeSwitching	KEYWORD2
+
+

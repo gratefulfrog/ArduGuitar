@@ -1,0 +1,50 @@
+// -*- c++ -*-
+/* SwitchManager.cpp
+ */
+
+#include <SwitchManager.h>
+#include <Ardu2Conf.h>
+#include <SPI.h>
+
+
+void SwitchManager::init(){
+  pinMode(LATCHPIN, OUTPUT);
+  SPI.begin();
+  SPI.setBitOrder(MSBFIRST);
+}
+
+void SwitchManager::setSwitchVal(byte SwitchID, byte val){
+  // this will update the onVec and OffVec as per args
+}
+
+void SwitchManager::executeSwitching(){
+  //Serial.print("Called SwitchManager::executeSwitching:\t" );
+
+  // turn off the output so the leds don't light up
+  // while you're shifting bits:
+  digitalWrite(LATCHPIN, LOW);
+  delay(5);
+
+  for (byte i=0;i<NB_SHIFT_REGS;i++){
+    Ardu2Conf::curVec[i] |= Ardu2Conf::onVec[i];  
+    SPI.transfer(curVec[i]);
+  }
+  // 'make before' now ready
+  // turn on the output so the switches can "Make":
+  digitalWrite(LATCHPIN, HIGH);
+  delay(5);
+
+  // now do the "Break"
+  digitalWrite(LATCHPIN, LOW);
+  delay(5);
+  for (byte i = 0;i<NB_SHIFT_REGS;i++){
+    Ardu2Conf::curVec[i] &= Ardu2Conf::offVec[i];  
+    SPI.transfer(curVec[i]);
+  }
+  // 'break' now ready
+  digitalWrite(LATCHPIN, HIGH);
+  delay(5);
+}
+
+
+
