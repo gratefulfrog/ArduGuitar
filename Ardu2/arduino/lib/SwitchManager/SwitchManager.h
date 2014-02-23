@@ -52,6 +52,8 @@
 #include <Ardu2Conf.h>
 
 class SwitchManager {
+private:
+  static byte mask(byte size);
 
 public:
   static void init();

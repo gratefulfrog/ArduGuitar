@@ -31,39 +31,39 @@
 #define MASTER_TONE             (18)
 
 // Switch Control Values
-#define INVERTER_FORWARD        (5)
-#define INVERTER_INVERTED       (10)
-#define INVERTER_OFF            (0)
-#define VOL_0                   (0)  
-#define VOL_1                   (1) 
-#define VOL_2                   (2)
-#define VOL_3                   (4)
-#define VOL_4                   (8)
-#define VOL_5                   (16)
-#define TONE_0                  (0)  
-#define TONE_1                  (1)
-#define TONE_2                  (2) 
-#define TONE_3                  (3)
-#define TONE_4                  (4)
-#define TONE_5                  (5)
-#define TONE_6                  (6)
-#define TONE_7                  (7)
-#define TONE_8                  (8)
-#define TONE_9                  (9)
-#define TONE_10                 (10)
-#define TONE_11                 (11)
-#define TONE_12                 (12)
-#define TONE_13                 (13)
-#define TONE_14                 (14)
-#define TONE_15                 (15)
-#define COMBINATOR_SERIES       (2)
-#define COMBINATOR_PARALLEL     (5)
-#define COMBINATOR_A            (4)
-#define COMBINATOR_B            (1)
-#define SELECTOR_A              (5)
-#define SELECTOR_B              (10)
-#define SELECTOR_A_B            (15)
-#define SELECTOR_NONE           (0)
+#define INVERTER_FORWARD        (5)  //   0101
+#define INVERTER_INVERTED       (10) //   1010
+#define INVERTER_OFF            (0)  //   0000
+#define VOL_0                   (1)  // 000001
+#define VOL_1                   (2)  // 000010
+#define VOL_2                   (4)  // 000100
+#define VOL_3                   (8)  // 001000
+#define VOL_4                   (16) // 010000
+#define VOL_5                   (32) // 100000
+#define TONE_0                  (0)  //   0000  
+#define TONE_1                  (1)  //   0001
+#define TONE_2                  (2)  //   0010
+#define TONE_3                  (3)  //   0011
+#define TONE_4                  (4)  //   0100
+#define TONE_5                  (5)  //   0101
+#define TONE_6                  (6)  //   0110
+#define TONE_7                  (7)  //   0111
+#define TONE_8                  (8)  //   1000
+#define TONE_9                  (9)  //   1001
+#define TONE_10                 (10) //   1010
+#define TONE_11                 (11) //   1011
+#define TONE_12                 (12) //   1100
+#define TONE_13                 (13) //   1101
+#define TONE_14                 (14) //   1110
+#define TONE_15                 (15) //   1111
+#define COMBINATOR_SERIES       (2)  //    010
+#define COMBINATOR_PARALLEL     (5)  //    101
+#define COMBINATOR_A            (4)  //    100
+#define COMBINATOR_B            (1)  //    001
+#define SELECTOR_A              (5)  //   0101
+#define SELECTOR_B              (10) //   1010
+#define SELECTOR_A_B            (15) //   1111
+#define SELECTOR_NONE           (0)  //   0000
 
 // PINS
 #define LATCH_PIN (13)
@@ -76,7 +76,7 @@ class Ardu2Conf {
 
   static const byte startIndex[];
   static byte curVec[], 
-    onVec[], 
+    onVec[],
     offVec[];
   static void resetVecs(boolean all=false);
   static void init();  // initialize static variables

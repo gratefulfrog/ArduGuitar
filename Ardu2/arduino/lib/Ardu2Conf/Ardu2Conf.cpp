@@ -22,12 +22,13 @@ const byte Ardu2Conf::startIndex[] = {0, // inverter Neck North
 				      65, // combintaor Bridge-Neck
 				      68, // selector
 				      72, // master vol
-				      78  // master tone
+				      78, // master tone
+				      82  // empty space
 };
 
 byte Ardu2Conf::curVec[NB_SHIFT_REGS],
-    Ardu2Conf::onVec[NB_SHIFT_REGS], 
-    Ardu2Conf::offVec[NB_SHIFT_REGS];
+  Ardu2Conf::onVec[NB_SHIFT_REGS],
+  Ardu2Conf::offVec[NB_SHIFT_REGS];
 
 void Ardu2Conf::resetVecs(boolean all){  // initialize static variables
   for (byte i=0;i<NB_SHIFT_REGS;i++){

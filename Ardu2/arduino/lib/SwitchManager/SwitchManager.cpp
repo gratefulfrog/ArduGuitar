@@ -10,6 +10,15 @@ void SwitchManager::init(){
   SPI.setBitOrder(MSBFIRST);
 }
 
+byte SwitchManager::mask(byte size){
+  // return a byte with size number of 1s on the right 
+  byte res=0;
+  for (byte i=0;i<size;i++){
+    res |= (1<<i);
+  }
+  return res;
+}
+
 void SwitchManager::setSwitchVal(byte switchId, byte val){
   // this will update the onVec and OffVec as per args
   /* it's not so straightforward.
@@ -36,11 +45,15 @@ void SwitchManager::setSwitchVal(byte switchId, byte val){
   byte byteIndex = startingPoint/8,
     offset = startingPoint % 8;
   Ardu2Conf::onVec[byteIndex] |= (val << offset);
-  Ardu2Conf::offVec[byteIndex]  ^= ((~val) << offset);
-  
-  if (val >> offset >0){ 
+
+  byte size = Ardu2Conf::startIndex[switchId+1] - startingPoint;
+  byte msk = SwitchManager::mask(size);
+  byte xOrTemp = msk ^ val;
+  Ardu2Conf::offVec[byteIndex]  ^= (xOrTemp << offset);
+
+  if ((val >> (8-offset)) >0){ 
     Ardu2Conf::onVec[byteIndex+1] |= (val >> (8-offset));
-    Ardu2Conf::offVec[byteIndex+1] ^= ((~val) >> (8-offset));
+    Ardu2Conf::offVec[byteIndex]  ^= (xOrTemp >> (8-offset));
   }
 }
 
@@ -71,6 +84,7 @@ void SwitchManager::executeSwitching(){
   // 'break' now ready
   digitalWrite(LATCH_PIN, HIGH);
   delay(5);
+  Ardu2Conf::resetVecs();
 }
 
 
