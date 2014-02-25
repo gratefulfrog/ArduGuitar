@@ -19,41 +19,63 @@ byte SwitchManager::mask(byte size){
   return res;
 }
 
-void SwitchManager::setSwitchVal(byte switchId, byte val){
+void SwitchManager::setSwitch(byte switchId, boolean val){
+  /* if val is true, turn on, else off
+   * this is called on individual SPST switch IDs
+   * switchId is on [0,81]
+   */
+  byte componentIndex = switchId/8,
+    offset = switchId % 8;
+  if (val){ // turn on a single switch
+    Ardu2Conf::onVec[componentIndex] |= (1 << offset);
+    //Serial.print("turning on: ");
+    //Serial.println(switchId);
+  }
+  else{ // turn off a single switch
+    byte msk = (254 << offset) | SwitchManager::mask(offset);
+    Ardu2Conf::offVec[componentIndex] &= msk;
+    //Serial.print("turning off: ");
+    //Serial.println(switchId);
+  }
+}
+
+
+void SwitchManager::setComponent(byte componentId, byte val){
   // this will update the onVec and OffVec as per args
+  // componentId is a value on[0,18]
   /* it's not so straightforward.
    * this is what happens:
-   * the switchId is used as an index in the Ardu2Conf::startIndex[]
+   * the componentId is used as an index in the Ardu2Conf::startIndex[]
    * from this we get the starting point SP.
-   * doing integer division, SP/8 -> byteIndex for the vectors
+   * doing integer division, SP/8 -> componentIndex for the vectors
    * and  SP % 8 -> offset within the byte, i.e. the amount that 
    * the val has to be left shifted before ORing it onto that byte.
-   * thus onVec[byteIndex] |= (val << offset);
+   * thus onVec[componentIndex] |= (val << offset);
    * then we need the not of val for the offVec to XOR it in to the offVec
-   * offVec[byteIndex]  ^= ((~val) << offset);  GOOD
+   * offVec[componentIndex]  ^= ((~val) << offset);  GOOD
    * then we have to see if the val is bigger than what was OR'd and XOR'd in.
    * so if (val >> offset >0  then there's more to do
-   * so take the next byte -> byteIndex+1
+   * so take the next byte -> componentIndex+1
    * and take the unprocessed part val >> (8-offset)
    * and OR it into the onVec
-   * onVec[byteIndex+1] |= (val >> (8-offset))
+   * onVec[componentIndex+1] |= (val >> (8-offset))
    * and then XOR the not of it onto the offVec
-   * offVec[byteIndex+1] ^= ((~val) >> (8-offset))
+   * offVec[componentIndex+1] ^= ((~val) >> (8-offset))
    */
 
-  byte startingPoint =  Ardu2Conf::startIndex[switchId];
-  byte byteIndex = startingPoint/8,
+  byte startingPoint =  Ardu2Conf::startIndex[componentId];
+  byte componentIndex = startingPoint/8,
     offset = startingPoint % 8;
-  Ardu2Conf::onVec[byteIndex] |= (val << offset);
+  Ardu2Conf::onVec[componentIndex] |= (val << offset);
 
-  byte size = Ardu2Conf::startIndex[switchId+1] - startingPoint;
+  byte size = Ardu2Conf::startIndex[componentId+1] - startingPoint;
   byte msk = SwitchManager::mask(size);
   byte xOrTemp = msk ^ val;
-  Ardu2Conf::offVec[byteIndex]  ^= (xOrTemp << offset);
+  Ardu2Conf::offVec[componentIndex]  ^= (xOrTemp << offset);
 
   if ((val >> (8-offset)) >0){ 
-    Ardu2Conf::onVec[byteIndex+1] |= (val >> (8-offset));
-    Ardu2Conf::offVec[byteIndex]  ^= (xOrTemp >> (8-offset));
+    Ardu2Conf::onVec[componentIndex+1] |= (val >> (8-offset));
+    Ardu2Conf::offVec[componentIndex]  ^= (xOrTemp >> (8-offset));
   }
 }
 

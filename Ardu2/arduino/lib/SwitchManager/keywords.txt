@@ -1,7 +1,7 @@
 SwitchManager	KEYWORD1
-init	KEYWORD2
 mask	KEYWORD2
-setSwitchVal	KEYWORD2
+init	KEYWORD2
+setSwitch	KEYWORD2
+setComponent	KEYWORD2
 executeSwitching	KEYWORD2
-
 

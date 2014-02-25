@@ -57,7 +57,8 @@ private:
 
 public:
   static void init();
-  static void setSwitchVal(byte switchId, byte val);
+  static void setSwitch(byte switchId, boolean val);
+  static void setComponent(byte componentId, byte val);
   static void executeSwitching();
 };
 
