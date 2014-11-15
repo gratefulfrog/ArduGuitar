@@ -1,0 +1,30 @@
+;;; parse.lisp
+;;; parsing coil-node expressions
+
+;;; lets say that the conenections data structure is a list:
+;;; ((out+) (out-) (internal connection) (internal connection) ...)
+;;;
+;;; (p (s n1 n2) n3))
+
+(define p (n1 n2)
+  (list (list (n+ n1) (n+ n2))
+	(list (n- n1) (n- n2))
+	()))
+
+(define s (n1 n2)
+  (list (list (n+ n1))
+	(list (n- n2))
+	(list (n- n1) (n+ n2))))
+
+(define n (nd ind)
+  (cond 
+   ((list nd) (nth ind nd))
+   (t (list (concatenate 'string (symbol-name nd) (get-sign ind))))))
+
+(define get-sign (ind)
+  (if (zerop ind) 
+      "+"
+    "-"))
+
+(define n+ (nd)
+  (concatenate 'string (symbol-name nd) "+"))

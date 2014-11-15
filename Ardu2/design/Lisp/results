@@ -1,0 +1,68 @@
+
+* (load "parse.lisp")
+
+T
+* (p 'a 'b)
+
+(("A+" "B+") ("A-" "B-") NIL)
+* (s 'a 'b)
+
+(("A+") ("B-") (("A-" "B+")))
+* (s (p 'a 'b)(p 'c 'd))
+
+(("A+" "B+") ("C-" "D-") (("A-" "B-" "C+" "D+")))
+* (s 'a (p (s 'b 'c) 'd))
+
+(("A+") ("C-" "D-") (("A-" "B+" "D+") ("B-" "C+")))
+* (p (s 'a (p 'b 'c)) 'd)
+
+(("A+" "D+") ("B-" "C-" "D-") (("A-" "B+" "C+")))
+* (dribble)
+
+* (load "parse.lisp")
+
+T
+* (connection-list (p 'a 'b))
+
+(("A+" "out+") ("B+" "out+") ("A-" "out-") ("B-" "out-"))
+* (connection-list (s 'a 'b))
+
+(("A+" "out+") ("B-" "out-") ("A-" "B+"))
+* (connection-list (s (p 'a 'b)(p 'c 'd)))
+
+(("A+" "out+") ("B+" "out+") ("C-" "out-") ("D-" "out-") ("C+" "D+")
+ ("B-" "C+") ("B-" "D+") ("A-" "B-") ("A-" "C+") ("A-" "D+"))
+* (connection-list  (s 'a (p (s 'b 'c) 'd)))
+
+(("A+" "out+") ("C-" "out-") ("D-" "out-") ("B+" "D+") ("A-" "B+") ("A-" "D+")
+ ("B-" "C+"))
+* (connection-list  (p (s 'a (p 'b 'c)) 'd))
+
+(("A+" "out+") ("D+" "out+") ("B-" "out-") ("C-" "out-") ("D-" "out-")
+ ("B+" "C+") ("A-" "B+") ("A-" "C+"))
+* (dribble)
+
+* (load "parse.lisp")
+
+T
+* (ss 'a 'b 'c)
+
+(("A+") ("C-") (("B-" "C+") ("A-" "B+")))
+* (pp 'a)
+
+(("A+") ("A-") NIL)
+* (pp 'a 'b 'c 'd)
+
+(("A+" "B+" "C+" "D+") ("A-" "B-" "C-" "D-") NIL)
+* (ss 'a 'b (pp 'c 'd))
+
+(("A+") ("C-" "D-") (("B-" "C+" "D+") ("A-" "B+")))
+* (connection-list (ss 'a 'b (pp 'c 'd)))
+
+(("A+" "out+") ("C-" "out-") ("D-" "out-") ("C+" "D+") ("B-" "C+") ("B-" "D+")
+ ("A-" "B+"))
+* (connection-list  (pp (ss 'a (p 'b 'c)) 'd))
+
+(("A+" "out+") ("D+" "out+") ("B-" "out-") ("C-" "out-") ("D-" "out-")
+ ("B+" "C+") ("A-" "B+") ("A-" "C+"))
+* (dribble)
