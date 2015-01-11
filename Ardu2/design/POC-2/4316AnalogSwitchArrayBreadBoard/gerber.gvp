@@ -1,5 +1,5 @@
 (gerbv-file-version! "2.0A")
-(define-layer! 7 (cons 'filename "GERBER/4316ArrayPCB_silkTop.gto")(cons 'visible #f)(cons 'color #(65535 50629 13107)))
+(define-layer! 7 (cons 'filename "GERBER/4316ArrayPCB_silkTop.gto")(cons 'visible #f)(cons 'color #(0 0 0)))
 (define-layer! 6 (cons 'filename "GERBER/4316ArrayPCB_silkBottom.gbo")(cons 'visible #f)(cons 'color #(53713 6939 26728)))
 (define-layer! 5 (cons 'filename "GERBER/4316ArrayPCB_maskTop.gts")(cons 'visible #f)(cons 'color #(54741 65021 13107)))
 (define-layer! 4 (cons 'filename "GERBER/4316ArrayPCB_maskBottom.gbs")(cons 'visible #f)(cons 'color #(0 50115 50115)))
