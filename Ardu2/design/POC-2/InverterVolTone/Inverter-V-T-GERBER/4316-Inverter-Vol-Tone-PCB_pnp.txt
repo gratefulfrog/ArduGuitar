@@ -1,0 +1,106 @@
+*Pick And Place List
+*Company=
+*Author=
+*eMail=
+*
+*Project=4316-Inverter-Vol-Tone-PCB
+*Date=22:17:37
+*CreatedBy=Fritzing 0.9.1b.11.19.8d2d5970658f0bed09c661c9ea9a515b5f40f44c
+*
+*
+*Coordinates in mm, always center of component
+*Origin 0/0=Lower left corner of PCB
+*Rotation in degree (0-360, math. pos.)
+*
+*No;Value;Package;X;Y;Rotation;Side;Name
+1;100k;THT;80.5188;-46.7208;0;Bottom;100kR
+2;;THT;25.9088;-41.6408;-90;Bottom;V-1.1
+3;;THT;36.0688;-41.6408;-90;Bottom;t200R v100%
+4;;THT;50.0388;-51.8008;-90;Bottom;V-2.2
+5;;THT;98.2988;-41.6408;-90;Bottom;V-
+6;;;74.0929;-22.9202;0;Bottom;Copper Fill61
+7;;;88.0629;-26.7302;0;Bottom;Copper Fill69
+8;;;26.8616;-27.7081;0;Bottom;Copper Fill79
+9;;;50.0137;-28.7114;0;Bottom;Copper Fill71
+10;;THT;80.5188;-39.1008;-90;Bottom;C-7
+11;;;41.9238;-26.4;0;Bottom;Copper Fill49
+12;;;24.8804;-23.8981;0;Bottom;Copper Fill74
+13;100k;THT;55.1188;-46.7208;0;Bottom;100kR
+14;;THT;32.2588;-39.1008;-90;Bottom;C-3
+15;;;23.3437;-28.7114;0;Bottom;Copper Fill80
+16;;THT;84.3288;-41.6408;-90;Bottom;tOn/Off v20%
+17;;THT;67.8188;-23.8608;-90;Bottom;t22R v40%
+18;;THT;37.3388;-23.8608;-90;Bottom;Out+
+19;;DIP (Dual Inline) [THT];17.0188;-31.4808;-90;Bottom;4316-1
+20;;THT;4.31877;-31.4808;0;Bottom;Coil
+21;;THT;8.12877;-39.1008;-90;Bottom;C-1
+22;;;51.1948;-26.8318;0;Bottom;Copper Fill6
+23;;;99.5689;-3.54067;0;Bottom;Hole4
+24;;;50.0137;-22.9202;0;Bottom;Copper Fill67
+25;;THT;98.2988;-39.1008;-90;Bottom;C-8
+26;;;26.8616;-23.8981;0;Bottom;Copper Fill75
+27;;;98.2229;-28.7114;0;Bottom;Copper Fill57
+28;;THT;80.5188;-41.6408;-90;Bottom;V+4.1
+29;;;25.8837;-5.14017;0;Bottom;Copper Fill63
+30;;THT;25.9088;-6.08075;-90;Bottom;G1.2
+31;50k;THT;75.4388;-16.2408;0;Bottom;50kR
+32;;THT;50.0388;-23.8608;-90;Bottom;G2.1
+33;;THT;18.2888;-23.8608;-90;Bottom;Invert
+34;;;4.23527;-35.0249;0;Bottom;TXT1
+35;;THT;15.7488;-23.8608;-90;Bottom;J1-2
+36;;THT;74.1688;-51.8008;-90;Bottom;V-3.2
+37;;;4.39353;-27.6628;0;Bottom;TXT1
+38;;THT;43.6888;-23.8608;-90;Bottom;t100R  v80%
+39;;;75.0962;-27.7081;0;Bottom;Copper Fill66
+40;100k;THT;42.4188;-46.7208;0;Bottom;100kR
+41;;THT;74.1688;-6.08075;-90;Bottom;G3.2
+42;;;25.8837;-28.7114;0;Bottom;Copper Fill78
+43;;THT;56.3888;-41.6408;-90;Bottom;V+3.1
+44;;THT;50.0388;-6.08075;-90;Bottom;G2.2
+45;;THT;93.2188;-23.8608;-90;Bottom;v0%
+46;;THT;80.5188;-49.2608;-90;Bottom;V+4.2
+47;;DIP (Dual Inline) [THT];89.4088;-31.4808;-90;Bottom;4316-4
+48;;THT;10.6688;-41.6408;-90;Bottom;Straight
+49;;;75.0962;-23.8981;0;Bottom;Copper Fill62
+50;10nF;100 mil [THT, multilayer];80.5188;-22.5908;-90;Bottom;ToneCap
+51;;THT;25.9088;-51.8008;-90;Bottom;V-1.2
+52;;;3.04878;-3.54067;0;Bottom;Hole2
+53;;THT;98.2988;-23.8608;-90;Bottom;GND
+54;;;99.2262;-23.8981;0;Bottom;Copper Fill56
+55;;THT;15.7488;-39.1008;-90;Bottom;J1-1
+56;;;71.5529;-28.7114;0;Bottom;Copper Fill70
+57;;THT;50.0388;-39.1008;-90;Bottom;C-4
+58;22k;THT;75.4388;-18.7808;0;Bottom;22kR
+59;100k;THT;67.8188;-46.7208;0;Bottom;100kR
+60;;;47.4737;-28.7114;0;Bottom;Copper Fill77
+61;;THT;32.2588;-49.2608;-90;Bottom;V+2.2
+62;100k;THT;75.4388;-13.7008;0;Bottom;100kR
+63;;;99.2262;-27.7081;0;Bottom;Copper Fill58
+64;;;25.8837;-22.9202;0;Bottom;Copper Fill73
+65;;;85.5229;-26.7302;0;Bottom;Copper Fill76
+66;;;50.9916;-23.8981;0;Bottom;Copper Fill68
+67;;;50.0137;-5.14017;0;Bottom;Copper Fill60
+68;;DIP (Dual Inline) [THT];65.2788;-31.4808;-90;Bottom;4316-3
+69;;;24.8804;-6.11807;0;Bottom;Copper Fill64
+70;200k;THT;75.4388;-11.1608;0;Bottom;200kR
+71;;;99.5689;-51.8008;0;Bottom;Hole3
+72;100k;THT;29.7188;-46.7208;0;Bottom;100kR
+73;;THT;74.1688;-23.8608;-90;Bottom;G3.1
+74;;THT;56.3888;-49.2608;-90;Bottom;V+3.2
+75;;;50.9916;-27.7081;0;Bottom;Copper Fill72
+76;;;74.0929;-28.7114;0;Bottom;Copper Fill65
+77;;THT;50.0388;-41.6408;-90;Bottom;V-2.1
+78;;THT;74.1688;-41.6408;-90;Bottom;V-3.1
+79;;THT;25.9088;-39.1008;-90;Bottom;C-2
+80;;THT;25.9088;-23.8608;-90;Bottom;G1.1
+81;;THT;60.1988;-41.6408;-90;Bottom;t50R v60%
+82;;;73.369;-20.7104;0;Bottom;Copper Fill48
+83;;;54.0396;-23.2504;0;Bottom;Copper Fill47
+84;;THT;56.3888;-39.1008;-90;Bottom;C-5
+85;;;3.04878;-51.8008;0;Bottom;Hole1
+86;;THT;74.1688;-39.1008;-90;Bottom;C-6
+87;;THT;32.2588;-41.6408;-90;Bottom;V+2.1
+88;;DIP (Dual Inline) [THT];41.1488;-31.4808;-90;Bottom;4316-2
+89;;THT;8.12877;-41.6408;-90;Bottom;V+
+90;;;74.0929;-5.14017;0;Bottom;Copper Fill59
+91;;THT;95.7588;-41.6408;-90;Bottom;Out-
