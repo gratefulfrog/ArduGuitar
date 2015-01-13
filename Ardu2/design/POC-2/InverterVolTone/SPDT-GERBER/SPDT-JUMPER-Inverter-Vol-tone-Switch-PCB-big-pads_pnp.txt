@@ -1,0 +1,60 @@
+*Pick And Place List
+*Company=
+*Author=
+*eMail=
+*
+*Project=SPDT-JUMPER-Inverter-Vol-tone-Switch-PCB-big-pads
+*Date=12:38:57
+*CreatedBy=Fritzing 0.9.1b.11.19.8d2d5970658f0bed09c661c9ea9a515b5f40f44c
+*
+*
+*Coordinates in mm, always center of component
+*Origin 0/0=Lower left corner of PCB
+*Rotation in degree (0-360, math. pos.)
+*
+*No;Value;Package;X;Y;Rotation;Side;Name
+1;;;2.58795;-2.19918;0;Bottom;Hole8
+2;;THT;12.7479;-35.2193;0;Bottom;v80%
+3;;THT;41.9579;-16.1693;0;Bottom;t22R
+4;;;45.9169;-43.9997;0;Bottom;TXT2
+5;;THT;24.1779;-35.2193;0;Bottom;v40%
+6;;;45.8463;-41.4566;0;Bottom;TXT2
+7;;THT;50.8479;-4.73926;0;Bottom;Vin
+8;;;54.4205;-2.19918;0;Bottom;Hole7
+9;;;29.5402;-33.9201;0;Bottom;Copper Fill16
+10;;THT;12.7479;-55.5393;0;Bottom;Invert
+11;;;47.0479;-16.1439;0;Bottom;TXT2
+12;;THT;36.8779;-35.2193;0;Bottom;v0%
+13;;THT;17.8279;-35.2193;0;Bottom;v60%
+14;;;7.3406;-51.789;0;Bottom;Copper Fill23
+15;;;12.6873;-30.4657;0;Bottom;Copper Fill21
+16;;;47.3719;-5.88336;0;Bottom;TXT1
+17;;;47.5426;-23.6429;0;Bottom;TXT2
+18;;THT;36.8779;-17.4393;0;Bottom;t50R
+19;;;10.6687;-17.4423;0;Bottom;TXT3
+20;;THT;6.39786;-35.2193;0;Bottom;v100%
+21;;;46.5758;-46.6866;0;Bottom;TXT2
+22;;;24.6484;-43.7491;0;Bottom;TXT3
+23;;THT;25.4479;-17.4393;0;Bottom;t200R
+24;;THT;30.5279;-17.4393;0;Bottom;t100R
+25;;THT;29.2579;-35.2193;0;Bottom;v20%
+26;;;46.533;-3.35665;0;Bottom;TXT1
+27;;;45.582;-33.9131;0;Bottom;TXT2
+28;;THT;19.0979;-17.4393;0;Bottom;tON
+29;;THT;6.39786;-54.2693;0;Bottom;Straight
+30;;;45.0276;-54.1719;0;Bottom;TXT2
+31;;THT;50.8479;-40.2993;0;Bottom;Vol
+32;;;17.7673;-30.4657;0;Bottom;Copper Fill20
+33;;;25.9924;-57.0873;0;Bottom;TXT3
+34;;;51.7906;-6.069;0;Bottom;Copper Fill19
+35;;;46.1003;-36.2795;0;Bottom;TXT2
+36;;;46.451;-18.5768;0;Bottom;TXT2
+37;;;6.3373;-30.4657;0;Bottom;Copper Fill22
+38;;;2.58786;-63.1593;0;Bottom;Hole3
+39;;;45.9925;-38.9442;0;Bottom;TXT2
+40;;;43.8003;-56.661;0;Bottom;TXT2
+41;;;54.4204;-63.1593;0;Bottom;Hole2
+42;;THT;50.8479;-18.7093;0;Bottom;Tone
+43;;;46.3372;-21.0838;0;Bottom;TXT2
+44;;;47.0968;-13.369;0;Bottom;TXT2
+45;;THT;50.8479;-55.5393;0;Bottom;Inverter
