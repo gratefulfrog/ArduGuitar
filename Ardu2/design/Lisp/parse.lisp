@@ -7,6 +7,9 @@
 ;;; ((A+  out+) (a-  b+) (... etc)
 ;;; thus we need some high level functions to define the circuit
 ;;; and a function to get all the necessary connections
+;;;
+;;;
+;;; 2015 01 23: updated to handle limitless numbers of coils.
 
 ;;; Define a Parallel connection
 ;;; (pp coil1 &optional coil2 coil3 coil4)
@@ -26,20 +29,13 @@
 
 ;;; all the others are helper functions
 
-(defun pp (n1 &optional n2 n3 n4)
+(defun pp (n1 &rest other-nodes)
   "top level PARALLEL connection call, dispatches as needed."
-   (p n1 (p n2 (p n3 (p n4)))))
-    
-(defun ss (n1 n2 &optional n3 n4)
+  (reduce #'p (cons n1 other-nodes)))
+
+(defun ss (n1 n2 &rest other-nodes)
   "top level SERIES connection call, dispatches as needed."
-  (let ((res (s n1 n2)))
-    (if n3
-	(let ((ress (s res n3)))
-	  (if n4
-	      (let ((resss (s ress n4)))
-		resss)
-	    ress))
-      res)))
+  (reduce #'s (cons n1 (cons n2 other-nodes))))
 
 (defun p (n1 &optional n2)
   "parallel connect nd1 nd2 means:
@@ -77,20 +73,19 @@
    1: out-
    2: internals"
   (and (not (null nd))
-       
-  (let ((rep (if (atom nd)
-		 ;; if we have an atom, then we have a base coil:
-		 ;; we  need the name with a + or - concatenanted to it.
-		 ;; coils have no internals.
-		 (list (list (concatenate 'string 
-					  (symbol-name nd) "+"))
-		       (list (concatenate 'string 
-					  (symbol-name nd) "-"))
-		       ())
-	       ;; otherwise we use the nd provided in argument.
-	       nd)))
-    ;; return the nth car of the rep variable as determined above.
-    (nth ind rep))))
+       (let ((rep (if (atom nd)
+		      ;; if we have an atom, then we have a base coil:
+		      ;; we  need the name with a + or - concatenanted to it.
+		      ;; coils have no internals.
+		      (list (list (concatenate 'string 
+					       (symbol-name nd) "+"))
+			    (list (concatenate 'string 
+					       (symbol-name nd) "-"))
+			    ())
+		    ;; otherwise we use the nd provided in argument.
+		    nd)))
+	 ;; return the nth car of the rep variable as determined above.
+	 (nth ind rep))))
 
 (defun n+ (nd)
   "return the out+ of the node"
@@ -132,6 +127,104 @@ some **GOOD** results:
 
 * (load "parse.lisp")
 
+
+; file: /home/bob/ArduGuitar/Ardu2/design/Lisp/parse.lisp
+; in: DEFUN PP
+;     #'P
+; 
+; caught STYLE-WARNING:
+;   undefined function: P
+; 
+; compilation unit finished
+;   Undefined function:
+;     P
+;   caught 1 STYLE-WARNING condition
+
+; in: DEFUN SS
+;     #'S
+; 
+; caught STYLE-WARNING:
+;   undefined function: S
+; 
+; compilation unit finished
+;   Undefined function:
+;     S
+;   caught 1 STYLE-WARNING condition
+
+; in: DEFUN P
+;     (CONNECT (N+ N1) (N+ N2))
+; 
+; caught STYLE-WARNING:
+;   undefined function: CONNECT
+
+;     (N* N1)
+; 
+; caught STYLE-WARNING:
+;   undefined function: N*
+
+;     (N+ N1)
+; 
+; caught STYLE-WARNING:
+;   undefined function: N+
+
+;     (N- N1)
+; 
+; caught STYLE-WARNING:
+;   undefined function: N-
+; 
+; compilation unit finished
+;   Undefined functions:
+;     CONNECT N* N+ N-
+;   caught 4 STYLE-WARNING conditions
+
+; in: DEFUN S
+;     (CONNECT (N- N1) (N+ N2))
+; 
+; caught STYLE-WARNING:
+;   undefined function: CONNECT
+
+;     (N* N1)
+; 
+; caught STYLE-WARNING:
+;   undefined function: N*
+
+;     (N+ N1)
+; 
+; caught STYLE-WARNING:
+;   undefined function: N+
+
+;     (N- N2)
+; 
+; caught STYLE-WARNING:
+;   undefined function: N-
+; 
+; compilation unit finished
+;   Undefined functions:
+;     CONNECT N* N+ N-
+;   caught 4 STYLE-WARNING conditions
+
+; in: DEFUN CONNECTION-LIST
+;     #'MAP-CONNECT
+; 
+; caught STYLE-WARNING:
+;   undefined function: MAP-CONNECT
+; 
+; compilation unit finished
+;   Undefined function:
+;     MAP-CONNECT
+;   caught 1 STYLE-WARNING condition
+
+; in: DEFUN MAP-CONNECT
+;     (MAP-CONNECT-HELPER LIS NIL)
+; 
+; caught STYLE-WARNING:
+;   undefined function: MAP-CONNECT-HELPER
+; 
+; compilation unit finished
+;   Undefined function:
+;     MAP-CONNECT-HELPER
+;   caught 1 STYLE-WARNING condition
+
 T
 * (p 'a 'b)
 
@@ -142,60 +235,21 @@ T
 * (s (p 'a 'b)(p 'c 'd))
 
 (("A+" "B+") ("C-" "D-") (("A-" "B-" "C+" "D+")))
-* (s 'a (p (s 'b 'c) 'd))
-
-(("A+") ("C-" "D-") (("A-" "B+" "D+") ("B-" "C+")))
-* (p (s 'a (p 'b 'c)) 'd)
-
-(("A+" "D+") ("B-" "C-" "D-") (("A-" "B+" "C+")))
-* (dribble)
-
-* (load "parse.lisp")
-
-T
-* (connection-list (p 'a 'b))
-
-(("A+" "out+") ("B+" "out+") ("A-" "out-") ("B-" "out-"))
-* (connection-list (s 'a 'b))
-
-(("A+" "out+") ("B-" "out-") ("A-" "B+"))
-* (connection-list (s (p 'a 'b)(p 'c 'd)))
-
-(("A+" "out+") ("B+" "out+") ("C-" "out-") ("D-" "out-") ("C+" "D+")
- ("B-" "C+") ("B-" "D+") ("A-" "B-") ("A-" "C+") ("A-" "D+"))
-* (connection-list  (s 'a (p (s 'b 'c) 'd)))
-
-(("A+" "out+") ("C-" "out-") ("D-" "out-") ("B+" "D+") ("A-" "B+") ("A-" "D+")
- ("B-" "C+"))
-* (connection-list  (p (s 'a (p 'b 'c)) 'd))
-
-(("A+" "out+") ("D+" "out+") ("B-" "out-") ("C-" "out-") ("D-" "out-")
- ("B+" "C+") ("A-" "B+") ("A-" "C+"))
-* (dribble)
-
-* (load "parse.lisp")
-
-T
-* (ss 'a 'b 'c)
-
-(("A+") ("C-") (("B-" "C+") ("A-" "B+")))
-* (pp 'a)
-
-(("A+") ("A-") NIL)
-* (pp 'a 'b 'c 'd)
-
-(("A+" "B+" "C+" "D+") ("A-" "B-" "C-" "D-") NIL)
-* (ss 'a 'b (pp 'c 'd))
-
-(("A+") ("C-" "D-") (("B-" "C+" "D+") ("A-" "B+")))
 * (connection-list (ss 'a 'b (pp 'c 'd)))
 
 (("A+" "out+") ("C-" "out-") ("D-" "out-") ("C+" "D+") ("B-" "C+") ("B-" "D+")
  ("A-" "B+"))
-* (connection-list  (pp (ss 'a (p 'b 'c)) 'd))
+*  (connection-list  (pp (ss 'a (p 'b 'c)) 'd))
 
 (("A+" "out+") ("D+" "out+") ("B-" "out-") ("C-" "out-") ("D-" "out-")
  ("B+" "C+") ("A-" "B+") ("A-" "C+"))
+* (connection-list  (pp (ss 'a (p 'b 'c)) 'd (ss 'x 'y (pp 'z 'e 'l)))
+)
+
+(("A+" "out+") ("D+" "out+") ("X+" "out+") ("B-" "out-") ("C-" "out-")
+ ("D-" "out-") ("Z-" "out-") ("E-" "out-") ("L-" "out-") ("B+" "C+")
+ ("A-" "B+") ("A-" "C+") ("E+" "L+") ("Z+" "E+") ("Z+" "L+") ("Y-" "Z+")
+ ("Y-" "E+") ("Y-" "L+") ("X-" "Y+"))
 * (dribble)
 
 
