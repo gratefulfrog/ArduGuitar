@@ -64,8 +64,8 @@ def on(*qArgs):
     update()
 
 def off(*qArgs):
-    # turn off all the leds in args, as integers from 0 to 7
-    # if no args, then turn all on
+    # turn off all the leds in args, as integers on [O,nbBits[
+    # if no args, then turn all off
     global onReg
     for q in goodValues(qArgs):
         v = 1 << (q % 8)
