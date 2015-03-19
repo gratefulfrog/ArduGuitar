@@ -3,16 +3,16 @@
 class State:
 
     class Inverter:
-        invert = -1
-        off = 0
-        on = 1
-
+        off    = None
+        on     = 0
+        invert = 1
+        
     class Vol:
-        vol0 = 0
-        vol20 = 1
-        vol40 = 2
-        vol60 = 3
-        vol80 = 4
+        vol0   = 0
+        vol20  = 1
+        vol40  = 2
+        vol60  = 3
+        vol80  = 4
         vol100 = 5
 
     class Tone:
@@ -20,7 +20,6 @@ class State:
         tone1 = 1
         tone2 = 2
         tone3 = 3
-        tone4 = 4
 
     class ToneRange:
         toneR0 = 0
