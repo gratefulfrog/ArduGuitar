@@ -1,7 +1,20 @@
 #!/usr/bin/python3
 
 class State:
+        off = None
+        l0  = 0
+        l1  = 1
+        l2  = 2
+        l3  = 3
+        l4  = 4
+        l5  = 5
+        
+        Inverter  = -1
+        Vol       = -2
+        Tone      = -3
+        ToneRange = -4
 
+"""
     class Inverter:
         off    = None
         on     = 0
@@ -27,6 +40,4 @@ class State:
         toneR2 = 2
         toneR3 = 3
         toneR4 = 4
-        
-
-    
+"""
