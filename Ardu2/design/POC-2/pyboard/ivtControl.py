@@ -16,8 +16,8 @@ class IVTControl:
         # if onOff is True, were are making a setting
         if onOff:
             setting = (shiftRegDict[name][att][val])
-            masking = maskingDict[name][att]
-            return (setting,masking)
+        masking = maskingDict[name][att]
+        return (setting,masking)
 
     def __init__(self,nb_shiftRegs=13):
         self.cnConfig = ([0 for x in range(nb_shiftRegs)], 
