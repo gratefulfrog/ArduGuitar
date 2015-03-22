@@ -14,5 +14,13 @@ class State:
 	Tone	  = -3
 	ToneRange = -4
 	
-	#coils = ['A','B', 'C', 'D', 'M']
-	poles = [0,1,2,3,4,4,6,7,8,9,]
+	coils = ['A','B','C','D','M']
+	poles = []
+	
+	def __init__(self):
+		for c in State.coils:
+			State.poles += [(c,0),]
+			State.poles += [(c,1),]
+
+theState = State()
+		 
