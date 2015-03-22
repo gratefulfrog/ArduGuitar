@@ -24,51 +24,69 @@ class CurrentNextable:
             str(self.cn)
 
 class Connectable:
-    plus = 'p'
-    minus = 'm'
-
-    def __init__(self, name):
+    def __init__(self, name, plusPole, minusPole):
         self.name = name
-        self.plusConnected2 = CurrentNextable()
-        self.minusConnected2 = CurrentNextable()
+        self.poles = [plusPole, minusPole]
+        self.connected2 = [CurrentNextable(),CurrentNextable()]
 
-    def connect(self, myPole, otherPole):
-        if myPole == self.plus:
-            self.plusConnected2.update(otherPole)
-        else:
-            self.minusConnected2.update(otherPole)
+    def connect(self, myPoleId, otherPoleId):
+        self.connected2[myPoleId%2].update(otherPoleId)    
     
     def x(self):
-        self.plusConnected2.x() 
-        self.minusConnected2.x()
+        for c in self.connected2:
+            if (not c == None):
+                c.x() 
 
     def __repr__(self):
         return 'Connectable: ' + self.name + '\n\t' + \
-            self.plus   + ': ' + str(self.plusConnected2) + '\n\t' +\
-            self.minus  + ': ' + str(self.minusConnected2) 
+            'poles: ' + str(self.poles)  + '\n\t' + \
+            'Connected2: ' + str(self.connected2)
 
-class VTable(Connectable):
-    
-    def __init__(self,name):
-        Connectable.__init__(self,name)
-        self.vol = CurrentNextable()
-        self.tone  = CurrentNextable()
+class VTable(Connectable):    
+    def __init__(self,name, plusPole, minusPole):
+        Connectable.__init__(self,name,plusPole, minusPole)
+        self.vol_ = CurrentNextable()
+        self.tone_  = CurrentNextable()
+        self.toneRange_  = CurrentNextable()
 
     def vol(self,level):
-        self.vol.update(level)
+        self.vol_.update(level)
 
     def tone(self,level):
-        self.tone.update(level)
+        self.tone_.update(level)
+
+    def toneRange(self,level):
+        self.toneRange_.update(level)
 
     def x(self):
-        self.vol.x()
-        self.tone.x()
+        self.vol_.x()
+        self.tone_.x()
+        self.toneRange_.x()
+        super().x()
 
     def __repr__(self):
         return 'VTable: ' + self.name + '\n\t' + \
-            'vol: ' + str(self.vol) + '\n\t' +\
-            'tone: ' + str(self.tone) + '\n\t' + \
+            'vol: ' + str(self.vol_) + '\n\t' +\
+            'tone: ' + str(self.tone_) + '\n\t' + \
+            'toneRange: ' + str(self.toneRange_) + '\n\t' + \
             super().__repr__().replace('\n','\n\t')
             
+
+class Invertable(VTable):    
+    def __init__(self,name, plusPole, minusPole):
+        VTable.__init__(self,name,plusPole, minusPole)
+        self.invert_ = CurrentNextable()
+
+    def invert(self,level):
+        self.invert_.update(level)
+
+    def x(self):
+        self.invert_.x()
+        super().x()
+
+    def __repr__(self):
+        return 'Invertable: ' + self.name + '\n\t' + \
+            'invert: ' + str(self.invert_) + '\n\t' +\
+            super().__repr__().replace('\n','\n\t')
 
         
