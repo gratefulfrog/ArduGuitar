@@ -4,7 +4,7 @@
 # 
 
 from state import theState
-from ivtControl import ivtControl
+from bitMgr import bitMgr
 
 class CurrentNextable:
     """ this class provides the services for anything that 
@@ -70,22 +70,22 @@ class VTable(Connectable):
 
     def vol(self,level):
         self.vol_.update(level)
-        ivtControl.update(self.name,theState.Vol,level)
+        bitMgr.update(self.name,theState.Vol,level)
 
     def tone(self,level):
         self.tone_.update(level)
-        ivtControl.update(self.name,theState.Tone,level)
+        bitMgr.update(self.name,theState.Tone,level)
 
     def toneRange(self,level):
         self.toneRange_.update(level)
-        ivtControl.update(self.name,theState.ToneRange,level)
+        bitMgr.update(self.name,theState.ToneRange,level)
 
     def x(self):
         self.vol_.x()
         self.tone_.x()
         self.toneRange_.x()
         super().x()
-        ivtControl.x()
+        bitMgr.x()
 
     def __repr__(self):
         return 'VTable: ' + self.name + '\n\t' + \
@@ -104,7 +104,7 @@ class Invertable(VTable):
 
     def invert(self,level):
         self.invert_.update(level)
-        ivtControl.update(self.name,theState.Inverter,level)
+        bitMgr.update(self.name,theState.Inverter,level)
 
     def x(self):
         self.invert_.x()

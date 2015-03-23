@@ -45,7 +45,7 @@ connectionsDict = {(('A',0),('B',0)) : (0,0),
                    (('D',1),('M',1)) : (3,7)}
 
 
-shiftRegDict = {'A': {State.Vol:       ((4,0),
+vtrDict =      {'A': {State.Vol:       ((4,0),
                                         (4,1),
                                         (4,2),
                                         (4,3),
