@@ -7,6 +7,7 @@ from dictMgr import *
 
 nbShiftRegs = 13  # i.e. on [0,13[
 nbSwitchRegs = 4
+connectionUpdateOnly = 1010
 
 class BitMgr:
     cur = 0
@@ -47,18 +48,22 @@ class BitMgr:
     def next(self):
         return self.cnConfig[BitMgr.nex]
 
-    def update(self,name, att, state):
-        """ To call update(...)
+    def update(self,name, att, state=connectionUpdateOnly):
+        """ To call update(...) on name, att, state
         >>> update('A',theState.Inverter,theState.l2)
+        To call update(...) on connections
+        >>> update(('A',0),('B',1))
         """
-        # all states can be 'off', ie None !
-        onOff = not state == theState.off
-        
-        (setting, masking) = BitMgr.baseFunc(onOff,
+        if state == connectionUpdateOnly:
+            self.doSettingMasking(connectionsDict[(name,att)],[])
+        else:
+            # all states can be 'off', ie None !
+            onOff = not state == theState.off
+            (setting, masking) = BitMgr.baseFunc(onOff,
                                                  name,
                                                  att,
                                                  state)
-        self.doSettingMasking(setting,masking)
+            self.doSettingMasking(setting,masking)
         
     def x(self):
         for i in range(len(self.cnConfig[BitMgr.nex])):

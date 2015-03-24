@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-# components/py
+# components.py
 # provides classes for all physical components of the guitar
 # 
 
 from state import theState
-from bitMgr import bitMgr
+from bitMgr import bitMgr,BitMgr
 
 class CurrentNextable:
     """ this class provides the services for anything that 
@@ -24,16 +24,27 @@ class CurrentNextable:
 
     def next(self):
         return self.cn[self.nex]
+    
+    def reset(self, nextt = True, current = False):
+        if current:
+            self.cn[CurrentNextable.cur] = theState.off
+        if nextt:
+            self.cn[CurrentNextable.nex] = theState.off
 
-    def update(self, new):
-        self.cn[self.nex] = new
+    def update(self, new,add=False):
+        if not add or self.cn[self.nex] == None:
+            self.cn[self.nex] = new
+        else:
+            self.cn[self.nex] += new
 
     def x(self):
         self.cn[self.cur] = self.cn[self.nex]
 
     def __repr__(self):
-        return 'CurrentNextable: ' +  \
-            str(self.cn)
+        return 'CurrentNextable: ' + '\n\t'  \
+            'current:\t' + str(self.cn[CurrentNextable.cur]) +'\n\t' + \
+            'next:\t' + str(self.cn[CurrentNextable.nex]) 
+
 
 class Connectable:
     """ anything which connects.
@@ -44,18 +55,34 @@ class Connectable:
     """
     def __init__(self):
         self.connected2 = [CurrentNextable(),CurrentNextable()]
+        self.reset = True
+
+    def resetNextConnections(self):
+        for i in (0,1):
+            self.connected2[i].reset()
+        bitMgr.reset(BitMgr.switchRegEndPoints, curBool=False,nexBool=True)
+        self.reset = True
 
     def connect(self, myPoleId, coilPolePair):
-        self.connected2[myPoleId].update(coilPolePair)    
+        appendNew = True
+        if (not self.reset):
+            self.resetNextConnections()
+            appendNew = False
+        self.connected2[myPoleId].update((coilPolePair,), add = appendNew)
+        bitMgr.update((self.name,myPoleId),coilPolePair)
     
     def x(self):
         for c in self.connected2:
             if (not c == None):
                 c.x() 
+        self.reset = False
 
     def __repr__(self):
         return 'Connectable:\n\t' + \
-            'Connected2: ' + str(self.connected2)
+            'reset:\t' + str(self.reset) + '\n\t' + \
+            'Connected2:\n\t\t' + \
+            str(self.connected2[0]).replace('\n','\n\t') + '\n\t\t' + \
+            str(self.connected2[1]).replace('\n','\n\t')
 
 class VTable(Connectable):    
     """Providing services for anything with a Volume, Tone, and ToneRange.
