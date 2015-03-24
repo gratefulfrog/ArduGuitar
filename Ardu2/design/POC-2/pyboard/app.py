@@ -3,16 +3,49 @@
 # provides classes for the application level
 # 
 
-#from state import theState
-#from bitMgr import bitMgr,BitMgr
-
-from components import *
+from bitMgr import BitMgr
+from components import Invertable,VTable
 from state import State
 
 class App():
+    sets  = [Invertable.invert,
+             VTable.vol,
+             VTable.tone,
+             VTable.toneRange]
+    
+    def stateNeg2SetIndex(stateNeg):
+        return abs(stateNeg)-1
+    
     def __init__(self):
-        self.coils = []
+        self.bitMgr = BitMgr()
+        self.state = State()
+        self.coils = {}
+        self.resetConnections = True
         for coil in State.coils[:-1]:
-            self.coils += [Invertable(coil),]
-        self.coils += [VTable(State.coils[-1]),]
+            self.coils[coil] = Invertable(coil)
+        self.coils[State.coils[-1]]= VTable(State.coils[-1])
+
+    def set(self,name,att,state):
+        App.sets[App.stateNeg2SetIndex(att)](self.coils[name],state)
+        self.bitMgr.update(name,att,state)
+
+    def connect(self,name,pole,otherName,otherPole):
+        if not self.resetConnections:
+            self.bitMgr.reset(BitMgr.switchRegEndPoints, 
+                              curBool=False,
+                              nexBool=True)
+            self.resetConnections = True
+        self.coils[name].connect(pole,(otherName,otherPole))
+        self.bitMgr.update((name,pole),
+                           (otherName,otherPole))
+
+    def x(self):
+        for coil in self.coils.values():
+            coil.x()
+        self.bitMgr.x()
+        #send bits!
+        self.resetConnections = False
+
+
+
 

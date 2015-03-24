@@ -21,6 +21,3 @@ class State:
 		for c in State.coils:
 			State.poles += [(c,0),]
 			State.poles += [(c,1),]
-
-theState = State()
-		 

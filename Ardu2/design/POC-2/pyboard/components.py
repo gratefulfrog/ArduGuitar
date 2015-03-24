@@ -3,8 +3,7 @@
 # provides classes for all physical components of the guitar
 # 
 
-from state import theState
-from bitMgr import bitMgr,BitMgr
+from state import State
 
 class CurrentNextable:
     """ this class provides the services for anything that 
@@ -17,7 +16,7 @@ class CurrentNextable:
     nex = 1
 
     def __init__(self):
-        self.cn = [theState.off,theState.off]
+        self.cn = [State.off,State.off]
     
     def current(self):
         return self.cn[self.cur]
@@ -27,9 +26,9 @@ class CurrentNextable:
     
     def reset(self, nextt = True, current = False):
         if current:
-            self.cn[CurrentNextable.cur] = theState.off
+            self.cn[CurrentNextable.cur] = State.off
         if nextt:
-            self.cn[CurrentNextable.nex] = theState.off
+            self.cn[CurrentNextable.nex] = State.off
 
     def update(self, new,add=False):
         if not add or self.cn[self.nex] == None:
@@ -60,7 +59,6 @@ class Connectable:
     def resetNextConnections(self):
         for i in (0,1):
             self.connected2[i].reset()
-        bitMgr.reset(BitMgr.switchRegEndPoints, curBool=False,nexBool=True)
         self.reset = True
 
     def connect(self, myPoleId, coilPolePair):
@@ -69,7 +67,6 @@ class Connectable:
             self.resetNextConnections()
             appendNew = False
         self.connected2[myPoleId].update((coilPolePair,), add = appendNew)
-        bitMgr.update((self.name,myPoleId),coilPolePair)
     
     def x(self):
         for c in self.connected2:
@@ -97,25 +94,21 @@ class VTable(Connectable):
 
     def vol(self,level):
         self.vol_.update(level)
-        bitMgr.update(self.name,theState.Vol,level)
 
     def tone(self,level):
         self.tone_.update(level)
-        bitMgr.update(self.name,theState.Tone,level)
 
     def toneRange(self,level):
         self.toneRange_.update(level)
-        bitMgr.update(self.name,theState.ToneRange,level)
 
     def x(self):
         self.vol_.x()
         self.tone_.x()
         self.toneRange_.x()
         super().x()
-        bitMgr.x()
 
     def __repr__(self):
-        return 'VTable: ' + self.name + '\n\t' + \
+        return '\nVTable: ' + self.name + '\n\t' + \
             'vol: ' + str(self.vol_) + '\n\t' +\
             'tone: ' + str(self.tone_) + '\n\t' + \
             'toneRange: ' + str(self.toneRange_) + '\n\t' + \
@@ -131,14 +124,13 @@ class Invertable(VTable):
 
     def invert(self,level):
         self.invert_.update(level)
-        bitMgr.update(self.name,theState.Inverter,level)
 
     def x(self):
         self.invert_.x()
         super().x()
 
     def __repr__(self):
-        return 'Invertable:\n\t' + \
+        return '\nInvertable:\n\t' + \
             'invert: ' + str(self.invert_) + '\n\t' +\
             super().__repr__().replace('\n','\n\t')
 

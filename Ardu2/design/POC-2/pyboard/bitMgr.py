@@ -2,7 +2,7 @@
 # bitMgr.py
 # provides functionality to update bit arrays for shifting
  
-from state import theState
+from state import State
 from dictMgr import *
 
 nbShiftRegs = 13  # i.e. on [0,13[
@@ -50,7 +50,7 @@ class BitMgr:
 
     def update(self,name, att, state=connectionUpdateOnly):
         """ To call update(...) on name, att, state
-        >>> update('A',theState.Inverter,theState.l2)
+        >>> update('A',State.Inverter,State.l2)
         To call update(...) on connections
         >>> update(('A',0),('B',1))
         """
@@ -58,7 +58,7 @@ class BitMgr:
             self.doSettingMasking(connectionsDict[(name,att)],[])
         else:
             # all states can be 'off', ie None !
-            onOff = not state == theState.off
+            onOff = not state == State.off
             (setting, masking) = BitMgr.baseFunc(onOff,
                                                  name,
                                                  att,
@@ -100,4 +100,4 @@ class BitMgr:
                               for x in self.cnConfig[BitMgr.nex]])
         return s
 
-bitMgr =  BitMgr()
+
