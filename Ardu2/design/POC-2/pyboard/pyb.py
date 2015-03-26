@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3.4
 # pyb.py for off-pyboard testing
-# here we find pyboard simulation classed for off-board testing
+# here we find pyboard simulation classes for off-board testing
 
 class SPI():
     """simulation SPI class provides basic SPI simulation
