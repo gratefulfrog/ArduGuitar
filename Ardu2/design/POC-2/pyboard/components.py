@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3.4
 # components.py
 # provides classes for all physical components of the guitar
 # 
@@ -61,12 +61,14 @@ class Connectable:
             self.connected2[i].reset()
         self.reset = True
 
-    def connect(self, myPoleId, coilPolePair):
+    #def connect(self, myPoleId, coilPolePair):
+    def connect(self, myPoleId, coilPolePairAsList):
         appendNew = True
         if (not self.reset):
             self.resetNextConnections()
             appendNew = False
-        self.connected2[myPoleId].update((coilPolePair,), add = appendNew)
+        #self.connected2[myPoleId].update((coilPolePair,), add = appendNew)
+        self.connected2[myPoleId].update([coilPolePairAsList,], add = appendNew)
     
     def x(self):
         for c in self.connected2:

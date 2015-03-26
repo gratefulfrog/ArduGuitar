@@ -1,4 +1,6 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3.4
+# dictMgr.py
+
 """ Some dictionaries to map user readable symbols into shift reg pins and so on...
 """
 

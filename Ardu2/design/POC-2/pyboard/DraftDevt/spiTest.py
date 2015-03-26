@@ -1,21 +1,8 @@
-# spiTest2.py
-# exercise some pyboard SPI with as many 74HC595 shift registers connected
-# as needed:
-
+#!/usr/local/bin/python3.4
+# spiTest.py
+# exercise some pyboard SPI with a 74HC595 shift register connected:
 """
 pin   
-Shift Reg 1
-8  : GND
-9  : Shift Reg 0, pin 14 (serial data out-> serial data in)
-10 : 5v
-11 : X6 SHCP (latch)
-12 : X5 STCP 
-13 : GND (Output Enable)
-14 : X8  (Serial Data In - MOSI)
-16 : 5v
-Q0-Q7 : LEDs 8-15
-
-Shift Reg 0
 8  : GND
 9  : not connected
 10 : 5v
@@ -24,13 +11,13 @@ Shift Reg 0
 13 : GND (Output Enable)
 14 : X8  (Serial Data In - MOSI)
 16 : 5v
-Q0-Q7 : LEDs 0-7
+Q0-Q7 : LEDs
 """
 
 from pyb import SPI,Pin
 
 # declare number of bits
-nbBits = 16
+nbBits = 8
 
 # create an SPI.MASTER instance on the 'X' side of the board, 
 # first arg=1 means 'X side' of the board
@@ -40,7 +27,7 @@ spi = SPI(1,SPI.MASTER)
 shcp = Pin('X5', Pin.OUT_PP)
 
 # register buffer
-onReg = [0 for x in range(int(nbBits/8))]
+onReg = 0
 
 def init():
     # set all the leds to off"
@@ -59,17 +46,17 @@ def on(*qArgs):
     # if no args, then turn all on
     global onReg
     for q in goodValues(qArgs):
-        v = 1 << q % 8
-        onReg[int(q/8)] |= v
+        v = 1 << q
+        onReg |= v
     update()
 
 def off(*qArgs):
-    # turn off all the leds in args, as integers on [O,nbBits[
-    # if no args, then turn all off
+    # turn off all the leds in args, as integers from 0 to 7
+    # if no args, then turn all on
     global onReg
     for q in goodValues(qArgs):
-        v = 1 << (q % 8)
-        onReg[int(q/8)] &= ~v
+        v = 1 << q
+        onReg &= ~v
     update()
 
 def update():
@@ -79,16 +66,14 @@ def update():
     # turn off the latch
     shcp.low()
     # send the bits
-    for r in onReg:
-        spi.send(r)
-        print("send: %d"% r)
+    spi.send(onReg)
     # turn on the latch
     shcp.high()
 
     
 """
-import spiTest2
-spiTest2.init()
+import spiTest
+spiTest.init()
 
 """
 

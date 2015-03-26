@@ -1,6 +1,13 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3.4
+# state.py 
 
 class State:
+	# SPI state for pyboard setup
+	# define the latching pin
+	spiLatchPinName = 'X5'
+	# say which side of the pyboard are we using
+	spiOnX = True
+
 	off = None
 	l0  = 0
 	l1  = 1

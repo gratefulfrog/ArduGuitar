@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3.4
 # bitMgr.py
 # provides functionality to update bit arrays for shifting
  

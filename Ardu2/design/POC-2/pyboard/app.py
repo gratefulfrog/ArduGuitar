@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3.4
 # app.py
 # provides classes for the application level
 # 
@@ -6,6 +6,7 @@
 from bitMgr import BitMgr
 from components import Invertable,VTable
 from state import State
+from spiMgr import SPIMgr
 
 class App():
     sets  = [Invertable.invert,
@@ -24,6 +25,9 @@ class App():
         for coil in State.coils[:-1]:
             self.coils[coil] = Invertable(coil)
         self.coils[State.coils[-1]]= VTable(State.coils[-1])
+        self.spiMgr = SPIMgr(State.spiOnX,State.spiLatchPinName)
+        # turn all off
+        self.spiMgr.update(self.bitMgr.cnConfig[0])
 
     def set(self,name,att,state):
         App.sets[App.stateNeg2SetIndex(att)](self.coils[name],state)
@@ -44,6 +48,7 @@ class App():
             coil.x()
         self.bitMgr.x()
         #send bits!
+        self.spiMgr.update(self.bitMgr.cnConfig[0])
         self.resetConnections = False
 
 
