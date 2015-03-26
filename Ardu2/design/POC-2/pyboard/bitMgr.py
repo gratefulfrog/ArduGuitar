@@ -5,16 +5,12 @@
 from state import State
 from dictMgr import *
 
-nbShiftRegs = 13  # i.e. on [0,13[
-nbSwitchRegs = 4
-connectionUpdateOnly = 1010
-
 class BitMgr:
     cur = 0
     nex = 1
-    switchRegEndPoints = (0,nbSwitchRegs)
-    ivtrRegEndPoints = (nbSwitchRegs,nbShiftRegs)
-    allRegEndPoints = (0,nbShiftRegs)
+    switchRegEndPoints = (0,State.nbSwitchRegs)
+    ivtrRegEndPoints = (State.nbSwitchRegs,State.nbShiftRegs)
+    allRegEndPoints = (0,State.nbShiftRegs)
 
     def baseFunc(onOff,name,att,val):
         """ special case for turning off, no settings!
@@ -26,7 +22,7 @@ class BitMgr:
         masking = maskingDict[name][att]
         return (setting,masking)
 
-    def __init__(self,nb_shiftRegs=nbShiftRegs):
+    def __init__(self,nb_shiftRegs=State.nbShiftRegs):
         self.cnConfig = ([0 for x in range(BitMgr.allRegEndPoints[0],
                                            BitMgr.allRegEndPoints[1])], 
                          [0 for x in range(BitMgr.allRegEndPoints[0],
@@ -48,13 +44,13 @@ class BitMgr:
     def next(self):
         return self.cnConfig[BitMgr.nex]
 
-    def update(self,name, att, state=connectionUpdateOnly):
+    def update(self,name, att, state=State.connectionUpdateOnly):
         """ To call update(...) on name, att, state
         >>> update('A',State.Inverter,State.l2)
         To call update(...) on connections
         >>> update(('A',0),('B',1))
         """
-        if state == connectionUpdateOnly:
+        if state == State.connectionUpdateOnly:
             self.doSettingMasking(connectionsDict[(name,att)],[])
         else:
             # all states can be 'off', ie None !

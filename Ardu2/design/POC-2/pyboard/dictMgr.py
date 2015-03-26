@@ -1,11 +1,20 @@
 #!/usr/local/bin/python3.4
 # dictMgr.py
 
-""" Some dictionaries to map user readable symbols into shift reg pins and so on...
+""" Some dictionaries to map user readable symbols into shift reg pins 
+and so on...
+all the dictionairies are constant and never to be updated programmatically!
 """
 
 from state import *
 
+# this dictionary maps:
+# ((fromCoilName,fromPoleID),(toCoilName,toPoleID)) 
+# ->
+# (registerID,BitID)
+# we assume pole 0 == +pole, and pole 1 == -pole
+# so if you want to connect say coil A pole 0 to coil B pole 1 you
+# would set register 0 bit 1.
 connectionsDict = {(('A',0),('B',0)) : (0,0),
                    (('A',0),('B',1)) : (0,1),
                    (('A',0),('C',0)) : (0,2),
@@ -47,6 +56,21 @@ connectionsDict = {(('A',0),('B',0)) : (0,0),
                    (('D',1),('M',1)) : (3,7)}
 
 
+# this dictionary maps coilName
+# Volume, 
+# Tone, 
+# ToneRange, 
+# Inverter information as follows:
+#
+# CoilName
+# ->
+# a dictionary of vtri registers and bits
+# in this second dictionary the keys:
+# State.Vol, State.Tone, State.ToneRange, State.Inverter
+# return each a list of tuples that correspond to the levels from
+# the State Class
+# Note that this enables all of V T R I to have a value or be off!
+# off means none of the bits are set.
 vtrDict =      {'A': {State.Vol:       ((4,0),
                                         (4,1),
                                         (4,2),
@@ -114,6 +138,21 @@ vtrDict =      {'A': {State.Vol:       ((4,0),
                                         (12,0),
                                         (12,1),
                                         (12,2))}}
+# this dictionary maps coilName
+# Volume, 
+# Tone, 
+# ToneRange, 
+# Inverter 
+# to provide the masking needed when updating the corresponding field.
+# by masking I mean When you set the volume of coil 'A' to say 2, first
+# you must ensure that all the other volume bits of coil 'A' are set to
+# zero.
+# you do this by performing an AND with all the reg,bits pairs that are returned
+# after a lookup of ['A'][State.Vol]
+# maskingDict lookups are:
+# maskingDict[CoilName][State.Vol|State.Tone|State.ToneRange| State.Inverter]
+# but note that coil 'M' has no State.Inverter entry and if so indexed
+# will return an error
 
 maskingDict = {'A' : {State.Vol         : ((4,0B11000000),),
                       State.Tone        : ((4,0B00111111),(5,0B11111100)),
