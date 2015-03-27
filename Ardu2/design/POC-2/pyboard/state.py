@@ -6,6 +6,7 @@ class State():
     This class contains all static information required to operate
     the system. 
     These may be technical or domain data.
+    Debugging tools are found here.
     Examples:
     - config date for the hardware
     - names used in the system at any leve, e.g. coil names, like 'A'
@@ -44,6 +45,14 @@ class State():
     Vol	      = -2
     Tone      = -3
     ToneRange = -4
+    
+    debug = False
+
+    def printT(*thing):
+        """ depending on State.debug, print or not
+        """
+        if State.debug:
+            print(thing) 
     
     def stateNeg2SetFuncIndex(stateNeg):
         """

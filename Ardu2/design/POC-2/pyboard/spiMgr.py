@@ -43,6 +43,7 @@ Shift Reg 0
 Q0-Q7 : LEDs 0-7
 """
 from pyb import SPI,Pin
+from state import State
 
 class SPIMgr():
     """
@@ -115,7 +116,7 @@ class SPIMgr():
         for r in bitArray:
             self.spi.send(r)
             #### COMMENT NEXT LINE FOR Off-Board TESTS!
-            print("send:\t{0:#b}".format(r))
+            State.printT("send:\t{0:#b}".format(r))
         # turn on the latch
         self.stcp.high()
 

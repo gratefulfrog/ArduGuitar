@@ -9,8 +9,8 @@ Shift Reg 1
 8  : GND
 9  : Shift Reg 0, pin 14 (serial data out-> serial data in)
 10 : 5v
-11 : X6 SHCP (latch) ?? no this is wrong
-12 : X5 STCP 
+11 : X6 SHCP 
+12 : X5 STCP (latch) ?? no this is wrong
 13 : GND (Output Enable)
 14 : X8  (Serial Data In - MOSI)
 16 : 5v
@@ -20,8 +20,8 @@ Shift Reg 0
 8  : GND
 9  : not connected
 10 : 5v
-11 : X6 SHCP (latch)  ?? no this is wrong
-12 : X5 STCP 
+11 : X6 SHCP 
+12 : X5 STCP (latch) ?? no this is wrong
 13 : GND (Output Enable)
 14 : X8  (Serial Data In - MOSI)
 16 : 5v

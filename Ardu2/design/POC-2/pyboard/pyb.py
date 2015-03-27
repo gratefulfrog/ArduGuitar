@@ -73,7 +73,7 @@ class Pin():
 
     def high(self):
         self.value = 1
-        print (str(self) + '\n\tset: HIGH')
+        print(str(self) + '\n\tset: HIGH')
 
     def low(self):
         self.value = 0

@@ -172,9 +172,10 @@ class BitMgr:
         >>> b.printConfigs(None, [])
         """
         for (reg,mask) in masking:
-            print("masking: ", ["{0:d}".format(reg), "{0:#b}".format(mask)])
-        print('setting: ' + str(setting))
-        print(self)
+            State.printT("masking: ", 
+                         ["{0:d}".format(reg), "{0:#b}".format(mask)])
+        State.printT('setting: ' + str(setting))
+        State.printT(self)
 
     def __repr__(self):
         s = 'currentConfig:\t' + \
