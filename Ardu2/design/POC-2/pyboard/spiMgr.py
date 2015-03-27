@@ -7,6 +7,17 @@
 #  - on-board, but with no shift Registers connected
 
 """
+The pyboard SPI class gives details:
+http://docs.micropython.org/en/latest/library/pyb.SPI.html
+
+the NSS pin is NOT used by the SPI driver and is free for other use.
+
+SPI(1) is on the X position: 
+(NSS, SCK, MISO, MOSI) = (X5, X6, X7, X8) = (PA4, PA5, PA6, PA7)
+
+SPI(2) is on the Y position: 
+(NSS, SCK, MISO, MOSI) = (Y5, Y6, Y7, Y8) = (PB12, PB13, PB14, PB15)
+
 This is the wiring used:
 pin   
 Shift Reg 1
