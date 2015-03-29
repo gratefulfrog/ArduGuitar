@@ -54,17 +54,17 @@ class BitMgr:
         This helper static method is used to produce the setting and masking
         which are needed for updating the vectors
         Args:
-        0: if True, we are making a setting, if not we are turning off
+        0: if True, we are making a setting, if not we are turning Off
         1: a coil name, eg. 'A'
         2: one of State.Inverter|State.Vol|State.Tone|State.ToneRange
-        3. one of State.off| State.l0| ... |State.l5
+        3. one of State.lOff| State.l0| ... |State.l5
         return:
         (setting, masking) as a tuple where
         - setting is the result of looking up name,att,val in the vtrDict, 
           or None if onOff is False!
         ie. a pair (Reg,Bit),
         - masking is a list of pairs from the maskingDict
-        special case for turning off, no settings!
+        special case for turning Off, no settings!
         """    
         setting = None
         # if onOff is True, were are making a setting
@@ -133,8 +133,8 @@ class BitMgr:
         if state == State.connectionUpdateOnly:
             self.doSettingMasking(connectionsDict[(name,att)],[])
         else:
-            # all states can be 'off', ie None !
-            onOff = not state == State.off
+            # all states can be 'State.lOff', ie None !
+            onOff = not state == State.lOff
             (setting, masking) = BitMgr.baseFunc(onOff,
                                                  name,
                                                  att,

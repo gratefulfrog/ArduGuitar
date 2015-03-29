@@ -50,7 +50,7 @@ class CurrentNextable:
         """
         instance creation
         """
-        self.cn = [State.off,State.off]
+        self.cn = [State.lOff,State.lOff]
     
     def current(self):
         """
@@ -66,12 +66,12 @@ class CurrentNextable:
     
     def reset(self, nextt = True, current = False):
         """
-        resets to State.off, depending on arguments
+        resets to State.lOff, depending on arguments
         """
         if current:
-            self.cn[CurrentNextable.cur] = State.off
+            self.cn[CurrentNextable.cur] = State.lOff
         if nextt:
-            self.cn[CurrentNextable.nex] = State.off
+            self.cn[CurrentNextable.nex] = State.lOff
 
     def update(self, new,add=False):
         """
@@ -220,10 +220,11 @@ class VTable(Connectable):
     - setFuncs 
      we find a vector of methods that can be called to do updating by indexed
      indirection.
-    Instances offer the following services
+    Instances provide the following services
     - vol(level) # sets the volume level
     - tone(level) # sets the tone level
     - toneRange(level) # sets the tone range
+    - resetNext() = zeros the next of each member 
     - x() # calls x() of the members and Super Class.
     """
     def __init__(self,name):
@@ -244,6 +245,12 @@ class VTable(Connectable):
     def toneRange(self,level):
         self.toneRange_.update(level)
 
+    def resetNext(self):
+        super().resetNextConnections()
+        self.vol_.reset()
+        self.tone_.reset()
+        self.toneRange_.reset()
+        
     def x(self):
         self.vol_.x()
         self.tone_.x()
@@ -263,6 +270,7 @@ class Invertable(VTable):
     This class behaves like its superclass with simply an addional
     method:
     - invert(level)
+    - resetNext() = zeros the next of each member 
     and a corresponding element in the setFuncs[] vector.
     """
     def __init__(self,name):
@@ -272,6 +280,10 @@ class Invertable(VTable):
 
     def invert(self,level):
         self.invert_.update(level)
+
+    def resetNext(self):
+        super().resetNext()
+        self.invert_.reset()
 
     def x(self):
         self.invert_.x()

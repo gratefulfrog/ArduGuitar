@@ -69,8 +69,8 @@ connectionsDict = {(('A',0),('B',0)) : (0,0),
 # State.Vol, State.Tone, State.ToneRange, State.Inverter
 # return each a list of tuples that correspond to the levels from
 # the State Class
-# Note that this enables all of V T R I to have a value or be off!
-# off means none of the bits are set.
+# Note that this enables all of V T R I to have a value or be Off!
+# Off means none of the bits are set.
 vtrDict =      {'A': {State.Vol:       ((4,0),
                                         (4,1),
                                         (4,2),

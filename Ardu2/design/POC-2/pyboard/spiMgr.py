@@ -3,7 +3,7 @@
 # exercise some pyboard SPI with as many 74HC595 shift registers connected
 # as needed:
 # as of 2015 03 26 this module has been tested:
-#  - off-board
+#  - Off-board
 #  - on-board, but with no shift Registers connected
 
 """
@@ -71,7 +71,7 @@ class SPIMgr():
     1. set the latch pin LOW
     2. send the bits, int by int
     3. set the latch pin to high
-    Note that when doing off-board tests, the 'send' message will 
+    Note that when doing Off-board tests, the 'send' message will 
     appear twice.
     usage:
     >>> s.update([0,1,2,4,8,16])
@@ -110,7 +110,7 @@ class SPIMgr():
 
     def update(self,bitArray):
         # send the data bits to the shift register
-        # turn off the latch
+        # unset the latch
         self.stcp.low()
         # send the bits
         for r in bitArray:

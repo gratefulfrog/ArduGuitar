@@ -7,6 +7,7 @@ from bitMgr import BitMgr
 from components import Invertable,VTable
 from state import State
 from spiMgr import SPIMgr
+import configs 
 
 class App():
     """
@@ -84,7 +85,7 @@ class App():
             self.coils[coil] = Invertable(coil)
         self.coils[State.coils[-1]]= VTable(State.coils[-1])
         self.spiMgr = SPIMgr(State.spiOnX,State.spiLatchPinName)
-        # turn all off
+        # turn all to State.lOff
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
 
     def set(self,name,att,state):
@@ -142,6 +143,28 @@ class App():
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
         self.resetConnections = False
 
+    def loadConfig(self,confName):
+        """ loads a predefined configuration.
+        Arg 0 : the name for lookup in configDict
+        Note:
+        - this resets next bitMgr config and each coils next config
+          before beginning since there is no 'addition' of settings here
+        - it also resets all the coils connection and vtri values prior
+          to executing.
+        """
+        self.bitMgr.reset(BitMgr.allRegEndPoints,
+                          curBool=False,
+                          nexBool=True)
+        for coil in self.coils.values():
+            coil.resetNext()
+        
+        for expr in configs.mapReplace('self',
+                                       configs.configDict[confName]):
+            eval(expr)
+        self.x()
 
+    def showSettings(self):
+        print(self.bitMgr)
+    
 
 

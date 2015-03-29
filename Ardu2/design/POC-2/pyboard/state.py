@@ -14,7 +14,7 @@ class State():
     >> from state import State
     >> s = State()
     Then the class variables can be accessed:
-    >> print(s.off)
+    >> print(s.lOff)
     None
     >> s.coils
     ['A', 'B', 'C', 'D', 'M']
@@ -33,7 +33,7 @@ class State():
     nbSwitchRegs = 4
     connectionUpdateOnly = 1010
     
-    off = None
+    lOff = None
     l0  = 0
     l1  = 1
     l2  = 2
@@ -46,7 +46,7 @@ class State():
     Tone      = -3
     ToneRange = -4
     
-    debug = False
+    debug = True #False
 
     def printT(*thing):
         """ depending on State.debug, print or not
