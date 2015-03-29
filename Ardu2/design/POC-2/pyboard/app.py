@@ -7,7 +7,7 @@ from bitMgr import BitMgr
 from components import Invertable,VTable
 from state import State
 from spiMgr import SPIMgr
-import configs 
+from configs import configDict,mapReplace
 
 class App():
     """
@@ -143,9 +143,13 @@ class App():
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
         self.resetConnections = False
 
-    def loadConfig(self,confName):
+    def loadConfig(self,appName,confName):
+        # this is a hack, call should be def loadConfig(self,confName):
+        # then see below for eval()
         """ loads a predefined configuration.
-        Arg 0 : the name for lookup in configDict
+        Arg 0 : the name of the app for evaluation, since micropython is
+                not equivalent to python 3.4, and 'self' cannot be eval'd
+        Arg 1 : for lookup in configDict
         Note:
         - this resets next bitMgr config and each coils next config
           before beginning since there is no 'addition' of settings here
@@ -158,12 +162,16 @@ class App():
         for coil in self.coils.values():
             coil.resetNext()
         
-        for expr in configs.mapReplace('self',
-                                       configs.configDict[confName]):
-            eval(expr)
+        # this is a hack, call should be:
+        # for expr in configs.mapReplace('self',
+        #                                configs.configDict[confName]):
+        for expr in mapReplace(appName,
+                               configDict[confName]):
+            State.printT('Evalutating:\t' + expr)
+            eval(expr) #, globals=globals(),locals=locals())
         self.x()
 
-    def showSettings(self):
+    def showConfig(self):
         print(self.bitMgr)
     
 
