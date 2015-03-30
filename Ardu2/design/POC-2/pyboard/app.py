@@ -143,13 +143,9 @@ class App():
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
         self.resetConnections = False
 
-    def loadConfig(self,appName,confName):
-        # this is a hack, call should be def loadConfig(self,confName):
-        # then see below for eval()
+    def loadConfig(self,confName):
         """ loads a predefined configuration.
-        Arg 0 : the name of the app for evaluation, since micropython is
-                not equivalent to python 3.4, and 'self' cannot be eval'd
-        Arg 1 : for lookup in configDict
+        Arg 0 : the name of the conf to load, for lookup in configDict
         Note:
         - this resets next bitMgr config and each coils next config
           before beginning since there is no 'addition' of settings here
@@ -161,14 +157,10 @@ class App():
                           nexBool=True)
         for coil in self.coils.values():
             coil.resetNext()
-        
-        # this is a hack, call should be:
-        # for expr in configs.mapReplace('self',
-        #                                configs.configDict[confName]):
-        for expr in mapReplace(appName,
+        for expr in mapReplace('self',
                                configDict[confName]):
             State.printT('Evalutating:\t' + expr)
-            eval(expr) #, globals=globals(),locals=locals())
+            eval(expr , globals(),{'self':self})
         self.x()
 
     def showConfig(self):
