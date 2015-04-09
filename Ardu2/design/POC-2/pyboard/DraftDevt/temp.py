@@ -1,4 +1,6 @@
 # temp.py
+# this sends vectors of bits via spi incrementing by one at each send
+
 
 import pyb 
 import spiMgr
