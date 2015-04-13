@@ -1,0 +1,36 @@
+*Pick And Place List
+*Company=
+*Author=
+*eMail=
+*
+*Project=10PDT Mount v4
+*Date=22:44:43
+*CreatedBy=Fritzing 0.9.2b.11.19.8d2d5970658f0bed09c661c9ea9a515b5f40f44c
+*
+*
+*Coordinates in mm, always center of component
+*Origin 0/0=Lower left corner of PCB
+*Rotation in degree (0-360, math. pos.)
+*
+*No;Value;Package;X;Y;Rotation;Side;Name
+1;;;38.8178;-15.0733;0;Bottom;TXT1
+2;;;40.3516;-8.76718;0;Bottom;TXT1
+3;;;40.9944;-4.097;0;Bottom;Hole1
+4;;;21.9944;-26.097;0;Bottom;Hole4
+5;;THT;30.9945;-18.097;-90;Bottom;
+6;;;32.5084;-2.00977;0;Bottom;TXT1
+7;;;3.99441;-26.097;0;Bottom;Hole6
+8;;THT;30.9945;-12.097;-90;Bottom;
+9;;THT;42.9943;-18.097;-90;Bottom;J2
+10;;THT;26.9945;-18.097;-90;Bottom;J6
+11;;THT;26.9945;-12.097;-90;Bottom;J7
+12;;;40.9944;-26.097;0;Bottom;Hole2
+13;;THT;38.9943;-18.097;-90;Bottom;J3
+14;;THT;38.9943;-12.097;-90;Bottom;J8
+15;;THT;34.9944;-12.097;-90;Bottom;J10
+16;;;21.9944;-4.097;0;Bottom;Hole3
+17;;;57.6923;-15.9764;-90;Bottom;Ruler1
+18;;THT;34.9944;-18.097;-90;Bottom;J4
+19;;;23.782;12.683;0;Bottom;Ruler2
+20;;THT;42.9943;-12.097;-90;Bottom;J9
+21;;;3.99441;-4.097;0;Bottom;Hole5
