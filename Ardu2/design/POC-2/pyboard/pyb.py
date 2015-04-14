@@ -2,6 +2,11 @@
 # pyb.py for Off-pyboard testing
 # here we find pyboard simulation classes for Off-board testing
 
+import time
+
+def delay(dela):
+    time.sleep(dela)
+        
 class SPI():
     """simulation SPI class provides basic SPI simulation
     - definitions

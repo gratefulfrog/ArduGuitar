@@ -18,3 +18,11 @@ def doit(v=3):
             s.update(vect)
             pyb.delay(v)
 
+def lowBits(val=255,d=1):
+    vect = [0 for k in range(vLen)]
+    for i in range (vLen):
+        vect[i] = val
+        print (vect)
+        s.update(vect)
+        pyb.delay(d)
+    

@@ -77,6 +77,8 @@ class App():
         after creation of the SPIMgr, the update message is sent to it to 
         initialize all the pins.
         """
+        self.reset()
+        """
         self.bitMgr = BitMgr()
         self.state = State()
         self.resetConnections = True
@@ -87,6 +89,20 @@ class App():
         self.spiMgr = SPIMgr(State.spiOnX,State.spiLatchPinName)
         # turn all to State.lOff
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
+        """
+
+    def reset(self):
+        self.bitMgr = BitMgr()
+        self.state = State()
+        self.resetConnections = True
+        self.coils = {}
+        for coil in State.coils[:-1]:
+            self.coils[coil] = Invertable(coil)
+        self.coils[State.coils[-1]]= VTable(State.coils[-1])
+        self.spiMgr = SPIMgr(State.spiOnX,State.spiLatchPinName)
+        # turn all to State.lOff
+        self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
+        
 
     def set(self,name,att,state):
         """

@@ -67,8 +67,189 @@ AllSeriesFullVolMaxTone = [
     "set('D',ToneRange,Off)",
     "set('M',ToneRange,Off)"]
 
-configDict = {'nb1':NeckBridgeParallelFullVolMaxTone,
-              "as1" :AllSeriesFullVolMaxTone}
+DOnlyFullVolMaxTone = [
+    # connect bridge coil D to Output
+    "connect('D',0,'M',0)",  
+    "connect('D',1,'M',1)",
+    # set all coils to straight, not inverted
+    "set('A',Inverter,0)",
+    "set('B',Inverter,0)",
+    "set('C',Inverter,0)",
+    "set('D',Inverter,0)",
+    # set all Vols to 5
+    "set('A',Vol,5)",
+    "set('B',Vol,5)",
+    "set('C',Vol,5)",
+    "set('D',Vol,5)",
+    "set('M',Vol,5)",
+    # set all Tone to Off
+    "set('A',Tone,Off)",
+    "set('B',Tone,Off)",
+    "set('C',Tone,Off)",
+    "set('D',Tone,Off)",
+    "set('M',Tone,Off)",
+    # set all ToneRange to Off
+    "set('A',ToneRange,Off)",
+    "set('B',ToneRange,Off)",
+    "set('C',ToneRange,Off)",
+    "set('D',ToneRange,Off)",
+    "set('M',ToneRange,Off)"]
+
+COnlyFullVolMaxTone = [
+    # connect bridge coil C to Output
+    "connect('C',0,'M',0)",  
+    "connect('C',1,'M',1)",
+    # set all coils to straight, not inverted
+    "set('A',Inverter,0)",
+    "set('B',Inverter,0)",
+    "set('C',Inverter,0)",
+    "set('D',Inverter,0)",
+    # set all Vols to 5
+    "set('A',Vol,5)",
+    "set('B',Vol,5)",
+    "set('C',Vol,5)",
+    "set('D',Vol,5)",
+    "set('M',Vol,5)",
+    # set all Tone to Off
+    "set('A',Tone,Off)",
+    "set('B',Tone,Off)",
+    "set('C',Tone,Off)",
+    "set('D',Tone,Off)",
+    "set('M',Tone,Off)",
+    # set all ToneRange to Off
+    "set('A',ToneRange,Off)",
+    "set('B',ToneRange,Off)",
+    "set('C',ToneRange,Off)",
+    "set('D',ToneRange,Off)",
+    "set('M',ToneRange,Off)"]
+
+BOnlyFullVolMaxTone = [
+    # connect neck coil B to Output
+    "connect('B',0,'M',0)",  
+    "connect('B',1,'M',1)",
+    # set all coils to straight, not inverted
+    "set('A',Inverter,0)",
+    "set('B',Inverter,0)",
+    "set('C',Inverter,0)",
+    "set('D',Inverter,0)",
+    # set all Vols to 5
+    "set('A',Vol,5)",
+    "set('B',Vol,5)",
+    "set('C',Vol,5)",
+    "set('D',Vol,5)",
+    "set('M',Vol,5)",
+    # set all Tone to Off
+    "set('A',Tone,Off)",
+    "set('B',Tone,Off)",
+    "set('C',Tone,Off)",
+    "set('D',Tone,Off)",
+    "set('M',Tone,Off)",
+    # set all ToneRange to Off
+    "set('A',ToneRange,Off)",
+    "set('B',ToneRange,Off)",
+    "set('C',ToneRange,Off)",
+    "set('D',ToneRange,Off)",
+    "set('M',ToneRange,Off)"]
+
+AOnlyFullVolMaxTone = [
+    # connect neck coil A to Output
+    "connect('A',0,'M',0)",  
+    "connect('A',1,'M',1)",
+    # set all coils to straight, not inverted
+    "set('A',Inverter,0)",
+    "set('B',Inverter,0)",
+    "set('C',Inverter,0)",
+    "set('D',Inverter,0)",
+    # set all Vols to 5
+    "set('A',Vol,5)",
+    "set('B',Vol,5)",
+    "set('C',Vol,5)",
+    "set('D',Vol,5)",
+    "set('M',Vol,5)",
+    # set all Tone to Off
+    "set('A',Tone,Off)",
+    "set('B',Tone,Off)",
+    "set('C',Tone,Off)",
+    "set('D',Tone,Off)",
+    "set('M',Tone,Off)",
+    # set all ToneRange to Off
+    "set('A',ToneRange,Off)",
+    "set('B',ToneRange,Off)",
+    "set('C',ToneRange,Off)",
+    "set('D',ToneRange,Off)",
+    "set('M',ToneRange,Off)"]
+
+bridgeBucker = [
+    # connect bridge C+ to Output+
+    "connect('C',0,'M',0)",  
+    # connect bridge C- to D+
+    "connect('C',1,'D',0)",
+    # connect bridge D- to Output-
+    "connect('D',1,'M',1)",
+    # set all coils to straight, not inverted
+    "set('A',Inverter,0)",
+    "set('B',Inverter,0)",
+    "set('C',Inverter,0)",
+    "set('D',Inverter,0)",
+    # set all Vols to 5
+    "set('A',Vol,5)",
+    "set('B',Vol,5)",
+    "set('C',Vol,5)",
+    "set('D',Vol,5)",
+    "set('M',Vol,5)",
+    # set all Tone to Off
+    "set('A',Tone,Off)",
+    "set('B',Tone,Off)",
+    "set('C',Tone,Off)",
+    "set('D',Tone,Off)",
+    "set('M',Tone,Off)",
+    # set all ToneRange to Off
+    "set('A',ToneRange,Off)",
+    "set('B',ToneRange,Off)",
+    "set('C',ToneRange,Off)",
+    "set('D',ToneRange,Off)",
+    "set('M',ToneRange,Off)"]
+
+neckBucker = [
+    # connect neck A+ to Output+
+    "connect('A',0,'M',0)",  
+    # connect neck A- to B+
+    "connect('A',1,'B',0)",
+    # connect neck B- to Output-
+    "connect('B',1,'M',1)",
+    # set all coils to straight, not inverted
+    "set('A',Inverter,0)",
+    "set('B',Inverter,0)",
+    "set('C',Inverter,0)",
+    "set('D',Inverter,0)",
+    # set all Vols to 5
+    "set('A',Vol,5)",
+    "set('B',Vol,5)",
+    "set('C',Vol,5)",
+    "set('D',Vol,5)",
+    "set('M',Vol,5)",
+    # set all Tone to Off
+    "set('A',Tone,Off)",
+    "set('B',Tone,Off)",
+    "set('C',Tone,Off)",
+    "set('D',Tone,Off)",
+    "set('M',Tone,Off)",
+    # set all ToneRange to Off
+    "set('A',ToneRange,Off)",
+    "set('B',ToneRange,Off)",
+    "set('C',ToneRange,Off)",
+    "set('D',ToneRange,Off)",
+    "set('M',ToneRange,Off)"]
+
+
+configDict = {'nb1': NeckBridgeParallelFullVolMaxTone,
+              'as1' : AllSeriesFullVolMaxTone,
+              'd':  DOnlyFullVolMaxTone,
+              'c' : COnlyFullVolMaxTone,
+              'b' : BOnlyFullVolMaxTone,
+              'a' : AOnlyFullVolMaxTone,
+              'bridge' : bridgeBucker,
+              'neck' : neckBucker}
 
 def mapReplace(appName, config):
     """
