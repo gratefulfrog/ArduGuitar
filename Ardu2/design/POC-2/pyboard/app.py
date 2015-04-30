@@ -8,6 +8,7 @@ from components import Invertable,VTable
 from state import State
 from spiMgr import SPIMgr
 from configs import configDict,mapReplace
+import pyb
 
 class App():
     """
@@ -152,12 +153,29 @@ class App():
         usage:
         >>> a.x()
         """
+        self.softX()
         for coil in self.coils.values():
             coil.x()
         self.bitMgr.x()
         #send bits!
-        self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
+        #self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
         self.resetConnections = False
+
+    def softX(self):
+        """
+        This version of the method does the following:
+        * sends the new bits ORed with the current bits,
+        * waits for the makeBeforeBreakDelay
+        * sends the new bits
+        usage:
+        >>> a.softX()
+        """
+        self.spiMgr.update(map(lambda x,y: x|y,
+                               self.bitMgr.cnConfig[BitMgr.cur],
+                               self.bitMgr.cnConfig[BitMgr.nex]))
+        pyb.delay(self.state.makeBeforeBreakDelay)
+        self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.nex])
+
 
     def loadConfig(self,confName):
         """ loads a predefined configuration.

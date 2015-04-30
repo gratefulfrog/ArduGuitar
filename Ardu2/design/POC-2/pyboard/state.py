@@ -32,6 +32,10 @@ class State():
     nbShiftRegs = 13  # i.e. on [0,13[
     nbSwitchRegs = 4
     connectionUpdateOnly = 1010
+
+    # Make before Break delay in milliseconds 
+    # for quieter switching, hopefully..
+    makeBeforeBreakDelay = 5
     
     lOff = None
     l0  = 0
