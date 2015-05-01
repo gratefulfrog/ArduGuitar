@@ -173,7 +173,7 @@ class App():
         self.spiMgr.update(map(lambda x,y: x|y,
                                self.bitMgr.cnConfig[BitMgr.cur],
                                self.bitMgr.cnConfig[BitMgr.nex]))
-        pyb.delay(self.state.makeBeforeBreakDelay)
+        #pyb.delay(self.state.makeBeforeBreakDelay)
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.nex])
 
 

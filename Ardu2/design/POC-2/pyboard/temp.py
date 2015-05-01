@@ -3,8 +3,10 @@
 
 
 import pyb 
-import spiMgr
+from app import App
+from state import State
 
+"""
 vLen = 13
 bits= 256
 
@@ -26,3 +28,33 @@ def lowBits(val=255,d=1):
         s.update(vect)
         pyb.delay(d)
     
+"""
+def newLoad(obj,conf):
+    obj.set('M',State.Vol,State.l0)
+    obj.set('A',State.Vol,State.l0)
+    obj.set('B',State.Vol,State.l0)
+    obj.set('C',State.Vol,State.l0)
+    obj.set('D',State.Vol,State.l0)
+    obj.x()
+    
+    obj.loadConfig(conf)
+
+def tremolo(obj,dely = 10):
+    while True:
+        obj.set('M',State.Vol,State.l0)
+        obj.x()
+        pyb.delay(dely)
+        obj.set('M',State.Vol,State.l5)
+        obj.x()
+        pyb.delay(dely)
+
+def vibrato(obj, dely=10):
+    obj.set('M',State.ToneRange,State.l5)
+    obj.x()
+    while True:
+        obj.set('M',State.Tone,State.l0)
+        obj.x()
+        pyb.delay(dely)
+        obj.set('M',State.Tone,State.l4)
+        obj.x()
+        pyb.delay(dely)
