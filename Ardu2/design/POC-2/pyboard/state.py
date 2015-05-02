@@ -27,6 +27,9 @@ class State():
     spiLatchPinName = 'X5'
     # say which side of the pyboard are we using
     spiOnX = True
+
+    # vactrol control pin
+    vactrolPinName = 'X4'
     
     # Shift Register info
     nbShiftRegs = 13  # i.e. on [0,13[

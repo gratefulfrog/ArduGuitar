@@ -2,7 +2,7 @@
 # this sends vectors of bits via spi incrementing by one at each send
 
 
-import pyb 
+from pyb import delay, Pin
 from app import App
 from state import State
 
@@ -58,3 +58,13 @@ def vibrato(obj, dely=10):
         obj.set('M',State.Tone,State.l4)
         obj.x()
         pyb.delay(dely)
+
+class vactrolControl:
+    def __init__(self, vactrolPin):
+        self.vactrol = Pin(vactrolPin, Pin.OUT_PP)
+
+    def on(self):
+        self.vactrol.high()
+
+    def off(self):
+        self.vactrol.low()

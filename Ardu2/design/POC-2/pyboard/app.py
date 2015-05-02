@@ -3,6 +3,7 @@
 # provides classes for the application level.
 # This is where all the user interface calls are found!
 
+from vactrolControl import vactrolControl
 from bitMgr import BitMgr
 from components import Invertable,VTable
 from state import State
@@ -100,6 +101,7 @@ class App():
         for coil in State.coils[:-1]:
             self.coils[coil] = Invertable(coil)
         self.coils[State.coils[-1]]= VTable(State.coils[-1])
+        self.vactrol = vactrolControl(State.vactrolPinName)
         self.spiMgr = SPIMgr(State.spiOnX,State.spiLatchPinName)
         # turn all to State.lOff
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
@@ -170,12 +172,13 @@ class App():
         usage:
         >>> a.softX()
         """
+        self.vactrol.on()
+        #pyb.delay(10)
         self.spiMgr.update(map(lambda x,y: x|y,
                                self.bitMgr.cnConfig[BitMgr.cur],
                                self.bitMgr.cnConfig[BitMgr.nex]))
-        #pyb.delay(self.state.makeBeforeBreakDelay)
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.nex])
-
+        self.vactrol.off()
 
     def loadConfig(self,confName):
         """ loads a predefined configuration.
