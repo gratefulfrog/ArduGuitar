@@ -1,0 +1,118 @@
+*Pick And Place List
+*Company=
+*Author=
+*eMail=
+*
+*Project=4316d Single Inverter and resistive tone control pcb c
+*Date=01:31:04
+*CreatedBy=Fritzing 0.9.2b.11.19.8d2d5970658f0bed09c661c9ea9a515b5f40f44c
+*
+*
+*Coordinates in mm, always center of component
+*Origin 0/0=Lower left corner of PCB
+*Rotation in degree (0-360, math. pos.)
+*
+*No;Value;Package;X;Y;Rotation;Side;Name
+1;;;122.212;-30.8316;0;Bottom;Copper Fill63
+2;;THT;33.3443;-27.8754;0;Bottom;J12
+3;;THT;9.21427;-27.8754;0;Bottom;J10
+4;;;133.674;-7.55547;0;Bottom;Hole4
+5;;THT;5.40427;-26.6054;0;Bottom;Coil+ Coil-
+6;;;39.2938;-15.2487;0;Bottom;Copper Fill76
+7;;;71.4121;-47.3416;0;Bottom;Copper Fill70
+8;;;102.794;-43.1887;0;Bottom;Copper Fill80
+9;;THT;20.6443;-53.2754;0;Bottom;J1
+10;;;40.9956;-41.2202;0;Bottom;Copper Fill11
+11;;THT;128.594;-18.9854;0;Bottom;Out-  Out+
+12;;THT;110.814;-53.2754;-90;Bottom;J6
+13;100k;THT;71.4443;-45.6554;0;Bottom;RV
+14;100nF;100 mil [THT, multilayer];72.7143;-38.0354;90;Bottom;Cdc
+15;;THT;71.4443;-48.1954;0;Bottom;J0
+16;;;64.6938;-27.9487;0;Bottom;Copper Fill61
+17;;THT;118.434;-17.7154;-90;Bottom;J15
+18;;THT;20.6443;-43.1154;0;Bottom;J1
+19;100k;THT;101.924;-45.6554;0;Bottom;RV
+20;;THT;101.924;-43.1154;0;Bottom;J0
+21;;THT;67.6343;-34.2254;0;Bottom;J8
+22;;THT;112.084;-22.7954;0;Bottom;J12
+23;100k;THT;58.7443;-48.1954;0;Bottom;RV
+24;;THT;28.2643;-27.8754;0;Bottom;J11
+25;;;129.464;-29.2187;0;Bottom;Copper Fill57
+26;;;47.9044;-28.5202;0;Bottom;Copper Fill44
+27;;;91.7321;-30.8316;0;Bottom;Copper Fill65
+28;;THT;98.1143;-39.3054;0;Bottom;J9
+29;;;64.6938;-31.7587;0;Bottom;Copper Fill66
+30;;THT;49.8543;-53.2754;-90;Bottom;J4
+31;;THT;49.8543;-43.1154;-90;Bottom;J4
+32;;;38.3921;-14.3216;0;Bottom;Copper Fill74
+33;16k;THT;47.3143;-22.7954;0;Bottom;RT1
+34;;DIP (Dual Inline) [THT];85.4143;-35.4954;-90;Bottom;4316-2
+35;;THT;37.1543;-39.3054;0;Bottom;J7
+36;;;2.86418;-64.7054;0;Bottom;Hole1
+37;;THT;57.4743;-17.7154;-90;Bottom;J13
+38;;;2.86418;-7.55547;0;Bottom;Hole2
+39;100nF;100 mil [THT, multilayer];103.194;-38.0354;90;Bottom;Cdc
+40;;DIP (Dual Inline) [THT];54.9343;-35.4954;-90;Bottom;4316-1
+41;;;68.4022;-35.6068;0;Bottom;Copper Fill54
+42;;;129.464;-31.7587;0;Bottom;Copper Fill58
+43;;THT;44.7743;-43.1154;0;Bottom;J0
+44;;THT;128.594;-32.9554;0;Bottom;V+ V- GND GND
+45;;THT;48.5843;-27.8754;0;Bottom;J3
+46;32k;THT;99.3843;-27.8754;0;Bottom;RT2
+47;;;34.2138;-31.7587;0;Bottom;Copper Fill68
+48;;;30.7721;-30.8316;0;Bottom;Copper Fill69
+49;;THT;25.7243;-43.1154;0;Bottom;J2
+50;;;61.2521;-30.8316;0;Bottom;Copper Fill67
+51;;;128.562;-28.2916;0;Bottom;Copper Fill55
+52;;THT;123.514;-10.0954;-180;Bottom;Invert T0 V4 T2 V2 T4 V0
+53;;;23.1902;-32.9906;0;Bottom;Copper Fill45
+54;;THT;80.3343;-53.2754;-90;Bottom;J5
+55;;THT;118.434;-27.8754;-90;Bottom;J15
+56;;DIP (Dual Inline) [THT];115.894;-35.4954;-90;Bottom;4316-3
+57;;THT;87.9543;-17.7154;-90;Bottom;J14
+58;0.18nF;100 mil [THT, multilayer];56.2043;-44.3854;90;Bottom;CBoost
+59;;;37.465;-15.2487;0;Bottom;Copper Fill75
+60;;;72.3138;-48.2687;0;Bottom;Copper Fill72
+61;;DIP (Dual Inline) [THT];24.4543;-35.4954;-90;Bottom;4316-0
+62;100k;THT;89.2243;-45.6554;0;Bottom;RV
+63;;THT;80.3343;-43.1154;-90;Bottom;J5
+64;;THT;30.8043;-43.1154;0;Bottom;J2
+65;;;43.815;-43.1887;0;Bottom;Copper Fill77
+66;;;101.892;-44.0904;0;Bottom;Copper Fill78
+67;;;62.865;-27.9487;0;Bottom;Copper Fill60
+68;;;112.954;-22.8687;0;Bottom;Copper Fill82
+69;;;38.3921;-16.1504;0;Bottom;Copper Fill73
+70;;THT;63.8243;-27.8754;0;Bottom;J12
+71;;;127.635;-29.2187;0;Bottom;Copper Fill56
+72;;THT;123.514;-60.8954;0;Bottom;Straight Ton V5 T1 V3 T3 V1
+73;;;70.485;-48.2687;0;Bottom;Copper Fill71
+74;;;95.1738;-31.7587;0;Bottom;Copper Fill64
+75;;;63.7921;-27.0216;0;Bottom;Copper Fill59
+76;;THT;98.1143;-34.2254;0;Bottom;J9
+77;;;33.3121;-27.0216;0;Bottom;Copper Fill84
+78;;;100.965;-43.1887;0;Bottom;Copper Fill79
+79;100nF;100 mil [THT, multilayer];42.2343;-38.0354;90;Bottom;Cdc
+80;;THT;87.9543;-27.8754;-90;Bottom;J14
+81;;;112.052;-23.7704;0;Bottom;Copper Fill81
+82;;;85.4202;-27.8852;0;Bottom;Copper Fill47
+83;;THT;38.4243;-15.1754;0;Bottom;J12
+84;;;72.4916;-43.7094;0;Bottom;Copper Fill28
+85;100nF;100 mil [THT, multilayer];11.7543;-38.0354;90;Bottom;Cdc
+86;64k;THT;109.544;-25.3354;0;Bottom;RT4
+87;;;15.875;-43.1887;0;Bottom;Copper Fill83
+88;10nF;100 mil [THT, multilayer];42.2343;-30.4154;90;Bottom;CT
+89;100k;THT;119.704;-45.6554;0;Bottom;RV
+90;;THT;110.814;-43.1154;-90;Bottom;J6
+91;;THT;23.1843;-27.8754;0;Bottom;J10
+92;;;32.385;-27.9487;0;Bottom;Copper Fill85
+93;;THT;57.4743;-27.8754;-90;Bottom;J13
+94;;THT;28.2643;-17.7154;0;Bottom;J11
+95;;;124.752;-30.8316;0;Bottom;Copper Fill62
+96;;THT;39.6943;-45.6554;0;Bottom;J3
+97;16k;THT;79.0643;-22.7954;0;Bottom;RT1
+98;;THT;37.1543;-34.2254;0;Bottom;J7
+99;;THT;16.8343;-43.1154;0;Bottom;J0
+100;;THT;67.6343;-39.3054;0;Bottom;J8
+101;;;34.2138;-27.9487;0;Bottom;Copper Fill86
+102;;;104.445;-42.4902;0;Bottom;Copper Fill14
+103;;;133.674;-64.7053;0;Bottom;Hole3
