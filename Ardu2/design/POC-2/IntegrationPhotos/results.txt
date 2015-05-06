@@ -1,0 +1,48 @@
+using 1% pwm at 50000 hz, & 50ohm series resistor, I get 3.5k ohm resistance
+over the photo-resistor
+
+using the open_drain, set to high, and 1k resistor, I get 7.7 K ohm resistance 
+over the photoresistor, both work well for popless shunting!
+
+g = pyb.Pin('X1',pyb.Pin.OUT_OD)
+g.low()
+g.high()
+
+
+c =pwmControl()
+shunt(c)
+shunt(c,False)
+
+
+while True:
+  pyb.delay(50
+  doShunt()
+  pyb.delay(50)
+  doShunt(False)
+
+Hi,
+
+Here are the results of testing your suggestions :
+[quote]
+1- If you are able to get good 'popless' shunting at 1% PWM, that tells me that you don't need to drive your Vactrol LED at anything close to the 40-50mA that you will get at 100% duty cycle. You can probably dispense with the BJT and drive the Vactrol directly with the pyboard GPIO pin and the 3.3V supply. IIRC, the GPIO pins can drive or sink up to 20mA. Put your drive pin in open collector mode and use a 200 Ohm resistor in series with the LED to limit the current to about 10mA.[/quote]
+
+I tried this exactly as you said, and it shunts, but the pop is back. I have tried to tune the series resistor, but I am giving up for now and going back to the PWM solution so I can continue testing other parts of the circuit.  I think this will work but the series resistor must be tuned to an appropriate value.  Ideally, it seems that the Vactrol resistance should be 3-5 k ohm to get good quiet shunting.
+
+[quote]2- The Vactrol does not require a common ground between the LED drive circuitry and the audio circuit- you may get better audio performance if you separate them.[/quote]
+
+Definitely not. Without the common ground, the circuit is drowned in noise.
+
+By the way, I actually read some books and understood the idea of shunting and then empirically came to the resistor and PWM values. 
+
+Today, in the lab, we have measured the signal on a scope and saw that on un-shunting the circuit there is a 360 micro-second long spike while the stored  energy in the audio source (an inductive source) attenuates and pure audio is then carried.  So, the vactrol ramp up time is slow enough to allow the energy to dissipate before getting to the amp. (that's what we think, anyway.)
+
+So, the problem is sort of solved and life is as Good as it Gets!
+
+---- The Pop ---
+
+--- The un-shunting Pop ---
+
+With the coil grounded, the current flows to ground at zero volts.
+
+When the coil is un-grounded, the coil tries to conitnue the current flow through the high impedence amp by increasing the voltage. This 360 micro-second long voltage spike is what we hear as a pop.
+
