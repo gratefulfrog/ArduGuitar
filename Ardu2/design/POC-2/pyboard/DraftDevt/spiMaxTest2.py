@@ -1,31 +1,33 @@
 #!/usr/local/bin/python3.4
-# spiTest2.py
-# exercise some pyboard SPI with as many 74HC595 shift registers connected
+# spiMaxTest2.py
+# exercise some pyboard SPI with as many MAX395's connected
 # as needed:
 
 """
 pin   
 Shift Reg 1
-8  : GND
-9  : Shift Reg 0, pin 14 (serial data out-> serial data in)
-10 : 5v
-11 : X6 SHCP 
-12 : X5 STCP (latch) ?? no this is wrong
-13 : GND (Output Enable)
-14 : X8  (Serial Data In - MOSI)
-16 : 5v
-Q0-Q7 : LEDs 8-15
+pin
+1  : SCLK  : Pyboard SCK X6
+2  : V+    : 5v
+3  : Din   : Pyboard MOSI  X8
+4  : GND   : Pyboard GND
+24 : CS    : Pyboard X5
+23 : RESET : 5v
+22 : Dout  : to next MAX395-0 pin 3
+21 : V-    : -5v
+5 - 20 : LEDs
 
 Shift Reg 0
-8  : GND
-9  : not connected
-10 : 5v
-11 : X6 SHCP 
-12 : X5 STCP (latch) ?? no this is wrong
-13 : GND (Output Enable)
-14 : X8  (Serial Data In - MOSI)
-16 : 5v
-Q0-Q7 : LEDs 0-7
+1  : SCLK  : Pyboard SCK X6
+2  : V+    : 5v
+3  : Din   : from Max395-1 pin 22
+4  : GND   : Pyboard GND
+24 : CS    : Pyboard X5
+23 : RESET : 5v
+22 : Dout  : not connected
+21 : V-    : -5v
+5 - 20 : LEDs
+
 """
 
 from pyb import SPI,Pin
@@ -37,8 +39,8 @@ nbBits = 16
 # first arg=1 means 'X side' of the board
 spi = SPI(1,SPI.MASTER)
 
-# create the shcp pin on X5 - this is the "latch" pin
-shcp = Pin('X5', Pin.OUT_PP)
+# create the cs (Chip Select) pin on X5 - this is the "latch" pin
+cs = Pin('X5', Pin.OUT_PP)
 
 # register buffer
 onReg = [0 for x in range(int(nbBits/8))]
@@ -75,16 +77,16 @@ def off(*qArgs):
 
 def update():
     # send the data bits to the shift register
-    global shcp
+    global cs
     global spi
     # turn off the latch
-    shcp.low()
+    cs.low()
     # send the bits
     for r in onReg:
         spi.send(r)
-        print("send: %d"% r)
+        print("send:\t{0:#b}".format(r))
     # turn on the latch
-    shcp.high()
+    cs.high()
 
     
 """
