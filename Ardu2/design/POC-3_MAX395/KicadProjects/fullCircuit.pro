@@ -1,4 +1,4 @@
-update=Sun 24 May 2015 10:40:00 AM CEST
+update=Mon 25 May 2015 12:11:16 AM CEST
 version=1
 last_client=kicad
 [pcbnew]
@@ -63,3 +63,13 @@ LibName31=valves
 LibName32=LM2596
 LibName33=mcp2200
 LibName34=Pyboard
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
