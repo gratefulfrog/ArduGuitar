@@ -1,4 +1,4 @@
-update=Wed 20 May 2015 11:33:35 AM CEST
+update=Sun 24 May 2015 10:40:00 AM CEST
 version=1
 last_client=kicad
 [pcbnew]
@@ -61,3 +61,5 @@ LibName29=atmel
 LibName30=contrib
 LibName31=valves
 LibName32=LM2596
+LibName33=mcp2200
+LibName34=Pyboard
