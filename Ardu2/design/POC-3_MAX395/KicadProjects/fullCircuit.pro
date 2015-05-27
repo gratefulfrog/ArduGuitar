@@ -1,4 +1,4 @@
-update=Mon 25 May 2015 10:12:54 PM CEST
+update=Wed 27 May 2015 04:57:48 PM CEST
 version=1
 last_client=kicad
 [cvpcb]
@@ -53,12 +53,10 @@ LibName32=LM2596
 LibName33=mcp2200
 LibName34=Pyboard
 LibName35=national-semiconductor
-[general]
-version=1
 [pcbnew]
 version=1
 PageLayoutDescrFile=
-LastNetListRead=fullCircuita.net
+LastNetListRead=fullCircuit.net
 UseCmpFile=0
 PadDrill=0.6
 PadDrillOvalY=0.6
@@ -75,3 +73,5 @@ SolderMaskMinWidth=0
 DrawSegmentWidth=0.2
 BoardOutlineThickness=0.09999999999999999
 ModuleOutlineThickness=0.15
+[general]
+version=1
