@@ -100,7 +100,7 @@
       (place P1 73660 -105410 front 90 (PN CONN_01X02))
     )
     (component Resistors_ThroughHole:Resistor_Horizontal_RM10mm
-      (place R1 99060 -43180 front 0 (PN 220))
+      (place R1 99060 -42545 front 0 (PN 220))
       (place R2 92710 -99060 front 0 (PN 1K))
       (place R3 92710 -101600 front 180 (PN 330))
       (place R4 132080 -139700 front 0 (PN 1K))
@@ -152,9 +152,6 @@
       (place R50 215900 -86360 front 0 (PN 100K))
       (place R51 215900 -88900 front 0 (PN 100K))
     )
-    (component "Divers:OPTORESISTOR_NSL-32"
-      (place U4 100330 -52070 front 0 (PN PHOTORESISTOR))
-    )
     (component "Housings_DIP:DIP-24__300"
       (place U5 113030 -40640 front 90 (PN MAX395))
       (place U6 113030 -74930 front 270 (PN MAX395))
@@ -188,6 +185,9 @@
       (place Hole3 224790 -140970 front 0 (PN MountingHole_3mm))
       (place Hole1 73660 -26670 front 0 (PN MountingHole_3mm))
       (place Hole2 73660 -140970 front 0 (PN MountingHole_3mm))
+    )
+    (component 330L:Vactrol
+      (place U4 92075 -50165 front 0 (PN Vactrol))
     )
   )
   (library
@@ -328,25 +328,6 @@
       (outline (path signal 150  2540 0  3810 0))
       (pin Round[A]Pad_1998.98_um 1 -5080 0)
       (pin Round[A]Pad_1998.98_um 2 5080 0)
-    )
-    (image "Divers:OPTORESISTOR_NSL-32"
-      (outline (path signal 150  -1418.79 1778  -1436.37 1667  -1487.39 1566.86  -1566.86 1487.39
-            -1667 1436.37  -1778 1418.79  -1889 1436.37  -1989.14 1487.39
-            -2068.61 1566.86  -2119.63 1667  -2137.21 1778  -2119.63 1889
-            -2068.61 1989.14  -1989.14 2068.61  -1889 2119.63  -1778 2137.21
-            -1667 2119.63  -1566.86 2068.61  -1487.39 1989.14  -1436.37 1889))
-      (outline (path signal 150  2540 -1270  5080 -1270))
-      (outline (path signal 150  2540 1270  5080 1270))
-      (outline (path signal 150  -5080 -1905  -2540 -1905))
-      (outline (path signal 150  -5080 1905  -2540 1905))
-      (outline (path signal 150  -2540 2540  2540 2540))
-      (outline (path signal 150  2540 2540  2540 -2540))
-      (outline (path signal 150  2540 -2540  -2540 -2540))
-      (outline (path signal 150  -2540 -2540  -2540 2540))
-      (pin Rect[A]Pad_2286x1574.8_um 1 -5080 -1905)
-      (pin Oval[A]Pad_2286x1574.8_um 2 -5080 1905)
-      (pin Oval[A]Pad_2286x1574.8_um 3 5080 1270)
-      (pin Oval[A]Pad_2286x1574.8_um 4 5080 -1270)
     )
     (image "Housings_DIP:DIP-24__300"
       (outline (path signal 150  -16510 1270  -15240 1270))
@@ -564,6 +545,20 @@
       (keepout "" (circle F.Cu_Audio.GND 3000))
       (keepout "" (circle In1.Cu 3000))
     )
+    (image 330L:Vactrol
+      (outline (path signal 150  -5000 1500  -7500 1500))
+      (outline (path signal 150  -5000 -1500  -7500 -1500))
+      (outline (path signal 150  5000 2500  7500 2500))
+      (outline (path signal 150  5000 -2500  7500 -2500))
+      (outline (path signal 150  -5000 5000  5000 5000))
+      (outline (path signal 150  5000 5000  5000 -5000))
+      (outline (path signal 150  5000 -5000  -5000 -5000))
+      (outline (path signal 150  -5000 -5000  -5000 5000))
+      (pin Rect[A]Pad_2286x1574.8_um 1 -7500 1500)
+      (pin Oval[A]Pad_2286x1574.8_um 2 -7500 -1500)
+      (pin Oval[A]Pad_2286x1574.8_um 3 7500 2500)
+      (pin Oval[A]Pad_2286x1574.8_um 4 7500 -2500)
+    )
     (padstack Round[A]Pad_1198.88_um
       (shape (circle F.Cu_Audio.GND 1198.88))
       (shape (circle In1.Cu 1198.88))
@@ -692,14 +687,14 @@
         U10-18 U10-19 U13-13 U16-20)
     )
     (net /OUT+
-      (pins C5-2 U4-4 U5-10 U5-11 U5-13 U5-15 U5-18 U5-19 P7-2)
+      (pins C5-2 U5-10 U5-11 U5-13 U5-15 U5-18 U5-19 P7-2 U4-4)
     )
     (net "Net-(C10-Pad1)"
       (pins C10-1 U6-13)
     )
     (net "/MIn-"
-      (pins C10-2 C11-2 C12-1 C13-1 C14-1 R6-1 R15-1 U4-3 U5-9 U7-14 U7-15 U10-13
-        U13-20 P7-1)
+      (pins C10-2 C11-2 C12-1 C13-1 C14-1 R6-1 R15-1 U5-9 U7-14 U7-15 U10-13 U13-20
+        P7-1 U4-3)
     )
     (net "Net-(C11-Pad1)"
       (pins C11-1 U6-12)
@@ -797,7 +792,7 @@
       (pins U17-6 U17-7 P7-12)
     )
     (net "Net-(R1-Pad1)"
-      (pins R1-1 U4-2)
+      (pins R1-1 U4-1)
     )
     (net "Net-(R2-Pad2)"
       (pins R2-2 R3-1 U2-4)
@@ -937,13 +932,6 @@
     (net "/AOut-"
       (pins R51-1 U13-6 U13-7 U13-10 U13-11 U13-16 U13-18 U13-19 U18-6 U18-8 U18-9)
     )
-    (net "Net-(U1-Pad5)"
-      (pins U5-24 U6-24 U8-24 U9-24 U11-24 U12-24 U14-24 U15-24 U17-24 U18-24 U1-5)
-    )
-    (net "Net-(U1-Pad6)"
-      (pins U5-1 U6-1 U7-1 U8-1 U9-1 U10-1 U11-1 U12-1 U13-1 U14-1 U15-1 U16-1 U17-1
-        U18-1 U1-6)
-    )
     (net "Net-(U5-Pad3)"
       (pins U5-3 U6-22)
     )
@@ -995,17 +983,22 @@
     (net "Net-(U17-Pad12)"
       (pins U17-8 U17-12 U17-13 U17-16 U17-17)
     )
-    (net "Net-(U1-Pad1)"
-      (pins U4-1 U1-1)
-    )
     (net "Net-(U1-Pad8)"
       (pins U6-3 U1-8)
     )
-    (net "Net-(U10-Pad24)"
-      (pins U7-24 U10-24 U13-24 U16-24)
-    )
     (net "Net-(L3-Pad2)"
       (pins L3-2 P7-9 P7-8 P7-7 P7-6 P7-10)
+    )
+    (net /CLK
+      (pins U5-1 U6-1 U7-1 U8-1 U9-1 U10-1 U11-1 U12-1 U13-1 U14-1 U15-1 U16-1 U17-1
+        U18-1 U1-6)
+    )
+    (net /CS
+      (pins U5-24 U6-24 U7-24 U8-24 U9-24 U10-24 U11-24 U12-24 U13-24 U14-24 U15-24
+        U16-24 U17-24 U18-24 U1-5)
+    )
+    (net /ShuntControl
+      (pins U1-1 U4-2)
     )
     (class kicad_default ""
       (circuit
@@ -1037,7 +1030,7 @@
         (use_via Via[0-1]_600:400_um)
       )
       (rule
-        (width 120)
+        (width 380)
         (clearance 200.1)
       )
     )
@@ -1046,7 +1039,7 @@
         (use_via Via[0-1]_600:400_um)
       )
       (rule
-        (width 300)
+        (width 1800)
         (clearance 200.1)
       )
     )
@@ -1055,7 +1048,7 @@
         (use_via Via[0-1]_600:400_um)
       )
       (rule
-        (width 300)
+        (width 1800)
         (clearance 200.1)
       )
     )
@@ -1065,21 +1058,20 @@
         (use_via Via[0-1]_600:400_um)
       )
       (rule
-        (width 300)
+        (width 1800)
         (clearance 200.1)
       )
     )
-    (class SPI "Net-(R1-Pad1)" "Net-(U1-Pad1)" "Net-(U1-Pad5)" "Net-(U1-Pad6)"
-      "Net-(U1-Pad8)" "Net-(U10-Pad22)" "Net-(U10-Pad24)" "Net-(U10-Pad3)"
-      "Net-(U11-Pad22)" "Net-(U11-Pad3)" "Net-(U12-Pad3)" "Net-(U13-Pad3)"
-      "Net-(U14-Pad22)" "Net-(U14-Pad3)" "Net-(U16-Pad3)" "Net-(U17-Pad3)"
-      "Net-(U5-Pad22)" "Net-(U5-Pad3)" "Net-(U8-Pad3)"
+    (class SPI /CLK /CS /ShuntControl "Net-(R1-Pad1)" "Net-(U1-Pad8)" "Net-(U10-Pad22)"
+      "Net-(U10-Pad3)" "Net-(U11-Pad22)" "Net-(U11-Pad3)" "Net-(U12-Pad3)"
+      "Net-(U13-Pad3)" "Net-(U14-Pad22)" "Net-(U14-Pad3)" "Net-(U16-Pad3)"
+      "Net-(U17-Pad3)" "Net-(U5-Pad22)" "Net-(U5-Pad3)" "Net-(U8-Pad3)"
       (circuit
         (use_via Via[0-1]_600:400_um)
       )
       (rule
-        (width 120)
-        (clearance 200.1)
+        (width 380)
+        (clearance 380.1)
       )
     )
     (class V+ /V+
@@ -1087,7 +1079,7 @@
         (use_via Via[0-1]_600:400_um)
       )
       (rule
-        (width 300)
+        (width 1800)
         (clearance 200.1)
       )
     )
@@ -1096,7 +1088,7 @@
         (use_via Via[0-1]_600:400_um)
       )
       (rule
-        (width 300)
+        (width 1800)
         (clearance 200.1)
       )
     )
