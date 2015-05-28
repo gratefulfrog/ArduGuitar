@@ -896,13 +896,13 @@ Text Label 5250 1000 3    60   ~ 0
 OUT+
 Text Label 5150 1000 3    60   ~ 0
 OUT-
-Text Label 6250 1000 3    60   ~ 0
-A+
-Text Label 6150 1000 3    60   ~ 0
-A-
-Text Label 6350 1000 3    60   ~ 0
-B+
 Text Label 6450 1000 3    60   ~ 0
+A+
+Text Label 6350 1000 3    60   ~ 0
+A-
+Text Label 6250 1000 3    60   ~ 0
+B+
+Text Label 6150 1000 3    60   ~ 0
 B-
 Text Label 6550 1000 3    60   ~ 0
 C+
