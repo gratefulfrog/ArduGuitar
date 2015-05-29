@@ -1771,7 +1771,6 @@ F 3 "" H 2600 3800 60  0000 C CNN
 $EndComp
 Text Label 2250 3600 0    60   ~ 0
 V+
-NoConn ~ 750  3600
 NoConn ~ 750  3700
 NoConn ~ 750  3800
 NoConn ~ 750  3900
@@ -2073,11 +2072,11 @@ Wire Wire Line
 Wire Wire Line
 	16400 4700 16950 4700
 Wire Wire Line
-	16950 4700 16950 5000
+	16950 5000 16950 4700
 Wire Wire Line
 	16950 4900 16400 4900
 Wire Wire Line
-	16950 5000 16300 5000
+	16300 5000 16950 5000
 Connection ~ 16950 4900
 Wire Wire Line
 	15850 2600 15850 4900
@@ -2273,11 +2272,11 @@ Wire Wire Line
 Wire Wire Line
 	13100 4700 13650 4700
 Wire Wire Line
-	13650 4700 13650 5000
+	13650 5000 13650 4700
 Wire Wire Line
 	13650 4900 13100 4900
 Wire Wire Line
-	13650 5000 13000 5000
+	13000 5000 13650 5000
 Connection ~ 13650 4900
 Wire Wire Line
 	12550 2600 12550 4900
@@ -2468,11 +2467,11 @@ Wire Wire Line
 Wire Wire Line
 	9750 4700 10300 4700
 Wire Wire Line
-	10300 4700 10300 5000
+	10300 5000 10300 4700
 Wire Wire Line
 	10300 4900 9750 4900
 Wire Wire Line
-	10300 5000 9650 5000
+	9650 5000 10300 5000
 Connection ~ 10300 4900
 Wire Wire Line
 	9200 2600 9200 4900
@@ -2663,11 +2662,11 @@ Wire Wire Line
 Wire Wire Line
 	6450 4700 7000 4700
 Wire Wire Line
-	7000 4700 7000 5000
+	7000 5000 7000 4700
 Wire Wire Line
 	7000 4900 6450 4900
 Wire Wire Line
-	7000 5000 6350 5000
+	6350 5000 7000 5000
 Connection ~ 7000 4900
 Wire Wire Line
 	5900 2600 5900 4900
@@ -3236,7 +3235,7 @@ Wire Wire Line
 Wire Wire Line
 	13150 6700 13150 5850
 Wire Wire Line
-	13150 5850 16300 5850
+	16300 5850 13150 5850
 Connection ~ 16300 5850
 Wire Wire Line
 	15600 6800 15650 6800
@@ -3245,7 +3244,7 @@ Wire Wire Line
 Wire Wire Line
 	15650 7100 15600 7100
 Wire Wire Line
-	16300 5850 16300 5000
+	16300 5000 16300 5850
 Connection ~ 15650 6800
 Connection ~ 16350 5900
 Wire Wire Line
@@ -3308,7 +3307,7 @@ Connection ~ 5850 1000
 Connection ~ 5950 1000
 Wire Wire Line
 	5650 1400 5650 1000
-Text Label 2250 5100 0    60   ~ 0
+Text Label 750  3600 0    60   ~ 0
 ShuntControl
 Text Label 2250 4600 0    60   ~ 0
 CLK
@@ -3444,4 +3443,7 @@ Text Label 3050 1250 0    60   ~ 0
 OUT+
 Wire Wire Line
 	1850 850  1550 850 
+Text Label 5750 1000 3    60   ~ 0
+OUT-
+NoConn ~ 2250 5100
 $EndSCHEMATC

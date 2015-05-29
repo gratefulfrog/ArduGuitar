@@ -1,0 +1,220 @@
+
+(rules PCB fullCircuit
+  (snap_angle 
+    fortyfive_degree
+  )
+  (autoroute_settings
+    (fanout off)
+    (autoroute on)
+    (postroute on)
+    (vias on)
+    (via_costs 50)
+    (plane_via_costs 5)
+    (start_ripup_costs 100)
+    (start_pass_no 213)
+    (layer_rule "F.Cu_Audio.GND"
+      (active on)
+      (preferred_direction vertical)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 2.4)
+    )
+    (layer_rule In1.Cu
+      (active on)
+      (preferred_direction horizontal)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 1.7)
+    )
+  )
+  (rule
+    (width 508.0)
+    (clear 508.2)
+    (clear 254.0 (type smd_to_turn_gap))
+    (clear 635.2 (type default_SPI))
+    (clear 127.0 (type smd_smd))
+    (clear 635.2 (type smd_SPI))
+    (clear 635.2 (type "kicad_default"_SPI))
+    (clear 381.2 (type Audio_Audio))
+    (clear 635.2 (type Audio_SPI))
+    (clear 381.2 (type BATinput_BATinput))
+    (clear 635.2 (type BATinput_SPI))
+    (clear 381.2 (type GND_GND))
+    (clear 635.2 (type GND_SPI))
+    (clear 381.2 (type Power_Power))
+    (clear 635.2 (type Power_SPI))
+    (clear 635.2 (type SPI_SPI))
+    (clear 635.2 (type SPI_V+))
+    (clear 635.2 (type SPI_"V-"))
+    (clear 381.2 (type V+_V+))
+    (clear 381.2 (type "V-"_"V-"))
+  )
+  (padstack "Via[0-1]_600:400_um"
+    (shape
+      (circle "F.Cu_Audio.GND" 600.0 0.0 0.0)
+    )
+    (shape
+      (circle In1.Cu 600.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (via 
+    "Via[0-1]_600:400_um" "Via[0-1]_600:400_um" default
+  )
+  (via 
+    "Via[0-1]_600:400_um-kicad_default" "Via[0-1]_600:400_um" "kicad_default"
+  )
+  (via 
+    "Via[0-1]_600:400_um-Audio" "Via[0-1]_600:400_um" Audio
+  )
+  (via 
+    "Via[0-1]_600:400_um-BATinput" "Via[0-1]_600:400_um" BATinput
+  )
+  (via 
+    "Via[0-1]_600:400_um-GND" "Via[0-1]_600:400_um" GND
+  )
+  (via 
+    "Via[0-1]_600:400_um-Power" "Via[0-1]_600:400_um" Power
+  )
+  (via 
+    "Via[0-1]_600:400_um-SPI" "Via[0-1]_600:400_um" SPI
+  )
+  (via 
+    "Via[0-1]_600:400_um-V+" "Via[0-1]_600:400_um" V+
+  )
+  (via 
+    "Via[0-1]_600:400_um-V-" "Via[0-1]_600:400_um" "V-"
+  )
+  (via_rule
+    default "Via[0-1]_600:400_um"
+  )
+  (via_rule
+    "kicad_default" "Via[0-1]_600:400_um-kicad_default"
+  )
+  (via_rule
+    Audio "Via[0-1]_600:400_um-Audio"
+  )
+  (via_rule
+    BATinput "Via[0-1]_600:400_um-BATinput"
+  )
+  (via_rule
+    GND "Via[0-1]_600:400_um-GND"
+  )
+  (via_rule
+    Power "Via[0-1]_600:400_um-Power"
+  )
+  (via_rule
+    SPI "Via[0-1]_600:400_um-SPI"
+  )
+  (via_rule
+    V+ "Via[0-1]_600:400_um-V+"
+  )
+  (via_rule
+    "V-" "Via[0-1]_600:400_um-V-"
+  )
+  (class default
+    (clearance_class default)
+    (via_rule default)
+    (rule
+      (width 508.0)
+    )
+    (circuit 
+      (use_layer F.Cu_Audio.GND In1.Cu)
+    )
+  )
+  (class "kicad_default"
+    (clearance_class "kicad_default")
+    (via_rule kicad_default)
+    (rule
+      (width 508.0)
+    )
+    (circuit 
+      (use_layer F.Cu_Audio.GND In1.Cu)
+    )
+  )
+  (class Audio
+    /MIn+ /OUT+ "Net-(C10-Pad1)" "/MIn-" "Net-(C11-Pad1)" "Net-(C12-Pad2)" "Net-(C13-Pad2)" "Net-(C14-Pad2)"
+    "Net-(C16-Pad1)" "Net-(C16-Pad2)" "Net-(C23-Pad1)" /DOut+ "Net-(C24-Pad1)" "Net-(C24-Pad2)" "Net-(C31-Pad1)" "/BOut-"
+    "Net-(C32-Pad1)" "Net-(C32-Pad2)" "Net-(C39-Pad1)" /BOut+ "Net-(C41-Pad1)" "Net-(C41-Pad2)" "Net-(C46-Pad1)" /AOut+
+    "/D-" /D+ "/C-" /C+ "/B-" /B+ "/A-" /A+
+    "Net-(R6-Pad2)" "Net-(R7-Pad2)" "Net-(R8-Pad2)" "Net-(R10-Pad1)" "Net-(R11-Pad1)" "Net-(R11-Pad2)" "Net-(R12-Pad1)" "Net-(R13-Pad1)"
+    "Net-(R14-Pad1)" "Net-(R16-Pad2)" "Net-(R17-Pad2)" "Net-(R18-Pad2)" "Net-(R19-Pad2)" "Net-(R20-Pad1)" "Net-(R21-Pad1)" "Net-(R22-Pad1)"
+    "Net-(R23-Pad1)" "/DOut-" "Net-(R25-Pad2)" "Net-(R26-Pad2)" "Net-(R27-Pad2)" "Net-(R28-Pad2)" "Net-(R29-Pad1)" "Net-(R30-Pad1)"
+    "Net-(R31-Pad1)" "Net-(R32-Pad1)" "/COut-" "Net-(R34-Pad2)" "Net-(R35-Pad2)" "Net-(R36-Pad2)" "Net-(R37-Pad2)" "Net-(R38-Pad1)"
+    "Net-(R39-Pad1)" "Net-(R40-Pad1)" "Net-(R41-Pad1)" "Net-(R43-Pad2)" "Net-(R44-Pad2)" "Net-(R45-Pad2)" "Net-(R46-Pad2)" "Net-(R47-Pad1)"
+    "Net-(R48-Pad1)" "Net-(R49-Pad1)" "Net-(R50-Pad1)" "/AOut-" "Net-(U8-Pad12)" "Net-(U11-Pad12)" "Net-(U14-Pad12)" "Net-(U17-Pad12)"
+    (clearance_class Audio)
+    (via_rule Audio)
+    (rule
+      (width 381.0)
+    )
+    (circuit 
+      (use_layer F.Cu_Audio.GND In1.Cu)
+    )
+  )
+  (class BATinput
+    /BATin
+    (clearance_class BATinput)
+    (via_rule BATinput)
+    (rule
+      (width 762.0)
+    )
+    (circuit 
+      (use_layer F.Cu_Audio.GND In1.Cu)
+    )
+  )
+  (class GND
+    GND
+    (clearance_class GND)
+    (via_rule GND)
+    (rule
+      (width 762.0)
+    )
+    (circuit 
+      (use_layer F.Cu_Audio.GND In1.Cu)
+    )
+  )
+  (class Power
+    "Net-(D1-Pad1)" "Net-(D2-Pad1)" "Net-(R2-Pad2)" "Net-(R4-Pad2)"
+    (clearance_class Power)
+    (via_rule Power)
+    (rule
+      (width 762.0)
+    )
+    (circuit 
+      (use_layer F.Cu_Audio.GND In1.Cu)
+    )
+  )
+  (class SPI
+    "Net-(U5-Pad3)" "Net-(U5-Pad22)" "Net-(U10-Pad22)" "Net-(U8-Pad3)" "Net-(U12-Pad3)" "Net-(U10-Pad3)" "Net-(U11-Pad3)" "Net-(U11-Pad22)"
+    "Net-(U13-Pad3)" "Net-(U14-Pad3)" "Net-(U14-Pad22)" "Net-(U16-Pad3)" "Net-(U17-Pad3)" "Net-(U1-Pad8)" /CLK /CS
+    (clearance_class SPI)
+    (via_rule SPI)
+    (rule
+      (width 381.0)
+    )
+    (circuit 
+      (use_layer F.Cu_Audio.GND In1.Cu)
+    )
+  )
+  (class V+
+    /V+ "Net-(R1-Pad1)" /ShuntControl
+    (clearance_class V+)
+    (via_rule V+)
+    (rule
+      (width 762.0)
+    )
+    (circuit 
+      (use_layer F.Cu_Audio.GND In1.Cu)
+    )
+  )
+  (class "V-"
+    "/V-"
+    (clearance_class "V-")
+    (via_rule V-)
+    (rule
+      (width 762.0)
+    )
+    (circuit 
+      (use_layer F.Cu_Audio.GND In1.Cu)
+    )
+  )
+)

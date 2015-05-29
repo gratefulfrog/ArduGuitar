@@ -1,0 +1,5238 @@
+
+(session fullCircuit.ses
+  (base_design fullCircuit.dsn)
+  (placement
+    (resolution um 10)
+    (component Mounting_Holes:MountingHole_3mm
+      (place Hole4 2565400 -228600 front 0)
+      (place Hole3 2552700 -1549400 front 0)
+      (place Hole1 673100 -228600 front 0)
+      (place Hole2 685800 -1549400 front 0)
+    )
+    (component Capacitors_ThroughHole:C_Radial_D10_L16_P5
+      (place C1 889000 -1257300 front 90)
+      (place C2 1193800 -1473200 front 0)
+      (place C3 863600 -1485900 front 90)
+      (place C4 1193800 -1257300 front 0)
+    )
+    (component Capacitors_ThroughHole:C_Disc_D3_P2.5
+      (place C5 1041400 -520700 front 0)
+      (place C6 1079500 -596900 front 180)
+      (place C7 1079500 -762000 front 180)
+      (place C8 1206500 -647700 front 0)
+      (place C9 1206500 -812800 front 0)
+      (place C15 1562100 -1282700 front 270)
+      (place C17 1358900 -596900 front 180)
+      (place C18 1358900 -762000 front 180)
+      (place C19 1689100 -1333500 front 0)
+      (place C20 1485900 -647700 front 0)
+      (place C21 1485900 -812800 front 0)
+      (place C22 1739900 -1282700 front 180)
+      (place C23 1524000 -863600 front 180)
+      (place C25 1638300 -596900 front 180)
+      (place C26 1638300 -762000 front 180)
+      (place C27 1866900 -1333500 front 0)
+      (place C28 1930400 -1282700 front 180)
+      (place C29 1765300 -647700 front 0)
+      (place C30 1765300 -812800 front 0)
+      (place C31 1803400 -863600 front 180)
+      (place C33 1917700 -596900 front 180)
+      (place C34 1917700 -762000 front 180)
+      (place C35 2057400 -1333500 front 0)
+      (place C36 2108200 -1282700 front 180)
+      (place C37 2044700 -647700 front 0)
+      (place C38 2044700 -812800 front 0)
+      (place C39 2082800 -863600 front 180)
+      (place C40 2247900 -1333500 front 90)
+      (place C42 2197100 -596900 front 180)
+      (place C43 2197100 -762000 front 180)
+      (place C44 2324100 -647700 front 0)
+      (place C45 2324100 -812800 front 0)
+      (place C46 2362200 -863600 front 180)
+    )
+    (component Capacitors_ThroughHole:C_Disc_D6_P5
+      (place C10 1257300 -584200 front 0)
+      (place C11 1257300 -635000 front 0)
+      (place C12 1308100 -685800 front 180)
+      (place C13 1308100 -736600 front 180)
+      (place C14 1308100 -787400 front 180)
+      (place C16 1346200 -863600 front 180)
+      (place C24 1625600 -406400 front 180)
+      (place C32 1905000 -406400 front 180)
+      (place C41 2184400 -406400 front 180)
+    )
+    (component "Diodes_ThroughHole:Diode_DO-201AD_Horizontal_RM15"
+      (place D1 952500 -1282700 front 270)
+      (place D2 1295400 -1435100 front 90)
+    )
+    (component "330L:330L-Q9N_Inductor"
+      (place L1 787400 -1346200 front 270)
+      (place L2 1409700 -1397000 front 90)
+    )
+    (component 330L:Inductor
+      (place L3 1854200 -279400 front 180)
+    )
+    (component "Connect:PINHEAD1-2"
+      (place P1 749300 -1181100 front 90)
+    )
+    (component Resistors_ThroughHole:Resistor_Horizontal_RM10mm
+      (place R1 1168400 -215900 front 180)
+      (place R2 939800 -1117600 front 0)
+      (place R3 939800 -1143000 front 180)
+      (place R4 1333500 -1524000 front 0)
+      (place R5 1333500 -1498600 front 180)
+      (place R6 1016000 -393700 front 0)
+      (place R7 1016000 -419100 front 0)
+      (place R8 1016000 -444500 front 0)
+      (place R9 1016000 -469900 front 0)
+      (place R10 1016000 -495300 front 0)
+      (place R11 1270000 -393700 front 0)
+      (place R12 1270000 -419100 front 0)
+      (place R13 1270000 -444500 front 0)
+      (place R14 1270000 -469900 front 0)
+      (place R15 1270000 -495300 front 0)
+      (place R16 1295400 -901700 front 0)
+      (place R17 1295400 -927100 front 0)
+      (place R18 1295400 -952500 front 0)
+      (place R19 1295400 -977900 front 0)
+      (place R20 1549400 -914400 front 0)
+      (place R21 1549400 -939800 front 0)
+      (place R22 1549400 -965200 front 0)
+      (place R23 1549400 -990600 front 0)
+      (place R24 1549400 -1016000 front 0)
+      (place R25 1574800 -444500 front 0)
+      (place R26 1574800 -469900 front 0)
+      (place R27 1574800 -495300 front 0)
+      (place R28 1574800 -520700 front 0)
+      (place R29 1828800 -914400 front 0)
+      (place R30 1828800 -939800 front 0)
+      (place R31 1828800 -965200 front 0)
+      (place R32 1828800 -990600 front 0)
+      (place R33 1828800 -1016000 front 0)
+      (place R34 1854200 -444500 front 0)
+      (place R35 1854200 -469900 front 0)
+      (place R36 1854200 -495300 front 0)
+      (place R37 1854200 -520700 front 0)
+      (place R38 2108200 -914400 front 0)
+      (place R39 2108200 -939800 front 0)
+      (place R40 2108200 -965200 front 0)
+      (place R41 2108200 -990600 front 0)
+      (place R42 2108200 -1016000 front 0)
+      (place R43 2133600 -444500 front 0)
+      (place R44 2133600 -469900 front 0)
+      (place R45 2133600 -495300 front 0)
+      (place R46 2133600 -520700 front 0)
+      (place R47 2387600 -914400 front 0)
+      (place R48 2387600 -939800 front 0)
+      (place R49 2387600 -965200 front 0)
+      (place R50 2387600 -990600 front 0)
+      (place R51 2387600 -1016000 front 0)
+    )
+    (component "Housings_DIP:DIP-24__300"
+      (place U5 1143000 -533400 front 90)
+      (place U6 1143000 -876300 front 270)
+      (place U7 1625600 -1219200 front 90)
+      (place U8 1422400 -533400 front 90)
+      (place U9 1422400 -876300 front 270)
+      (place U10 1803400 -1219200 front 90)
+      (place U11 1701800 -533400 front 90)
+      (place U12 1701800 -876300 front 270)
+      (place U13 1993900 -1219200 front 90)
+      (place U14 1981200 -533400 front 90)
+      (place U15 1981200 -876300 front 270)
+      (place U16 2184400 -1219200 front 90)
+      (place U17 2260600 -533400 front 90)
+      (place U18 2260600 -876300 front 270)
+    )
+    (component 330L:Heatsink_TO_220_38_20
+      (place HS1 1149350 -1358900 front 270)
+    )
+    (component "w_conn_pc:DB_15F-VGA"
+      (place P7 1612900 -215900 front 180)
+    )
+    (component NationalSemiconductor:T05D
+      (place U2 1079500 -1358900 front 270)
+      (place U3 1181100 -1358900 front 90)
+    )
+    (component 330L:Pyboard16x2
+      (place U1 825500 -1028700 front 0)
+    )
+    (component 330L:Vactrol
+      (place U4 1346200 -241300 front 0)
+    )
+  )
+  (was_is
+  )
+  (routes 
+    (resolution um 10)
+    (parser
+      (host_cad "KiCad's Pcbnew")
+      (host_version "0.201505262310+5684~23~ubuntu15.04.1-product")
+    )
+    (library_out 
+      (padstack "Via[0-1]_600:400_um"
+        (shape
+          (circle F.Cu_Audio.GND 6000 0 0)
+        )
+        (shape
+          (circle In1.Cu 6000 0 0)
+        )
+        (attach off)
+      )
+    )
+    (network_out 
+      (net GND
+        (wire
+          (path In1.Cu 7620
+            952530 -1435112
+            952530 -1435110
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            889000 -1143000
+            895140 -1143000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1511460 -647142
+            1510900 -647700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1460500 -596900
+            1461220 -596900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            2083200 -1281790
+            2083200 -1282700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1841500 -1282700
+            1824760 -1265960
+            1824760 -847257
+            1790300 -812800
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            2247900 -1308100
+            2247900 -1308500
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            2349100 -647700
+            2349100 -646034
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            2299970 -596900
+            2298700 -596900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1839390 -1282700
+            1841500 -1282700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1714900 -1282700
+            1714100 -1283500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            2221700 -812800
+            2222500 -812800
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            2172100 -762000
+            2172100 -763205
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            2349100 -647700
+            2349100 -651274
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            2172100 -758214
+            2172100 -762000
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            2032400 -1283100
+            2032000 -1282700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            2083200 -1282700
+            2082800 -1283100
+            2082400 -1283100
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1284310 -1524000
+            1282700 -1524000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1892700 -763562
+            1892700 -762000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1943100 -812800
+            1941940 -812800
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1662550 -812800
+            1663700 -812800
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1613300 -762000
+            1613300 -763552
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            952530 -1435110
+            963661 -1435110
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            863600 -1435900
+            864388 -1435110
+          )
+          (type protect)
+        )
+      )
+      (net /V+
+        (wire
+          (path In1.Cu 7620
+            1181100 -647700
+            1206500 -647700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1663700 -1333500
+            1689100 -1333500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1866900 -1333500
+            1841500 -1333500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1765300 -647700
+            1739900 -647700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            2247900 -1333500
+            2222500 -1333500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1917700 -762000
+            1943100 -762000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            2197100 -762000
+            2222500 -762000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1181100 -762000
+            1176630 -757532
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1358900 -762000
+            1384300 -762000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            2019300 -647700
+            2044700 -647700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            2057400 -1333500
+            2032000 -1333500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1104900 -762000
+            1079500 -762000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1485900 -647700
+            1460500 -647700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            787400 -1384300
+            787400 -1395580
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1663700 -762000
+            1638300 -762000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            2298700 -647700
+            2324100 -647700
+          )
+          (type protect)
+        )
+      )
+      (net /BATin
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1028704 -1324860
+            1028700 -1324864
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1180960 -1421010
+            1084820 -1324860
+            1028704 -1324860
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1028704 -1324860
+            1028700 -1324860
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1028700 -1324860
+            1028700 -1324864
+          )
+        )
+        (wire
+          (path In1.Cu 7620
+            1028700 -1324860
+            1028700 -1319280
+            966715 -1257300
+            889000 -1257300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1231896 -1392940
+            1231900 -1392936
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1231896 -1392940
+            1209040 -1392940
+            1180960 -1421010
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1231900 -1392940
+            1231896 -1392940
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1193800 -1473200
+            1193800 -1433840
+            1180960 -1421010
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            889000 -1257300
+            874877 -1257300
+            811377 -1193800
+            749300 -1193800
+          )
+          (type protect)
+        )
+      )
+      (net "/V-"
+        (wire
+          (path In1.Cu 7620
+            2324100 -812800
+            2324100 -737536
+            2305969 -719405
+            2185771 -719405
+            2143804 -761372
+            2096128 -761372
+            2044700 -812800
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            2222500 -596900
+            2254450 -628848
+            2254450 -768549
+            2298700 -812800
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1295372 -1282690
+            1295370 -1282688
+          )
+        )
+        (wire
+          (path In1.Cu 7620
+            1295372 -1282690
+            1547960 -1282690
+            1547980 -1282700
+            1562100 -1282700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1254760 -1282690
+            1295372 -1282690
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1231900 -1324864
+            1231900 -1324860
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1231900 -1358900
+            1254760 -1358900
+            1256190 -1360320
+            1256190 -1461920
+            1251110 -1467010
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1231900 -1324864
+            1231900 -1358900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1231900 -1324860
+            1231900 -1324864
+          )
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1396090 -690924
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1891690 -730670
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1491450 -718684
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1131290 -825052
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1243800 -1257300
+            1129280 -1142780
+            1129280 -827061
+            1131290 -825052
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1131290 -825052
+            1132410 -823929
+            1132410 -706768
+            1133690 -705489
+            1133690 -625691
+            1104900 -596900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1587500 -1282700
+            1607670 -1302870
+            1607670 -1367080
+            1639320 -1398730
+            1768610 -1398730
+            1806810 -1360530
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1384300 -596900
+            1401820 -614424
+            1401820 -685190
+            1396090 -690924
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1490590 -691599
+            1489910 -690924
+            1396090 -690924
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1206500 -812800
+            1248490 -770810
+            1302820 -770810
+            1358070 -715561
+            1371450 -715561
+            1396090 -690924
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1490590 -691599
+            1529420 -652769
+            1619120 -652769
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1491450 -718684
+            1490590 -717824
+            1490590 -691599
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1181100 -812800
+            1206500 -812800
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1638300 -596900
+            1638300 -611023
+            1619120 -630205
+            1619120 -652769
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1767610 -739580
+            1747480 -719452
+            1710950 -719452
+            1687100 -695601
+            1661950 -695601
+            1619120 -652769
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1806810 -1360530
+            1806810 -1323000
+            1766500 -1282700
+            1765300 -1282700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1930400 -1282700
+            1930400 -1317500
+            1871850 -1376050
+            1822330 -1376050
+            1806810 -1360530
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            2298700 -812800
+            2324100 -812800
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            2108200 -1282700
+            2108200 -1329510
+            2061660 -1376050
+            2020030 -1376050
+            1992410 -1348430
+            1992410 -1319310
+            1955800 -1282700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1765300 -812800
+            1765300 -798677
+            1767610 -796367
+            1767610 -739580
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            2019300 -812800
+            1986690 -780192
+            1986690 -640492
+            1943100 -596900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1638300 -596900
+            1663700 -596900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1181100 -812800
+            1168850 -825052
+            1131290 -825052
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1485900 -812800
+            1485900 -798677
+            1491450 -793129
+            1491450 -718684
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1739900 -812800
+            1765300 -812800
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1765300 -1282700
+            1739900 -1282700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1254760 -1282690
+            1254760 -1268260
+            1243800 -1257300
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1231900 -1324860
+            1254760 -1324860
+            1254760 -1282690
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1562100 -1282700
+            1587500 -1282700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1251110 -1467010
+            1282700 -1498600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1243800 -1473200
+            1249990 -1467010
+            1251110 -1467010
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1079500 -596900
+            1104900 -596900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            2044700 -812800
+            2019300 -812800
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1384300 -596900
+            1358900 -596900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1460500 -812800
+            1485900 -812800
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1955800 -1282700
+            1930400 -1282700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            2146300 -1282700
+            2108200 -1282700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1767610 -739580
+            1882780 -739580
+            1891690 -730670
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1891690 -730670
+            1891690 -637030
+            1917700 -611023
+            1917700 -596900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            2222500 -596900
+            2197100 -596900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1943100 -596900
+            1917700 -596900
+          )
+          (type protect)
+        )
+      )
+      (net /MIn+
+        (via "Via[0-1]_600:400_um" 1121240 -632599
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1735540 -1067810
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1937150 -1066050
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1644570 -1067810
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1104900 -838200
+            1104900 -836169
+            1121240 -819833
+            1121240 -632599
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1121240 -587211
+            1121240 -632599
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1121240 -587211
+            1120610 -587211
+            1104900 -571500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1181100 -546100
+            1139990 -587211
+            1121240 -587211
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1158030 -912074
+            1181100 -889000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1181100 -965200
+            1158030 -942126
+            1158030 -912074
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1158030 -912074
+            1107230 -912074
+            1104900 -914400
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1066800 -495300
+            1053620 -508482
+            1053620 -520700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1041400 -520700
+            1053620 -520700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1104900 -571500
+            1099840 -571500
+            1053620 -525282
+            1053620 -520700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1644570 -1067810
+            1643420 -1066670
+            1372010 -1066670
+            1365860 -1060520
+            1251020 -1060520
+            1181100 -990600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1955800 -1079500
+            1942350 -1066050
+            1937150 -1066050
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1735540 -1067810
+            1742370 -1067810
+            1758860 -1051330
+            1869880 -1051330
+            1884610 -1066050
+            1937150 -1066050
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1735540 -1067810
+            1734520 -1066800
+            1645580 -1066800
+            1644570 -1067810
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1735540 -1067810
+            1735540 -1176740
+            1765300 -1206500
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1765300 -1206500
+            1765300 -1231900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1955800 -1079500
+            1968790 -1066510
+            2037200 -1066510
+            2053020 -1082320
+            2053020 -1164020
+            2146300 -1257300
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1181100 -863600
+            1155700 -838200
+            1104900 -838200
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1104900 -939800
+            1104900 -914400
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1104900 -990600
+            1117600 -977896
+            1117600 -952504
+            1104900 -939800
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1181100 -889000
+            1181100 -863600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1181100 -965200
+            1181100 -990600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1181100 -520700
+            1181100 -546100
+          )
+          (type protect)
+        )
+      )
+      (net /OUT+
+        (wire
+          (path In1.Cu 3810
+            1592708 -260605
+            1592710 -260604
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1421200 -266300
+            1438350 -266300
+            1444720 -272671
+            1580640 -272671
+            1592708 -260605
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1592707 -260604
+            1592708 -260605
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1091680 -507475
+            1078450 -520700
+            1066400 -520700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1104900 -444500
+            1091680 -457725
+            1091680 -507475
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1091680 -507475
+            1104900 -520700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1181100 -419100
+            1195540 -404660
+            1195540 -395113
+            1324350 -266300
+            1421200 -266300
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1181100 -419100
+            1127090 -419100
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1127090 -419100
+            1127090 -422306
+            1104900 -444500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1104900 -393700
+            1127090 -415894
+            1127090 -419100
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1181100 -419100
+            1181100 -444500
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1104900 -546100
+            1104900 -520700
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C10-Pad1)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1181100 -1016000
+            1202990 -994109
+            1202990 -892613
+            1278720 -816886
+            1278720 -618336
+            1257300 -596918
+            1257300 -584200
+          )
+          (type protect)
+        )
+      )
+      (net "/MIn-"
+        (wire
+          (path In1.Cu 3810
+            1558341 -245618
+            1558340 -245618
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1569800 -310139
+            1569796 -310135
+            1569796 -260604
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1569800 -310139
+            1569800 -257073
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1616640 -1058740
+            1582420 -1024520
+            1582420 -599187
+            1529560 -546329
+            1527230 -546329
+            1508020 -527122
+            1508020 -424978
+            1569800 -363205
+            1569800 -310139
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1421200 -216300
+            1438350 -216300
+            1446060 -208592
+            1521320 -208592
+            1558340 -245618
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1569800 -257073
+            1564069 -251345
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1564069 -251345
+            1564068 -251345
+            1558341 -245618
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1564069 -251345
+            1558340 -245618
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1627050 -245618
+            1627048 -245618
+          )
+        )
+        (wire
+          (path In1.Cu 3810
+            1627050 -245618
+            1649959 -245618
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1581252 -245618
+            1581250 -245618
+          )
+        )
+        (wire
+          (path In1.Cu 3810
+            1604162 -245618
+            1604160 -245618
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1627048 -245618
+            1627050 -245618
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1604162 -245618
+            1627048 -245618
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1581252 -245618
+            1581250 -245618
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1604160 -245618
+            1581252 -245618
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1649959 -245618
+            1686050 -245618
+            1719830 -279400
+            1803400 -279400
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1604160 -245618
+            1604162 -245618
+          )
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1178490 -378043
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1219200 -495300
+            1219200 -496100
+            1307300 -584200
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1181100 -469900
+            1206500 -495300
+            1219200 -495300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1587500 -1104900
+            1587500 -1130300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1616640 -1058740
+            1616640 -1075760
+            1587500 -1104900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1765300 -1079500
+            1778230 -1066570
+            1846680 -1066570
+            1898650 -1118540
+            1898650 -1200150
+            1955800 -1257300
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1178490 -373040
+            1204480 -373040
+            1361220 -216300
+            1421200 -216300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1765300 -1079500
+            1744540 -1058740
+            1616640 -1058740
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1178490 -373040
+            1178490 -378043
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1178490 -373040
+            985860 -373040
+            965200 -393700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1181100 -469900
+            1168350 -457149
+            1168350 -388182
+            1178490 -378043
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1581250 -245618
+            1569800 -257073
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1307300 -584200
+            1307300 -635000
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1308100 -685800
+            1308100 -736600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1308100 -685800
+            1308100 -673082
+            1307300 -672282
+            1307300 -635000
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1308100 -787400
+            1308100 -736600
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C11-Pad1)"
+        (via "Via[0-1]_600:400_um" 1141390 -979514
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1257300 -635000
+            1257300 -647718
+            1231940 -673081
+            1211980 -673081
+            1158190 -726870
+            1158190 -852741
+            1140080 -870854
+            1140080 -978207
+            1141390 -979514
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1104900 -1016000
+            1141390 -979514
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C12-Pad2)"
+        (via "Via[0-1]_600:400_um" 1084660 -702550
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1027870 -888169
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1084660 -702550
+            1100470 -702550
+            1104250 -706333
+            1183340 -706333
+            1203870 -685800
+            1258100 -685800
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1084660 -702550
+            1078340 -702550
+            1027870 -753018
+            1027870 -888169
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1104900 -965200
+            1027870 -888169
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C13-Pad2)"
+        (via "Via[0-1]_600:400_um" 1149190 -876441
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1149190 -876441
+            1165820 -859818
+            1165820 -730289
+            1174910 -721200
+            1242700 -721200
+            1258100 -736600
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1104900 -889000
+            1136640 -889000
+            1149190 -876441
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C14-Pad2)"
+        (via "Via[0-1]_600:400_um" 1234740 -837755
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1228810 -880114
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1164720 -879642
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1228810 -880114
+            1228810 -986803
+            1186880 -1028730
+            1175400 -1028730
+            1164720 -1018060
+            1164720 -879642
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1164720 -879642
+            1148680 -863600
+            1104900 -863600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1234740 -837755
+            1258100 -814395
+            1258100 -787400
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1228810 -880114
+            1228810 -843685
+            1234740 -837755
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C16-Pad1)"
+        (via "Via[0-1]_600:400_um" 1431970 -1044980
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1431970 -1044980
+            1430230 -1043240
+            1430230 -785129
+            1426090 -780991
+            1426090 -606334
+            1407230 -587471
+            1407230 -569026
+            1384300 -546100
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1346200 -863600
+            1333480 -863600
+            1315290 -881796
+            1241890 -881796
+            1228600 -895080
+            1228600 -984481
+            1289100 -1044980
+            1431970 -1044980
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C16-Pad2)"
+        (via "Via[0-1]_600:400_um" 1296980 -605618
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1294270 -862763
+            1283540 -862763
+            1244600 -901700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1296200 -863600
+            1295360 -862763
+            1294270 -862763
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1296980 -605618
+            1294270 -608320
+            1294270 -862763
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1384300 -520700
+            1384300 -525964
+            1304650 -605618
+            1296980 -605618
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C23-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            1460500 -571500
+            1459710 -570706
+            1385090 -570706
+            1384300 -571500
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1460500 -838200
+            1437850 -815550
+            1437850 -781972
+            1434890 -779013
+            1434890 -597109
+            1460500 -571500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1600200 -914400
+            1549400 -863600
+            1524000 -863600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1460500 -469900
+            1473280 -482680
+            1473280 -558720
+            1460500 -571500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1524000 -863600
+            1511780 -863600
+            1511780 -859018
+            1490960 -838200
+            1460500 -838200
+          )
+          (type protect)
+        )
+      )
+      (net /DOut+
+        (via "Via[0-1]_600:400_um" 1958780 -1053350
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1460500 -889000
+            1460500 -863600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1460500 -965200
+            1473320 -952380
+            1473320 -901820
+            1460500 -889000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2146300 -1104900
+            2098210 -1104900
+            2044230 -1050920
+            1961210 -1050920
+            1958780 -1053350
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1958780 -1053350
+            1969080 -1063640
+            1969080 -1091620
+            1955800 -1104900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1663700 -1079500
+            1698900 -1044300
+            1755110 -1044300
+            1755700 -1043700
+            1873040 -1043700
+            1882680 -1053350
+            1958780 -1053350
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1955800 -1130300
+            1892300 -1130300
+            1841500 -1181100
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1955800 -1130300
+            1955800 -1104900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1587140 -1225120
+            1460500 -1098490
+            1460500 -1016000
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1587500 -1231900
+            1587500 -1225490
+            1587140 -1225120
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1587140 -1225120
+            1650820 -1161440
+            1650820 -1092380
+            1663700 -1079500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1438310 -990600
+            1438310 -987393
+            1460500 -965200
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1460500 -1016000
+            1438310 -993807
+            1438310 -990600
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1438310 -990600
+            1384300 -990600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1384300 -990600
+            1384300 -965200
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1460500 -863600
+            1499000 -863600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2146300 -1130300
+            2146300 -1104900
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C24-Pad1)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1625600 -406400
+            1625600 -419118
+            1651000 -444514
+            1651000 -533396
+            1663700 -546100
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C24-Pad2)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1575600 -406400
+            1562100 -406400
+            1524000 -444500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1663700 -520700
+            1647860 -536543
+            1616040 -536543
+            1524000 -444500
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C31-Pad1)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1803400 -863600
+            1791180 -863600
+            1791180 -859018
+            1770360 -838200
+            1739900 -838200
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1803400 -863600
+            1828800 -863600
+            1879600 -914400
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1739900 -469900
+            1752920 -482916
+            1752920 -558484
+            1739900 -571500
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1879600 -914400
+            1879600 -886828
+            1816290 -823518
+            1816290 -647890
+            1739900 -571500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1739900 -571500
+            1663700 -571500
+          )
+          (type protect)
+        )
+      )
+      (net "/BOut-"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1727120 -965200
+            1727120 -1003220
+            1739900 -1016000
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1739900 -889000
+            1727120 -901781
+            1727120 -965200
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1727120 -965200
+            1663700 -965200
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1739900 -965200
+            1727120 -965200
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2222500 -1155700
+            2193810 -1127010
+            2193810 -1108990
+            2100820 -1016000
+            2057400 -1016000
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2222500 -1155700
+            2222500 -1181100
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1676840 -1183750
+            1666350 -1183750
+            1663700 -1181100
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1765300 -1181100
+            1762650 -1183750
+            1676840 -1183750
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1663700 -1257300
+            1676840 -1244160
+            1676840 -1183750
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1587500 -1257300
+            1663700 -1257300
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1841500 -1079500
+            1816100 -1104900
+            1765300 -1104900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1739900 -1016000
+            1778040 -1054140
+            1778040 -1092160
+            1765300 -1104900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1765300 -1104900
+            1765300 -1130300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1765300 -1130300
+            1765300 -1155700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1765300 -1155700
+            1765300 -1181100
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1739900 -863600
+            1739900 -889000
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1663700 -965200
+            1663700 -990600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2029190 -1044210
+            2011600 -1061800
+            2011600 -1135300
+            2032000 -1155700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2057400 -1016000
+            2029190 -1044210
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1943100 -939800
+            2004730 -1001430
+            2004730 -1019760
+            2029190 -1044210
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1943100 -939800
+            1943100 -914400
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2032000 -1181100
+            2032000 -1155700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1663700 -1130300
+            1676520 -1143120
+            1676520 -1168280
+            1663700 -1181100
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1663700 -1104900
+            1663700 -1130300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1739900 -863600
+            1778400 -863600
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1929840 -876860
+            1943100 -863600
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1943100 -914400
+            1929840 -901140
+            1929840 -876860
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1929840 -876860
+            1904360 -851381
+            1790620 -851381
+            1778400 -863600
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C32-Pad1)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1905000 -406400
+            1905000 -419118
+            1930400 -444514
+            1930400 -533396
+            1943100 -546100
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C32-Pad2)"
+        (wire
+          (path In1.Cu 3810
+            1816900 -444500
+            1855000 -406400
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1803400 -444500
+            1816900 -444500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1943100 -520700
+            1927260 -536543
+            1898530 -536543
+            1816900 -454914
+            1816900 -444500
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C39-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            2082800 -863600
+            2108200 -863600
+            2159000 -914400
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2019300 -838200
+            2069620 -838200
+            2082800 -851382
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2019300 -571500
+            2029350 -571500
+            2095690 -637840
+            2095690 -838494
+            2082800 -851382
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2082800 -863600
+            2082800 -851382
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2019300 -571500
+            2032090 -558713
+            2032090 -482687
+            2019300 -469900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1943100 -571500
+            2019300 -571500
+          )
+          (type protect)
+        )
+      )
+      (net /BOut+
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2222500 -1079500
+            2200260 -1079500
+            2082750 -961991
+            2082750 -888548
+            2057800 -863600
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2019300 -889000
+            2006600 -901704
+            2006600 -952496
+            2019300 -965200
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1841500 -1104900
+            1841500 -1130300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1930370 -1028730
+            1908880 -1028730
+            1899750 -1037860
+            1899750 -1046650
+            1841500 -1104900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1841500 -1231900
+            1816100 -1257300
+            1765300 -1257300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2032000 -1257300
+            1977280 -1202580
+            1977280 -1059520
+            1946500 -1028730
+            1930370 -1028730
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1997110 -990600
+            1997110 -987393
+            2019300 -965200
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2019300 -1016000
+            1997110 -993807
+            1997110 -990600
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1997110 -990600
+            1943100 -990600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1930370 -1028730
+            1930370 -1003330
+            1943100 -990600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1841500 -1206500
+            1841500 -1231900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1841500 -1130300
+            1854200 -1143000
+            1854200 -1193800
+            1841500 -1206500
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1943100 -990600
+            1943100 -965200
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2019300 -863600
+            2057800 -863600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2019300 -863600
+            2019300 -889000
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C41-Pad1)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2184400 -406400
+            2184400 -419118
+            2205580 -440297
+            2205580 -529179
+            2222500 -546100
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C41-Pad2)"
+        (wire
+          (path In1.Cu 3810
+            2222500 -520700
+            2235200 -507997
+            2235200 -388438
+            2227760 -380997
+            2159800 -380997
+            2134400 -406400
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2082800 -444500
+            2096300 -444500
+            2134400 -406400
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(C46-Pad1)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2362200 -838200
+            2362630 -837769
+            2362630 -635431
+            2298700 -571500
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2298700 -838200
+            2362200 -838200
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2362200 -838200
+            2362200 -863600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2222500 -571500
+            2285600 -571500
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2285600 -571500
+            2285600 -483002
+            2298700 -469900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2298700 -571500
+            2285600 -571500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2438400 -914400
+            2387600 -863600
+            2362200 -863600
+          )
+          (type protect)
+        )
+      )
+      (net /AOut+
+        (wire
+          (path In1.Cu 3810
+            2285380 -965200
+            2222500 -965200
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2298700 -965200
+            2285380 -965200
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2197100 -1155700
+            2159000 -1155700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2222500 -1130300
+            2197100 -1155700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2222500 -990600
+            2235230 -1003330
+            2235230 -1092170
+            2222500 -1104900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2222500 -965200
+            2222500 -990600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2298700 -863600
+            2298700 -889000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2222500 -1206500
+            2197100 -1181100
+            2197100 -1155700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2285380 -965200
+            2285380 -1002680
+            2298700 -1016000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2159000 -1155700
+            2146300 -1155700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2146300 -1206500
+            2159000 -1193800
+            2159000 -1155700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2298700 -965200
+            2311920 -951975
+            2311920 -902225
+            2298700 -889000
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2222500 -1206500
+            2222500 -1231900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2222500 -1104900
+            2222500 -1130300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2146300 -1231900
+            2146300 -1206500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2298700 -863600
+            2337200 -863600
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(D1-Pad1)"
+        (wire
+          (path In1.Cu 7620
+            1070354 -1341880
+            1070356 -1341882
+          )
+        )
+        (wire
+          (path In1.Cu 7620
+            1070354 -1341880
+            1070360 -1341880
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            952530 -1282710
+            972853 -1282710
+            972853 -1300500
+            1014240 -1341880
+            1070354 -1341880
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            787400 -1308100
+            906819 -1308100
+            932207 -1282710
+            952530 -1282710
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            952530 -1282710
+            952530 -1282712
+          )
+        )
+      )
+      (net "Net-(D2-Pad1)"
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1295372 -1435090
+            1295370 -1435088
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1295372 -1435090
+            1315690 -1435090
+            1315700 -1435100
+            1409700 -1435100
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1295370 -1435090
+            1295372 -1435090
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1190246 -1375920
+            1190244 -1375918
+          )
+        )
+        (wire
+          (path In1.Cu 7620
+            1190246 -1375920
+            1256520 -1375920
+            1295370 -1414760
+            1295370 -1435088
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1190240 -1375920
+            1190246 -1375920
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1295370 -1435090
+            1295370 -1435088
+          )
+          (type protect)
+        )
+      )
+      (net "/D-"
+        (wire
+          (path In1.Cu 3810
+            1615570 -262318
+            1615567 -262315
+            1615567 -260604
+          )
+        )
+        (wire
+          (path In1.Cu 3810
+            1615570 -262318
+            1615570 -260604
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1460500 -419100
+            1615570 -264033
+            1615570 -262318
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1460500 -419100
+            1460500 -444500
+          )
+          (type protect)
+        )
+      )
+      (net /D+
+        (wire
+          (path In1.Cu 3810
+            1638503 -260604
+            1638500 -260604
+          )
+        )
+        (wire
+          (path In1.Cu 3810
+            1638500 -260604
+            1482500 -416608
+            1482500 -498701
+            1460500 -520700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1460500 -520700
+            1460500 -546100
+          )
+          (type protect)
+        )
+      )
+      (net "/C-"
+        (wire
+          (path In1.Cu 3810
+            1661390 -300596
+            1661389 -300595
+            1661389 -260604
+          )
+        )
+        (wire
+          (path In1.Cu 3810
+            1661390 -300596
+            1661390 -340589
+            1739900 -419100
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1661390 -260604
+            1661390 -300596
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1739900 -419100
+            1739900 -444500
+          )
+          (type protect)
+        )
+      )
+      (net /C+
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1681595 -250812
+            1701800 -271018
+            1701800 -482600
+            1739900 -520700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1681595 -250812
+            1681594 -250812
+            1661389 -230607
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1661390 -230607
+            1681595 -250812
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1739900 -520700
+            1739900 -546100
+          )
+          (type protect)
+        )
+      )
+      (net "/B-"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1577303 -223104
+            1592200 -208208
+            1787710 -208208
+            1946960 -367450
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1577303 -223104
+            1577299 -223104
+            1569796 -230607
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1569800 -230607
+            1577303 -223104
+          )
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1946960 -367450
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1946960 -367450
+            1998600 -419100
+            2019300 -419100
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2019300 -419100
+            2019300 -444500
+          )
+          (type protect)
+        )
+      )
+      (net /B+
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1592707 -230607
+            1592710 -230607
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1592710 -230607
+            1604600 -218716
+            1666280 -218716
+            1823740 -376168
+            2020130 -376168
+            2040460 -396499
+            2040460 -499541
+            2019300 -520700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2019300 -520700
+            2019300 -546100
+          )
+          (type protect)
+        )
+      )
+      (net "/A-"
+        (wire
+          (path In1.Cu 3810
+            1615591 -230631
+            1645250 -200975
+            2080580 -200975
+            2298700 -419100
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1615590 -230632
+            1615591 -230631
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1615592 -230632
+            1615591 -230631
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2298700 -419100
+            2298700 -444500
+          )
+          (type protect)
+        )
+      )
+      (net /A+
+        (wire
+          (path In1.Cu 3810
+            1638502 -230606
+            1660510 -208599
+            2066140 -208599
+            2242830 -385281
+            2242830 -464826
+            2298700 -520700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1638500 -230607
+            1638502 -230606
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1638503 -230607
+            1638502 -230606
+          )
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2298700 -520700
+            2298700 -546100
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R1-Pad1)"
+        (wire
+          (path In1.Cu 7620
+            1271200 -226300
+            1229600 -226300
+            1219200 -215900
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R2-Pad2)"
+        (wire
+          (path In1.Cu 7620
+            1070360 -1375920
+            1070358 -1375920
+            1070356 -1375918
+          )
+        )
+        (wire
+          (path In1.Cu 7620
+            1070360 -1375920
+            1093220 -1375920
+            1093220 -1245620
+            990600 -1143000
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            990600 -1143000
+            990600 -1117600
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R4-Pad2)"
+        (wire
+          (path In1.Cu 7620
+            1190246 -1341880
+            1190244 -1341882
+          )
+        )
+        (wire
+          (path In1.Cu 7620
+            1190246 -1341880
+            1246140 -1341880
+            1384300 -1480040
+            1384300 -1498600
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 7620
+            1190240 -1341880
+            1190246 -1341880
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 7620
+            1384300 -1498600
+            1384300 -1524000
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R6-Pad2)"
+        (wire
+          (path In1.Cu 3810
+            1066800 -393700
+            990600 -393700
+            965200 -419100
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1181100 -393700
+            1168200 -380801
+            1079700 -380801
+            1066800 -393700
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R7-Pad2)"
+        (wire
+          (path In1.Cu 3810
+            965200 -444500
+            990600 -419100
+            1066800 -419100
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1104900 -419100
+            1066800 -419100
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R8-Pad2)"
+        (wire
+          (path In1.Cu 3810
+            1066800 -444500
+            990600 -444500
+            965200 -469900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1104900 -469900
+            1079500 -444500
+            1066800 -444500
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R10-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            1066800 -469900
+            990600 -469900
+            965200 -495300
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1104900 -495300
+            1079500 -469900
+            1066800 -469900
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R11-Pad1)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1219200 -395288
+            1296990 -395288
+            1320800 -419100
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1181100 -571500
+            1197220 -555377
+            1197220 -417265
+            1219200 -395288
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1219200 -395288
+            1219200 -393700
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R11-Pad2)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1181100 -495300
+            1160640 -474842
+            1160640 -383278
+            1174800 -369122
+            1296220 -369122
+            1320800 -393700
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R12-Pad1)"
+        (via "Via[0-1]_600:400_um" 1285190 -827764
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1285190 -827764
+            1191540 -827764
+            1181100 -838200
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1285190 -827764
+            1286650 -826302
+            1286650 -478651
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1286650 -478651
+            1320800 -444500
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1286650 -478651
+            1227100 -419100
+            1219200 -419100
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R13-Pad1)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1181100 -914400
+            1193800 -901696
+            1193800 -891020
+            1271090 -813730
+            1271090 -626683
+            1242370 -597958
+            1242370 -467669
+            1219200 -444500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1320800 -469900
+            1295400 -444500
+            1219200 -444500
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R14-Pad1)"
+        (via "Via[0-1]_600:400_um" 1506800 -412072
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1550170 -579267
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1529900 -1007610
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1529900 -1007610
+            1481910 -1055600
+            1371730 -1055600
+            1369020 -1052890
+            1286090 -1052890
+            1206780 -973585
+            1206780 -965485
+            1181100 -939800
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1529900 -1007610
+            1550170 -987336
+            1550170 -579267
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1506800 -412072
+            1506800 -535894
+            1550170 -579267
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1320800 -495300
+            1344750 -471348
+            1344750 -414694
+            1399040 -360411
+            1475100 -360411
+            1506800 -392106
+            1506800 -412072
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1320800 -495300
+            1295400 -469900
+            1219200 -469900
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R16-Pad2)"
+        (via "Via[0-1]_600:400_um" 1471600 -1046330
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1471600 -1046330
+            1482890 -1035050
+            1482890 -900320
+            1511780 -871425
+            1511780 -854733
+            1539730 -826788
+            1539730 -636467
+            1495620 -592358
+            1495620 -392036
+            1471760 -368181
+            1449380 -368181
+            1403800 -413760
+            1403800 -424997
+            1384300 -444500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1471600 -1046330
+            1447460 -1046330
+            1437390 -1036260
+            1423250 -1036260
+            1423020 -1036490
+            1375750 -1036490
+            1363490 -1024230
+            1363490 -918990
+            1346200 -901700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1346200 -901700
+            1270000 -901700
+            1244600 -927100
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R17-Pad2)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1321080 -927100
+            1346200 -927100
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1244600 -952500
+            1295680 -952500
+            1321080 -927100
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1321080 -927100
+            1321080 -770418
+            1320390 -769730
+            1320390 -756430
+            1320960 -755860
+            1320960 -640357
+            1320020 -639412
+            1320020 -584076
+            1355220 -548874
+            1355220 -448179
+            1384300 -419100
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R18-Pad2)"
+        (wire
+          (path In1.Cu 3810
+            1244600 -977900
+            1270000 -952500
+            1346200 -952500
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1384300 -838200
+            1362930 -859573
+            1362930 -935773
+            1346200 -952500
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R19-Pad2)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1384300 -889000
+            1371600 -901704
+            1371600 -952504
+            1346200 -977900
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R20-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            1600200 -939800
+            1574800 -914400
+            1498600 -914400
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1460500 -914400
+            1498600 -914400
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R21-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            1600200 -965200
+            1574800 -939800
+            1498600 -939800
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1460500 -939800
+            1498600 -939800
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R22-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            1498600 -965200
+            1574800 -965200
+            1600200 -990600
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1460500 -990600
+            1485900 -965200
+            1498600 -965200
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R23-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            1498600 -998559
+            1493380 -998559
+            1476620 -1015320
+            1476620 -1018060
+            1465970 -1028720
+            1451400 -1028720
+            1438690 -1016000
+            1384300 -1016000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1498600 -998559
+            1582760 -998559
+            1600200 -1016000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1498600 -990600
+            1498600 -998559
+          )
+          (type protect)
+        )
+      )
+      (net "/DOut-"
+        (via "Via[0-1]_600:400_um" 1683900 -1175030
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1955800 -1181100
+            1879600 -1257300
+            1841500 -1257300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1663700 -1206500
+            1683900 -1186300
+            1683900 -1175030
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1943040 -1075170
+            1879140 -1075170
+            1862920 -1058950
+            1767530 -1058950
+            1683900 -1142580
+            1683900 -1175030
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1574630 -1092370
+            1587500 -1079500
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1587500 -1206500
+            1574630 -1193630
+            1574630 -1092370
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1498600 -1016000
+            1498600 -1016330
+            1574630 -1092370
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1943040 -1075170
+            1943040 -1168340
+            1955800 -1181100
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2146300 -1181100
+            2106850 -1141650
+            2106850 -1125330
+            2040290 -1058760
+            1965760 -1058760
+            1959080 -1065440
+            1951900 -1065440
+            1943040 -1074290
+            1943040 -1075170
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1587500 -1206500
+            1663700 -1206500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1498600 -1016000
+            1478260 -1036340
+            1448250 -1036340
+            1440450 -1028540
+            1412970 -1028540
+            1412800 -1028720
+            1378950 -1028720
+            1371230 -1021000
+            1371230 -952871
+            1384300 -939800
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1384300 -914400
+            1371110 -901214
+            1371110 -876786
+            1384300 -863600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1663700 -1206500
+            1663700 -1231900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1384300 -939800
+            1384300 -914400
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R25-Pad2)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1625600 -444500
+            1600200 -469900
+            1524000 -469900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1663700 -444500
+            1625600 -444500
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R26-Pad2)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1524000 -495300
+            1600200 -495300
+            1625600 -469900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1663700 -419100
+            1663220 -419582
+            1628020 -419582
+            1609780 -437812
+            1609780 -454085
+            1625600 -469900
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R27-Pad2)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1625600 -499348
+            1621550 -499348
+            1600200 -520700
+            1524000 -520700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1663700 -838200
+            1599810 -774311
+            1599810 -591107
+            1641350 -549567
+            1641350 -514087
+            1626610 -499348
+            1625600 -499348
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1625600 -499348
+            1625600 -495300
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R28-Pad2)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1663700 -889000
+            1592190 -817487
+            1592190 -554113
+            1625600 -520700
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R29-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            1879600 -939800
+            1854200 -914400
+            1778000 -914400
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1739900 -914400
+            1778000 -914400
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R30-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            1879600 -965200
+            1854200 -939800
+            1778000 -939800
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1739900 -939800
+            1778000 -939800
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R31-Pad1)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1739900 -990600
+            1765300 -965200
+            1778000 -965200
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1879600 -990600
+            1803400 -990600
+            1778000 -965200
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R32-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            1663700 -1016000
+            1676750 -1029050
+            1744980 -1029050
+            1756820 -1017210
+            1756820 -1014850
+            1777030 -994648
+            1778000 -994648
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1778000 -994648
+            1785940 -994648
+            1807290 -1016000
+            1879600 -1016000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1778000 -990600
+            1778000 -994648
+          )
+          (type protect)
+        )
+      )
+      (net "/COut-"
+        (via "Via[0-1]_600:400_um" 1908470 -1041470
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2146300 -1079500
+            2184400 -1117600
+            2184400 -1219200
+            2222500 -1257300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2032000 -1079500
+            2146300 -1079500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2146300 -1079500
+            2088980 -1079500
+            2050950 -1041470
+            1908470 -1041470
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1677460 -1047730
+            1650470 -1020740
+            1650470 -953026
+            1663700 -939800
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1677460 -1047730
+            1650780 -1074400
+            1650780 -1147440
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1778000 -1016000
+            1772620 -1016000
+            1751950 -1036670
+            1688510 -1036670
+            1677460 -1047730
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1650780 -1147440
+            1655440 -1147440
+            1663700 -1155700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1587500 -1155700
+            1595760 -1147440
+            1650780 -1147440
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1908470 -1041470
+            1899550 -1032550
+            1794550 -1032550
+            1778000 -1016000
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1841500 -1155700
+            1908470 -1088730
+            1908470 -1041470
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1587500 -1181100
+            1587500 -1155700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1663700 -914400
+            1650440 -901140
+            1650440 -876860
+            1663700 -863600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1663700 -939800
+            1663700 -914400
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R34-Pad2)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1803400 -469900
+            1879600 -469900
+            1905000 -444500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1943100 -444500
+            1905000 -444500
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R35-Pad2)"
+        (wire
+          (path In1.Cu 3810
+            1943100 -419100
+            1942620 -419582
+            1907530 -419582
+            1889250 -437854
+            1889250 -454154
+            1905000 -469900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1803400 -495300
+            1819110 -479586
+            1895310 -479586
+            1905000 -469900
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R36-Pad2)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1943100 -838200
+            1879210 -774311
+            1879210 -591038
+            1920750 -549498
+            1920750 -511051
+            1905000 -495300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1803400 -520700
+            1828800 -495300
+            1905000 -495300
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R37-Pad2)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1943100 -889000
+            1871480 -817382
+            1871480 -554218
+            1905000 -520700
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R38-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            2159000 -939800
+            2133600 -914400
+            2057400 -914400
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2019300 -914400
+            2057400 -914400
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R39-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            2159000 -965200
+            2133600 -939800
+            2057400 -939800
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2019300 -939800
+            2057400 -939800
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R40-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            2057400 -965200
+            2133600 -965200
+            2159000 -990600
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2019300 -990600
+            2044700 -965200
+            2057400 -965200
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R41-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            1943100 -1016000
+            1956110 -1029010
+            2024610 -1029010
+            2036220 -1017400
+            2036220 -1013370
+            2057400 -992188
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2057400 -992188
+            2135190 -992188
+            2159000 -1016000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2057400 -992188
+            2057400 -990600
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R43-Pad2)"
+        (wire
+          (path In1.Cu 3810
+            2222500 -444500
+            2184400 -444500
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2082800 -469900
+            2159000 -469900
+            2184400 -444500
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R44-Pad2)"
+        (wire
+          (path In1.Cu 3810
+            2168650 -454154
+            2184400 -469900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2222500 -419100
+            2222020 -419582
+            2186930 -419582
+            2168650 -437854
+            2168650 -454154
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2082800 -495300
+            2127510 -495300
+            2168650 -454154
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R45-Pad2)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2131860 -547843
+            2184400 -495300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2082800 -520700
+            2109940 -547843
+            2131860 -547843
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2131860 -547843
+            2131860 -770915
+            2199140 -838200
+            2222500 -838200
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R46-Pad2)"
+        (via "Via[0-1]_600:400_um" 2172280 -799010
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2184400 -520700
+            2145780 -559317
+            2145780 -772513
+            2172280 -799010
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2222500 -889000
+            2172280 -838780
+            2172280 -799010
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R47-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            2438400 -939800
+            2413000 -914400
+            2336800 -914400
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2298700 -914400
+            2336800 -914400
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R48-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            2438400 -965200
+            2413000 -939800
+            2336800 -939800
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2298700 -939800
+            2336800 -939800
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R49-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            2298700 -990600
+            2311400 -990600
+            2336800 -965200
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2438400 -990600
+            2362200 -990600
+            2336800 -965200
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(R50-Pad1)"
+        (wire
+          (path In1.Cu 3810
+            2336800 -994648
+            2335790 -994648
+            2314820 -1015610
+            2314820 -1018280
+            2304340 -1028770
+            2235270 -1028770
+            2222500 -1016000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2336800 -994648
+            2340850 -994648
+            2362200 -1016000
+            2438400 -1016000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2336800 -994648
+            2336800 -990600
+          )
+          (type protect)
+        )
+      )
+      (net "/AOut-"
+        (wire
+          (path In1.Cu 3810
+            2006600 -1155700
+            1968810 -1155700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2032000 -1130300
+            2006600 -1155700
+          )
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 2096670 -1059240
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2222500 -914400
+            2235230 -901666
+            2235230 -876334
+            2222500 -863600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2222500 -939800
+            2222500 -914400
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2032000 -1104900
+            2019260 -1092160
+            2019260 -1073970
+            2033990 -1059240
+            2096670 -1059240
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2032000 -1104900
+            2032000 -1130300
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2208980 -1020610
+            2224790 -1036420
+            2316380 -1036420
+            2336800 -1016000
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2222500 -939800
+            2208980 -953317
+            2208980 -1020610
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2096670 -1059240
+            2170350 -1059240
+            2208980 -1020610
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2006600 -1155700
+            2006600 -1181100
+            2032000 -1206500
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1968810 -1155700
+            1955800 -1155700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1955800 -1206500
+            1968810 -1193490
+            1968810 -1155700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2032000 -1206500
+            2032000 -1231900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1955800 -1231900
+            1955800 -1206500
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U5-Pad3)"
+        (via "Via[0-1]_600:400_um" 1146470 -770695
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1146470 -770695
+            1146470 -656927
+            1181100 -622300
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1181100 -787400
+            1163180 -787400
+            1146470 -770695
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U5-Pad22)"
+        (via "Via[0-1]_600:400_um" 1226150 -1066880
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1384300 -787400
+            1399570 -802669
+            1399570 -1022660
+            1361710 -1060520
+            1232520 -1060520
+            1226150 -1066880
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1104900 -622300
+            977446 -622300
+            959014 -640732
+            959014 -1041020
+            984877 -1066880
+            1226150 -1066880
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U10-Pad22)"
+        (wire
+          (path In1.Cu 3810
+            1765300 -1308100
+            1663700 -1308100
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U8-Pad3)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1460500 -787400
+            1445160 -772056
+            1445160 -637644
+            1460500 -622300
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U8-Pad12)"
+        (wire
+          (path In1.Cu 3810
+            1397740 -407142
+            1411180 -393700
+            1460500 -393700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1397740 -407142
+            1384300 -393700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1384300 -469900
+            1397740 -456458
+            1397740 -407142
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1384300 -495300
+            1460500 -495300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1384300 -495300
+            1384300 -469900
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U12-Pad3)"
+        (via "Via[0-1]_600:400_um" 1418540 -582710
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1527750 -701814
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1681600 -728792
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1663700 -787400
+            1681600 -769505
+            1681600 -728792
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1681600 -728792
+            1673970 -721163
+            1547100 -721163
+            1527750 -701814
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1418540 -582710
+            1418540 -413752
+            1453940 -378345
+            1467130 -378345
+            1484920 -396139
+            1484920 -600805
+            1527750 -643629
+            1527750 -701814
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1384300 -622300
+            1418540 -588062
+            1418540 -582710
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U10-Pad3)"
+        (wire
+          (path In1.Cu 3810
+            1955800 -1308100
+            1841500 -1308100
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U11-Pad3)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1739900 -787400
+            1724660 -772156
+            1724660 -637544
+            1739900 -622300
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U11-Pad12)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1663700 -469900
+            1676530 -457067
+            1676530 -406533
+            1663700 -393700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1663700 -495300
+            1663700 -469900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1739900 -495300
+            1727100 -482504
+            1727100 -406496
+            1739900 -393700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1663700 -495300
+            1739900 -495300
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U11-Pad22)"
+        (via "Via[0-1]_600:400_um" 1932040 -690389
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1932040 -690389
+            1929310 -687657
+            1751920 -687657
+            1749190 -690389
+            1721960 -690389
+            1688550 -656980
+            1688550 -647201
+            1663700 -622347
+            1663700 -622300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1943100 -787400
+            1958340 -772156
+            1958340 -716694
+            1932040 -690389
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U13-Pad3)"
+        (wire
+          (path In1.Cu 3810
+            2146300 -1308100
+            2032000 -1308100
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U14-Pad3)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2019300 -787400
+            2085040 -721659
+            2085040 -642011
+            2065330 -622300
+            2019300 -622300
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U14-Pad12)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2019300 -393700
+            1943100 -393700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2019300 -495300
+            2032530 -482074
+            2032530 -406926
+            2019300 -393700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1943100 -495300
+            2019300 -495300
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1943100 -495300
+            1943100 -469900
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U14-Pad22)"
+        (via "Via[0-1]_600:400_um" 1972370 -670294
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 2157330 -728244
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2222500 -787400
+            2175840 -787400
+            2157330 -768890
+            2157330 -728244
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1972370 -670294
+            2023430 -721356
+            2150440 -721356
+            2157330 -728244
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1972370 -670294
+            1972370 -651566
+            1943100 -622300
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U16-Pad3)"
+        (via "Via[0-1]_600:400_um" 2215060 -1058780
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 2120380 -640850
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2215060 -1058780
+            2224000 -1058780
+            2238270 -1073040
+            2238270 -1292330
+            2222500 -1308100
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2120380 -640850
+            2120380 -791486
+            2177250 -848364
+            2177250 -1020970
+            2215060 -1058780
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2222500 -622300
+            2138930 -622300
+            2120380 -640850
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U17-Pad3)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2298700 -787400
+            2283440 -772144
+            2283440 -637556
+            2298700 -622300
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U17-Pad12)"
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2235260 -393700
+            2222500 -393700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2298700 -393700
+            2235260 -393700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2235260 -393700
+            2235260 -457138
+            2222500 -469900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2222500 -495300
+            2222500 -469900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2298700 -495300
+            2312230 -481772
+            2312230 -407228
+            2298700 -393700
+          )
+          (type protect)
+        )
+      )
+      (net "Net-(U1-Pad8)"
+        (wire
+          (path In1.Cu 3810
+            977900 -850900
+            996318 -850900
+            1059820 -787400
+            1104900 -787400
+          )
+          (type protect)
+        )
+      )
+      (net /CLK
+        (via "Via[0-1]_600:400_um" 1109980 -695075
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1460500 -704218
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1361200 -1071780
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1039140 -841610
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1760790 -709078
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1583460 -1391560
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1663700 -1385570
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1710880 -663156
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 2001580 -737791
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 2222250 -690195
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1104900 -736600
+            1104900 -721357
+            1109980 -716279
+            1109980 -695075
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1181100 -673100
+            1165860 -673100
+            1143880 -695075
+            1109980 -695075
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1039140 -841610
+            1039140 -756342
+            1058880 -736600
+            1104900 -736600
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1365140 -1071780
+            1365140 -1173230
+            1583460 -1391560
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1663700 -1385570
+            1657710 -1391560
+            1583460 -1391560
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1663700 -736600
+            1648460 -736600
+            1646390 -734537
+            1489440 -734537
+            1460500 -705601
+            1460500 -704218
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1460500 -673100
+            1460500 -704218
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1384300 -736600
+            1399540 -736600
+            1431920 -704218
+            1460500 -704218
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1361200 -1071780
+            1247900 -1071780
+            1211700 -1035570
+            1102670 -1035570
+            996318 -929215
+            996318 -901700
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1384300 -736600
+            1401670 -753971
+            1401670 -790397
+            1409760 -798482
+            1409760 -1027160
+            1365140 -1071780
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1365140 -1071780
+            1361200 -1071780
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            996318 -901700
+            996318 -884433
+            1039140 -841610
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            977900 -901700
+            996318 -901700
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1841500 -1374140
+            2001510 -1374140
+            2016760 -1358900
+            2032000 -1358900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1663700 -1385570
+            1830080 -1385570
+            1841500 -1374140
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1943100 -736600
+            1927860 -736600
+            1903070 -711811
+            1763520 -711811
+            1760790 -709078
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1739900 -673100
+            1739900 -688343
+            1740060 -688343
+            1760790 -709078
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2032000 -1358900
+            2047240 -1358900
+            2065400 -1377060
+            2189100 -1377060
+            2207260 -1358900
+            2222500 -1358900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1841500 -1358900
+            1841500 -1374140
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1663700 -1358900
+            1663700 -1385570
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1943100 -736600
+            1958340 -736600
+            1959530 -737791
+            2001580 -737791
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1739900 -673100
+            1724660 -673100
+            1714710 -663156
+            1710880 -663156
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1663700 -736600
+            1663700 -721357
+            1710880 -674182
+            1710880 -663156
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2019300 -673100
+            2019300 -688343
+            2001580 -706060
+            2001580 -737791
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2222500 -736600
+            2222500 -721357
+            2222250 -721110
+            2222250 -690195
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2222250 -688618
+            2222250 -690195
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2222250 -688618
+            2267940 -688618
+            2283460 -673100
+            2298700 -673100
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2019300 -673100
+            2034540 -673100
+            2050060 -688618
+            2222250 -688618
+          )
+          (type protect)
+        )
+      )
+      (net /CS
+        (via "Via[0-1]_600:400_um" 1095910 -714062
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1739900 -704854
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1504060 -701488
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 2066120 -677098
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 2240300 -733094
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 2093780 -1365430
+          (type protect)
+        )
+        (via "Via[0-1]_600:400_um" 1414830 -737542
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1181100 -720224
+            1234570 -720224
+            1251310 -703492
+            1353910 -703492
+            1384300 -673100
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1181100 -736600
+            1181100 -720224
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1181100 -720224
+            1102080 -720224
+            1095910 -714062
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1091920 -690361
+            1095910 -694352
+            1095910 -714062
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1091920 -690361
+            1104900 -677384
+            1104900 -673100
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            977900 -927100
+            996318 -927100
+            996318 -770195
+            1076150 -690361
+            1091920 -690361
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1765300 -1358900
+            1750060 -1374140
+            1650430 -1374140
+            1627270 -1350990
+            1595410 -1350990
+            1587500 -1358900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1587500 -1358900
+            1587500 -1364500
+            1634010 -1411010
+            1903690 -1411010
+            1955800 -1358900
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1384300 -673100
+            1383800 -673601
+            1383800 -706510
+            1414830 -737542
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1739900 -700552
+            1709110 -700552
+            1681660 -673100
+            1663700 -673100
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1943300 -695052
+            1936700 -701647
+            1927380 -701647
+            1926280 -700552
+            1768180 -700552
+            1765450 -697820
+            1756130 -697820
+            1753400 -700552
+            1739900 -700552
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1739900 -700552
+            1739900 -704854
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1739900 -736600
+            1739900 -704854
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1414830 -737542
+            1414830 -784107
+            1419990 -789267
+            1419990 -1191390
+            1587500 -1358900
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1414830 -737542
+            1415770 -736600
+            1460500 -736600
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1943300 -695052
+            1943300 -673297
+            1943100 -673100
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2019300 -736600
+            1977750 -695052
+            1943300 -695052
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            1739900 -736600
+            1711030 -736600
+            1682100 -707669
+            1656530 -707669
+            1639040 -690178
+            1515370 -690178
+            1504060 -701488
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1460500 -736600
+            1460500 -732412
+            1491420 -701488
+            1504060 -701488
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            1955800 -1358900
+            1985060 -1388160
+            2071040 -1388160
+            2093780 -1365430
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2222500 -673100
+            2240300 -690900
+            2240300 -733094
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2066120 -677098
+            2218500 -677098
+            2222500 -673100
+          )
+          (type protect)
+        )
+        (wire
+          (path F.Cu_Audio.GND 3810
+            2019300 -736600
+            2066120 -689785
+            2066120 -677098
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2298700 -736600
+            2243810 -736600
+            2240300 -733094
+          )
+          (type protect)
+        )
+        (wire
+          (path In1.Cu 3810
+            2093780 -1365430
+            2139770 -1365430
+            2146300 -1358900
+          )
+          (type protect)
+        )
+      )
+      (net /ShuntControl
+        (wire
+          (path In1.Cu 7620
+            698500 -647700
+            698500 -631441
+            1073640 -256300
+            1271200 -256300
+          )
+          (type protect)
+        )
+      )
+    )
+  )
+)
