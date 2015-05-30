@@ -41,8 +41,8 @@ $Descr User 19685 9843
 encoding utf-8
 Sheet 1 1
 Title "ArduGuitar Full Circuit MAX395"
-Date "Wed 27 May 2015"
-Rev "00"
+Date "Sat 30 May 2015"
+Rev "1.0"
 Comp "www.arduguitar.org"
 Comment1 ""
 Comment2 ""
