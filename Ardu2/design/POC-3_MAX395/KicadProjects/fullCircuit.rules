@@ -11,7 +11,7 @@
     (via_costs 50)
     (plane_via_costs 5)
     (start_ripup_costs 100)
-    (start_pass_no 213)
+    (start_pass_no 18040)
     (layer_rule "F.Cu_Audio.GND"
       (active on)
       (preferred_direction vertical)
@@ -35,17 +35,17 @@
     (clear 635.2 (type "kicad_default"_SPI))
     (clear 381.2 (type Audio_Audio))
     (clear 635.2 (type Audio_SPI))
-    (clear 381.2 (type BATinput_BATinput))
+    (clear 254.2 (type BATinput_BATinput))
     (clear 635.2 (type BATinput_SPI))
-    (clear 381.2 (type GND_GND))
+    (clear 254.2 (type GND_GND))
     (clear 635.2 (type GND_SPI))
-    (clear 381.2 (type Power_Power))
+    (clear 254.2 (type Power_Power))
     (clear 635.2 (type Power_SPI))
     (clear 635.2 (type SPI_SPI))
     (clear 635.2 (type SPI_V+))
     (clear 635.2 (type SPI_"V-"))
-    (clear 381.2 (type V+_V+))
-    (clear 381.2 (type "V-"_"V-"))
+    (clear 254.2 (type V+_V+))
+    (clear 254.2 (type "V-"_"V-"))
   )
   (padstack "Via[0-1]_600:400_um"
     (shape
@@ -121,6 +121,7 @@
     )
   )
   (class "kicad_default"
+    /COut+
     (clearance_class "kicad_default")
     (via_rule kicad_default)
     (rule
