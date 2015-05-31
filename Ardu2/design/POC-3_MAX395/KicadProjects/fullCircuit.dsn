@@ -21,7 +21,7 @@
       )
     )
     (boundary
-      (path pcb 0  62230 -161290  248920 -161290  259080 -161290  259080 -17780
+      (path pcb 0  62230 -161290  248920 -161290  251460 -161290  251460 -17780
             248920 -17780  69850 -17780  62230 -17780  62230 -161290)
     )
     (via "Via[0-1]_600:400_um")
@@ -34,15 +34,15 @@
   )
   (placement
     (component Mounting_Holes:MountingHole_3mm
-      (place Hole4 254000 -22860 front 0 (PN MountingHole_3mm))
-      (place Hole3 254000 -156210 front 0 (PN MountingHole_3mm))
+      (place Hole4 246380 -22860 front 0 (PN MountingHole_3mm))
+      (place Hole3 246380 -156210 front 0 (PN MountingHole_3mm))
       (place Hole1 67310 -22860 front 0 (PN MountingHole_3mm))
-      (place Hole2 68580 -154940 front 0 (PN MountingHole_3mm))
+      (place Hole2 67310 -156210 front 0 (PN MountingHole_3mm))
     )
     (component Capacitors_ThroughHole:C_Radial_D10_L16_P5
       (place C1 88900 -125730 front 90 (PN 470µF))
       (place C2 119380 -147320 front 0 (PN 220µF))
-      (place C3 86360 -148590 front 90 (PN 220µF))
+      (place C3 86360 -143510 front 0 (PN 220µF))
       (place C4 119380 -125730 front 0 (PN 470µF))
     )
     (component Capacitors_ThroughHole:C_Disc_D3_P2.5
@@ -75,7 +75,7 @@
       (place C39 210820 -86360 front 180 (PN 180pF))
       (place C40 229870 -133350 front 0 (PN 100nF))
       (place C42 220980 -59690 front 180 (PN 100nF))
-      (place C43 219710 -76200 front 180 (PN 100nF))
+      (place C43 220980 -76200 front 180 (PN 100nF))
       (place C44 233680 -64770 front 0 (PN 100nF))
       (place C45 233680 -81280 front 0 (PN 100nF))
       (place C46 238760 -86360 front 180 (PN 180pF))
@@ -100,7 +100,7 @@
       (place L2 140970 -139700 front 90 (PN INDUCTOR))
     )
     (component 330L:Inductor
-      (place L3 181610 -30480 front 90 (PN 1mH))
+      (place L3 179705 -31750 front 90 (PN 1mH))
     )
     (component "Connect:PINHEAD1-2"
       (place P1 74930 -118110 front 90 (PN CONN_01X02))
@@ -732,7 +732,8 @@
       (pins C31-1 R29-2 U11-5 U11-9 U11-20 U12-20)
     )
     (net "/BOut-"
-      (pins R42-1 U7-8 U7-10 U7-11 U10-14 U10-15 U13-8 U15-6 U15-8 U15-9 U16-9)
+      (pins R42-1 U7-8 U7-10 U7-11 U10-14 U10-15 U13-8 U14-8 U14-12 U14-13 U14-16
+        U14-17 U15-6 U15-8 U15-9 U16-9)
     )
     (net "Net-(C32-Pad1)"
       (pins C32-1 U14-19)
@@ -851,7 +852,8 @@
       (pins R23-1 R24-2 U9-12)
     )
     (net "/DOut-"
-      (pins R24-1 U7-6 U7-7 U7-13 U7-18 U9-6 U9-8 U9-9 U10-5 U13-17 U16-17)
+      (pins R24-1 U7-6 U7-7 U7-13 U7-18 U8-8 U8-12 U8-13 U8-16 U8-17 U9-6 U9-8 U9-9
+        U10-5 U13-17 U16-17)
     )
     (net "Net-(R25-Pad2)"
       (pins R25-2 R26-1 U11-15)
@@ -878,7 +880,8 @@
       (pins R32-1 R33-2 U12-12)
     )
     (net "/COut-"
-      (pins R33-1 U7-9 U7-16 U7-17 U10-9 U12-6 U12-8 U12-9 U13-12 U16-5 U16-13)
+      (pins R33-1 U7-9 U7-16 U7-17 U10-9 U11-8 U11-12 U11-13 U11-16 U11-17 U12-6 U12-8
+        U12-9 U13-12 U16-5 U16-13)
     )
     (net "Net-(R34-Pad2)"
       (pins R34-2 R35-1 U14-15)
@@ -929,7 +932,8 @@
       (pins R50-1 R51-2 U18-12)
     )
     (net "/AOut-"
-      (pins R51-1 U13-6 U13-7 U13-10 U13-11 U13-16 U13-18 U13-19 U18-6 U18-8 U18-9)
+      (pins R51-1 U13-6 U13-7 U13-10 U13-11 U13-16 U13-18 U13-19 U17-8 U17-12 U17-13
+        U17-16 U17-17 U18-6 U18-8 U18-9)
     )
     (net "Net-(U5-Pad3)"
       (pins U5-3 U6-22)
@@ -943,9 +947,6 @@
     (net "Net-(U8-Pad3)"
       (pins U8-3 U9-22)
     )
-    (net "Net-(U8-Pad12)"
-      (pins U8-8 U8-12 U8-13 U8-16 U8-17)
-    )
     (net "Net-(U12-Pad3)"
       (pins U8-22 U12-3)
     )
@@ -954,9 +955,6 @@
     )
     (net "Net-(U11-Pad3)"
       (pins U11-3 U12-22)
-    )
-    (net "Net-(U11-Pad12)"
-      (pins U11-8 U11-12 U11-13 U11-16 U11-17)
     )
     (net "Net-(U11-Pad22)"
       (pins U11-22 U15-3)
@@ -967,9 +965,6 @@
     (net "Net-(U14-Pad3)"
       (pins U14-3 U15-22)
     )
-    (net "Net-(U14-Pad12)"
-      (pins U14-8 U14-12 U14-13 U14-16 U14-17)
-    )
     (net "Net-(U14-Pad22)"
       (pins U14-22 U18-3)
     )
@@ -978,9 +973,6 @@
     )
     (net "Net-(U17-Pad3)"
       (pins U17-3 U18-22)
-    )
-    (net "Net-(U17-Pad12)"
-      (pins U17-8 U17-12 U17-13 U17-16 U17-17)
     )
     (net "Net-(U1-Pad8)"
       (pins U6-3 U1-8)

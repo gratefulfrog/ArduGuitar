@@ -2,14 +2,15 @@
 
 from pyb import Pin, Timer,delay
 
-def pwmControl(pp = 'X1', tt = 2, f= 50000):
+#def pwmControl(pp = 'X1', tt = 2, f= 50000):
+def pwmControl(pp = 'Y1', tim = 8, ch=1, f= 50000):
     """ returns an objet that can set a duty cycle percentage, eg.
     c = pwmControl()
     c.pulse_width_percent(50)
     """
-    p = Pin(pp) # X1 has TIM2, CH1
-    tim = Timer(tt, freq=f)
-    return tim.channel(1, Timer.PWM, pin=p)
+    p = Pin(pp) # X1 has TIM2, CH1, Y1 is tim8, ch1
+    tim = Timer(tim, freq=f)
+    return tim.channel(ch, Timer.PWM, pin=p)
     
 def incP(control, current):
     """ usage

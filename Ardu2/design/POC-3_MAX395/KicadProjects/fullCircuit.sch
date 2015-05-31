@@ -41,8 +41,8 @@ $Descr User 19685 9843
 encoding utf-8
 Sheet 1 1
 Title "ArduGuitar Full Circuit MAX395"
-Date "Sat 30 May 2015"
-Rev "1.0"
+Date "Sun 31 May 2015"
+Rev "1.2"
 Comp "www.arduguitar.org"
 Comment1 ""
 Comment2 ""
@@ -3356,4 +3356,16 @@ Text Label 6150 7300 2    60   ~ 0
 COut+
 Text Label 15600 6600 0    60   ~ 0
 BOut+
+Text Label 6450 2100 0    60   ~ 0
+DOut-
+Connection ~ 6450 2100
+Text Label 9750 2100 0    60   ~ 0
+COut-
+Connection ~ 9750 2100
+Text Label 13100 2100 0    60   ~ 0
+BOut-
+Connection ~ 13100 2100
+Text Label 16400 2100 0    60   ~ 0
+AOut-
+Connection ~ 16400 2100
 $EndSCHEMATC

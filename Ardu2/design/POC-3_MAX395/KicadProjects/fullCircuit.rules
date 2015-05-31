@@ -11,18 +11,18 @@
     (via_costs 50)
     (plane_via_costs 5)
     (start_ripup_costs 100)
-    (start_pass_no 18040)
+    (start_pass_no 18245)
     (layer_rule "F.Cu_Audio.GND"
       (active on)
       (preferred_direction vertical)
       (preferred_direction_trace_costs 1.0)
-      (against_preferred_direction_trace_costs 2.4)
+      (against_preferred_direction_trace_costs 2.3)
     )
     (layer_rule In1.Cu
       (active on)
       (preferred_direction horizontal)
       (preferred_direction_trace_costs 1.0)
-      (against_preferred_direction_trace_costs 1.7)
+      (against_preferred_direction_trace_costs 1.8)
     )
   )
   (rule
@@ -141,7 +141,7 @@
     "Net-(R23-Pad1)" "/DOut-" "Net-(R25-Pad2)" "Net-(R26-Pad2)" "Net-(R27-Pad2)" "Net-(R28-Pad2)" "Net-(R29-Pad1)" "Net-(R30-Pad1)"
     "Net-(R31-Pad1)" "Net-(R32-Pad1)" "/COut-" "Net-(R34-Pad2)" "Net-(R35-Pad2)" "Net-(R36-Pad2)" "Net-(R37-Pad2)" "Net-(R38-Pad1)"
     "Net-(R39-Pad1)" "Net-(R40-Pad1)" "Net-(R41-Pad1)" "Net-(R43-Pad2)" "Net-(R44-Pad2)" "Net-(R45-Pad2)" "Net-(R46-Pad2)" "Net-(R47-Pad1)"
-    "Net-(R48-Pad1)" "Net-(R49-Pad1)" "Net-(R50-Pad1)" "/AOut-" "Net-(U8-Pad12)" "Net-(U11-Pad12)" "Net-(U14-Pad12)" "Net-(U17-Pad12)"
+    "Net-(R48-Pad1)" "Net-(R49-Pad1)" "Net-(R50-Pad1)" "/AOut-"
     (clearance_class Audio)
     (via_rule Audio)
     (rule
