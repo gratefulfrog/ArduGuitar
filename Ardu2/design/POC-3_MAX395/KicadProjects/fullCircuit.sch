@@ -37,12 +37,12 @@ LIBS:vactrol
 LIBS:fullCircuit-cache
 EELAYER 25 0
 EELAYER END
-$Descr User 19685 9843
+$Descr User 20000 12000
 encoding utf-8
 Sheet 1 1
 Title "ArduGuitar Full Circuit MAX395"
 Date "Sun 31 May 2015"
-Rev "1.2"
+Rev "1.3"
 Comp "www.arduguitar.org"
 Comment1 ""
 Comment2 ""
@@ -525,12 +525,12 @@ $EndComp
 $Comp
 L CONN_01X02 P1
 U 1 1 55626D06
-P 1750 5900
-F 0 "P1" H 1750 6050 50  0000 C CNN
-F 1 "CONN_01X02" V 1850 5900 50  0000 C CNN
-F 2 "Connect:PINHEAD1-2" H 1750 5900 60  0001 C CNN
-F 3 "" H 1750 5900 60  0000 C CNN
-	1    1750 5900
+P 2100 5900
+F 0 "P1" H 2100 6050 50  0000 C CNN
+F 1 "CONN_01X02" V 2200 5900 50  0000 C CNN
+F 2 "Connect:PINHEAD1-2" H 2100 5900 60  0001 C CNN
+F 3 "" H 2100 5900 60  0000 C CNN
+	1    2100 5900
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -868,18 +868,18 @@ Text Label 12900 7600 2    60   ~ 0
 V+
 Text Label 14100 7400 0    60   ~ 0
 V-
-Text Label 1550 5850 0    60   ~ 0
+Text Label 1100 5850 2    60   ~ 0
 Batin
 $Comp
 L GND #PWR015
 U 1 1 5564C67C
-P 1500 5950
-F 0 "#PWR015" H 1500 5700 50  0001 C CNN
-F 1 "GND" H 1500 5800 50  0000 C CNN
-F 2 "" H 1500 5950 60  0000 C CNN
-F 3 "" H 1500 5950 60  0000 C CNN
-	1    1500 5950
-	0    1    1    0   
+P 1600 6150
+F 0 "#PWR015" H 1600 5900 50  0001 C CNN
+F 1 "GND" H 1600 6000 50  0000 C CNN
+F 2 "" H 1600 6150 60  0000 C CNN
+F 3 "" H 1600 6150 60  0000 C CNN
+	1    1600 6150
+	1    0    0    -1  
 $EndComp
 $Comp
 L GND #PWR016
@@ -3115,7 +3115,7 @@ Connection ~ 17900 4500
 Connection ~ 2400 7400
 Connection ~ 11600 3100
 Wire Wire Line
-	1500 5950 1550 5950
+	1850 5950 1900 5950
 Connection ~ 9750 2900
 Wire Wire Line
 	9700 2900 9750 2900
@@ -3368,4 +3368,36 @@ Connection ~ 13100 2100
 Text Label 16400 2100 0    60   ~ 0
 AOut-
 Connection ~ 16400 2100
+$Comp
+L FUSE F1
+U 1 1 556B808C
+P 1600 5850
+F 0 "F1" H 1700 5900 50  0000 C CNN
+F 1 "FUSE" H 1500 5800 50  0000 C CNN
+F 2 "Fuse_Holders_and_Fuses:Fuse_TE5_Littlefuse-395Series" H 1600 5850 60  0001 C CNN
+F 3 "" H 1600 5850 60  0000 C CNN
+	1    1600 5850
+	1    0    0    -1  
+$EndComp
+$Comp
+L D_Schottky D3
+U 1 1 556B811F
+P 1300 6000
+F 0 "D3" H 1300 6100 50  0000 C CNN
+F 1 "1N5401" H 1300 5900 50  0000 C CNN
+F 2 "Diodes_ThroughHole:Diode_DO-201AD_Horizontal_RM15" H 1300 6000 60  0001 C CNN
+F 3 "" H 1300 6000 60  0000 C CNN
+	1    1300 6000
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1850 6150 1850 5950
+Wire Wire Line
+	1300 6150 1850 6150
+Connection ~ 1600 6150
+Wire Wire Line
+	1100 5850 1350 5850
+Wire Wire Line
+	1900 5850 1850 5850
+Connection ~ 1300 5850
 $EndSCHEMATC
