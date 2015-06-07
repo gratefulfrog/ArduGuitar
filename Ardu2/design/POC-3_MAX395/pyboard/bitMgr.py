@@ -1,7 +1,9 @@
 #!/usr/local/bin/python3.4
 # bitMgr.py
 # provides functionality to update bit arrays for shifting
- 
+# small update on 2015 06 07 to allow for multiple settings as per MAX395 SPI
+# requirements.
+
 from state import State
 from dictMgr import *
 
@@ -139,6 +141,10 @@ class BitMgr:
                                                  name,
                                                  att,
                                                  state)
+            print(setting,masking)  # this is ok!
+            # for a.set('A',State.Inverter,State.l0)
+            # ((4, 0), (4, 3)) ((4, 240),)
+
             self.doSettingMasking(setting,masking)
         
     def x(self):
@@ -157,11 +163,21 @@ class BitMgr:
         applies the setting by left shifting a 1 the setting times, then OR 
         it with the other non masked settings.
         The configs are printed to stdout after assignment.
+        2015 06 07 update to handle settings which are tuples of tuples...
+        created the little helper, updated logic
         """
+        def settingHelper(settingTup):
+            self.cnConfig[BitMgr.nex][settingTup[0]] |= pow(2,settingTup[1])
+        # end of helper to handle tuples of tuples in settings.    
         for (reg,mask) in masking:
             self.cnConfig[BitMgr.nex][reg] &= mask
         if setting:
-            self.cnConfig[BitMgr.nex][setting[0]] |= pow(2,setting[1])
+            if (tuple == type(setting[0])):
+                for tup in setting:
+                    settingHelper(tup)
+            else:
+                settingHelper(setting)
+            #self.cnConfig[BitMgr.nex][setting[0]] |= pow(2,setting[1])
         self.printConfigs(setting,masking)
 
     def printConfigs(self,setting,masking):

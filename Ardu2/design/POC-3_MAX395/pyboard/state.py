@@ -32,7 +32,8 @@ class State():
     vactrolPinName = 'X4'
     
     # Shift Register info
-    nbShiftRegs = 13  # i.e. on [0,13[
+    # updated to handle 14 Max395s
+    nbShiftRegs = 14  # i.e. on [0,13[
     nbSwitchRegs = 4
     connectionUpdateOnly = 1010
 

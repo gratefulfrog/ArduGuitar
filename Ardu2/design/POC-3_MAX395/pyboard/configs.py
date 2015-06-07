@@ -242,6 +242,37 @@ neckBucker = [
     "set('M',ToneRange,Off)"]
 
 
+neckBuckerPhased = [
+    # connect neck A+ to Output+
+    "connect('A',0,'M',0)",  
+    # connect neck A- to B+
+    "connect('A',1,'B',0)",
+    # connect neck B- to Output-
+    "connect('B',1,'M',1)",
+    #  invert coil B, only
+    "set('A',Inverter,0)",
+    "set('B',Inverter,1)",
+    "set('C',Inverter,0)",
+    "set('D',Inverter,0)",
+    # set all Vols to 5
+    "set('A',Vol,5)",
+    "set('B',Vol,5)",
+    "set('C',Vol,5)",
+    "set('D',Vol,5)",
+    "set('M',Vol,5)",
+    # set all Tone to Off
+    "set('A',Tone,Off)",
+    "set('B',Tone,Off)",
+    "set('C',Tone,Off)",
+    "set('D',Tone,Off)",
+    "set('M',Tone,Off)",
+    # set all ToneRange to Off
+    "set('A',ToneRange,Off)",
+    "set('B',ToneRange,Off)",
+    "set('C',ToneRange,Off)",
+    "set('D',ToneRange,Off)",
+    "set('M',ToneRange,Off)"]
+
 configDict = {'nb1': NeckBridgeParallelFullVolMaxTone,
               'as1' : AllSeriesFullVolMaxTone,
               'd':  DOnlyFullVolMaxTone,
@@ -249,7 +280,8 @@ configDict = {'nb1': NeckBridgeParallelFullVolMaxTone,
               'b' : BOnlyFullVolMaxTone,
               'a' : AOnlyFullVolMaxTone,
               'bridge' : bridgeBucker,
-              'neck' : neckBucker}
+              'neck' : neckBucker,
+              'nbp'  : neckBuckerPhased}
 
 def mapReplace(appName, config):
     """
