@@ -1,9 +1,18 @@
-ArduGuitar
+The ArduGuitar 
 ==========
 
-Electric guitars with Arduinos inside 
+*Electric guitars with Pyboards or Arduinos inside* 
 
 by gratefulfrog on www.arduguitar.org
+
+V2 is now nearly ready with a new, super evolved circuit allowing nearly limitless possiblities (2015 06).  
+
+The new circuit is  driven by a [Micropython Pyboard](http://micropython.org/).
+
+The whole story is documented [here](https://docs.google.com/document/d/1oo2Q_3ezPv_WPeJZZisc5ifhc270i9kwir6oPctKts0/edit?usp=sharing)!
+
+
+-------------
 
 V1.1 : ArduStomp and ArduGuitar updated functionality
 
