@@ -160,7 +160,7 @@ class App():
             coil.x()
         self.bitMgr.x()
         #send bits!
-        #self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
+        self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
         self.resetConnections = False
 
     def softX(self):

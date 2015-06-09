@@ -1,5 +1,5 @@
 # temp.py
-# this sends vectors of bits via spi incrementing by one at each send
+# a place to play around...
 
 
 from pyb import delay, Pin

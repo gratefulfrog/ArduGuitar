@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3.4
 # vactrolControl.py
-# this sends vectors of bits via spi incrementing by one at each send
+# underwork, not ready as of 2015 06 10
 
 
 from pyb import Pin

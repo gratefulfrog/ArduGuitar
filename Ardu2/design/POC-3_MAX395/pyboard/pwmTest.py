@@ -1,6 +1,9 @@
 # pwmTest.py
+# run some tests for shunting
 
 from pyb import Pin, Timer,delay
+
+from configs import configDict
 
 #def pwmControl(pp = 'X1', tt = 2, f= 50000):
 def pwmControl(pp = 'Y1', tim = 8, ch=1, f= 50000):
@@ -34,7 +37,25 @@ def shunt(o, on=True, pOn=1):
     o.pulse_width_percent(p)
 
 
-def lc(ap,conf,c):
-    shunt(c,True)
+def lc(ap,conf,c,percent,dela):
+    shunt(c,True,percent)
+    delay(dela)
     ap.loadConfig(conf)
     shunt(c,False)
+
+def cycler(ap,contrl, c1,c2,dela1,dela2,perc):
+    while(True):
+        
+        lc(ap,c1,contrl,perc,dela1)
+        delay(dela2)
+        lc(ap,c2,contrl,perc,dela1)
+        delay(dela2)
+
+        
+def runConfs(ap,con,d=2000):
+    for c in configDict.keys():
+        shunt(con,True,20)
+        ap.loadConfig(c)
+        shunt(con,False)
+        print('***** Loaded Conf: ' + c)
+        delay(d)
