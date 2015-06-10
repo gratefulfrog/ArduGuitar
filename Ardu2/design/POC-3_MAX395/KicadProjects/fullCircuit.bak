@@ -41,10 +41,10 @@ $Descr User 20000 12000
 encoding utf-8
 Sheet 1 1
 Title "ArduGuitar Full Circuit MAX395"
-Date "Sun 31 May 2015"
-Rev "1.3"
+Date "Tue 09 Jun 2015"
+Rev "1.4"
 Comp "www.arduguitar.org"
-Comment1 ""
+Comment1 "removed ground separation inductor"
 Comment2 ""
 Comment3 ""
 Comment4 ""
@@ -340,7 +340,7 @@ L R R1
 U 1 1 555CF701
 P 1550 1450
 F 0 "R1" V 1630 1450 50  0000 C CNN
-F 1 "220" V 1550 1450 50  0000 C CNN
+F 1 "1K" V 1550 1450 50  0000 C CNN
 F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM10mm" V 1480 1450 30  0001 C CNN
 F 3 "" H 1550 1450 30  0000 C CNN
 	1    1550 1450
@@ -532,17 +532,6 @@ F 2 "Connect:PINHEAD1-2" H 2100 5900 60  0001 C CNN
 F 3 "" H 2100 5900 60  0000 C CNN
 	1    2100 5900
 	1    0    0    -1  
-$EndComp
-$Comp
-L INDUCTOR L3
-U 1 1 55629072
-P 5350 1400
-F 0 "L3" V 5300 1400 50  0000 C CNN
-F 1 "1mH" V 5450 1400 50  0000 C CNN
-F 2 "330L:Inductor" H 5350 1400 60  0001 C CNN
-F 3 "" H 5350 1400 60  0000 C CNN
-	1    5350 1400
-	0    -1   -1   0   
 $EndComp
 $Comp
 L GND #PWR01
@@ -884,13 +873,13 @@ $EndComp
 $Comp
 L GND #PWR016
 U 1 1 5564E4CD
-P 4950 1400
-F 0 "#PWR016" H 4950 1150 50  0001 C CNN
-F 1 "GND" H 4950 1250 50  0000 C CNN
-F 2 "" H 4950 1400 60  0000 C CNN
-F 3 "" H 4950 1400 60  0000 C CNN
-	1    4950 1400
-	0    1    1    0   
+P 5650 1450
+F 0 "#PWR016" H 5650 1200 50  0001 C CNN
+F 1 "GND" H 5650 1300 50  0000 C CNN
+F 2 "" H 5650 1450 60  0000 C CNN
+F 3 "" H 5650 1450 60  0000 C CNN
+	1    5650 1450
+	1    0    0    -1  
 $EndComp
 Text Label 5250 1000 3    60   ~ 0
 OUT+
@@ -2999,8 +2988,6 @@ Wire Wire Line
 Connection ~ 4500 2900
 Connection ~ 10300 7400
 Connection ~ 1550 1700
-Wire Wire Line
-	4950 1400 5050 1400
 Connection ~ 6150 7400
 Wire Wire Line
 	6100 7400 6150 7400
@@ -3020,7 +3007,7 @@ Connection ~ 5750 1000
 Connection ~ 5850 1000
 Connection ~ 5950 1000
 Wire Wire Line
-	5650 1400 5650 1000
+	5650 1000 5650 1450
 Text Label 750  3600 0    60   ~ 0
 ShuntControl
 Text Label 2250 4600 0    60   ~ 0

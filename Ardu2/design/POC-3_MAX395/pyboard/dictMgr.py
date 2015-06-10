@@ -8,6 +8,12 @@ all the dictionairies are constant and never to be updated programmatically!
 
 from state import *
 
+# shunt configuration (pin, timer, channel, frequency)
+shuntConfDict = {'p':'Y1',
+                 't':8,
+                 'c':1,
+                 'f':50000}
+
 # this dictionary maps:
 # ((fromCoilName,fromPoleID),(toCoilName,toPoleID)) 
 # ->

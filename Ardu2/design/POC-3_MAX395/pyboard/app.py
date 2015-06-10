@@ -5,10 +5,12 @@
 
 #from vactrolControl import vactrolControl
 from bitMgr import BitMgr
+from dictMgr import shuntConfDict
 from components import Invertable,VTable
 from state import State
 from spiMgr import SPIMgr
 from configs import configDict,mapReplace
+from shuntControl import ShuntControl
 import pyb
 
 class App():
@@ -80,20 +82,9 @@ class App():
         initialize all the pins.
         """
         self.reset()
-        """
-        self.bitMgr = BitMgr()
-        self.state = State()
-        self.resetConnections = True
-        self.coils = {}
-        for coil in State.coils[:-1]:
-            self.coils[coil] = Invertable(coil)
-        self.coils[State.coils[-1]]= VTable(State.coils[-1])
-        self.spiMgr = SPIMgr(State.spiOnX,State.spiLatchPinName)
-        # turn all to State.lOff
-        self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
-        """
 
     def reset(self):
+        self.shuntControl = ShuntControl(shuntConfDict)
         self.bitMgr = BitMgr()
         self.state = State()
         self.resetConnections = True
@@ -101,11 +92,11 @@ class App():
         for coil in State.coils[:-1]:
             self.coils[coil] = Invertable(coil)
         self.coils[State.coils[-1]]= VTable(State.coils[-1])
-        #self.vactrol = vactrolControl(State.vactrolPinName)
         self.spiMgr = SPIMgr(State.spiOnX,State.spiLatchPinName)
-        # turn all to State.lOff
+        # shunt, turn all to State.lOff, unshunt
+        self.shuntControl.shunt()
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
-        
+        self.shuntControl.unShunt()
 
     def set(self,name,att,state):
         """
@@ -155,12 +146,16 @@ class App():
         usage:
         >>> a.x()
         """
-        self.softX()
+        #self.softX()
         for coil in self.coils.values():
             coil.x()
         self.bitMgr.x()
+        # shunt
+        self.shuntControl.shunt()
         #send bits!
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
+        #unshunt
+        self.shuntControl.unShunt()
         self.resetConnections = False
 
     def softX(self):
