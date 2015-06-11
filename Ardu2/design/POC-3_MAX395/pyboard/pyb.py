@@ -71,9 +71,9 @@ class Pin():
     """
     OUT_PP = 'OUT_PP'
 
-    def __init__(self, latch, po):
+    def __init__(self, latch, mode):
         self.latchPin = latch
-        self.pinOut = po
+        self.pinOut = mode
         self.value = 0
 
     def high(self):
@@ -89,3 +89,26 @@ class Pin():
             '\n\tLatchPin:\t' + str(self.latchPin) + \
             '\n\tPinOut:\t' + str(self.pinOut) + \
             '\n\tValue:\t' + str(self.value) 
+
+class pwmAble:
+    def __inti__(self):
+        self.perc = 0
+
+    def pulse_width_percent(self,percent):
+                self.perc = percent
+
+    def __repr__(self):
+        return 'pwmAble: ' +'\n\t' + str(self.perc)
+    
+class Timer:
+    PWM  = 0
+    def __init__(self,pp,freq):
+        self.pin = pp
+        self.freq = freq
+
+    def channel (self,ch,kind,pin):
+        r = pwmAble()
+        return r
+
+    def __repr__(self):
+        return 'A Timer!'
