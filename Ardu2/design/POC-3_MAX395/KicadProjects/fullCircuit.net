@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /home/bob/ArduGuitar/Ardu2/design/POC-3_MAX395/KicadProjects/fullCircuit.sch)
-    (date "Mon 15 Jun 2015 05:29:55 PM CEST")
+    (date "Mon 15 Jun 2015 06:58:43 PM CEST")
     (tool "Eeschema 0.201506122246+5743~23~ubuntu15.04.1-product")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -824,67 +824,6 @@
         (pin (num 22) (name DOUT) (type output))
         (pin (num 23) (name RESET) (type input))
         (pin (num 24) (name CS) (type input))))
-    (libpart (lib device) (part HEATSINK)
-      (fields
-        (field (name Reference) HS)
-        (field (name Value) HEATSINK)))
-    (libpart (lib device) (part INDUCTOR)
-      (fields
-        (field (name Reference) L)
-        (field (name Value) INDUCTOR))
-      (pins
-        (pin (num 1) (name 1) (type passive))
-        (pin (num 2) (name 2) (type passive))))
-    (libpart (lib conn) (part CONN_01X15)
-      (footprints
-        (fp Pin_Header_Straight_1X15)
-        (fp Pin_Header_Angled_1X15)
-        (fp Socket_Strip_Straight_1X15)
-        (fp Socket_Strip_Angled_1X15))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X15))
-      (pins
-        (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))
-        (pin (num 3) (name P3) (type passive))
-        (pin (num 4) (name P4) (type passive))
-        (pin (num 5) (name P5) (type passive))
-        (pin (num 6) (name P6) (type passive))
-        (pin (num 7) (name P7) (type passive))
-        (pin (num 8) (name P8) (type passive))
-        (pin (num 9) (name P9) (type passive))
-        (pin (num 10) (name P10) (type passive))
-        (pin (num 11) (name P11) (type passive))
-        (pin (num 12) (name P12) (type passive))
-        (pin (num 13) (name P13) (type passive))
-        (pin (num 14) (name P14) (type passive))
-        (pin (num 15) (name P15) (type passive))))
-    (libpart (lib device) (part R)
-      (description Resistor)
-      (footprints
-        (fp R_*)
-        (fp Resistor_*))
-      (fields
-        (field (name Reference) R)
-        (field (name Value) R))
-      (pins
-        (pin (num 1) (name ~) (type passive))
-        (pin (num 2) (name ~) (type passive))))
-    (libpart (lib device) (part D_Schottky)
-      (description "Diode schottky")
-      (footprints
-        (fp D-Pak_TO252AA)
-        (fp Diode_*)
-        (fp *SingleDiode)
-        (fp *SingleDiode*)
-        (fp *_Diode_*))
-      (fields
-        (field (name Reference) D)
-        (field (name Value) D_Schottky))
-      (pins
-        (pin (num 1) (name K) (type passive))
-        (pin (num 2) (name A) (type passive))))
     (libpart (lib device) (part C)
       (description "Unpolarized capacitor")
       (footprints
@@ -914,6 +853,72 @@
       (pins
         (pin (num 1) (name ~) (type passive))
         (pin (num 2) (name ~) (type passive))))
+    (libpart (lib device) (part D_Schottky)
+      (description "Diode schottky")
+      (footprints
+        (fp D-Pak_TO252AA)
+        (fp Diode_*)
+        (fp *SingleDiode)
+        (fp *SingleDiode*)
+        (fp *_Diode_*))
+      (fields
+        (field (name Reference) D)
+        (field (name Value) D_Schottky))
+      (pins
+        (pin (num 1) (name K) (type passive))
+        (pin (num 2) (name A) (type passive))))
+    (libpart (lib device) (part FUSE)
+      (fields
+        (field (name Reference) F)
+        (field (name Value) FUSE))
+      (pins
+        (pin (num 1) (name ~) (type input))
+        (pin (num 2) (name ~) (type input))))
+    (libpart (lib device) (part HEATSINK)
+      (fields
+        (field (name Reference) HS)
+        (field (name Value) HEATSINK)))
+    (libpart (lib device) (part INDUCTOR)
+      (fields
+        (field (name Reference) L)
+        (field (name Value) INDUCTOR))
+      (pins
+        (pin (num 1) (name 1) (type passive))
+        (pin (num 2) (name 2) (type passive))))
+    (libpart (lib device) (part R)
+      (description Resistor)
+      (footprints
+        (fp R_*)
+        (fp Resistor_*))
+      (fields
+        (field (name Reference) R)
+        (field (name Value) R))
+      (pins
+        (pin (num 1) (name ~) (type passive))
+        (pin (num 2) (name ~) (type passive))))
+    (libpart (lib conn) (part CONN_01X01)
+      (footprints
+        (fp Pin_Header_Straight_1X01)
+        (fp Pin_Header_Angled_1X01)
+        (fp Socket_Strip_Straight_1X01)
+        (fp Socket_Strip_Angled_1X01))
+      (fields
+        (field (name Reference) P)
+        (field (name Value) CONN_01X01))
+      (pins
+        (pin (num 1) (name P1) (type passive))))
+    (libpart (lib conn) (part CONN_01X02)
+      (footprints
+        (fp Pin_Header_Straight_1X02)
+        (fp Pin_Header_Angled_1X02)
+        (fp Socket_Strip_Straight_1X02)
+        (fp Socket_Strip_Angled_1X02))
+      (fields
+        (field (name Reference) P)
+        (field (name Value) CONN_01X02))
+      (pins
+        (pin (num 1) (name P1) (type passive))
+        (pin (num 2) (name P2) (type passive))))
     (libpart (lib conn) (part CONN_01X14)
       (footprints
         (fp Pin_Header_Straight_1X14)
@@ -938,36 +943,31 @@
         (pin (num 12) (name P12) (type passive))
         (pin (num 13) (name P13) (type passive))
         (pin (num 14) (name P14) (type passive))))
-    (libpart (lib device) (part FUSE)
-      (fields
-        (field (name Reference) F)
-        (field (name Value) FUSE))
-      (pins
-        (pin (num 1) (name ~) (type input))
-        (pin (num 2) (name ~) (type input))))
-    (libpart (lib conn) (part CONN_01X01)
+    (libpart (lib conn) (part CONN_01X15)
       (footprints
-        (fp Pin_Header_Straight_1X01)
-        (fp Pin_Header_Angled_1X01)
-        (fp Socket_Strip_Straight_1X01)
-        (fp Socket_Strip_Angled_1X01))
+        (fp Pin_Header_Straight_1X15)
+        (fp Pin_Header_Angled_1X15)
+        (fp Socket_Strip_Straight_1X15)
+        (fp Socket_Strip_Angled_1X15))
       (fields
         (field (name Reference) P)
-        (field (name Value) CONN_01X01))
-      (pins
-        (pin (num 1) (name P1) (type passive))))
-    (libpart (lib conn) (part CONN_01X02)
-      (footprints
-        (fp Pin_Header_Straight_1X02)
-        (fp Pin_Header_Angled_1X02)
-        (fp Socket_Strip_Straight_1X02)
-        (fp Socket_Strip_Angled_1X02))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X02))
+        (field (name Value) CONN_01X15))
       (pins
         (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))))
+        (pin (num 2) (name P2) (type passive))
+        (pin (num 3) (name P3) (type passive))
+        (pin (num 4) (name P4) (type passive))
+        (pin (num 5) (name P5) (type passive))
+        (pin (num 6) (name P6) (type passive))
+        (pin (num 7) (name P7) (type passive))
+        (pin (num 8) (name P8) (type passive))
+        (pin (num 9) (name P9) (type passive))
+        (pin (num 10) (name P10) (type passive))
+        (pin (num 11) (name P11) (type passive))
+        (pin (num 12) (name P12) (type passive))
+        (pin (num 13) (name P13) (type passive))
+        (pin (num 14) (name P14) (type passive))
+        (pin (num 15) (name P15) (type passive))))
     (libpart (lib LM2596) (part LM2596)
       (fields
         (field (name Reference) U)
@@ -978,16 +978,6 @@
         (pin (num 3) (name GND) (type input))
         (pin (num 4) (name FB) (type input))
         (pin (num 5) (name ~On~/Off) (type input))))
-    (libpart (lib vactrol) (part Vactrol)
-      (description "Photo resistor")
-      (fields
-        (field (name Reference) U)
-        (field (name Value) Vactrol))
-      (pins
-        (pin (num 1) (name K) (type input))
-        (pin (num 2) (name A) (type input))
-        (pin (num 3) (name Rl) (type passive))
-        (pin (num 4) (name Rh) (type passive))))
     (libpart (lib Pyboard) (part Pyboard)
       (fields
         (field (name Reference) U)
@@ -1026,12 +1016,22 @@
         (pin (num 29) (name RST) (type input))
         (pin (num 30) (name GND) (type power_in))
         (pin (num 31) (name 3V3) (type output))
-        (pin (num 32) (name VIN) (type power_in)))))
+        (pin (num 32) (name VIN) (type power_in))))
+    (libpart (lib vactrol) (part Vactrol)
+      (description "Photo resistor")
+      (fields
+        (field (name Reference) U)
+        (field (name Value) Vactrol))
+      (pins
+        (pin (num 1) (name K) (type input))
+        (pin (num 2) (name A) (type input))
+        (pin (num 3) (name Rl) (type passive))
+        (pin (num 4) (name Rh) (type passive)))))
   (libraries
-    (library (logical MAX395)
-      (uri /home/bob/.kicad/lib/MAX395.lib))
     (library (logical device)
       (uri /usr/share/kicad/library/device.lib))
+    (library (logical MAX395)
+      (uri /home/bob/.kicad/lib/MAX395.lib))
     (library (logical conn)
       (uri /usr/share/kicad/library/conn.lib))
     (library (logical LM2596)
