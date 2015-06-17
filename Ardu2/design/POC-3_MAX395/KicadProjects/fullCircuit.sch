@@ -41,11 +41,11 @@ $Descr User 20000 12000
 encoding utf-8
 Sheet 1 1
 Title "ArduGuitar Full Circuit MAX395"
-Date "Mon 15 Jun 2015"
-Rev "1.5"
+Date "2015-06-18"
+Rev "1.6"
 Comp "www.arduguitar.org"
-Comment1 "update after review"
-Comment2 ""
+Comment1 "update after review,"
+Comment2 "added V+/V- to headers"
 Comment3 ""
 Comment4 ""
 $EndDescr
@@ -1772,6 +1772,332 @@ F 3 "" H 1700 7700 60  0000 C CNN
 	1    1700 7700
 	1    0    0    -1  
 $EndComp
+Text Label 750  3600 0    60   ~ 0
+ShuntControl
+Text Label 2250 4600 0    60   ~ 0
+CLK
+Text Label 3000 4200 0    60   ~ 0
+CLK
+Text Label 4500 3200 0    60   ~ 0
+CLK
+Text Label 7950 3200 0    60   ~ 0
+CLK
+Text Label 6450 4200 0    60   ~ 0
+CLK
+Text Label 9750 4200 0    60   ~ 0
+CLK
+Text Label 11250 3200 0    60   ~ 0
+CLK
+Text Label 13100 4200 0    60   ~ 0
+CLK
+Text Label 14600 3200 0    60   ~ 0
+CLK
+Text Label 17900 3200 0    60   ~ 0
+CLK
+Text Label 16400 4200 0    60   ~ 0
+CLK
+Text Label 15600 7700 0    60   ~ 0
+CLK
+Text Label 12900 7700 2    60   ~ 0
+CLK
+Text Label 10300 7700 0    60   ~ 0
+CLK
+Text Label 7650 7700 0    60   ~ 0
+CLK
+Text Label 14100 7700 0    60   ~ 0
+CS
+Text Label 11400 7700 0    60   ~ 0
+CS
+Text Label 8800 7700 0    60   ~ 0
+CS
+Text Label 6150 7700 0    60   ~ 0
+CS
+Text Label 4500 4200 0    60   ~ 0
+CS
+Text Label 3000 3200 0    60   ~ 0
+CS
+Text Label 2250 4700 0    60   ~ 0
+CS
+Text Label 6450 3200 0    60   ~ 0
+CS
+Text Label 7950 4200 0    60   ~ 0
+CS
+Text Label 9750 3200 0    60   ~ 0
+CS
+Text Label 14600 4200 0    60   ~ 0
+CS
+Text Label 17900 4200 0    60   ~ 0
+CS
+Text Label 16400 3200 0    60   ~ 0
+CS
+Text Label 11250 4200 0    60   ~ 0
+CS
+Text Label 13100 3200 0    60   ~ 0
+CS
+Text Label 4500 4300 0    60   ~ 0
+V+
+Text Label 6450 3100 0    60   ~ 0
+V+
+Text Label 3000 3100 0    60   ~ 0
+V+
+Text Label 16400 3100 0    60   ~ 0
+V+
+$Comp
+L Vactrol U4
+U 1 1 5566D0B5
+P 2450 1050
+F 0 "U4" H 2457 1371 50  0000 C CNN
+F 1 "Vactrol" H 2464 742 50  0000 C CNN
+F 2 "330L:Vactrol" H 2450 1048 60  0001 C CNN
+F 3 "" H 2450 1048 60  0000 C CNN
+	1    2450 1050
+	1    0    0    -1  
+$EndComp
+Text Label 1850 1250 2    60   ~ 0
+ShuntControl
+Text Label 3050 850  0    60   ~ 0
+OUT-
+Text Label 3050 1250 0    60   ~ 0
+OUT+
+Text Label 5750 1000 3    60   ~ 0
+OUT-
+Text Label 750  4900 2    60   ~ 0
+GND
+Text Label 750  5100 2    60   ~ 0
+V+
+Text Label 15600 6700 0    60   ~ 0
+AOut+
+Text Label 15600 6800 0    60   ~ 0
+AOut+
+Text Label 15600 7100 0    60   ~ 0
+AOut+
+Text Label 15600 7200 0    60   ~ 0
+AOut+
+Text Label 14100 7200 2    60   ~ 0
+AOut+
+Text Label 14100 7100 2    60   ~ 0
+AOut+
+Text Label 14100 6900 2    60   ~ 0
+AOut+
+Text Label 15600 7300 0    60   ~ 0
+COut-
+Text Label 15600 7000 0    60   ~ 0
+COut+
+Text Label 15600 6900 0    60   ~ 0
+BOut-
+Text Label 14100 6600 2    60   ~ 0
+COut-
+Text Label 14100 6700 2    60   ~ 0
+DOut+
+Text Label 14100 6800 2    60   ~ 0
+DOut+
+Text Label 14100 7000 2    60   ~ 0
+DOut-
+Text Label 14100 7300 2    60   ~ 0
+MIn+
+Text Label 12900 6600 0    60   ~ 0
+COut-
+Text Label 12900 6700 0    60   ~ 0
+AOut-
+Text Label 12900 6800 0    60   ~ 0
+AOut-
+Text Label 12900 7100 0    60   ~ 0
+AOut-
+Text Label 12900 7200 0    60   ~ 0
+AOut-
+Text Label 11400 7200 2    60   ~ 0
+AOut-
+Text Label 11400 7100 2    60   ~ 0
+AOut-
+Text Label 11400 6900 2    60   ~ 0
+AOut-
+Text Label 12900 6900 0    60   ~ 0
+COut+
+Text Label 12900 7000 0    60   ~ 0
+BOut-
+Text Label 12900 7300 0    60   ~ 0
+BOut+
+Text Label 11400 6600 2    60   ~ 0
+MIn+
+Text Label 11400 6700 2    60   ~ 0
+DOut+
+Text Label 11400 6800 2    60   ~ 0
+DOut+
+Text Label 11400 7000 2    60   ~ 0
+DOut-
+Text Label 11400 7300 2    60   ~ 0
+MIn-
+Text Label 10300 6600 0    60   ~ 0
+COut+
+Text Label 10300 6700 0    60   ~ 0
+BOut+
+Text Label 10300 6800 0    60   ~ 0
+BOut+
+Text Label 10300 6900 0    60   ~ 0
+COut-
+Text Label 10300 7000 0    60   ~ 0
+DOut+
+Text Label 10300 7100 0    60   ~ 0
+BOut+
+Text Label 10300 7200 0    60   ~ 0
+BOut+
+Text Label 10300 7300 0    60   ~ 0
+DOut-
+Text Label 8800 6600 2    60   ~ 0
+MIn-
+Text Label 8800 6700 2    60   ~ 0
+BOut-
+Text Label 8800 6800 2    60   ~ 0
+BOut-
+Text Label 8800 6900 2    60   ~ 0
+COut+
+Text Label 8800 7000 2    60   ~ 0
+COut+
+Text Label 8800 7100 2    60   ~ 0
+MIn+
+Text Label 8800 7200 2    60   ~ 0
+MIn+
+Text Label 8800 7300 2    60   ~ 0
+BOut+
+Text Label 7650 6600 0    60   ~ 0
+DOut+
+Text Label 7650 6700 0    60   ~ 0
+BOut-
+Text Label 7650 6800 0    60   ~ 0
+BOut-
+Text Label 7650 7000 0    60   ~ 0
+BOut-
+Text Label 7650 7100 0    60   ~ 0
+DOut-
+Text Label 7650 6900 0    60   ~ 0
+COut-
+Text Label 7650 7200 0    60   ~ 0
+DOut-
+Text Label 7650 7300 0    60   ~ 0
+COut+
+Text Label 6150 6600 2    60   ~ 0
+DOut-
+Text Label 6150 6700 2    60   ~ 0
+MIn-
+Text Label 6150 6800 2    60   ~ 0
+MIn-
+Text Label 6150 6900 2    60   ~ 0
+COut-
+Text Label 6150 7000 2    60   ~ 0
+COut-
+Text Label 6150 7100 2    60   ~ 0
+DOut-
+Text Label 6150 7200 2    60   ~ 0
+DOut+
+Text Label 6150 7300 2    60   ~ 0
+COut+
+Text Label 15600 6600 0    60   ~ 0
+BOut+
+Text Label 6450 2100 0    60   ~ 0
+DOut-
+Text Label 9750 2100 0    60   ~ 0
+COut-
+Text Label 13100 2100 0    60   ~ 0
+BOut-
+Text Label 16400 2100 0    60   ~ 0
+AOut-
+$Comp
+L FUSE F1
+U 1 1 556B808C
+P 1600 5850
+F 0 "F1" H 1700 5900 50  0000 C CNN
+F 1 "FUSE" H 1500 5800 50  0000 C CNN
+F 2 "Fuse_Holders_and_Fuses:Fuse_TE5_Littlefuse-395Series" H 1600 5850 60  0001 C CNN
+F 3 "" H 1600 5850 60  0000 C CNN
+	1    1600 5850
+	1    0    0    -1  
+$EndComp
+$Comp
+L D_Schottky D3
+U 1 1 556B811F
+P 1300 6000
+F 0 "D3" H 1300 6100 50  0000 C CNN
+F 1 "1N5401" H 1300 5900 50  0000 C CNN
+F 2 "Diodes_ThroughHole:Diode_DO-201AD_Horizontal_RM15" H 1300 6000 60  0001 C CNN
+F 3 "" H 1300 6000 60  0000 C CNN
+	1    1300 6000
+	0    1    1    0   
+$EndComp
+$Comp
+L CONN_01X14 P2
+U 1 1 557F4A3C
+P 950 2500
+F 0 "P2" H 950 3250 50  0000 C CNN
+F 1 "CONN_01X14" V 1050 2500 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x14" H 950 2500 60  0001 C CNN
+F 3 "" H 950 2500 60  0000 C CNN
+	1    950  2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X14 P3
+U 1 1 557F4D2E
+P 1950 2500
+F 0 "P3" H 1950 3250 50  0000 C CNN
+F 1 "CONN_01X14" V 1940 2490 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x14" H 1950 2500 60  0001 C CNN
+F 3 "" H 1950 2500 60  0000 C CNN
+	1    1950 2500
+	1    0    0    -1  
+$EndComp
+Text Label 1750 3150 2    60   ~ 0
+V+
+$Comp
+L GND #PWR024
+U 1 1 557F720B
+P 1650 2950
+F 0 "#PWR024" H 1650 2700 50  0001 C CNN
+F 1 "GND" H 1650 2800 50  0000 C CNN
+F 2 "" H 1650 2950 60  0000 C CNN
+F 3 "" H 1650 2950 60  0000 C CNN
+	1    1650 2950
+	0    1    1    0   
+$EndComp
+$Comp
+L Pyboard U1
+U 1 1 5562BE0F
+P 1500 4350
+F 0 "U1" H 1500 4250 50  0000 C CNN
+F 1 "Pyboard" H 1500 4450 50  0000 C CNN
+F 2 "330L:Pyboard16x2" H 1500 4350 50  0001 C CNN
+F 3 "DOCUMENTATION" H 1500 4350 50  0001 C CNN
+	1    1500 4350
+	-1   0    0    1   
+$EndComp
+Text Label 1750 2150 2    60   ~ 0
+CLK
+Text Label 1750 2050 2    60   ~ 0
+CS
+Text Label 750  3150 2    60   ~ 0
+ShuntControl
+Text Notes 710  1800 3    35   ~ 0
+Y1 Y2 Y3 Y4 Y5 Y6 Y7 Y8 Y9 X10 X11 X12  X1 X2
+Text Notes 2070 1700 3    35   ~ 0
+V+3V3GND V- RST Y12 Y11 Y10 X9 xx X7 X6 X5 X4 X3
+Text Label 6150 7500 2    35   ~ 0
+DoutSpare
+$Comp
+L CONN_01X01 P4
+U 1 1 55811AC4
+P 6270 8280
+F 0 "P4" H 6270 8380 50  0000 C CNN
+F 1 "CONN_01X01" V 6370 8280 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x01" H 6270 8280 60  0001 C CNN
+F 3 "" H 6270 8280 60  0000 C CNN
+	1    6270 8280
+	1    0    0    -1  
+$EndComp
+Text Label 6070 8280 2    35   ~ 0
+DoutSpare
+Text Label 2250 3700 2    35   ~ 0
+3V3
+Text Label 1750 3050 2    35   ~ 0
+3V3
 Wire Wire Line
 	18750 5050 18750 5100
 Wire Wire Line
@@ -2975,68 +3301,6 @@ Connection ~ 5850 1000
 Connection ~ 5950 1000
 Wire Wire Line
 	5650 1000 5650 1450
-Text Label 750  3600 0    60   ~ 0
-ShuntControl
-Text Label 2250 4600 0    60   ~ 0
-CLK
-Text Label 3000 4200 0    60   ~ 0
-CLK
-Text Label 4500 3200 0    60   ~ 0
-CLK
-Text Label 7950 3200 0    60   ~ 0
-CLK
-Text Label 6450 4200 0    60   ~ 0
-CLK
-Text Label 9750 4200 0    60   ~ 0
-CLK
-Text Label 11250 3200 0    60   ~ 0
-CLK
-Text Label 13100 4200 0    60   ~ 0
-CLK
-Text Label 14600 3200 0    60   ~ 0
-CLK
-Text Label 17900 3200 0    60   ~ 0
-CLK
-Text Label 16400 4200 0    60   ~ 0
-CLK
-Text Label 15600 7700 0    60   ~ 0
-CLK
-Text Label 12900 7700 2    60   ~ 0
-CLK
-Text Label 10300 7700 0    60   ~ 0
-CLK
-Text Label 7650 7700 0    60   ~ 0
-CLK
-Text Label 14100 7700 0    60   ~ 0
-CS
-Text Label 11400 7700 0    60   ~ 0
-CS
-Text Label 8800 7700 0    60   ~ 0
-CS
-Text Label 6150 7700 0    60   ~ 0
-CS
-Text Label 4500 4200 0    60   ~ 0
-CS
-Text Label 3000 3200 0    60   ~ 0
-CS
-Text Label 2250 4700 0    60   ~ 0
-CS
-Text Label 6450 3200 0    60   ~ 0
-CS
-Text Label 7950 4200 0    60   ~ 0
-CS
-Text Label 9750 3200 0    60   ~ 0
-CS
-Text Label 14600 4200 0    60   ~ 0
-CS
-Text Label 17900 4200 0    60   ~ 0
-CS
-Text Label 16400 3200 0    60   ~ 0
-CS
-Text Label 11250 4200 0    60   ~ 0
-CS
-Text Label 13100 3200 0    60   ~ 0
-CS
 Wire Wire Line
 	12900 7600 12950 7600
 Wire Wire Line
@@ -3048,14 +3312,6 @@ Connection ~ 12900 7600
 Connection ~ 11250 3100
 Wire Wire Line
 	2950 4300 3000 4300
-Text Label 4500 4300 0    60   ~ 0
-V+
-Text Label 6450 3100 0    60   ~ 0
-V+
-Text Label 3000 3100 0    60   ~ 0
-V+
-Text Label 16400 3100 0    60   ~ 0
-V+
 Wire Wire Line
 	17950 3100 17900 3100
 Wire Wire Line
@@ -3090,31 +3346,8 @@ Connection ~ 2250 3800
 Connection ~ 13100 2900
 Wire Wire Line
 	13050 2900 13100 2900
-$Comp
-L Vactrol U4
-U 1 1 5566D0B5
-P 2450 1050
-F 0 "U4" H 2457 1371 50  0000 C CNN
-F 1 "Vactrol" H 2464 742 50  0000 C CNN
-F 2 "330L:Vactrol" H 2450 1048 60  0001 C CNN
-F 3 "" H 2450 1048 60  0000 C CNN
-	1    2450 1050
-	1    0    0    -1  
-$EndComp
-Text Label 1850 1250 2    60   ~ 0
-ShuntControl
-Text Label 3050 850  0    60   ~ 0
-OUT-
-Text Label 3050 1250 0    60   ~ 0
-OUT+
 Wire Wire Line
 	1850 850  1550 850 
-Text Label 5750 1000 3    60   ~ 0
-OUT-
-Text Label 750  4900 2    60   ~ 0
-GND
-Text Label 750  5100 2    60   ~ 0
-V+
 Connection ~ 6450 5100
 Connection ~ 7950 4800
 Connection ~ 17900 4800
@@ -3175,172 +3408,14 @@ Connection ~ 3500 8100
 Connection ~ 16400 2400
 Connection ~ 16350 2900
 Connection ~ 16400 4300
-Text Label 15600 6700 0    60   ~ 0
-AOut+
-Text Label 15600 6800 0    60   ~ 0
-AOut+
-Text Label 15600 7100 0    60   ~ 0
-AOut+
-Text Label 15600 7200 0    60   ~ 0
-AOut+
-Text Label 14100 7200 2    60   ~ 0
-AOut+
-Text Label 14100 7100 2    60   ~ 0
-AOut+
-Text Label 14100 6900 2    60   ~ 0
-AOut+
-Text Label 15600 7300 0    60   ~ 0
-COut-
-Text Label 15600 7000 0    60   ~ 0
-COut+
-Text Label 15600 6900 0    60   ~ 0
-BOut-
-Text Label 14100 6600 2    60   ~ 0
-COut-
-Text Label 14100 6700 2    60   ~ 0
-DOut+
-Text Label 14100 6800 2    60   ~ 0
-DOut+
-Text Label 14100 7000 2    60   ~ 0
-DOut-
-Text Label 14100 7300 2    60   ~ 0
-MIn+
-Text Label 12900 6600 0    60   ~ 0
-COut-
-Text Label 12900 6700 0    60   ~ 0
-AOut-
-Text Label 12900 6800 0    60   ~ 0
-AOut-
-Text Label 12900 7100 0    60   ~ 0
-AOut-
-Text Label 12900 7200 0    60   ~ 0
-AOut-
-Text Label 11400 7200 2    60   ~ 0
-AOut-
-Text Label 11400 7100 2    60   ~ 0
-AOut-
-Text Label 11400 6900 2    60   ~ 0
-AOut-
-Text Label 12900 6900 0    60   ~ 0
-COut+
-Text Label 12900 7000 0    60   ~ 0
-BOut-
-Text Label 12900 7300 0    60   ~ 0
-BOut+
-Text Label 11400 6600 2    60   ~ 0
-MIn+
-Text Label 11400 6700 2    60   ~ 0
-DOut+
-Text Label 11400 6800 2    60   ~ 0
-DOut+
-Text Label 11400 7000 2    60   ~ 0
-DOut-
-Text Label 11400 7300 2    60   ~ 0
-MIn-
-Text Label 10300 6600 0    60   ~ 0
-COut+
-Text Label 10300 6700 0    60   ~ 0
-BOut+
-Text Label 10300 6800 0    60   ~ 0
-BOut+
-Text Label 10300 6900 0    60   ~ 0
-COut-
-Text Label 10300 7000 0    60   ~ 0
-DOut+
-Text Label 10300 7100 0    60   ~ 0
-BOut+
-Text Label 10300 7200 0    60   ~ 0
-BOut+
-Text Label 10300 7300 0    60   ~ 0
-DOut-
-Text Label 8800 6600 2    60   ~ 0
-MIn-
-Text Label 8800 6700 2    60   ~ 0
-BOut-
-Text Label 8800 6800 2    60   ~ 0
-BOut-
-Text Label 8800 6900 2    60   ~ 0
-COut+
-Text Label 8800 7000 2    60   ~ 0
-COut+
-Text Label 8800 7100 2    60   ~ 0
-MIn+
-Text Label 8800 7200 2    60   ~ 0
-MIn+
-Text Label 8800 7300 2    60   ~ 0
-BOut+
 Wire Wire Line
 	6350 5000 6350 5650
 Wire Wire Line
 	5500 2000 5500 5700
-Text Label 7650 6600 0    60   ~ 0
-DOut+
-Text Label 7650 6700 0    60   ~ 0
-BOut-
-Text Label 7650 6800 0    60   ~ 0
-BOut-
-Text Label 7650 7000 0    60   ~ 0
-BOut-
-Text Label 7650 7100 0    60   ~ 0
-DOut-
-Text Label 7650 6900 0    60   ~ 0
-COut-
-Text Label 7650 7200 0    60   ~ 0
-DOut-
-Text Label 7650 7300 0    60   ~ 0
-COut+
-Text Label 6150 6600 2    60   ~ 0
-DOut-
-Text Label 6150 6700 2    60   ~ 0
-MIn-
-Text Label 6150 6800 2    60   ~ 0
-MIn-
-Text Label 6150 6900 2    60   ~ 0
-COut-
-Text Label 6150 7000 2    60   ~ 0
-COut-
-Text Label 6150 7100 2    60   ~ 0
-DOut-
-Text Label 6150 7200 2    60   ~ 0
-DOut+
-Text Label 6150 7300 2    60   ~ 0
-COut+
-Text Label 15600 6600 0    60   ~ 0
-BOut+
-Text Label 6450 2100 0    60   ~ 0
-DOut-
 Connection ~ 6450 2100
-Text Label 9750 2100 0    60   ~ 0
-COut-
 Connection ~ 9750 2100
-Text Label 13100 2100 0    60   ~ 0
-BOut-
 Connection ~ 13100 2100
-Text Label 16400 2100 0    60   ~ 0
-AOut-
 Connection ~ 16400 2100
-$Comp
-L FUSE F1
-U 1 1 556B808C
-P 1600 5850
-F 0 "F1" H 1700 5900 50  0000 C CNN
-F 1 "FUSE" H 1500 5800 50  0000 C CNN
-F 2 "Fuse_Holders_and_Fuses:Fuse_TE5_Littlefuse-395Series" H 1600 5850 60  0001 C CNN
-F 3 "" H 1600 5850 60  0000 C CNN
-	1    1600 5850
-	1    0    0    -1  
-$EndComp
-$Comp
-L D_Schottky D3
-U 1 1 556B811F
-P 1300 6000
-F 0 "D3" H 1300 6100 50  0000 C CNN
-F 1 "1N5401" H 1300 5900 50  0000 C CNN
-F 2 "Diodes_ThroughHole:Diode_DO-201AD_Horizontal_RM15" H 1300 6000 60  0001 C CNN
-F 3 "" H 1300 6000 60  0000 C CNN
-	1    1300 6000
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	1850 6150 1850 5950
 Wire Wire Line
@@ -3351,94 +3426,34 @@ Wire Wire Line
 Wire Wire Line
 	1900 5850 1850 5850
 Connection ~ 1300 5850
-$Comp
-L CONN_01X14 P2
-U 1 1 557F4A3C
-P 950 2500
-F 0 "P2" H 950 3250 50  0000 C CNN
-F 1 "CONN_01X14" V 1050 2500 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x14" H 950 2500 60  0001 C CNN
-F 3 "" H 950 2500 60  0000 C CNN
-	1    950  2500
-	1    0    0    -1  
-$EndComp
-$Comp
-L CONN_01X14 P3
-U 1 1 557F4D2E
-P 1950 2500
-F 0 "P3" H 1950 3250 50  0000 C CNN
-F 1 "CONN_01X14" V 1940 2490 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x14" H 1950 2500 60  0001 C CNN
-F 3 "" H 1950 2500 60  0000 C CNN
-	1    1950 2500
-	1    0    0    -1  
-$EndComp
-Text Label 1750 3150 2    60   ~ 0
-V+
-$Comp
-L GND #PWR024
-U 1 1 557F720B
-P 1650 2950
-F 0 "#PWR024" H 1650 2700 50  0001 C CNN
-F 1 "GND" H 1650 2800 50  0000 C CNN
-F 2 "" H 1650 2950 60  0000 C CNN
-F 3 "" H 1650 2950 60  0000 C CNN
-	1    1650 2950
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	1750 2950 1650 2950
-$Comp
-L Pyboard U1
-U 1 1 5562BE0F
-P 1500 4350
-F 0 "U1" H 1500 4250 50  0000 C CNN
-F 1 "Pyboard" H 1500 4450 50  0000 C CNN
-F 2 "330L:Pyboard16x2" H 1500 4350 50  0001 C CNN
-F 3 "DOCUMENTATION" H 1500 4350 50  0001 C CNN
-	1    1500 4350
-	-1   0    0    1   
-$EndComp
 Wire Wire Line
-	1750 2850 1730 2850
-Wire Wire Line
-	1730 2850 1730 3900
+	1730 2750 1730 3900
 Wire Wire Line
 	1730 3900 2250 3900
 Wire Wire Line
-	1710 2750 1710 4000
+	1710 2650 1710 4000
 Wire Wire Line
 	1710 4000 2250 4000
 Wire Wire Line
-	2250 4100 1690 4100
+	1690 4100 2250 4100
 Wire Wire Line
-	1690 4100 1690 2650
+	1690 2550 1690 4100
 Wire Wire Line
-	1690 2650 1750 2650
-Wire Wire Line
-	1750 2550 1670 2550
-Wire Wire Line
-	1670 2550 1670 4200
+	1670 2450 1670 4200
 Wire Wire Line
 	1670 4200 2250 4200
 Wire Wire Line
-	2250 4300 1650 4300
+	1650 4300 2250 4300
 Wire Wire Line
-	1650 4300 1650 2450
-Wire Wire Line
-	1650 2450 1750 2450
-Wire Wire Line
-	1710 2750 1750 2750
+	1650 2350 1650 4300
 Wire Wire Line
 	2250 4500 1630 4500
 Wire Wire Line
 	1630 4500 1630 2250
 Wire Wire Line
 	1630 2250 1750 2250
-Text Label 1750 2150 2    60   ~ 0
-CLK
-Text Label 1750 2050 2    60   ~ 0
-CS
 Wire Wire Line
 	2250 4800 1620 4800
 Wire Wire Line
@@ -3451,8 +3466,6 @@ Wire Wire Line
 	1610 1850 1610 4900
 Wire Wire Line
 	1610 4900 2250 4900
-Text Label 750  3150 2    60   ~ 0
-ShuntControl
 Wire Wire Line
 	750  3050 1080 3050
 Wire Wire Line
@@ -3531,30 +3544,18 @@ Wire Wire Line
 	1280 5000 1280 1850
 Wire Wire Line
 	1280 1850 750  1850
-Text Notes 710  1800 3    35   ~ 0
-Y1 Y2 Y3 Y4 Y5 Y6 Y7 Y8 Y9 X10 X11 X12  X1 X2
-Text Notes 2080 1810 3    35   ~ 0
-V+3V3GNDRST Y12 Y11 Y10 X9 xx X7 X6 X5 X4 X3
 Wire Wire Line
 	3000 4400 2250 4400
-Text Label 6150 7500 2    35   ~ 0
-DoutSpare
-NoConn ~ 1750 2350
-$Comp
-L CONN_01X01 P4
-U 1 1 55811AC4
-P 6270 8280
-F 0 "P4" H 6270 8380 50  0000 C CNN
-F 1 "CONN_01X01" V 6370 8280 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x01" H 6270 8280 60  0001 C CNN
-F 3 "" H 6270 8280 60  0000 C CNN
-	1    6270 8280
-	1    0    0    -1  
-$EndComp
-Text Label 6070 8280 2    35   ~ 0
-DoutSpare
-Text Label 2250 3700 2    35   ~ 0
-3V3
-Text Label 1750 3050 2    35   ~ 0
-3V3
+Wire Wire Line
+	1650 2350 1750 2350
+Wire Wire Line
+	1670 2450 1750 2450
+Wire Wire Line
+	1690 2550 1750 2550
+Wire Wire Line
+	1710 2650 1750 2650
+Wire Wire Line
+	1730 2750 1750 2750
+Text Label 1750 2850 0    60   ~ 0
+V-
 $EndSCHEMATC
