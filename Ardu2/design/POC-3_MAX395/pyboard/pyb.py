@@ -70,25 +70,32 @@ class Pin():
 	set: LOW
     """
     OUT_PP = 'OUT_PP'
+    IN = 'IN'
+    PULL_DOWN = 'PULL_DOWN'
+    
 
-    def __init__(self, latch, mode):
+    def __init__(self, latch, mode, pull = None):
         self.latchPin = latch
         self.pinOut = mode
-        self.value = 0
+        self.puLL = pull
+        self.val = 0
 
     def high(self):
-        self.value = 1
+        self.val = 1
         print(str(self) + '\n\tset: HIGH')
 
     def low(self):
-        self.value = 0
+        self.val = 0
         print (str(self) + '\n\tset: LOW')
+
+    def value(self):
+        return self.val
 
     def __repr__(self):
         return 'Pin:' + \
             '\n\tLatchPin:\t' + str(self.latchPin) + \
             '\n\tPinOut:\t' + str(self.pinOut) + \
-            '\n\tValue:\t' + str(self.value) 
+            '\n\tValue:\t' + str(self.val) 
 
 class pwmAble:
     def __inti__(self):
