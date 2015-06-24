@@ -3,7 +3,7 @@
   (general
     (links 506)
     (no_connects 0)
-    (area 62.179999 17.729999 241.604001 161.340001)
+    (area 62.003238 13.652499 241.604001 161.340001)
     (thickness 1.6)
     (drawings 44)
     (tracks 1412)
@@ -15,10 +15,11 @@
   (page A4)
   (title_block
     (title "Ardu2 MAX395 Full Circuit")
-    (date "Mon 15 Jun 2015")
-    (rev 1.5)
+    (date 2015-06-18)
+    (rev 1.6)
     (company www.arduguitar.org)
-    (comment 1 "update after review")
+    (comment 1 "update after review,")
+    (comment 2 "added V+/V- to headers")
   )
 
   (layers
