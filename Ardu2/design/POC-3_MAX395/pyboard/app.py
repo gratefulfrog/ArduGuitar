@@ -10,7 +10,7 @@ from components import Invertable,VTable
 from state import State
 from spiMgr import SPIMgr
 from configs import configDict,mapReplace
-from shuntControl import ShuntControl
+from hardware import ShuntControl
 import pyb
 
 class App():

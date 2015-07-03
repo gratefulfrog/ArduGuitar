@@ -14,9 +14,6 @@ from selector import Selector
 # declare the pin ids
 pinIds = ('X1','X2','X3')
 
-# creat global for pins
-pins=[]
-
 # global for selector
 s = None
 
