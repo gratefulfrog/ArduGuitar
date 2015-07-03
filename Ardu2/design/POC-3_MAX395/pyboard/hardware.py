@@ -207,6 +207,13 @@ class Pushbutton:
                 if reading and self.onHigh:
                     self.onHigh()
 
+    def __repr__(self):
+        return 'Pushbutton:' + \
+            '\n\tpin:\t' + str(self.pin) + \
+            '\n\tlastDebounceTime:\t' + str(self.lastDebounceTime)  + \
+            '\n\tlastReading:\t' + str(self.lastReading)  + \
+            '\n\tonHigh:\t' + str(self.onHigh)  + '\n'                    
+                    
 class IlluminatedPushbutton(Pushbutton) :
     """
     a Pushbutton with an Illuminator built-in, in addtion to the
@@ -222,3 +229,9 @@ class IlluminatedPushbutton(Pushbutton) :
         if self.onAction:
             self.onAction()
         self.illuminator.toggle()
+
+    def __repr__(self):
+        return 'IlluminatedPushbutton:' + \
+            '\n\tilluminator:\t' + str(self.illuminator) + \
+            '\n\tonAction:\t' + str(self.onAction)  + \
+            '\n' + Pushbutton.__repr__(self)
