@@ -46,13 +46,18 @@ def xtest(p=5,m=-5, d= 20, timeOut= 1000):
     ledsOff(leds)        
     zp = [0,0,0]
     zc = [0,0,0]
-    base= [a.x(),a.y(),a.z()]
+    base= [0,0,0]
+    vc= [0,0,0]
+    init = False
+    while not init:
+        delay(5)
+        init = readAcc(a,base)
     t = millis()
     lastActionTime = [t,t,t]
+    print ('Initialized!')
     while True:
         delay(d)
-        vc= [a.x(),a.y(),a.z()]
-        if any([abs(v)>32 for v in vc]):
+        if not readAcc(a,vc):  # then read error, skip this iteration
             print ('continuing...')
             continue
         for i in range(3):
@@ -64,6 +69,20 @@ def xtest(p=5,m=-5, d= 20, timeOut= 1000):
                     zp[i] = zc[i]
             if millis()-lastActionTime[i] > timeOut:
                 off(leds[i])
+
+def readAcc(ac, valVect,):
+    """
+    reads ac in 3-axis, 
+    if all values are ok, updates valVect & returns True
+    if not returns False and does not update
+    """
+    vc = [ac.x(),ac.y(),ac.z()]
+    if any([v>31 or v< -32 for v in vc]):  # error!
+        return False
+    else:
+        for i in range(3):
+            valVect[i]=vc[i]
+        return True
                 
 def ledsOff(ls):
     [off(l) for l in ls]
