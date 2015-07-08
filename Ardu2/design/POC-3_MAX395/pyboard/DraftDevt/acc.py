@@ -69,7 +69,8 @@ def xtest(p=5,m=-5, d= 20, timeOut= 1000):
                     zp[i] = zc[i]
             if millis()-lastActionTime[i] > timeOut:
                 off(leds[i])
-
+                lastActionTime[i] = millis()
+                
 def readAcc(ac, valVect,):
     """
     reads ac in 3-axis, 
@@ -90,6 +91,7 @@ def ledsOff(ls):
 def off(ldPair):
     ldPair[0].off()
     ldPair[1] = 0
+    print(str(ldPair) + ': off')
     
 def DetectionZone(val, posLim, negLim):
     res = 0
@@ -103,9 +105,11 @@ def toggle(ldPair):
     if ldPair[1]: # it's on, turn off
         ldPair[0].off()
         ldPair[1] = 0
+        print(str(ldPair) + ': toggle: off')
     else:         # it's off, turn on
         ldPair[0].on()
         ldPair[1] = 1
+        print(str(ldPair) + ': toggle: on')
 
 def sign(x):
     if x==0:
@@ -114,3 +118,26 @@ def sign(x):
         return x/abs(x)
 
     
+
+"""            
+Test function for ShaeControl1
+def testXAc():
+    led =  [LED(4),0]
+    def oFunc():
+        led[0].off()
+        led[1]=0
+        print('oFunc: off')
+    def tFunc():
+        if led[1]:
+            led[1]=0
+            led[0].off()
+            print('tFunc: off')
+        else:
+            led[1]=1
+            led[0].on()
+            print('tFunc: on')
+    a = Accel()
+    sc = ShakeControl1(a.x,tFunc,oFunc)
+    while True:
+        sc.update()
+"""        

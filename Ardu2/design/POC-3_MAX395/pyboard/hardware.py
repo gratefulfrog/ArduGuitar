@@ -5,9 +5,10 @@
 # * Illuminator
 # * Pushbutton
 # * IlluminatedPushbutton
+# * ShakeControl (3-axis shake controller)
 #####
 
-from pyb import millis, Pin, Timer
+from pyb import millis, Pin, Timer, delay, Accel, LED,
 from dictMgr import shuntConfDict
 from state import State
 
@@ -235,3 +236,179 @@ class IlluminatedPushbutton(Pushbutton) :
             '\n\tilluminator:\t' + str(self.illuminator) + \
             '\n\tonAction:\t' + str(self.onAction)  + \
             '\n' + Pushbutton.__repr__(self)
+
+class ShakeControl1:
+    """ 
+    provides single axis shake control; when there is shake in the
+    axis, then the appropriate toggle function is called.  IF there is no shake for
+    a timeout period, then the appropriate off function is called.
+    """
+
+    pThreshold = 5  # values for 1.5g Freescale accelerometer on [+31,-32]
+    nThreshold = -5
+    readDelay = 20 # min interval between reads in milliseconds maybe try 5ms???
+    timeOut = 2000  # interval after which to call offFunc and turn off associated control
+    
+    def __init__(self, readFunc, toggleFunc, offFunc,
+                 pt=pThreshold,nt=nThreshold,rd=readDelay,to=timeOut):
+        """ 
+        Instance Creation:
+        provides default values for thresholds, read delay, and timeout
+        other args are:
+         readFunc: will be called to read the value of the accelerometer
+         toggleFunc: will be called when the value read is in a zone that is 
+                     different from previous zone, but only if over a threshold
+         offFunc: will be called in case of inactivity lasting for the timeout period
+        baseVal: is used to cancel gravity in each axis, so the accelerometer will read
+                 as if there were no gravity.
+        prevZone: is the zone value from when we last read the accelerometer
+        lastActionTime: is milis since a toggle or an off action was called
+        lastReadTime: is millis since call to readFunc (failed or not)
+        """
+        self.rf = readFunc
+        self.tf = toggleFunc
+        self.of = offFunc
+        self.pt = pt
+        self.nt = nt
+        self.rd = rd
+        self.to = to
+        self.baseVal  = 0
+        self.prevZone = 0
+        self.lastActionTime = 0
+        self.lastReadTime = 0
+        self.doInit()
+
+    def doInit(self, loopDelay=5):
+        """
+        sets the base value so that gravity is cancelled out from the initial postion
+        loopDelay is the time in ms between attempts to read the accelerometer.
+        """
+        self.baseVal=0
+        init=False
+        while not init:
+            delay(loopDelay)
+            init,self.baseVal = self.readA()
+        self.lastActionTime = millis()
+        print ('Initialized!')
+        
+    def readA(self):
+        """
+        calls the read func, which we know may return a big value to indicate a failed reading
+        if  value is ok, returns True and value
+        if not returns False and None
+        we only read every read-delay milliseconds, if called earlier, returns failure,
+        at every read, the read timer is reset, even in the case of a failed read!
+        """
+        if millis()-self.lastReadTime < self.rd:  # too soon!
+            return False, None
+        res = self.rf()
+        self.lastReadTime  = millis()  # we made a read, so the timer is reset, even if the
+                                       # read turns out to be bad!
+        if res > 31 or res < -32:  # error
+            return False, None
+        else:
+            return True, res
+
+    def detectionZone(self, val):
+        """
+        returns the detection zone for the val arg:
+        if val >= pos threshold <- +1
+        if val <= ned threshold <- -1
+        else <- 0
+        """
+        res = 0
+        if val >= self.pt:
+            res = 1
+        elif val <- self.nt:
+            res = -1
+        return res
+
+    def update(self):
+        ok,v = self.readA()
+        if ok:  # read went ok
+            curZone = self.detectionZone(v - self.baseVal)
+            if (curZone): # we have passed a threshold,
+                if curZone != self.prevZone: # changed zones!
+                    self.tf() #tfunc must be not None
+                    self.lastActionTime = millis()
+                    self.prevZone = curZone
+            if millis() - self.lastActionTime > self.timeOut:
+                self.of() # oFunc must be not None
+                self.lastActionTime = millis()
+
+    def __repr__(self):
+        return 'ShakeControl1:' + \
+            '\n\treadFunc\t'         + str(self.rf)  + \
+            '\n\ttoggle Func\t'      + str(self.tf)  + \
+            '\n\toff Func\t'         + str(self.of) + \
+            '\n\tpos Threshold\t'    + str(self.pt)  + \
+            '\n\tneg Threshold\t'    + str(self.nt)  + \
+            '\n\tread Delay\t'       + str(self.rd)  + \
+            '\n\ttime Out\t'         + str(self.to)  + \
+            '\n\tbase Value\t'       + str(self.baseVal)   + \
+            '\n\tprevious Zone\t'    + str(self.prevZone)  + \
+            '\n\tlast Action Time\t' + str(self.lastActionTime)  + \
+            '\n\tlast Read Time\t'   + str(self.lastReadTime)
+        
+    
+class ShakeControl:
+    """ 
+    provides 3-axis shake control; when there is shake in the appropriate
+    axes, then the appropriate toggle function is called, LEDS always toggle!
+    """
+    ledVec = [[LED(4),0], # blue   -> x-axis
+              [LED(3),0], # yellow -> y-axis
+              [LED(2),0]] # green  -> z-axis
+
+    def makeTFunc(tf,i):
+        """
+        this class method takes a toggle function tf, and a led index
+        and returns a new toggle function that toggles the led before
+        executing the external toggle call.
+        and 'None' toggle function is okay!
+        """
+        def f():
+            if ShakeControl.ledVec[i][1]:
+                ShakeControl.ledVec[i][1]=0
+                ShakeControl.ledVec[i][0].off()
+            else:
+                ShakeControl.ledVec[i][1]=1
+                ShakeControl.ledVec[i][0].on()
+            tf and tf()
+        return f
+
+    def makeOFunc(of,i):
+        """
+        similar to to above, this class method takes an off function of, and a led index
+        and returns a new off function that turns off the led before
+        executing the external off call.
+        and 'None' off function is okay!
+        """
+        def f():
+            ShakeControl.ledVec[i][1]=0
+            ShakeControl.ledVec[i][0].off()
+            of and of()
+        return f
+              
+    def __init__(self,
+                 tfx=None, tfy=None, tfz=None,
+                 ofx=None, ofy=None, ofz=None):
+        """
+        creates a 3-axis instance with default values, or as per args.
+        """
+        self.a = Accel()
+        self.sVec= list(map(lambda r,t,o: ShakeControl1(r,t,o),
+                            [self.a.x,self.a.y,self.a.z],
+                            [ShakeControl.makeTFunc(i,f) for (f,i) in map(lambda ind,f: (ind,f),
+                                                                          range(3),
+                                                                          [tfx,tfy,tfz])],
+                            [ShakeControl.makeOFunc(i,f) for (f,i) in map(lambda ind,f: (ind,f),
+                                                                          range(3),
+                                                                          [ofx,ofy,ofz])]))
+
+    def update(self):
+        """ the update method just calls update on all the individual shake controls
+        """
+        for s in self.sVec:
+            s.update()
+
