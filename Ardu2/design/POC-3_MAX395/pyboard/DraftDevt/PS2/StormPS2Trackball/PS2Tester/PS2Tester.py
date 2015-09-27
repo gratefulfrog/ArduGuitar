@@ -26,16 +26,17 @@
 import pyb
 
 # Device specific settings, configured for Arduino Uno
-CLOCK_PIN_INT = 1 # Pin 3 attached to INT1 in Uno
+#CLOCK_PIN_INT = 1 # Pin 3 attached to INT1 in Uno
 
-DataPin = pyb.Pin('X1') #; // Uno INT0
-ClockPin = pyb.Pin('X2') #; // Uno INT1
+DataPin = pyb.Pin('X1',pyb.Pin.IN) 
+ClockPin = pyb.Pin('X2', pyb.Pin.IN)
 
 buff= [] 
 head = tail = 0
 inhibiting = False
 
 # Open collector utility routines
+"""
 def hold(pin):
     pin.low()
     pin.init(pyb.Pin.OUT_PP,pyb.Pin.PULL_DOWN) 
@@ -43,7 +44,15 @@ def hold(pin):
 def release(pin):
     pin.init(pyb.Pin.IN,pyb.Pin.PULL_UP)
     pin.high() 
-    
+"""
+
+def hold(pin):
+     pin.init(pyb.Pin.IN, pull=pyb.Pin.PULL_UP) 
+
+def release(pin):
+    pin.init(pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
+
+
     
 # The ISR for the external interrupt in write mode
 def ps2int_read():
@@ -186,6 +195,7 @@ def loop():
         print("no ACK") 
 
     pyb.ExtInt(ClockPin, pyb.ExtInt.IRQ_FALLING, pyb.Pin.PULL_UP, callback=None)
+    pyb.delay(1)
     pyb.ExtInt(ClockPin, pyb.ExtInt.IRQ_FALLING, pyb.Pin.PULL_UP, callback=ps2int_read)
     
     
