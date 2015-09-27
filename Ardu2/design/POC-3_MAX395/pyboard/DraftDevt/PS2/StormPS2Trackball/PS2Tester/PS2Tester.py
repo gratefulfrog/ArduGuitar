@@ -47,13 +47,12 @@ def release(pin):
 """
 
 def hold(pin):
-     pin.init(pyb.Pin.IN, pull=pyb.Pin.PULL_UP) 
+    pin.value(0)
+    pin.init(pyb.Pin.OUT_PP)
 
 def release(pin):
-    pin.init(pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
+    pin.init(pyb.Pin.IN,pull=pyb.Pin.PULL_UP)
 
-
-    
 # The ISR for the external interrupt in write mode
 def ps2int_read():
   bitcount=0
