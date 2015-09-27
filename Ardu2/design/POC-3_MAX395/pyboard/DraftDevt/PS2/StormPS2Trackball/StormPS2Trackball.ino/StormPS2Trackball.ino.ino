@@ -173,6 +173,8 @@ void setup() {
   Serial.println("PS/2 tester. Enter hex pairs to send:");
 }
 
+
+
 void loop() {
   // Inhibit communication
   inhibiting = true;
@@ -213,7 +215,7 @@ void loop() {
   releaseClock();
   inhibiting = false;
 
-  delay(500); // give some time for device to send more
+  delay(5);//00); //5); // give some time for device to send more
 }
 
 
