@@ -75,6 +75,8 @@ class Pin():
     OUT_PP = 'OUT_PP'
     IN = 'IN'
     PULL_DOWN = 'PULL_DOWN'
+    PULL_UP = 'PULL_UP'
+    PULL_NONE = 'PULL_NONE'
     
 
     def __init__(self, latch, mode=None, pull = None):
@@ -82,7 +84,13 @@ class Pin():
         self.pinOut = mode
         self.puLL = pull
         self.val = 0
-
+        
+    def init(self, latch, mode=None, pull = None):
+        self.latchPin = latch
+        self.pinOut = mode
+        self.puLL = pull
+        self.val = 0
+        
     def high(self):
         self.val = 1
         print(str(self) + '\n\tset: HIGH')

@@ -1,36 +1,68 @@
-import fcntl
-import sys
-import os
-import time
-import tty
-import termios
+# temp2.py ps/2 testing
 
-class raw(object):
-    def __init__(self, stream):
-        self.stream = stream
-        self.fd = self.stream.fileno()
-    def __enter__(self):
-        self.original_stty = termios.tcgetattr(self.stream)
-        tty.setcbreak(self.stream)
-    def __exit__(self, type, value, traceback):
-        termios.tcsetattr(self.stream, termios.TCSANOW, self.original_stty)
+import pyb
+import ps2BitReader
+import micropython
+micropython.alloc_emergency_exception_buf(100)
 
-class nonblocking(object):
-    def __init__(self, stream):
-        self.stream = stream
-        self.fd = self.stream.fileno()
-    def __enter__(self):
-        self.orig_fl = fcntl.fcntl(self.fd, fcntl.F_GETFL)
-        fcntl.fcntl(self.fd, fcntl.F_SETFL, self.orig_fl | os.O_NONBLOCK)
-    def __exit__(self, *args):
-        fcntl.fcntl(self.fd, fcntl.F_SETFL, self.orig_fl)
+DataPin = pyb.Pin('X1',pyb.Pin.IN,pull=pyb.Pin.PULL_NONE) 
+ClockPin = pyb.Pin('X2', pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
 
-with raw(sys.stdin):
-    with nonblocking(sys.stdin):
-        while True:
-            try:
-                c = sys.stdin.read(1)
-                print(repr(c))
-            except IOError:
-                print('not ready')
-            time.sleep(.1)
+rIndex=0
+oIndex=0
+rCount=0
+buffSize=5
+readBuff = [ps2BitReader.ps2BitReader() for i in range(buffSize)]
+outBuff=[0,0,0]
+readCount=0
+
+def hold(pin):
+    pin.init(pyb.Pin.OUT_PP)
+    pin.value(0)
+    
+def release(pin):
+    pin.init(pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
+
+# The ISR for the external interrupt in read mode
+def ps2int_read():
+    global DataPin, readBuff, rIndex, buffSize,readCount
+    
+    readBuff[rIndex].addBit(DataPin.value())
+    if(readBuff[rIndex].isFull()):
+        readCount+=1
+        rIndex = (1 +rIndex) % buffSize
+    
+iFunc = ps2int_read
+
+def interFunc(unused):
+    global iFunc
+    iFunc()
+
+def setup():
+    global ClockPin, DataPin 
+    
+    release(ClockPin)
+    release(DataPin)
+
+    pyb.ExtInt(ClockPin, pyb.ExtInt.IRQ_FALLING, pyb.Pin.PULL_NONE, interFunc) 
+
+    print('PS/2 tester. exit setup.')
+
+def loop():
+    global outBuff,rCount,readBuff,oIndex,buffSize,readCount
+
+    if (readCount):
+        readCount -= 1
+        outBuff[rCount]=readBuff[oIndex].getValue()
+        oIndex = (oIndex + 1) % buffSize
+        rCount += 1
+        if (rCount==3):
+            print ('[%X, %X, %X]' % tuple([i for i in buff]))
+            outBuff = [0,0,0]
+            rCount=0
+
+            
+def run():
+    setup()
+    while(True):
+        loop()
