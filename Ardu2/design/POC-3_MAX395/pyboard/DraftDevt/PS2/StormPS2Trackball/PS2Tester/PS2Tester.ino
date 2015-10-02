@@ -86,6 +86,8 @@ void ps2int_read() {
     if (i >= BUFFER_SIZE) i = 0;
     if (i != tail) {
       buffer[i] = incoming;
+      //Serial.print("read a byte: ");
+      //Serial.println(buffer[i]);
       head = i;
     }
     bitcount = 0;
@@ -215,7 +217,7 @@ void loop() {
   releaseClock();
   inhibiting = false;
 
-  delay(5);//00); //5); // give some time for device to send more
+  delay(500); //5); // give some time for device to send more
 }
 
 
