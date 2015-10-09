@@ -1,7 +1,7 @@
-# tests.py
+# PS2.py
 
 # some stuff for PS/2...
-
+# after some thought, I realized that the 'request to send' comprises the O value start bit!
 import pyb
 
 class PS2:
@@ -40,9 +40,15 @@ class PS2:
         print('Debug is ' + str(self.debug))
 
     def clockHighImpedence(self):
+        """
+        The clock pin is released!
+        """
         self.clock.init(pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
 
     def dataHighImpedence(self):
+        """
+        The data pin is released!
+        """
         self.data.init(pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
 
     def clockLowValue(self):
@@ -63,10 +69,10 @@ class PS2:
         # first make a request to send:
         self.clockLowValue()
         pyb.udelay(100)
-        self.dataLowValue()
+        self.dataLowValue()  ## this is the start bit, so it has to be taken out of the sending method!
         self.clockHighImpedence()
 
-    def sendBits(self,payloadByte):
+    def sendBits(self,payloadByte, withStartBit=False):
         """ this is tough!
         1. make the request to send
         2. do the sending
@@ -76,7 +82,7 @@ class PS2:
         6. wait for both to be high impedence (set by device)
         """
         self.request2Send()
-        self.writePS2Payload(payloadByte)
+        self.writePS2Payload(payloadByte,withStartBit)
         self.dataHighImpedence()
         if self.debug:
             self.data.value(0)
@@ -90,11 +96,16 @@ class PS2:
             self.clock.value(1)
         while not (self.clock.value() and self.data.value()):
                 None # wait for device to release clock and data
-        
-    def writePS2Payload(self,payloadInt):
+
+                
+    def writePS2Payload(self, payloadInt, withStartBit=False):
         """
+        UPDATE 2015 10 09: After some thinking, it seems that the start bit is part of the
+        'request to send' so I have added the argument 'withStartBit' to disable/enable the 
+        sending of a zero valued start bit or not.  
         call the sendFunc 11 times, once per bit of msg with values in the following order 
-        * start: 0 (1 bit)
+        * start bit : 0 (1 bit)  # I now believe that this zero bit is part of the request to send! so I have 
+          added the argument to control if it is sent or not, let's suppose it is not sent!
         * msg: 8 bits least significant first, only a byte of the int is sent, so BE CAREFUL !
         * parity: odd parity on 1 bit
         * stop: 1 (1 bit)
@@ -103,11 +114,15 @@ class PS2:
         """
         start  = 0
         stop   = 1
-        pBits  = payloadInt & 255
+        pBits  = payloadInt & 255 # ensure that we have only one byte of data
         parity = PS2.getParity(pBits)
-        bits   = (stop << 10) | (parity << 9) | (pBits << 1) | start  # sending order right to left
+        nbBits2Send = 10
+        bits   = (stop << (nbBits2Send-1)) | (parity << (nbBits2Send-2)) | pBits   # sending order right to left
+        if withStartBit:
+            nbBits2Send = 11
+            bits = bits << 1 | start
         self.debug and print ('bit stream to send (right bit sent first!): ' + bin(bits))
-        for i in range(11):
+        for i in range(nbBits2Send):
             self.sendFunc((bits>>i) & 1)
             
     def sendFunc(self, bit):
