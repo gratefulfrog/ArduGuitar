@@ -33,8 +33,8 @@ class PS2:
         return msgTuple[1] == PS2.getParity(msgTuple[0])
 
     def __init__(self,clockPinName,dataPinName,debug=True):
-        self.clock  = pyb.Pin(clockPinName,pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
-        self.data   = pyb.Pin(dataPinName,pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
+        self.clock  = pyb.Pin(clockPinName,mode=pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
+        self.data   = pyb.Pin(dataPinName,mode=pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
         self.debug = debug
         print('PS2 Obect init: OK')
         print('Debug is ' + str(self.debug))
@@ -43,21 +43,21 @@ class PS2:
         """
         The clock pin is released!
         """
-        self.clock.init(pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
+        self.clock.init(mode=pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
 
     def dataHighImpedence(self):
         """
         The data pin is released!
         """
-        self.data.init(pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
+        self.data.init(mode=pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
 
     def clockLowValue(self):
-        self.clock.init(pyb.Pin.OUT_OD,pull=pyb.Pin.PULL_NONE)
+        self.clock.init(mode=pyb.Pin.OUT_OD,pull=pyb.Pin.PULL_NONE)
         #pyb.udelay(5)
         self.clock.value(0)
 
     def dataLowValue(self):
-        self.data.init(pyb.Pin.OUT_OD,pull=pyb.Pin.PULL_NONE)
+        self.data.init(mode=pyb.Pin.OUT_OD,pull=pyb.Pin.PULL_NONE)
         #pyb.udelay(5)
         self.data.value(0)
 
@@ -68,9 +68,11 @@ class PS2:
     def request2Send(self):
         # first make a request to send:
         self.clockLowValue()
-        pyb.udelay(100)
+        pyb.udelay(200)
         self.dataLowValue()  ## this is the start bit, so it has to be taken out of the sending method!
+        pyb.udelay(200)
         self.clockHighImpedence()
+        pyb.udelay(100)
 
     def sendBits(self,payloadByte, withStartBit=False):
         """ this is tough!
@@ -84,16 +86,19 @@ class PS2:
         self.request2Send()
         self.writePS2Payload(payloadByte,withStartBit)
         self.dataHighImpedence()
-        if self.debug:
+        
+        """if self.debug:
             self.data.value(0)
             self.clock.value(0)
+        """
         while self.data.value():
             None # wait for device to bring data low
         while self.clock.value():
             None # wait for device to bring clock low
-        if self.debug:
+        """if self.debug:
             self.data.value(1)
             self.clock.value(1)
+        """
         while not (self.clock.value() and self.data.value()):
                 None # wait for device to release clock and data
 
@@ -137,14 +142,17 @@ class PS2:
         11) Wait for the device to bring Clock  low.
         12) Wait for the device to release Data and Clock
         """
-        if self.debug:
+        """if self.debug:
             self.clock.value(0)
+        """
         while (self.clock.value()):
             None
         self.data.value(bit)
-        self.debug and print(bit)
-        if self.debug:
+        """self.debug and """
+        print(bit)
+        """if self.debug:
             self.clock.value(1)
+        """
         while not self.clock.value():
             None
             
@@ -165,8 +173,10 @@ class PS2:
         parity =  self.readFunc()
         stop = self.readFunc()
         resTuple = (payload,parity,start,stop)
-        self.debug and print (PS2.interpretMsgTuple(resTuple))
-        self.debug and print ('Parity check: ' + str(PS2.checkParity(resTuple)))
+        """self.debug and """
+        print (PS2.interpretMsgTuple(resTuple))
+        """self.debug and """
+        print ('Parity check: ' + str(PS2.checkParity(resTuple)))
         return resTuple
 
     def readFunc(self):
@@ -189,21 +199,22 @@ class PS2:
         and it is read by the host when Clock is low.
         The Data line changes state when Clock is high and that data is valid when Clock is low.
         """
-        self.debug and self.clock.value(0)
+        """self.debug and self.clock.value(0)"""
         while self.clock.value():
             None # wait for the clock to go low
-        if self.debug:
+        """if self.debug:
             res=rf()
         else:
-            res = self.data.value()
-        self.debug and self.clock.value(1)
+        """
+        res = self.data.value()
+        """self.debug and self.clock.value(1)"""
         while not self.clock.value():
             None # wait for clock to go high
         return res
     
     
 
-#"""
+"""
 #test writing func
 def wf(b):
     print(b)
@@ -233,4 +244,4 @@ def reset():
     par = str((msg.count('1') + 1 ) % 2)
     bits = eval('0b'+ stop + par + msg + start)
 
-#"""
+"""

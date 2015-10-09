@@ -5,23 +5,44 @@
 
 import PS2
 
+def show(p):
+    counter=50
+    rc= rd=0
+    while(True):
+        counter -= 1
+        rc = (rc<<1) | p.clock.value()
+        rd = (rd<<1) | p.data.value()
+        if not counter:
+            print ('Clock: ' + bin(rc))
+            print ('Data: ' + bin(rd))
+            counter = 50
+            rc=rd=0
 
-def t0(c='X1',d='X2'):
+def resetListenN(p,n=3):
+    print('send a reset, read 3x 11 bits')
+    sendReset(p)
+    readPN(p,n)
+
+def device(c='X11',d='X12',debug=False):
+    print('Return a PS2 instance.')
+    return PS2.PS2(c,d,debug)
+
+def t0(p, abort=False):
     """ 
     connect and read
     """
-    p=PS2.PS2(c,d)
-    readLoop(p)
+    print('Read forever...')
+    readLoop(p,abort)
 
-def t1(c='X1',d='X2'):
+def t1(p,abort=False):
     """
     connect, send a reset, read
     """
-    p=PS2.PS2(c,d)
+    print('send a reset, read forever')
     sendReset(p)
-    readLoop(p)
+    readLoop(p,abort)
     
-def t2(c='X1',d='X2'):
+def t2(p,abort = False):
     """
     connect,
     send reset,
@@ -29,13 +50,13 @@ def t2(c='X1',d='X2'):
     set remote mode
     read
     """
-    p=PS2.PS2(c,d)
+    print('send a reset, read 3x 11 bits, set remote mode')
     sendReset(p)
     readPN(p,3)
     sendRemote(p)
-    readLoop(p)
+    readLoop(p, abort)
 
-def t3(c='X1',d='X2'):
+def t3(p,abort = False):
     """
     connect,
     send reset,
@@ -44,23 +65,22 @@ def t3(c='X1',d='X2'):
     read 1x 11 bits
     poll for data
     read 4x 11 bits
-    return the ps2 device for further pollingp
     """
-    p=PS2.PS2(c,d)
+    print('send a reset, read 3x 11 bits, set remote mode, read 1x 11 bits,poll, read 4x 11 bits')
     sendReset(p)
     readPN(p,3)
     sendRemote(p)
     readPN(p,1)
     sendPoll(p)
     readPN(p,4)
-    return p
 
-def t4(ps2):
+def t4(ps2,abort = False):
     """
     suppose that ps2 argument is in remote mode,
     poll for data
     read 4x 11 bits
     """
+    print('poll, read 4x 11 bits')
     sendPoll(ps2)
     readPN(ps2,4)
 
@@ -82,7 +102,8 @@ def sendPoll(ps2):
 def readLoop(ps2, abortAfter5=True):
     counter =5
     while (True and counter):
-        counter -= 1
+        if abortAfter5:
+            counter -= 1
         print('About to read 1x 11 bits...')
         ps2.readBits()
 
