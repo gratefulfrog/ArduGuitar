@@ -1,65 +1,26 @@
 #ps2m.py  the mouse polling example
 
-import PS2, pyb
-
-
-def pt(c='X3'):
-    p = pyb.Pin(c,pyb.Pin.IN,pull=pyb.Pin.PULL_UP)
-    print (p.value())
-    
-    u = pyb.micros()
-    p.init(pyb.Pin.OUT_OD,pull=pyb.Pin.PULL_UP)
-    p.value(0)
-    print(str(pyb.micros()-u))
-    print (p.value())
-
-    u = pyb.micros()
-    p.value(1)
-    while not p.value():
-        None
-    print(str(pyb.micros()-u))
-    u = pyb.micros()
-    p.init(pyb.Pin.IN,pull=pyb.Pin.PULL_UP)
-    while not p.value():
-        None
-    print(str(pyb.micros()-u))
-    
-
-def tc(c='X11',d='X12'):
-    p = PS2.PS2(c,d)
-    print('Write RESET')
-    p.write(0XFF)
-    print('read ACK')
-    p.read()
-    while True:
-        us = pyb.micros()
-        while  p.clock.value():
-            None
-        print('HIGH for %d us'% (pyb.micros()-us))
-        print('Data: ' + str(p.data.value()))
-        us = pyb.micros()
-        while not p.clock.value():
-            None
-        print('Low for %d us'% (pyb.micros()-us))
-        print('Data: ' + str(p.data.value()))
+import PS2a, pyb
 
 
 
 def mInit(p):
     print('Write RESET')
-    p.write(0XFF)
     print('read ACK')
-    print(hex(p.read()).upper()) # ACK
     print('read BAT')
-    print(hex(p.read()).upper()) # BAT
     print('read ID')
-    print(hex(p.read()).upper()) # ID
     print('Write REMOTE')
-    p.write(0XF0)
     print('read ACK')
-    print(hex(p.read()).upper()) # ACK
+    p.write(0XFF)
+    a=p.read()
+    print('read ACK:' + hex(a))
+    p.read()
+    p.read()
+    p.write(0XF0)
+    p.read()
     pyb.udelay(100)
-
+    print ('Done!')
+    
 def interpretStat(st):
     sVec = ["Left",
             "Right",
@@ -77,8 +38,8 @@ def interpretStat(st):
                 res += ', '
     return res
     
-def run(cName='X11',dName='X12'):
-    p = PS2.PS2(cName,dName)
+def run(cName='X7',dName='X8'):
+    p = PS2a.PS2(cName,dName)
 
     mInit(p)
 
