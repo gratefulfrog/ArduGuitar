@@ -19,7 +19,67 @@ time for a HIGH input to go to LOW output
 time for a LOW output to go to HIGH output
 20
 """
+"""
+native times (slightly lower...)
+time for LOW output to get PULLED HIGH as input
+45
+time for a HIGH input to go to LOW output
+55
+time for a LOW output to go to HIGH output
+15
+"""
 
+""" result 5 """
+def t(c='X8'):
+    print ('NO NATIVE: how many pin values can we do in 100 us')
+    p = pyb.Pin(c,pyb.Pin.OUT_PP,pull=pyb.Pin.PULL_NONE)
+    bit = 1
+    p.value(bit)
+    count = 0
+    u = pyb.micros()
+    while pyb.elapsed_micros(u) < 100:
+        bit ^= 1
+        p.value(bit)
+        count+=1
+    print(count)
+
+""" result 6 """
+@micropython.native 
+def tn(c='X8'):
+    print ('NATIVE: how many pin values can we do in 100 us')
+    p = pyb.Pin(c,pyb.Pin.OUT_PP,pull=pyb.Pin.PULL_NONE)
+    bit = 1
+    p.value(bit)
+    count = 0
+    u = pyb.micros()
+    while pyb.elapsed_micros(u) < 100:
+        bit ^= 1
+        p.value(bit)
+        count+=1
+    print(count)
+    
+""" result 7 """           
+def i():
+    print ('how many instructions can we do in 100 us')
+    count = 0
+    u = pyb.micros()
+    while pyb.elapsed_micros(u) < 100:
+        count+=1
+    print(count)
+
+""" result 9 """           
+@micropython.native 
+def ni():
+    print ('Native: how many instructions can we do in 100 us')
+    count = 0
+    u = pyb.micros()
+    while pyb.elapsed_micros(u) < 100:
+        count+=1
+    print(count)
+
+
+    
+@micropython.native 
 def p(c='X8'):
     """
     time get a pin value
@@ -36,7 +96,7 @@ def p(c='X8'):
     t = pyb.micros()-u
     print (t)
 
-    
+@micropython.native     
 def pt(c='X8'):
     p = pyb.Pin(c,pyb.Pin.OUT_PP,pull=pyb.Pin.PULL_NONE)
     p.low()
@@ -44,13 +104,11 @@ def pt(c='X8'):
 
     print('time for LOW output to get PULLED HIGH as input')
 
-    #i =pyb.disable_irq()
     u = pyb.micros()
-    p.init(pyb.Pin.IN,pull=pyb.Pin.PULL_NONE)
+    p.init(pyb.Pin.IN,pull=pyb.Pin.PULL_UP)
     while not p.value():
         pass
     t = pyb.micros()-u
-    #pyb.enable_irq(i)
     print (t)
 
     print('time for a HIGH input to go to LOW output')
@@ -61,18 +119,16 @@ def pt(c='X8'):
         pass
     t = pyb.micros()-u
     print (t)
-    """
+    
     print('time for a LOW output to go to HIGH output')
-    #print ('\nValue: ' + str(p.value()))
     u = pyb.micros()
     p.value(1)
-    print(p.value())
-    #while p.value():
-    #    None
+    while not p.value():
+        pass
     t = pyb.micros()-u
     print (t)
-    """
 
+@micropython.native    
 def ppt():
     """ 
     Pyboard times:
@@ -99,6 +155,7 @@ def ppt():
     t = pyb.micros()-u
     print (t)
 
+@micropython.native     
 def pppt():
     """
     time to do absolutely nothing.
@@ -130,6 +187,7 @@ def pppt():
     print (t)
 
 
+@micropython.native
 def ct(c='X8'):
     bits = 0
     for i in range(5):
