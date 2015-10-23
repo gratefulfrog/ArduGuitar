@@ -1,4 +1,4 @@
-#vs2mouse.py
+# vs2mouse.py
 # to test the Storm ps/2 trackball
 # non class version
 
