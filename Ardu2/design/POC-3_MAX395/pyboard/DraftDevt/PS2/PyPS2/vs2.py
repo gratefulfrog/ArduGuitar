@@ -1,8 +1,8 @@
-# pps2.py
+# vs2.py
 # non class version to implement ps2 protocol as per PS2 arduino library
 # wiring:
 # pins must be wired with external 1k pull up resistors!
-# still too slow!
+# pin ids are hard wired in this version 
 
 import pyb
 from pyb import Pin, udelay
@@ -10,11 +10,20 @@ from pyb import Pin, udelay
 clock = Pin('X1', Pin.OUT_OD, Pin.PULL_NONE)
 data =  Pin('X2', Pin.OUT_OD, Pin.PULL_NONE)
 
+
+# external user calls: Be sure to init first!
 def init():
     _init(stm.GPIOA & 0x7fffffff)
+    pyb.delay(20)
+    
 def read():
+    """ returns the unsigned byte read
+    """
     return _read(stm.GPIOA & 0x7fffffff)
+
 def write(data):
+    """ write one byte of data to the ps/2 device
+    """
     _write(stm.GPIOA & 0x7fffffff, data & 0xFF & 0x7fffffff)
 
 #######

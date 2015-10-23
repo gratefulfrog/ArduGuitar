@@ -10,7 +10,7 @@ def mInit():
     set up the vs2 module
     """
     init()
-    delay(20) # this seems to be needed
+    #delay(20) # this seems to be needed
     _mInit(read,write,udelay)
 
 def run():
