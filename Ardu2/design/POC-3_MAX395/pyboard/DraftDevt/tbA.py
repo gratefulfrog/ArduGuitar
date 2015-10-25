@@ -1,4 +1,4 @@
-# temp.py
+# tbA.py
 #
 # trackball quadrature resolution 1,2x,4x algos
 

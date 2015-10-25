@@ -1,0 +1,11 @@
+The following files are implementaitons of the Quadrature Trackball algos:
+
+./tbA.py
+* contains all the algos 1x, 2x, 4x sensitivity
+
+./tba0.py ./tba1.py ./tb2.py
+* contains 1x, 2x, 4x algos individualy
+
+./trackball_0.py
+* some test code
+
