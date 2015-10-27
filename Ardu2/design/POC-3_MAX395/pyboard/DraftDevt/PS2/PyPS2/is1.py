@@ -107,25 +107,52 @@ reversed
 0000 0010 = 
 YES!!!
 
+old news: but reset, rest fails on second call with response
+[0, 
+0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 
+0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+
+
+Now all is ok!
+and even better!
+
+>>> import is1
+>>> is1.i()
+>>> is1.r()
+True
+['ACK', 'BAT', 'ID']
+>>> is1.m()
+True
+['ACK']
+>>> is1.p()
+True
+polling interpretation not yet done!
+['ACK']
+
 """
 
 import pyb
 from pyb import Pin,ExtInt
+import interpreter
 
 import micropython
 micropython.alloc_emergency_exception_buf(100)
 
 ### commands! on 10 bits!
+### responses on 11 bits!
+
+responseBits =  11
 #0xFF
-reset =  (33,
+reset =  (3*responseBits,
           [1 for i in range(10)]) # reply is 3 x 11bits
 #0xF0
-remote = (11,
+remote = (1*responseBits,
           [0, 0, 0, 0,
            1, 1, 1, 1,
            1, 1])  # reply is 1 x 11bits
 #EB
-poll =   (44,
+poll =   (4*responseBits,
           [1, 1, 0, 1,
            0, 1, 1, 1,
            1, 1])  # reply 4 x11
@@ -157,41 +184,37 @@ pdiv = pdi.value
 bitsExpected = interruptCounter=start = outData = inData = tbInData = tbOutData = period = 0x00
 bits2Send= outBitCount=inBitCount=0x00
 
-def init():
+def init(set=True):
+    global interruptOnLowClock
     cv(0)
+    pyb.udelay(110)
     dv(0)
-    setInterrupt(ci)
+    if set:
+        setInterrupt(ci)
 
 def stop():
-    dv(1)
     cv(0)
 
 @micropython.native
 def reader():
     #start=pyb.micros()
-    global bitsExpected,inData,inBitCount # ,interruptCounter,period
+    global bitsExpected,inData,inBitCount
     if bitsExpected == inBitCount:
         # we're done
         stop()
-    else:
-        #inData[inBitCount]=pdiv()
+    else:        
         inData[inBitCount]=dv()
         inBitCount += 0x01
-        #interruptCounter = int(interruptCounter)+ 0x01
-        #period[interruptCounter] = pyb.elapsed_micros(start)
 
 @micropython.native
 def writer():
-    #start=pyb.micros()
-    global handlerIndex,outData,outBitCount,bits2Send #,interruptCounter,period
+    global handlerIndex,outData,outBitCount,bits2Send
     if outBitCount < bits2Send:
-        #pdov(outData[outBitCount])
         dv(outData[outBitCount])
         outBitCount += + 0x01
     else:
+        # we're done, switch to reading!
         handlerIndex ^=1
-    #interruptCounter = interruptCounter + 0x01
-    #period[interruptCounter] = pyb.elapsed_micros(start)
 
 handlerVec = (reader,writer)
 handlerIndex = 1
@@ -200,7 +223,7 @@ def interruptHandler(line):
     handlerVec[handlerIndex]()
 
 def setInterrupt(p):
-    ExtInt(p, iM, pL, interruptHandler)
+    return ExtInt(p, iM, pL, interruptHandler)
 
 def run(out,bitsIn=33,bitsOut=10):
     """
@@ -209,7 +232,6 @@ def run(out,bitsIn=33,bitsOut=10):
     global outData,inData,bitsExpected,bits2Send,outBitCount,inBitCount,handlerIndex  #period,interruptCounter,
 
     inBitCount=outBitCount=0
-    #interruptCounter=0
     
     bitsExpected = bitsIn
     bits2Send = bitsOut
@@ -219,35 +241,24 @@ def run(out,bitsIn=33,bitsOut=10):
     # a place for the host to receive data from the trackball
     inData=[None for i in range(bitsExpected)]
     # a place for the host to keep data to send to the trackball and
-    # bits for the host to send to the trackball
-    #outData=  [i for i in range(bitsOut)]
-    #outData = [0]
-    #outData = [1 for i in range(bitsOut)]
     outData = [b for b in out]
-
-    # a place to keep the timing measurements
-    period=[None for i in range(bitsOut+bitsIn+2)]
 
     # set up for loop exit
     doneWriting=False
     doneReading=False
 
-    # start the clock and release the wild PS/2 beast! 
-    start=pyb.micros()
-    cv(0)
-    pyb.udelay(110)
+    # give it a kick and release the wild PS/2 beast! 
+    init(False)
     dv(0) # this is the start bit!
     cv(1)
     while True:
         doneWriting = (outBitCount == bits2Send) 
         doneReading = (inBitCount == bitsExpected)
         if doneWriting and doneReading:
-            print('Done.')
+            #print('Done.')
             break
-    fulltime = pyb.elapsed_micros(start)
-    print('full time:\t' +repr(fulltime))
-    print('time/op:\t' +repr(fulltime/(bits2Send+bitsExpected)))
-    
+    # give it another kick, why?
+    init(False)
 
 def c(tup):
     run(tup[1],tup[0])
@@ -262,46 +273,22 @@ def check(v):
     return all(map(lambda x,y:x==y,
                    inData,
                    d[v]))
-"""
-broken!
-def interpret():
-    l=len(inData)
-    i=0
-    messages=[]
-    # get the 11 bit lists seperated out
-    while (i<l):
-        messages +=[inData[i:i+11]]
-        i+=11
-    # reverse them
-    print('separated:\t' + repr(messages))
-    res=map(lambda m:m[::-1],messages)
-    print('reversed:\t' + repr([i for i in res]))
-    # strip start and end bits
-    res=map(lambda l: l[1:-1],res)
-    print('stripped of s&s\t' + repr([i for i in res]))
-    #check parity
-    for msg in res:
-        p=1
-        for i in msg[1:]:
-            p ^=i
-        if p!=msg[0]:
-            return False
-    #if we got here, then parity is good for all them
-    # strip the parity bit
-    res = map(lambda l: l[1:],res)
-    print('stripped of parity:\t' + repr([i for i in res]))
-    # now we have bytes, most significant to the left
-    # now make a list of decimal values
-    sRes=[]
-    for msg in res:
-        i=7
-        s=0
-        for b in msg:
-            s+=b<<i
-            i-=1
-        sRes+=[s]
-    print('summs:\t' + repr(sRes))
-    hRes = map(lambda x: hex(x),sRes)
-    print('hexed:\t' + repr(hRes))
-    return [i for i in hRes]
-"""
+
+def r():
+    c(reset)
+    print(check('reset'))
+    return [interpreter.deviceResponse(i) for i in interpreter.i11s(inData)]
+
+def m():
+    c(remote)
+    print(check('remote'))
+    return [interpreter.deviceResponse(i) for i in interpreter.i11s(inData)]
+
+def p():
+    c(poll)
+    print(check('poll'))
+    print('polling interpretation not yet done!')
+    return [interpreter.deviceResponse(i) for i in interpreter.i11s(inData[0:11])]
+
+def i():
+    init()
