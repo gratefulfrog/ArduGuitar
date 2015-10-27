@@ -183,13 +183,15 @@ pdiv = pdi.value
 
 bitsExpected = interruptCounter=start = outData = inData = tbInData = tbOutData = period = 0x00
 bits2Send= outBitCount=inBitCount=0x00
+moduleInit = False
 
-def init(set=True):
-    global interruptOnLowClock
+def init():
+    global moduleInit
     cv(0)
     pyb.udelay(110)
     dv(0)
-    if set:
+    if not moduleInit:
+        moduleInit=True
         setInterrupt(ci)
 
 def stop():
@@ -248,7 +250,7 @@ def run(out,bitsIn=33,bitsOut=10):
     doneReading=False
 
     # give it a kick and release the wild PS/2 beast! 
-    init(False)
+    init()
     dv(0) # this is the start bit!
     cv(1)
     while True:
@@ -258,7 +260,7 @@ def run(out,bitsIn=33,bitsOut=10):
             #print('Done.')
             break
     # give it another kick, why?
-    init(False)
+    init()
 
 def c(tup):
     run(tup[1],tup[0])
@@ -274,21 +276,27 @@ def check(v):
                    inData,
                    d[v]))
 
-def r():
+def r(prn=False):
     c(reset)
-    print(check('reset'))
+    if prn:
+        print(check('reset'))
     return [interpreter.deviceResponse(i) for i in interpreter.i11s(inData)]
 
-def m():
+def m(prn=False):
     c(remote)
-    print(check('remote'))
+    if prn:
+        print(check('remote'))
     return [interpreter.deviceResponse(i) for i in interpreter.i11s(inData)]
 
-def p():
+def p(prn=False):
     c(poll)
-    print(check('poll'))
-    print('polling interpretation not yet done!')
-    return [interpreter.deviceResponse(i) for i in interpreter.i11s(inData[0:11])]
+    tups = interpreter.i11s(inData)
+    if prn:
+        print(check('poll'))
+        print(interpreter.deviceResponse(tups[0]))
+    return interpreter.interpretPollPayload(tups[1:])
 
+# for deugging
 def i():
     init()
+
