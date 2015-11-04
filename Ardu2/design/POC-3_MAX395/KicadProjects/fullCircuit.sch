@@ -41,13 +41,13 @@ $Descr User 20000 12000
 encoding utf-8
 Sheet 1 1
 Title "ArduGuitar Full Circuit MAX395"
-Date "2015-11-02"
-Rev "1.7"
+Date "2015-11-04"
+Rev "1.8"
 Comp "www.arduguitar.org"
 Comment1 "update after review,"
 Comment2 "added V+/V- to headers"
 Comment3 "changed VGA Connector footprint"
-Comment4 ""
+Comment4 "addec schottkey to prevent LM2596 latch-up"
 $EndDescr
 $Comp
 L MAX395 U17
@@ -2262,7 +2262,7 @@ Connection ~ 1900 6650
 Wire Wire Line
 	1550 6650 1900 6650
 Wire Wire Line
-	1900 6650 1900 7050
+	1900 6260 1900 7050
 Wire Wire Line
 	18750 4600 18750 4800
 Wire Wire Line
@@ -3558,4 +3558,21 @@ Wire Wire Line
 	1730 2750 1750 2750
 Text Label 1750 2850 0    60   ~ 0
 V-
+$Comp
+L D_Schottky D4
+U 1 1 563A18BC
+P 3730 6260
+F 0 "D4" H 3730 6360 50  0000 C CNN
+F 1 "D_Schottky UF-4003" H 3730 6160 50  0000 C CNN
+F 2 "Diodes_ThroughHole:Diode_DO-41_SOD81_Horizontal_RM10" H 3730 6260 60  0001 C CNN
+F 3 "" H 3730 6260 60  0000 C CNN
+	1    3730 6260
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3880 6260 4450 6260
+Wire Wire Line
+	4450 6260 4450 6650
+Wire Wire Line
+	3580 6260 1900 6260
 $EndSCHEMATC
