@@ -41,12 +41,12 @@ $Descr User 20000 12000
 encoding utf-8
 Sheet 1 1
 Title "ArduGuitar Full Circuit MAX395"
-Date "2015-06-18"
-Rev "1.6"
+Date "2015-11-02"
+Rev "1.7"
 Comp "www.arduguitar.org"
 Comment1 "update after review,"
 Comment2 "added V+/V- to headers"
-Comment3 ""
+Comment3 "changed VGA Connector footprint"
 Comment4 ""
 $EndDescr
 $Comp
@@ -1756,7 +1756,7 @@ U 1 1 5563E329
 P 5850 800
 F 0 "P7" H 5850 1600 50  0000 C CNN
 F 1 "CONN_01X15" V 5950 800 50  0000 C CNN
-F 2 "w_conn_pc:DB_15F-VGA" H 5850 800 60  0001 C CNN
+F 2 "w_conn_pc:DB_15F-VGA_00_BOB" H 5850 800 60  0001 C CNN
 F 3 "" H 5850 800 60  0000 C CNN
 	1    5850 800 
 	0    -1   -1   0   
