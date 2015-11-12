@@ -1,0 +1,222 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:HMI-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L LED D?
+U 1 1 5641A7AD
+P 3340 3370
+F 0 "D?" H 3340 3470 50  0000 C CNN
+F 1 "LED" H 3340 3270 50  0000 C CNN
+F 2 "" H 3340 3370 60  0000 C CNN
+F 3 "" H 3340 3370 60  0000 C CNN
+	1    3340 3370
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED D?
+U 1 1 5641A7DE
+P 3340 3690
+F 0 "D?" H 3340 3790 50  0000 C CNN
+F 1 "LED" H 3340 3590 50  0000 C CNN
+F 2 "" H 3340 3690 60  0000 C CNN
+F 3 "" H 3340 3690 60  0000 C CNN
+	1    3340 3690
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X19 P?
+U 1 1 5641A801
+P 1630 2810
+F 0 "P?" H 1630 3810 50  0000 C CNN
+F 1 "CONN_01X19" V 1730 2810 50  0000 C CNN
+F 2 "" H 1630 2810 60  0000 C CNN
+F 3 "" H 1630 2810 60  0000 C CNN
+	1    1630 2810
+	-1   0    0    -1  
+$EndComp
+$Comp
+L R R?
+U 1 1 5641A9BB
+P 3950 1880
+F 0 "R?" V 4030 1880 50  0000 C CNN
+F 1 "1K" V 3950 1880 50  0000 C CNN
+F 2 "" V 3880 1880 30  0000 C CNN
+F 3 "" H 3950 1880 30  0000 C CNN
+	1    3950 1880
+	0    1    1    0   
+$EndComp
+$Comp
+L R R?
+U 1 1 5641AA38
+P 3950 2080
+F 0 "R?" V 4030 2080 50  0000 C CNN
+F 1 "1K" V 3950 2080 50  0000 C CNN
+F 2 "" V 3880 2080 30  0000 C CNN
+F 3 "" H 3950 2080 30  0000 C CNN
+	1    3950 2080
+	0    1    1    0   
+$EndComp
+$Comp
+L R R?
+U 1 1 5641AA84
+P 3950 2280
+F 0 "R?" V 4030 2280 50  0000 C CNN
+F 1 "1K" V 3950 2280 50  0000 C CNN
+F 2 "" V 3880 2280 30  0000 C CNN
+F 3 "" H 3950 2280 30  0000 C CNN
+	1    3950 2280
+	0    1    1    0   
+$EndComp
+$Comp
+L R R?
+U 1 1 5641ABF7
+P 3950 2720
+F 0 "R?" V 4030 2720 50  0000 C CNN
+F 1 "1K" V 3950 2720 50  0000 C CNN
+F 2 "" V 3880 2720 30  0000 C CNN
+F 3 "" H 3950 2720 30  0000 C CNN
+	1    3950 2720
+	0    1    1    0   
+$EndComp
+$Comp
+L R R?
+U 1 1 5641AC8D
+P 3950 3040
+F 0 "R?" V 4030 3040 50  0000 C CNN
+F 1 "1K" V 3950 3040 50  0000 C CNN
+F 2 "" V 3880 3040 30  0000 C CNN
+F 3 "" H 3950 3040 30  0000 C CNN
+	1    3950 3040
+	0    1    1    0   
+$EndComp
+$Comp
+L R R?
+U 1 1 5641ACEE
+P 3950 3370
+F 0 "R?" V 4030 3370 50  0000 C CNN
+F 1 "1K" V 3950 3370 50  0000 C CNN
+F 2 "" V 3880 3370 30  0000 C CNN
+F 3 "" H 3950 3370 30  0000 C CNN
+	1    3950 3370
+	0    1    1    0   
+$EndComp
+$Comp
+L R R?
+U 1 1 5641AD62
+P 3950 3690
+F 0 "R?" V 4030 3690 50  0000 C CNN
+F 1 "1K" V 3950 3690 50  0000 C CNN
+F 2 "" V 3880 3690 30  0000 C CNN
+F 3 "" H 3950 3690 30  0000 C CNN
+	1    3950 3690
+	0    1    1    0   
+$EndComp
+$Comp
+L LED_RCBG D?
+U 1 1 56422C0C
+P 3440 2080
+F 0 "D?" H 3440 2430 50  0000 C CNN
+F 1 "LED_RCBG" H 3440 1730 50  0000 C CNN
+F 2 "" H 3440 2030 50  0000 C CNN
+F 3 "" H 3440 2030 50  0000 C CNN
+	1    3440 2080
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 56423E6F
+P 3140 3770
+F 0 "#PWR?" H 3140 3520 50  0001 C CNN
+F 1 "GND" H 3140 3620 50  0000 C CNN
+F 2 "" H 3140 3770 60  0000 C CNN
+F 3 "" H 3140 3770 60  0000 C CNN
+	1    3140 3770
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED D?
+U 1 1 5641A778
+P 3340 3040
+F 0 "D?" H 3340 3140 50  0000 C CNN
+F 1 "LED" H 3340 2940 50  0000 C CNN
+F 2 "" H 3340 3040 60  0000 C CNN
+F 3 "" H 3340 3040 60  0000 C CNN
+	1    3340 3040
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED D?
+U 1 1 5641A6D9
+P 3340 2720
+F 0 "D?" H 3340 2820 50  0000 C CNN
+F 1 "LED" H 3340 2620 50  0000 C CNN
+F 2 "" H 3340 2720 60  0000 C CNN
+F 3 "" H 3340 2720 60  0000 C CNN
+	1    3340 2720
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3740 1880 3800 1880
+Wire Wire Line
+	3800 2080 3740 2080
+Wire Wire Line
+	3740 2280 3800 2280
+Wire Wire Line
+	3800 3690 3540 3690
+Wire Wire Line
+	3540 3370 3800 3370
+Wire Wire Line
+	3800 3040 3540 3040
+Wire Wire Line
+	3800 2720 3540 2720
+Wire Wire Line
+	3140 2720 3150 2720
+Wire Wire Line
+	3140 2080 3140 3770
+Connection ~ 3140 2720
+Connection ~ 3140 3040
+Connection ~ 3140 3370
+Connection ~ 3140 3690
+$EndSCHEMATC
