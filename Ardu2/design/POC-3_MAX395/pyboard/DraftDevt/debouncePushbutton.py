@@ -1,10 +1,11 @@
 # DebouncePushbutton.py
-# debounce a momentary pushbutton with HIGH == ON state and
+# updated 2015 11 15 to allow for onState =0, ie Pullup!
+# debounce a momentary pushbutton with ON state argument and
 # at every push, toggle a LED illuminator
 # usage:
-# >>> p = pyb.Pin('X1', pyb.Pin.IN, pyb.Pin.PULL_DOWN)
+# >>> p = pyb.Pin('X1', pyb.Pin.IN, pyb.Pin.PULL_UP)
 # >>> i = Illuminator(pyb.Pin('X2', pyb.Pin.OUT_PP))
-# >>> b = DebouncePushbutton(p,i.toggle)
+# >>> b = DebouncePushbutton(p,i.toggle,0)
 # >>> while True:
 # ...   b.update()
 #
@@ -15,11 +16,12 @@ from illuminator import Illuminator
 class DebouncePushbutton:
     debounceDelay = 20 #milliseconds between pushes
 
-    def __init__(self, pin, onHigh=None):
+    def __init__(self, pin, doOn=None, onState=0):
         self.pin = pin
         self.lastDebounceTime = pyb.millis()
         self.lastReading = 0
-        self.onHigh = onHigh
+        self.doOn = doOn
+        self.onState = onState
 
     def update(self):
         if pyb.millis() - self.lastDebounceTime > self.debounceDelay:
@@ -28,17 +30,17 @@ class DebouncePushbutton:
                 # we got a new value
                 self.lastDebounceTime = pyb.millis()
                 self.lastReading = reading
-                if reading and self.onHigh:
-                    self.onHigh()
+                if reading == self.onState and self.doOn:
+                    self.doOn()
 
 class IlluminatedPushbutton(DebouncePushbutton) :
 
-    def __init__(self, pin, illum, onAction = None):
-        DebouncePushbutton.__init__(self,pin,self.illumOnHigh)
+    def __init__(self, pin, illum, onAction = None, onState = 0):
+        DebouncePushbutton.__init__(self,pin,self.illumDo,onState)
         self.illuminator = illum
         self.onAction = onAction
         
-    def illumOnHigh(self):
+    def illumDo(self):
         if self.onAction:
             self.onAction()
         self.illuminator.toggle()
