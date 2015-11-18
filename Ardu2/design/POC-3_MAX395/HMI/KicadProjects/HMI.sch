@@ -36,10 +36,10 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 1 1
 Title "PyGuitar HMI LED Circuit"
-Date "2015-11-17"
-Rev "0"
-Comp ""
-Comment1 ""
+Date "2015-11-18"
+Rev "1"
+Comp "Gratefulfrog"
+Comment1 "added 3 resistors to complete circuit!"
 Comment2 ""
 Comment3 ""
 Comment4 ""
@@ -764,11 +764,11 @@ Text Label 7210 4870 2    60   ~ 0
 TR1
 Text Label 7210 4970 2    60   ~ 0
 TR2
-Text Label 7680 5470 2    60   ~ 0
+Text Label 7210 5470 2    60   ~ 0
 UU0
-Text Label 7680 5570 2    60   ~ 0
+Text Label 7210 5570 2    60   ~ 0
 UU1
-Text Label 7680 5670 2    60   ~ 0
+Text Label 7210 5670 2    60   ~ 0
 UU2
 Text Label 7210 5370 2    60   ~ 0
 PBLR
@@ -1352,4 +1352,43 @@ F 3 "" H 7490 7500 60  0000 C CNN
 	1    7490 7500
 	-1   0    0    -1  
 $EndComp
+$Comp
+L R R38
+U 1 1 564C39C7
+P 7360 5470
+F 0 "R38" V 7440 5470 50  0000 C CNN
+F 1 "1K" V 7360 5470 50  0000 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM10mm" V 7290 5470 30  0001 C CNN
+F 3 "" H 7360 5470 30  0000 C CNN
+	1    7360 5470
+	0    1    1    0   
+$EndComp
+$Comp
+L R R39
+U 1 1 564C3B87
+P 7360 5570
+F 0 "R39" V 7440 5570 50  0000 C CNN
+F 1 "1K" V 7360 5570 50  0000 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM10mm" V 7290 5570 30  0001 C CNN
+F 3 "" H 7360 5570 30  0000 C CNN
+	1    7360 5570
+	0    1    1    0   
+$EndComp
+$Comp
+L R R40
+U 1 1 564C3C8B
+P 7360 5670
+F 0 "R40" V 7440 5670 50  0000 C CNN
+F 1 "1K" V 7360 5670 50  0000 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM10mm" V 7290 5670 30  0001 C CNN
+F 3 "" H 7360 5670 30  0000 C CNN
+	1    7360 5670
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7510 5470 7680 5470
+Wire Wire Line
+	7680 5570 7510 5570
+Wire Wire Line
+	7510 5670 7680 5670
 $EndSCHEMATC
