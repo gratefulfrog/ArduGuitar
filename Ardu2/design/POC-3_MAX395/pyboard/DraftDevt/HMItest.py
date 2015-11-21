@@ -101,10 +101,11 @@ allOff = [0 for i in range(nbShiftRegs)]
 
 ledStatus = [0 for i in range(nbShiftRegs)]
 
-yellow = [0,3]
-red    = [0,2]
-blue   = [0,1]
-green  = [0,0]
+
+yellow = [0,2]
+red    = [0,3]
+blue   = [0,4]
+green  = [0,5]
 left = 1
 right = 0
 
@@ -143,10 +144,16 @@ leftB = DebouncePushbutton(Pin('X3',Pin.IN,Pin.PULL_UP),
 rightB = DebouncePushbutton(Pin('X4',Pin.IN,Pin.PULL_UP),
                             lambda : func('right'))
 
-def pbTest(n=20):
-    while True:
-        for pb in [yellowB, redB, blueB, greenB, leftB, rightB]:
-            pb.update()
+def pbTest():
+    try:
+        LCDsend('Start Test!\nAll off ...')
+        testSPI(allOff)
+        while True:
+            for pb in [yellowB, redB, blueB, greenB, leftB, rightB]:
+                pb.update()
+    except:
+        LCDsend('Test ended!\nAll off ...')
+        testSPI(allOff)
 
 def func(pb):
     mp = {'yellow' : yellow,
@@ -156,19 +163,26 @@ def func(pb):
           'left' : left,
           'right' : right}
     if type(mp[pb])==list :
-        toggle(mp[pb],ledStatus)
         LCDsend(pb + ' pressed!')
+        toggle(mp[pb],ledStatus)
     elif mp[pb]:
-        testSPI(allOn)
+        """
         LCDsend(pb + ' pressed!\nAll ON !!')
+        testSPI(allOn)
+        """
+        LCDsend(pb + ' pressed!\nCycling !!')
+        cycleAll()
     else:
-        testSPI(allOff)
         LCDsend(pb + ' pressed!\nAll off ...')
+        testSPI(allOff)
 
-
-    
-          
-    
+def cycleAll():
+    vals = [0 for i in range(nbShiftRegs)]
+    for i in range(nbShiftRegs):
+        for j in range(8):
+            vals[i] |= 1<<j
+            testSPI(vals)
+            delay(100)
 
 ############################################################
 ############### LCD tests
