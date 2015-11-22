@@ -1,6 +1,20 @@
 # outils.py
-# provides various utility classes
+# provides various utility classes and functions
 # * RMap: maps values from one range to another
+# * floor function
+# * ceiling function
+
+def floor (n,d):
+    """ floor of the experssion n/d
+    """
+    return n//d
+
+def ceiling (n,d):
+    """ ceiling of the experssion n/d
+    """
+    res = n//d 
+    return res if not (n/d - res) else res +1
+
 
 class RMap:
     def __init__(self,fromRange, toRange, makeInt=False):

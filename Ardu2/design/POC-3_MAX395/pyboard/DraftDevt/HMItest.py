@@ -151,7 +151,7 @@ def pbTest():
         while True:
             for pb in [yellowB, redB, blueB, greenB, leftB, rightB]:
                 pb.update()
-    except:
+    except KeyboardInterrupt:
         LCDsend('Test ended!\nAll off ...')
         testSPI(allOff)
 

@@ -2,10 +2,12 @@
 # pyb.py for Off-pyboard testing
 # here we find pyboard simulation classes for Off-board testing
 
-import time
+#import time
 
 def delay(dela):
-    time.sleep(dela)
+    d=dela*10000
+    while(d):
+        d -=1
         
 class SPI():
     """simulation SPI class provides basic SPI simulation
@@ -119,3 +121,14 @@ class Timer:
 
     def __repr__(self):
         return 'A Timer!'
+
+class ADC:
+    def __init__(self,pp):
+        self.pin = pp
+
+    def read(self):
+        print('input value for ADC on pin ' + self.pin +': ' ,end='')
+        return int(input())
+        
+    def __repr__(self):
+        return 'An ADC on pin: ' + self.pin
