@@ -28,8 +28,9 @@ class State():
     # say which side of the pyboard are we using
     spiOnX = True
 
+    # no longer used 2015 12 09
     # vactrol control pin
-    vactrolPinName = 'X4'
+    #vactrolPinName = 'X4'
     
     # Shift Register info
     # updated to handle 14 Max395s
