@@ -1,5 +1,5 @@
 #!/usr/local/bin/python3.4
-# selectorTest?py
+# selectorTest.py
 # exercise the Seclector class
 # as needed:
 
