@@ -1,4 +1,4 @@
-update=Wed 16 Dec 2015 05:54:53 PM CET
+update=Sat 19 Dec 2015 09:36:27 PM CET
 version=1
 last_client=kicad
 [pcbnew]
@@ -58,3 +58,13 @@ LibName28=contrib
 LibName29=valves
 [general]
 version=1
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=/home/bob/ArduGuitar/Ardu2/design/POC-3_MAX395/HMI/KicadProjects/HW Debounce Button/
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
