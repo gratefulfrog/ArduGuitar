@@ -108,7 +108,7 @@ Wire Wire Line
 Text GLabel 4220 2550 2    60   Input ~ 0
 Pin
 Wire Wire Line
-	3950 2810 3950 2550
+	3950 2480 3950 2810
 Connection ~ 3950 2550
 $Comp
 L CP1 C1
@@ -130,4 +130,29 @@ Wire Wire Line
 	3500 2550 3500 2680
 Wire Wire Line
 	3950 3280 3950 3110
+$Comp
+L R R?
+U 1 1 56929606
+P 3950 2330
+F 0 "R?" H 4020 2376 50  0001 L CNN
+F 1 "47k" V 3950 2280 50  0000 L CNN
+F 2 "" V 3880 2330 50  0000 C CNN
+F 3 "" H 3950 2330 50  0000 C CNN
+	1    3950 2330
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3950 2180 3950 2100
+Wire Wire Line
+	3950 2100 4160 2100
+Wire Notes Line
+	4060 2760 4060 1650
+Wire Notes Line
+	4060 1650 4710 1650
+Wire Notes Line
+	4710 1650 4710 2760
+Wire Notes Line
+	4710 2760 4060 2760
+Text Notes 4200 1780 0    60   ~ 0
+Pyboard
 $EndSCHEMATC
