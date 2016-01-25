@@ -1,0 +1,8 @@
+(gerbv-file-version! "2.0A")
+(define-layer! 4 (cons 'filename "GERBER/Multi-PB-Debounce Circuit-F.SilkS.gbr")(cons 'visible #f)(cons 'color #(0 50115 50115)))
+(define-layer! 3 (cons 'filename "GERBER/Multi-PB-Debounce Circuit-Edge.Cuts.gbr")(cons 'visible #f)(cons 'color #(30069 62194 26471)))
+(define-layer! 2 (cons 'filename "GERBER/Multi-PB-Debounce Circuit-drl_map.gbr")(cons 'visible #f)(cons 'color #(0 0 0)))
+(define-layer! 1 (cons 'filename "GERBER/Multi-PB-Debounce Circuit-B.Cu.gbr")(cons 'visible #f)(cons 'color #(65535 32639 29555)))
+(define-layer! 0 (cons 'filename "GERBER/Multi-PB-Debounce Circuit.drl")(cons 'visible #f)(cons 'color #(29555 29555 57054))(cons 'attribs (list (list 'autodetect 'Boolean 1) (list 'zero_supression 'Enum 1) (list 'units 'Enum 1) (list 'digits 'Integer 3))))
+(define-layer! -1 (cons 'filename "/home/bob/ArduGuitar/Ardu2/design/POC-3_MAX395/HMI/KicadProjects/Multi-PB-Debounce Circuit/GERBER")(cons 'visible #f)(cons 'color #(65535 65535 65535)))
+(set-render-type! 0)

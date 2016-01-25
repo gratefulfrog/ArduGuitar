@@ -3,7 +3,7 @@
   (general
     (links 42)
     (no_connects 0)
-    (area 0 0 0 0)
+    (area 73.729474 106.858999 157.126046 133.679001)
     (thickness 1.6)
     (drawings 6)
     (tracks 40)
@@ -14,20 +14,11 @@
 
   (page A4)
   (layers
-    (0 F.Cu jumper)
+    (0 F.Cu jumper hide)
     (31 B.Cu mixed)
-    (33 F.Adhes user)
-    (35 F.Paste user)
     (37 F.SilkS user)
-    (39 F.Mask user)
-    (40 Dwgs.User user)
-    (41 Cmts.User user)
-    (42 Eco1.User user)
-    (43 Eco2.User user)
     (44 Edge.Cuts user)
     (45 Margin user)
-    (47 F.CrtYd user)
-    (49 F.Fab user)
   )
 
   (setup
@@ -72,8 +63,8 @@
       (hpglpenoverlay 2)
       (psnegative false)
       (psa4output false)
-      (plotreference false)
-      (plotvalue false)
+      (plotreference true)
+      (plotvalue true)
       (plotinvisibletext false)
       (padsonsilk false)
       (subtractmaskfromsilk false)
@@ -81,7 +72,7 @@
       (mirror false)
       (drillshape 0)
       (scaleselection 1)
-      (outputdirectory SVG/))
+      (outputdirectory GERBER/))
   )
 
   (net 0 "")
@@ -123,7 +114,7 @@
     (add_net VCC)
   )
 
-  (module Capacitors_ThroughHole:C_Radial_D5_L11_P2 (layer F.Cu) (tedit 56A60AD5) (tstamp 56A5ED06)
+  (module Capacitors_ThroughHole:C_Radial_D5_L11_P2 (layer F.Cu) (tedit 56A66405) (tstamp 56A5ED06)
     (at 142.494 111.506 90)
     (descr "Radial Electrolytic Capacitor 5mm x Length 11mm, Pitch 2mm")
     (tags "Electrolytic Capacitor")
@@ -131,7 +122,7 @@
     (fp_text reference C1 (at 1 -3.8 90) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 1uF (at -2.032 2.794 180) (layer F.Fab)
+    (fp_text value 1uF (at -2.032 2.794 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start 1.075 -2.499) (end 1.075 2.499) (layer F.SilkS) (width 0.15))
@@ -178,7 +169,7 @@
     )
   )
 
-  (module Capacitors_ThroughHole:C_Radial_D5_L11_P2 (layer F.Cu) (tedit 56A60AB3) (tstamp 56A5ED0C)
+  (module Capacitors_ThroughHole:C_Radial_D5_L11_P2 (layer F.Cu) (tedit 56A66422) (tstamp 56A5ED0C)
     (at 113.284 111.506 90)
     (descr "Radial Electrolytic Capacitor 5mm x Length 11mm, Pitch 2mm")
     (tags "Electrolytic Capacitor")
@@ -186,7 +177,7 @@
     (fp_text reference C2 (at 1 -3.8 90) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 1uF (at -2.286 2.794 180) (layer F.Fab)
+    (fp_text value 1uF (at -2.286 2.794 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start 1.075 -2.499) (end 1.075 2.499) (layer F.SilkS) (width 0.15))
@@ -233,7 +224,7 @@
     )
   )
 
-  (module Capacitors_ThroughHole:C_Radial_D5_L11_P2 (layer F.Cu) (tedit 56A60ABA) (tstamp 56A5ED12)
+  (module Capacitors_ThroughHole:C_Radial_D5_L11_P2 (layer F.Cu) (tedit 56A6641C) (tstamp 56A5ED12)
     (at 119.126 111.506 90)
     (descr "Radial Electrolytic Capacitor 5mm x Length 11mm, Pitch 2mm")
     (tags "Electrolytic Capacitor")
@@ -241,7 +232,7 @@
     (fp_text reference C3 (at 1 -3.8 90) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 1uF (at -2.286 2.794 180) (layer F.Fab)
+    (fp_text value 1uF (at -2.286 2.794 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start 1.075 -2.499) (end 1.075 2.499) (layer F.SilkS) (width 0.15))
@@ -288,7 +279,7 @@
     )
   )
 
-  (module Capacitors_ThroughHole:C_Radial_D5_L11_P2 (layer F.Cu) (tedit 56A60ABF) (tstamp 56A5ED18)
+  (module Capacitors_ThroughHole:C_Radial_D5_L11_P2 (layer F.Cu) (tedit 56A66416) (tstamp 56A5ED18)
     (at 124.968 111.506 90)
     (descr "Radial Electrolytic Capacitor 5mm x Length 11mm, Pitch 2mm")
     (tags "Electrolytic Capacitor")
@@ -296,7 +287,7 @@
     (fp_text reference C4 (at 1 -3.8 90) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 1uF (at -2.286 2.794 180) (layer F.Fab)
+    (fp_text value 1uF (at -2.286 2.794 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start 1.075 -2.499) (end 1.075 2.499) (layer F.SilkS) (width 0.15))
@@ -343,7 +334,7 @@
     )
   )
 
-  (module Capacitors_ThroughHole:C_Radial_D5_L11_P2 (layer F.Cu) (tedit 56A60AC5) (tstamp 56A5ED1E)
+  (module Capacitors_ThroughHole:C_Radial_D5_L11_P2 (layer F.Cu) (tedit 56A66411) (tstamp 56A5ED1E)
     (at 130.81 111.506 90)
     (descr "Radial Electrolytic Capacitor 5mm x Length 11mm, Pitch 2mm")
     (tags "Electrolytic Capacitor")
@@ -351,7 +342,7 @@
     (fp_text reference C5 (at 1 -3.8 90) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 1uF (at -2.286 2.794 180) (layer F.Fab)
+    (fp_text value 1uF (at -2.286 2.794 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start 1.075 -2.499) (end 1.075 2.499) (layer F.SilkS) (width 0.15))
@@ -398,15 +389,15 @@
     )
   )
 
-  (module Capacitors_ThroughHole:C_Radial_D5_L11_P2 (layer F.Cu) (tedit 56A60ACE) (tstamp 56A5ED24)
+  (module Capacitors_ThroughHole:C_Radial_D5_L11_P2 (layer F.Cu) (tedit 56A66519) (tstamp 56A5ED24)
     (at 136.652 111.506 90)
     (descr "Radial Electrolytic Capacitor 5mm x Length 11mm, Pitch 2mm")
     (tags "Electrolytic Capacitor")
     (path /56A5EEDC)
-    (fp_text reference C6 (at 1 -3.8 90) (layer F.SilkS)
+    (fp_text reference C6 (at 1 -3.8 90) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 1uF (at -2.286 2.794 180) (layer F.Fab)
+    (fp_text value 1uF (at -2.286 2.794 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start 1.075 -2.499) (end 1.075 2.499) (layer F.SilkS) (width 0.15))
@@ -580,7 +571,7 @@
     )
   )
 
-  (module Resistors_ThroughHole:Resistor_Horizontal_RM15mm (layer F.Cu) (tedit 56A60B1A) (tstamp 56A60741)
+  (module Resistors_ThroughHole:Resistor_Horizontal_RM15mm (layer F.Cu) (tedit 56A663FF) (tstamp 56A60741)
     (at 142.494 123.19 90)
     (descr "Resistor, Axial, RM 15mm,")
     (tags "Resistor, Axial, RM 15mm,")
@@ -588,7 +579,7 @@
     (fp_text reference R3 (at 0 -3.74904 90) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 47k (at 0 0 90) (layer F.Fab)
+    (fp_text value 47k (at 0 0 90) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start -5.08 -1.27) (end -5.08 1.27) (layer F.SilkS) (width 0.15))
@@ -608,7 +599,7 @@
     )
   )
 
-  (module Resistors_ThroughHole:Resistor_Horizontal_RM15mm (layer F.Cu) (tedit 56A60AFE) (tstamp 56A60746)
+  (module Resistors_ThroughHole:Resistor_Horizontal_RM15mm (layer F.Cu) (tedit 56A663DF) (tstamp 56A60746)
     (at 113.284 123.19 90)
     (descr "Resistor, Axial, RM 15mm,")
     (tags "Resistor, Axial, RM 15mm,")
@@ -616,7 +607,7 @@
     (fp_text reference R4 (at 0 -3.74904 90) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 47k (at 0 0 90) (layer F.Fab)
+    (fp_text value 47k (at 0 0 90) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start -5.08 -1.27) (end -5.08 1.27) (layer F.SilkS) (width 0.15))
@@ -636,7 +627,7 @@
     )
   )
 
-  (module Resistors_ThroughHole:Resistor_Horizontal_RM15mm (layer F.Cu) (tedit 56A60B02) (tstamp 56A60750)
+  (module Resistors_ThroughHole:Resistor_Horizontal_RM15mm (layer F.Cu) (tedit 56A663E6) (tstamp 56A60750)
     (at 119.126 123.19 90)
     (descr "Resistor, Axial, RM 15mm,")
     (tags "Resistor, Axial, RM 15mm,")
@@ -644,7 +635,7 @@
     (fp_text reference R6 (at 0 -3.74904 90) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 47k (at 0 0 90) (layer F.Fab)
+    (fp_text value 47k (at 0 0 90) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start -5.08 -1.27) (end -5.08 1.27) (layer F.SilkS) (width 0.15))
@@ -664,7 +655,7 @@
     )
   )
 
-  (module Resistors_ThroughHole:Resistor_Horizontal_RM15mm (layer F.Cu) (tedit 56A60B08) (tstamp 56A6075A)
+  (module Resistors_ThroughHole:Resistor_Horizontal_RM15mm (layer F.Cu) (tedit 56A663ED) (tstamp 56A6075A)
     (at 124.968 123.19 90)
     (descr "Resistor, Axial, RM 15mm,")
     (tags "Resistor, Axial, RM 15mm,")
@@ -672,7 +663,7 @@
     (fp_text reference R8 (at 0 -3.74904 90) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 47k (at 0 0 90) (layer F.Fab)
+    (fp_text value 47k (at 0 0 90) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start -5.08 -1.27) (end -5.08 1.27) (layer F.SilkS) (width 0.15))
@@ -692,7 +683,7 @@
     )
   )
 
-  (module Resistors_ThroughHole:Resistor_Horizontal_RM15mm (layer F.Cu) (tedit 56A60B25) (tstamp 56A60764)
+  (module Resistors_ThroughHole:Resistor_Horizontal_RM15mm (layer F.Cu) (tedit 56A663F2) (tstamp 56A60764)
     (at 130.81 123.19 90)
     (descr "Resistor, Axial, RM 15mm,")
     (tags "Resistor, Axial, RM 15mm,")
@@ -700,7 +691,7 @@
     (fp_text reference R10 (at 0 -3.74904 90) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 47k (at 0 0 90) (layer F.Fab)
+    (fp_text value 47k (at 0 0 90) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start -5.08 -1.27) (end -5.08 1.27) (layer F.SilkS) (width 0.15))
@@ -720,7 +711,7 @@
     )
   )
 
-  (module Resistors_ThroughHole:Resistor_Horizontal_RM15mm (layer F.Cu) (tedit 56A60B1F) (tstamp 56A6076E)
+  (module Resistors_ThroughHole:Resistor_Horizontal_RM15mm (layer F.Cu) (tedit 56A663F9) (tstamp 56A6076E)
     (at 136.652 123.19 90)
     (descr "Resistor, Axial, RM 15mm,")
     (tags "Resistor, Axial, RM 15mm,")
@@ -728,7 +719,7 @@
     (fp_text reference R12 (at 0 -3.74904 90) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 47k (at 0 0 90) (layer F.Fab)
+    (fp_text value 47k (at 0 0 90) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start -5.08 -1.27) (end -5.08 1.27) (layer F.SilkS) (width 0.15))
@@ -748,7 +739,7 @@
     )
   )
 
-  (module Resistors_ThroughHole:Resistor_Horizontal_RM10mm (layer F.Cu) (tedit 56A60A05) (tstamp 56A6082C)
+  (module Resistors_ThroughHole:Resistor_Horizontal_RM10mm (layer F.Cu) (tedit 56A663A3) (tstamp 56A6082C)
     (at 99.06 115.824 180)
     (descr "Resistor, Axial,  RM 10mm, 1/3W,")
     (tags "Resistor, Axial, RM 10mm, 1/3W,")
@@ -756,7 +747,7 @@
     (fp_text reference R1 (at 0.24892 -3.50012 180) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 1K (at 0 0 180) (layer F.Fab)
+    (fp_text value 1K (at 0 0 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start -2.54 -1.27) (end 2.54 -1.27) (layer F.SilkS) (width 0.15))
@@ -776,7 +767,7 @@
     )
   )
 
-  (module Resistors_ThroughHole:Resistor_Horizontal_RM10mm (layer F.Cu) (tedit 56A60A28) (tstamp 56A60831)
+  (module Resistors_ThroughHole:Resistor_Horizontal_RM10mm (layer F.Cu) (tedit 56A663D3) (tstamp 56A60831)
     (at 99.06 128.524 180)
     (descr "Resistor, Axial,  RM 10mm, 1/3W,")
     (tags "Resistor, Axial, RM 10mm, 1/3W,")
@@ -784,7 +775,7 @@
     (fp_text reference R2 (at 0.24892 -3.50012 180) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 1K (at 0 0 180) (layer F.Fab)
+    (fp_text value 1K (at 0 0 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start -2.54 -1.27) (end 2.54 -1.27) (layer F.SilkS) (width 0.15))
@@ -804,7 +795,7 @@
     )
   )
 
-  (module Resistors_ThroughHole:Resistor_Horizontal_RM10mm (layer F.Cu) (tedit 56A60A5F) (tstamp 56A60836)
+  (module Resistors_ThroughHole:Resistor_Horizontal_RM10mm (layer F.Cu) (tedit 56A663B0) (tstamp 56A60836)
     (at 99.06 118.364 180)
     (descr "Resistor, Axial,  RM 10mm, 1/3W,")
     (tags "Resistor, Axial, RM 10mm, 1/3W,")
@@ -812,7 +803,7 @@
     (fp_text reference R5 (at 0.24892 -3.50012 180) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 1K (at 0 0.254 180) (layer F.Fab)
+    (fp_text value 1K (at 0 0.254 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start -2.54 -1.27) (end 2.54 -1.27) (layer F.SilkS) (width 0.15))
@@ -832,7 +823,7 @@
     )
   )
 
-  (module Resistors_ThroughHole:Resistor_Horizontal_RM10mm (layer F.Cu) (tedit 56A60A59) (tstamp 56A6083B)
+  (module Resistors_ThroughHole:Resistor_Horizontal_RM10mm (layer F.Cu) (tedit 56A663B7) (tstamp 56A6083B)
     (at 99.06 120.904 180)
     (descr "Resistor, Axial,  RM 10mm, 1/3W,")
     (tags "Resistor, Axial, RM 10mm, 1/3W,")
@@ -840,7 +831,7 @@
     (fp_text reference R7 (at 0.24892 -3.50012 180) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 1K (at 0 0.254 180) (layer F.Fab)
+    (fp_text value 1K (at 0 0.254 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start -2.54 -1.27) (end 2.54 -1.27) (layer F.SilkS) (width 0.15))
@@ -860,7 +851,7 @@
     )
   )
 
-  (module Resistors_ThroughHole:Resistor_Horizontal_RM10mm (layer F.Cu) (tedit 56A60A55) (tstamp 56A60840)
+  (module Resistors_ThroughHole:Resistor_Horizontal_RM10mm (layer F.Cu) (tedit 56A663BF) (tstamp 56A60840)
     (at 99.06 123.444 180)
     (descr "Resistor, Axial,  RM 10mm, 1/3W,")
     (tags "Resistor, Axial, RM 10mm, 1/3W,")
@@ -868,7 +859,7 @@
     (fp_text reference R9 (at 0.24892 -3.50012 180) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 1K (at 0 0 180) (layer F.Fab)
+    (fp_text value 1K (at 0 0 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start -2.54 -1.27) (end 2.54 -1.27) (layer F.SilkS) (width 0.15))
@@ -888,7 +879,7 @@
     )
   )
 
-  (module Resistors_ThroughHole:Resistor_Horizontal_RM10mm (layer F.Cu) (tedit 56A60A4F) (tstamp 56A60845)
+  (module Resistors_ThroughHole:Resistor_Horizontal_RM10mm (layer F.Cu) (tedit 56A663CE) (tstamp 56A60845)
     (at 99.06 125.984 180)
     (descr "Resistor, Axial,  RM 10mm, 1/3W,")
     (tags "Resistor, Axial, RM 10mm, 1/3W,")
@@ -896,7 +887,7 @@
     (fp_text reference R11 (at 0.24892 -3.50012 180) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 1K (at 0 0 180) (layer F.Fab)
+    (fp_text value 1K (at 0 0 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start -2.54 -1.27) (end 2.54 -1.27) (layer F.SilkS) (width 0.15))
