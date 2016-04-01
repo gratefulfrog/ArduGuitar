@@ -39,7 +39,7 @@ nbPins = 6
 pinIdVec = ['X9','X10','Y3','Y4','Y5','Y6']
 lineDict = { 6:0, 7:1 , 8:2, 9:3,12:4, 13:5}
 
-# itnerrupt mechanics and debounce globals 
+# interrupt mechanics and debounce globals 
 flagVec= [False for i in range(nbPins)]
 interCount=0
 eVec = [None for i in range(nbPins)]
@@ -57,7 +57,7 @@ def init():
 def doFlag (ind):
     global flagVec,interCount
     if flagVec[ind] ==1:
-        # this is where to put the call to a function that actuall does something.
+        # this is where to put the call to a function that actually does something.
         print('Switch:',ind, '\tFlag: ', flagVec[ind],'\tInterCount: ',interCount)
         interCount +=1
     flagVec[ind]=0
