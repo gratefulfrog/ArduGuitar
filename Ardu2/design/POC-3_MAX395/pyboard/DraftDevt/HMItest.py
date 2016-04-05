@@ -1,6 +1,7 @@
 #HMItest.py
 # some test config for the HMI readboards
-
+# 2016 04 05 updated for HMI PCB
+# not yet tested
 """
 pin   color
 LCD:
@@ -101,11 +102,19 @@ allOff = [0 for i in range(nbShiftRegs)]
 
 ledStatus = [0 for i in range(nbShiftRegs)]
 
-
+"""
+# these are the values from the breadboard testing
 yellow = [0,2]
 red    = [0,3]
 blue   = [0,4]
 green  = [0,5]
+"""
+# These are the values that correspond to the HMI SPI board:
+green  = [0,5]
+blue   = [0,4]
+yellow = [0,3]
+red    = [0,2]
+
 left = 1
 right = 0
 
