@@ -60,7 +60,7 @@ def push(v):
         qNbObj += 1
 
 def pop():
-    global q,gptr,qNbObj
+    global gptr,qNbObj
     res = None
     if qNbObj:
         res = q[gptr]
