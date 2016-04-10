@@ -2,18 +2,13 @@
 # dbh6q.py debounce hardware with q 
 
 """
-This is the working routine to manage 6 interrupts with hardware debouncing.
+This is the working routine to manage 6 interrupts with hardware debouncing and queueing
 
 How does it work?
 Overview: (with some details not discussed)
-* a vector flagVec contains ints, initially set to zero, for each pin.
-* the callback increments the flagVec[pin]
-* an endless loop checks the value of flagVec[each pin] and if >0, does the flag(pin).
-* the doFlag(pin) is only called whe flagVec[pin]>0, we want to filter out any bouncing,
-  so we only act on the first call, i.e. when flagVec[pin] == 1
-  If it is so, we print out the info (this is where we would put a call to do something),
-  we increment the global interrupt count.
-  In all cases we reset flagVec[pin]
+* a circular q is impelemented as an array of ints.
+* the callback enqueues index
+* an endless loop checks processes the value popped from the Q
 * the endless loop is enclosed in a try/except to allow for clean exit in case of keyboard interrupt.
 
 Pyboard:
@@ -65,23 +60,21 @@ def pop():
     res = None
     if qNbObj:
         res = q[gptr]
-        interCount +=1
-        gptr = pptr+1 % qLen
+        gptr = (gptr+1) % qLen
         qNbObj -=1
     return res
 
 def proc(val):
     global interCount
-    if val:
+    if val != None:
         # this is where to put the call to a function that actually does something.
-        ind = val // 10
-        val = val % 10
-        print('Switch:',ind, '\tValue: ', val,'\tInterrupt Count: ',interCount)
+        print('Switch:',val,'\tInterrupt Count: ',interCount)
 
 # define ISR
 def callback(line):
+    global interCount
     interCount +=1
-    push(lineDict[line]*10 + 1)
+    push(lineDict[line])
 
 def init():
     global eVec
