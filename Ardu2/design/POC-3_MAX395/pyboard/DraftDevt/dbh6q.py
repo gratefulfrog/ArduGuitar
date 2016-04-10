@@ -46,6 +46,10 @@ qNbObj=0  # object counter
 interCount=0
 eVec = [None for i in range(nbPins)]
 
+# just for simutating results
+output = [None,None]
+newStuff = False
+
 def push(v):
     global q,pptr,qNbObj
     if qNbObj == qLen:
@@ -65,11 +69,17 @@ def pop():
     return res
 
 def proc(val):
-    global interCount
+    global interCount,output,newStuff
     if val != None:
         # this is where to put the call to a function that actually does something.
-        print('Switch:',val,'\tInterrupt Count: ',interCount)
+        output = [val,interCount]
+        newStuff = True
 
+def updateDisplay():
+    if newStuff:
+        print('Switch:',output[0],'\tInterrupt Count: ',output[1])
+        newStuff = False
+        
 # define ISR
 def callback(line):
     global interCount
@@ -85,6 +95,7 @@ def loop():
     try:
         while True:
             proc(pop())
+            updateDisplay():
     except KeyboardInterrupt:
         print('Test ended!\nBye ...')
 
