@@ -1,7 +1,6 @@
-#!/usr/local/bin/python3.4
+"""#!/usr/local/bin/python3.5.1
 # dbh6q.py debounce hardware with q 
 
-"""
 This is the working routine to manage 6 interrupts with hardware debouncing and queueing
 
 How does it work?
@@ -26,8 +25,12 @@ usage:
 """
 
 #from pyb import ExtInt,Pin,delay
-from pyb import ExtInt,Pin
+from pyb import ExtInt,Pin,Timer
 from array import array
+import micropython
+micropython.alloc_emergency_exception_buf(100)
+
+#from hardware import ShakeControl
 
 
 # declare nb pins, and ids, lines
@@ -49,6 +52,7 @@ eVec = [None for i in range(nbPins)]
 # just for simutating results
 output = [None,None]
 newStuff = False
+res = None
 
 def push(v):
     global q,pptr,qNbObj
@@ -56,8 +60,17 @@ def push(v):
         print("Q Full! ignoring push!")
     else:
         q[pptr] = v
-        pptr = pptr+1 % qLen
+        pptr = (pptr+1) % qLen
         qNbObj += 1
+
+def popI():
+    global gptr,qNbObj,res
+    res = None
+    if qNbObj:
+        res = q[gptr]
+        gptr = (gptr+1) % qLen
+        qNbObj -=1
+    #return res
 
 def pop():
     global gptr,qNbObj
@@ -67,15 +80,25 @@ def pop():
         gptr = (gptr+1) % qLen
         qNbObj -=1
     return res
+    
+def procI():
+    global interCount,output,newStuff,res
+    if res != None:
+        # this is where to put the call to a function that actually does something.
+        output[0] = res
+        output[1]=  interCount
+        newStuff = True
 
 def proc(val):
     global interCount,output,newStuff
     if val != None:
         # this is where to put the call to a function that actually does something.
-        output = [val,interCount]
+        output[0] = val
+        output[1]=  interCount
         newStuff = True
 
 def updateDisplay():
+    global newStuff
     if newStuff:
         print('Switch:',output[0],'\tInterrupt Count: ',output[1])
         newStuff = False
@@ -86,16 +109,48 @@ def callback(line):
     interCount +=1
     push(lineDict[line])
 
-def init():
-    global eVec
+def procCallback(unused):
+    popI()
+    procI()
+    updateDisplay()
+
+procTMR = None
+shakeTMR = None
+class Shake:
+    def xTF(self):
+        push(self.id*10)
+    def yTF(self):
+        push(self.id*100)
+    def zTF(self):
+        push(self.id*1000)
+
+    def __init__(self,idN):
+        self.id = idN
+
+    def update(self,unused):
+        self.xTF()
+        self.yTF()
+        self.zTF()    
+
+shake = Shake(1)
+def initTimers():
+    procTMR.callback(procCallback)
+    shakeTMR.callback(shake.update)
+
+def init(timed=False):
+    global eVec,tmr
     for i in range(nbPins):
         eVec[i]=ExtInt(pinIdVec[i], ExtInt.IRQ_FALLING, Pin.PULL_UP, callback)
-
+    procTMR  = Timer(5, freq=100)
+    shakeTMR = Timer(6, freq=5)
+    if timed:
+        initTimers()
+    
 def loop():
     try:
         while True:
             proc(pop())
-            updateDisplay():
+            updateDisplay()
     except KeyboardInterrupt:
         print('Test ended!\nBye ...')
 
