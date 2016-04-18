@@ -2,7 +2,7 @@
 """
 Using the pyboard ADC which reads 3.3v from on [0,4095].
 We split the pot into equal parts after removing the cutoff value, e.g. 5.
-if nbPlsits = 2, and cutOff = 5, the ranges then become
+if nbSplits = 2, and cutOff = 5, the ranges then become
 [0+5, floor(4096/2) - 5[ == [5,2043[  == range(2038) 
 [floor(4096/2) + 5, 4096-5[ == [2053,4091[ == range(2038)
 
