@@ -159,135 +159,160 @@ class LedDisplay(Positionable):
         self.TR.set(v)
         return self
 
-  
-"""
-
-class LCD extends Positionable {
-  final static int lcdW = 70*Positionable.scaleFactor,
-                   lcdH = 25*Positionable.scaleFactor;
-  final static color lcdBG = #E3DE42;
-  String[] lns = new String[2];
+class LCD(Positionable):
+    lcdW = 70*Positionable.scaleFactor
+    lcdH = 25*Positionable.scaleFactor
+    lcdBG = '#E3DE42'
     
-  LCD(int x,int y){
-    super(x,y);
-    PFont myFont = createFont("Courier", lcdH/3.5);
-    textFont(myFont);
-    for (int i=0;i<2;i++){
-      lns[i] = "0123456789ABCDEF";
-    }
-  }
-  LCD setLn(int lineNb, String val){
-    lns[lineNb] = val;
-    return this;
-  }
-  String getLn(int lineNb){
-    return lns[lineNb];
-  }
-  void display() {
-    pushMatrix();
-    translate(x*Positionable.scaleFactor,y*Positionable.scaleFactor);
-    rectMode(CORNER);
-    fill(lcdBG);
-    rect(0,0,lcdW,lcdH);
-    stroke(LED.blue);
-    fill(LED.blue);
-    text(lns[0], 0,lcdH/3.5+10);
-    text(lns[1], 0,lcdH-20);
-    popMatrix();
-  }
-}
-
-class Actuator{
-  final static int minDelay = 500;
-  int lastX;
-  
-  Actuator(){
-    lastX = millis();
-  }
-  void doX(){}
-  
-  void x(){
-    if(millis()>minDelay+lastX){
-      doX();
-      lastX = millis();
-    }
-  }
-}
-
-class LedActuator extends Actuator{
-  LED led;
-  LedActuator(LED ld){
-    super();
-    led = ld;
-  }
-  void doX(){
-    led.toggle();
-  }
-}
-
-class PushButton extends Positionable {
-  final static int pbW = 6*Positionable.scaleFactor,
-                   pbH = 6*Positionable.scaleFactor;
-  final static color pushedColor = 0,
-                     releasedColor = #FFFFFF,
-                     overColor = #646464;
-  color c = releasedColor;
-  Actuator ba;
-  PushButton(int x, int y, Actuator bba){
-    super(x,y);
-    ba = bba;
-  }
-  void display(){
-    if (overButton(mouseX,mouseY)){
-      if (mousePressed){
-        c = pushedColor;
-        ba.x();
-      }
-      else{
-        c = overColor;
-      }
-    }
-    else {
-      c = releasedColor;
-    }
-    pushMatrix();
-    translate(x*Positionable.scaleFactor,y*Positionable.scaleFactor);
-    rectMode(CORNER);
-    fill(c);
-    stroke(c);
-    rect(0,0,pbW,pbH);
-    popMatrix();
-  }
-  boolean overButton(int mx, int my){
-    int xx = x*Positionable.scaleFactor,
-        yy = y*Positionable.scaleFactor;
-    boolean res = (mx >= xx     && 
-                   mx <= xx+pbW && 
-                   my >= yy     && 
-                   my <= yy+pbH);
-    return res;
-  }
-}
-
-class LedPB{
-  final static int ledVOffset = -6*Positionable.scaleFactor,
-                   ledHOffset = 3*Positionable.scaleFactor,
-                   hSpacing = 10,
-                   vSpacing = 22;
-  PushButton pb;
-  LedActuator la;
-  LED led;
-  LedPB(int xx, int yy, color cc){
-    led = new LED(ledHOffset,ledVOffset,cc);
-    pb =new PushButton(xx,yy, new LedActuator(led));
-  }
-  void display(){
-    pushMatrix();
-    translate(pb.x*Positionable.scaleFactor,pb.y*Positionable.scaleFactor);
-    led.display();
-    popMatrix();
-    pb.display();
-  }
-}
+    def __init__(self,x,y):
+        Positionable.__init__(self,x,y)
+        self.lcdFont = createFont('Courier', LCD.lcdH/3.5)
+        textFont(self.lcdFont)
+        self.lns =['0123456789ABCDEF','0123456789ABCDEF']
     
-"""
+    def setLn(self, lineNb, val):
+        self.lns[lineNb] = val
+        return self
+  
+    def getLn(self, lineNb):
+        return self.lns[lineNb]
+    
+    def display(self):
+        pushMatrix()
+        translate(self.x*Positionable.scaleFactor,self.y*Positionable.scaleFactor)
+        rectMode(CORNER)
+        fill(LCD.lcdBG)
+        stroke(LCD.lcdBG)
+        rect(0,0,LCD.lcdW,LCD.lcdH);
+        stroke(LED.blue)
+        fill(LED.blue)
+        textFont(self.lcdFont)
+        text(self.lns[0], 0,LCD.lcdH/3.5+10)
+        text(self.lns[1], 0,LCD.lcdH-20)
+        popMatrix()
+    
+
+class PushButton (Positionable):
+    pbW = 6*Positionable.scaleFactor
+    pbH = 6*Positionable.scaleFactor
+    pushedColor = 0
+    releasedColor = '#FFFFFF'
+    overColor = '#646464'
+    debounceDelay = 200
+
+    def __init__(self, x, y, actuatorFuncLis):
+        Positionable.__init__(self,x,y)
+        self.clickFuncLis = actuatorFuncLis
+        self.c = PushButton.releasedColor
+        self.lastClickTime = millis()
+        
+    def display(self):
+        if self.overButton(mouseX,mouseY):
+            if mousePressed:
+                self.c = PushButton.pushedColor
+                self.onClick()
+            else:
+                self.c = PushButton.overColor
+        else:
+            self.c = PushButton.releasedColor
+        pushMatrix()
+        translate(self.x*Positionable.scaleFactor,self.y*Positionable.scaleFactor)
+        rectMode(CORNER)
+        fill(self.c)
+        stroke(self.c)
+        rect(0,0,PushButton.pbW,PushButton.pbH)
+        popMatrix()
+
+    def overButton(self, mx, my):
+        xx = self.x*Positionable.scaleFactor
+        yy = self.y*Positionable.scaleFactor
+        return(mx >= xx and  mx <= xx+PushButton.pbW and my >= yy and my <= yy+PushButton.pbH)
+
+    def onClick(self):
+        if millis() > PushButton.debounceDelay + self.lastClickTime:
+            for f in self.clickFuncLis:
+                f()
+            self.lastClickTime = millis()
+    
+class LedPB:
+    ledVOffset = -6*Positionable.scaleFactor
+    ledHOffset = 3*Positionable.scaleFactor
+    hSpacing = 10
+    vSpacing = 22
+
+    def __init__(self,xx,yy,cc,func):
+        self.led = LED(LedPB.ledHOffset,LedPB.ledVOffset,cc)
+        self.pb = PushButton(xx,yy, [func, self.led.toggle])
+
+    def display(self):
+        pushMatrix()
+        translate(self.pb.x*Positionable.scaleFactor,self.pb.y*Positionable.scaleFactor)
+        self.led.display()
+        popMatrix()
+        self.pb.display()
+        
+class Selector(Positionable):
+    sW = 25*Positionable.scaleFactor
+    sH = 3*Positionable.scaleFactor
+    sR = 2*sH
+    bgC = '#646464'
+    black = '#000000'
+    white = '#FFFFFF'
+    debounceDelay = 200
+    
+    def __init__(self,x,y,cc,isHorizontal, func):
+        Positionable.__init__(self,x,y)
+        if isHorizontal:
+            self.w = Selector.sW
+            self.h = Selector.sH
+            self.origin = (0,self.h/2.0)
+            self.posV = [(i*self.w/4.0,self.h/2.0) for i in range(5)]
+        else:
+            self.w = Selector.sH
+            self.h = Selector.sW
+            self.origin = (self.w/2.0,0)
+            self.posV = [(self.w/2.0,i*self.h/4.0) for i in range(5)]
+        self.c = cc
+        self.posFunc = func
+        self.setPos(2)
+        
+    
+    def display(self):
+        """
+        if self.overButton(mouseX,mouseY):
+            if mousePressed:
+                self.c = PushButton.pushedColor
+                self.onClick()
+            else:
+                self.c = PushButton.overColor
+        else:
+            self.c = PushButton.releasedColor
+        """
+        pushMatrix()
+        translate(self.x*Positionable.scaleFactor,self.y*Positionable.scaleFactor)
+        rectMode(CORNER)
+        fill(Selector.bgC)
+        stroke(Selector.bgC)
+        rect(0,0,self.w,self.h) 
+        fill(self.c)
+        stroke(self.c)
+        ellipseMode(CENTER)
+        ellipse(self.posV[self.pos][0],self.posV[self.pos][1],Selector.sR,Selector.sR)
+        popMatrix()
+    
+    def setPos(self, p):
+        self.pos = p
+        self.posFunc(p)
+        
+    """
+    def overButton(self, mx, my):
+        xx = self.x*Positionable.scaleFactor
+        yy = self.y*Positionable.scaleFactor
+        return(mx >= xx and  mx <= xx+PushButton.pbW and my >= yy and my <= yy+PushButton.pbH)
+
+    def onClick(self):
+        if millis() > PushButton.debounceDelay + self.lastClickTime:
+            for f in self.clickFuncLis:
+                f()
+            self.lastClickTime = millis()
+    """
