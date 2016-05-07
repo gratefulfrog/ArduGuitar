@@ -33,3 +33,9 @@ def vSelect(p):
     config def:
     {(h,v): {'S': 'A|B|C', 'M' : (v,t), 'A' : {v,t), 'B' : {v,t), 'C' : {v,t), 'D' : {v,t), 'R' : tr},
 """
+configDict = {(0,0) : {'S' : 'A+B'},
+              (1,0) : {'S' : 'A|B'},
+              (2,0) : {'S' : 'A+B+C+D'},
+              (3,0) : {'S' : 'C|D'},
+              (4,0) : {'S' : 'C+D'}}
+              

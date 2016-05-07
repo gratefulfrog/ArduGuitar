@@ -33,8 +33,9 @@ def displayLEDPbs():
         
 def doLeds():
     global ld
-    [(ld.setV(i,i+3), ld.setT(i,i+2)) for i in range(5)]
-    ld.TR.set(7)
+    [ld.setT(i,0) for i in range(5)]
+    [ld.setV(i,0) for i in range(5)]
+    ld.TR.set(0)
     ld.display()
     
 def drawLCDPbs():
@@ -43,19 +44,35 @@ def drawLCDPbs():
 def setup():
     global lcdMgr
     background(bg)
-    doLeds()
-    lcdMgr = oClasses.LCDMgr('(A|B)',Classes.LCD(140,0),lcdPbs)
+    #doLeds()
+    lcdMgr = oClasses.LCDMgr(stubs.configDict[(2,0)]['S'],Classes.LCD(140,0),lcdPbs)
     setupLEDPbs()
-    
 
-lastIter = millis()
+lastSIter = 0
 iterDelay = 1000
 def iterSelect():
-    global lastIter
-    if(millis() > lastIter + iterDelay):
+    global lastSIter
+    if(millis() > lastSIter + iterDelay):
         sv.setPos((sv.pos + 1) %5)
         sh.setPos((sh.pos + 1) %5)
-        lastIter = millis()
+        lastSIter = millis()
+
+lastLIter = -5000
+vtrVal = 0
+def iterLeds():
+    global lastLIter
+    global ld
+    global vtrVal
+    
+    if(millis() > lastLIter + iterDelay):
+        for i in range(5):
+            ld.setT(i,vtrVal)
+            ld.setV(i,vtrVal)
+            None
+        ld.setTR(vtrVal)
+        lastLIter = millis()
+    vtrVal = (vtrVal  + 1) %6   
+    
     
 def draw():
     global lcdMgr
@@ -67,3 +84,4 @@ def draw():
     sh.display()
     sv.display()
     iterSelect()
+    iterLeds()

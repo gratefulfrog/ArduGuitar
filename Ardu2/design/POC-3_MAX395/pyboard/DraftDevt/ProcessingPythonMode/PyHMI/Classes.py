@@ -46,9 +46,12 @@ class LED (Positionable):
       return self
     
     def setMulti(self,v,colorC):
-      ns = v if colorC==LED.blue else (v<<1)
-      self.state = ns if self.state == 0 else ns | self.state;        
-      return self
+        # there are 2 cases, blue or green
+        if colorC == LED.blue:
+            self.state = (self.state & 2 )| v 
+        else: # it's green
+             self.state =  (self.state & 1) | (v<<1 )
+        return self
  
     def display(self):
       stroke(self.c[self.state])
@@ -88,7 +91,7 @@ class LedCross (Positionable):
     def __init__(self, x, y):
         Positionable.__init__(self,x,y)
         self.centerLed      = LED(0,0,LED.blueGreen)
-        self.verticalLeds   = [1,2,3]
+        self.verticalLeds   = [1,2]
         self.horizontalLeds = [1,2]
         #led positions are relative to x,y of middle led
         pos = 1;
