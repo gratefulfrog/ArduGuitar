@@ -1,5 +1,21 @@
+class Positionable:
+  scaleFactor =  4
+  def __init__(self, xx, yy):
+    self.x = xx
+    self.y = yy
+  
+  def  copy(self):
+    return Positionable(self.x, self.y)
 
-class SliderWithStops:
+class SliderWithStops (Positionable):
+    sW = 25*Positionable.scaleFactor
+    sH = 3*Positionable.scaleFactor
+    sR = 2*sH
+    bgC = '#646464'
+    black = '#000000'
+    white = '#FFFFFF'
+    debounceDelay = 200
+    
     normalColor = 40
     selectedColor = 0
     precision = 5
@@ -19,16 +35,17 @@ class SliderWithStops:
                     d = abs(vp-v)
         return res
     
-    def __init__(self,x,y,nbStops,initPos,vORh):
-        self.vORh = vORh
+    def __init__(self,x,y,cc,isHorizontal, func, nbStops=5,initPos=2):
+        self.isHorizontal = isHorizontal
         self.pos = initPos # an id <nbStops
+        self.nbStops = nbStops
         self.sliding = False
         self.targetPosVect = []
-        self.x = x + (self.pos*SliderWithStops.delta if self.vORh == 'h' else 0)
-        self.y = y  + (self.pos*SliderWithStops.delta if self.vORh == 'v' else 0)
+        self.x = x + (self.pos*SliderWithStops.delta if self.isHorizontal else 0)
+        self.y = y  + (self.pos*SliderWithStops.delta if not self.isHorizontal else 0)
         for i in range(nbStops):
-            if vORh == 'v':
-                self.targetPosVect += [(x,y+i*SliderWithStops.delta)]
+            if self.isHorizontal:
+                self.targetPosVect += [(x,y+i*SliderWithStops.sw/delta)]
             else:
                 self.targetPosVect += [(x+i*SliderWithStops.delta,y)]
     
@@ -93,4 +110,3 @@ def draw():
     background(80)
     swp.draw()
     swpH.draw()
-

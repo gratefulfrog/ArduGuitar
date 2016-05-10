@@ -7,7 +7,8 @@ heightReal = 220;
 bg = 40
 
 def settings():
-  size(int(round(widthReal*Classes.Positionable.scaleFactor)),int(round(heightReal*Classes.Positionable.scaleFactor)))
+  size(int(round(widthReal*Classes.Positionable.scaleFactor)),
+       int(round(heightReal*Classes.Positionable.scaleFactor)))
 
 ld = Classes.LedDisplay(70,40)
 lcdPbs = [Classes.PushButton(167 + i*14,30, None) for i in range (2)]
@@ -17,6 +18,7 @@ lcdMgr = None
 
 sh = Classes.Selector(185, 52,Classes.Selector.white,True,stubs.hSelect)
 sv = Classes.Selector(220, 41,Classes.Selector.black,False,stubs.vSelect)
+
 
 def setupLEDPbs():
     global ledPbs
@@ -44,7 +46,7 @@ def drawLCDPbs():
 def setup():
     global lcdMgr
     background(bg)
-    #doLeds()
+    doLeds()
     lcdMgr = oClasses.LCDMgr(stubs.configDict[(2,0)]['S'],Classes.LCD(140,0),lcdPbs)
     setupLEDPbs()
 
@@ -83,5 +85,5 @@ def draw():
     lcdMgr.display()
     sh.display()
     sv.display()
-    iterSelect()
-    iterLeds()
+    #iterSelect()
+    #iterLeds()

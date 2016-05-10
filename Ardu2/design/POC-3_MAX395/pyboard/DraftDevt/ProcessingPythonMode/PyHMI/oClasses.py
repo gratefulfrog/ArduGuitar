@@ -56,7 +56,7 @@ class LCDMgr:
     cursorStart = 0
     eoLine = 15
     lineLength = 16
-    letters = ['A','B','C','D']
+    letters = ['A','a','B','b','C','c','D','d']  # lower case => inverted
     symobls = ['(',')','|','+']
 
     def initChars():
@@ -131,7 +131,9 @@ class LCDMgr:
         #print('advanceCursor')
         self.cursor +=1
         self.charPtr = 0
-        self.lettersLeft = [x for x in self.lettersLeft if x not in self.displayCharList[0:self.cursor]]
+        self.lettersLeft = [x for x in self.lettersLeft 
+                            if x.upper() not in self.displayCharList[0:self.cursor] and 
+                               x.lower() not in self.displayCharList[0:self.cursor]]
         self.setSList()
         self.updateEditDisplay()
 
@@ -199,4 +201,3 @@ class LCDMgr:
         #self.updateDisplay()
 
             
-
