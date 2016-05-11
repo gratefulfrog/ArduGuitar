@@ -1,4 +1,4 @@
-
+ 
 redLines = True
 
 def verticalLines(s):
