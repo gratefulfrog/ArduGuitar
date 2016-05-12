@@ -3,7 +3,7 @@
 import Classes, stubs
 
 # sutbs
-class Q:
+class Q: 
     def __init__(self):
         self.q=[]
     def push(self,e):

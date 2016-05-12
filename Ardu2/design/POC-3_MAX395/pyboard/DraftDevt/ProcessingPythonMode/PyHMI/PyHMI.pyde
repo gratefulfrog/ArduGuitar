@@ -2,7 +2,7 @@
 
 import Classes, oClasses, stubs, TrackBall
 
-widthReal =  300  # millimeters
+widthReal =  300  # millimeters 
 heightReal = 220;
 bg = 40
 
@@ -13,9 +13,7 @@ def settings():
 ld = None 
 lcdPbs = None 
 ledPbs = None 
-
 lcdMgr = None
-
 sh = None
 sv = None
 tb = None
@@ -59,7 +57,7 @@ def setup():
     setupLEDPbs()
     sh = Classes.Selector(185, 52,Classes.Selector.white,True,stubs.hSelect)
     sv = Classes.Selector(220, 41,Classes.Selector.black,False,stubs.vSelect)
-    tb = TrackBall.TrackBall(185,100, stubs.hTBFunc,stubs.vTBFunc)
+    tb = TrackBall.TrackBall(170,80, stubs.hTBFunc,stubs.vTBFunc,bg)
 
 lastSIter = 0
 iterDelay = 1000

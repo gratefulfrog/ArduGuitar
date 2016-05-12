@@ -1,6 +1,13 @@
  
 redLines = True
 
+def outline():
+    stroke('#FF0000')
+    #stroke(255)
+    fill(40)
+    ellipseMode(CENTER)
+    ellipse((width-1)/2,(height-1)/2,(width-1),(width-1))
+            
 def verticalLines(s):
     stroke(255)
     h=height-1
@@ -35,7 +42,7 @@ def horizontalLines(s):
      
 def setup():
     size(301,301)
-    background(0)
+    background(40)
     verticalLines(0)
     horizontalLines(0)
     #mSleep(1000)
@@ -61,6 +68,7 @@ def incH():
             incHNeg()
         else:
             hSteps = map(mouseX-mouseStartX,0,width-1,0,18)
+            #print('hSteps:\t' + str(hSteps))
             mouseStartX = mouseX
             if hSteps>0:
                 hI = (hI+1)%10
@@ -77,6 +85,7 @@ def incHNeg():
             incH()
         else:
             hSteps = map(mouseStartX-mouseX,0,width-1,0,18)
+            #print('hSteps:\t' + str(hSteps))
             mouseStartX = mouseX
             if hSteps>0:
                 hI = 9 if hI==0 else hI-1
@@ -131,11 +140,13 @@ def mouseOffTarget():
     return sq(mouseX-oX) + sq(mouseY-oY) > sq((width-1)/2)
 
 def draw():
-    background(0)
+    background(40)
     incH()
     incV()
+    outline()
     verticalLines(hI)
     horizontalLines(vI)
+    #outline()
     #horizontalLines(0)
     mSleep(50)
 

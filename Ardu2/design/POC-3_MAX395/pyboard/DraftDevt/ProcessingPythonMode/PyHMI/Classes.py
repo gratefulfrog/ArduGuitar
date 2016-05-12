@@ -3,11 +3,11 @@ class Positionable:
   def __init__(self, xx, yy):
     self.x = xx
     self.y = yy
-  
+   
   def  copy(self):
     return Positionable(self.x, self.y)
 
-class LED (Positionable):
+class LED (Positionable): 
     ledLedSpacing    = 10 ## millimetes center/center
     ledButtonSpacing = 8
     #nbMultiColors    = 4 
