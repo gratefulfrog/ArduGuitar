@@ -70,9 +70,9 @@ def incHNeg():
     global hI
     global hSteps
     global mouseStartX
-    if mouseOffTarget():
-            return
     if mousePressed:
+        if mouseOffTarget():
+            return
         if mouseX-mouseStartX >0:
             incH()
         else:

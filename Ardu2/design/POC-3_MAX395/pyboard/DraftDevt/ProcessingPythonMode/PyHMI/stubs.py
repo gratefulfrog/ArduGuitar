@@ -2,6 +2,12 @@
 import random
 
 
+#utility active sleep function
+def mSleep(msecs):
+    now = millis()
+    while millis()-now < msecs:
+        None
+
 # pushbutton funcs
 def r():
     print('RED')
@@ -28,6 +34,11 @@ def hSelect(p):
 def vSelect(p):
     print('Vertical Selector Func called on pos:\t' + str(p))
 
+def hTBFunc(val):
+    print('Horizontal Trackball Func called on dX:\t' + str(val))
+
+def vTBFunc(val):
+    print('Vertical Trackball Func called on dX:\t' + str(val))
 
 
 """
@@ -39,4 +50,3 @@ configDict = {(0,0) : {'S' : 'A+B'},
               (2,0) : {'S' : 'A+B+C+D'},
               (3,0) : {'S' : 'C|D'},
               (4,0) : {'S' : 'C+D'}}
-

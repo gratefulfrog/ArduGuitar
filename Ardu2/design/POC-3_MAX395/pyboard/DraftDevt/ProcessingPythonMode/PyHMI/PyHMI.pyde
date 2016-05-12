@@ -1,6 +1,6 @@
 ## HMI mockup python version
 
-import Classes, oClasses, stubs
+import Classes, oClasses, stubs, TrackBall
 
 widthReal =  300  # millimeters
 heightReal = 220;
@@ -10,15 +10,15 @@ def settings():
   size(int(round(widthReal*Classes.Positionable.scaleFactor)),
        int(round(heightReal*Classes.Positionable.scaleFactor)))
 
-ld = Classes.LedDisplay(70,40)
-lcdPbs = [Classes.PushButton(167 + i*14,30, None) for i in range (2)]
-ledPbs = [0,1,2,3]
+ld = None 
+lcdPbs = None
+ledPbs = None 
 
 lcdMgr = None
 
-sh = Classes.Selector(185, 52,Classes.Selector.white,True,stubs.hSelect)
-sv = Classes.Selector(220, 41,Classes.Selector.black,False,stubs.vSelect)
-
+sh = None
+sv = None
+tb = None
 
 def setupLEDPbs():
     global ledPbs
@@ -35,6 +35,7 @@ def displayLEDPbs():
         
 def doLeds():
     global ld
+    ld = Classes.LedDisplay(70,40)
     [ld.setT(i,0) for i in range(5)]
     [ld.setV(i,0) for i in range(5)]
     ld.TR.set(0)
@@ -45,10 +46,20 @@ def drawLCDPbs():
 
 def setup():
     global lcdMgr
+    global tb
+    global lcdPbs
+    global ledPbs
+    global sv
+    global sh
     background(bg)
     doLeds()
+    lcdPbs = [Classes.PushButton(167 + i*14,30, None) for i in range (2)]
+    ledPbs = [0,1,2,3]
     lcdMgr = oClasses.LCDMgr(stubs.configDict[(2,0)]['S'],Classes.LCD(140,0),lcdPbs)
     setupLEDPbs()
+    sh = Classes.Selector(185, 52,Classes.Selector.white,True,stubs.hSelect)
+    sv = Classes.Selector(220, 41,Classes.Selector.black,False,stubs.vSelect)
+    tb = TrackBall.TrackBall(185,100, stubs.hTBFunc,stubs.vTBFunc)
 
 lastSIter = 0
 iterDelay = 1000
@@ -85,5 +96,6 @@ def draw():
     lcdMgr.display()
     sh.display()
     sv.display()
+    tb.display()
     #iterSelect()
     #iterLeds()
