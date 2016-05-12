@@ -10,7 +10,7 @@ class Positionable:
 class LED (Positionable):
     ledLedSpacing    = 10 ## millimetes center/center
     ledButtonSpacing = 8
-    #nbMultiColors    = 4
+    #nbMultiColors    = 4 
     blue      = '#0000FF'
     green     = '#00FF00'
     blueGreen = '#00FFFF'

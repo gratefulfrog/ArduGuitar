@@ -11,7 +11,7 @@ def settings():
        int(round(heightReal*Classes.Positionable.scaleFactor)))
 
 ld = None 
-lcdPbs = None
+lcdPbs = None 
 ledPbs = None 
 
 lcdMgr = None

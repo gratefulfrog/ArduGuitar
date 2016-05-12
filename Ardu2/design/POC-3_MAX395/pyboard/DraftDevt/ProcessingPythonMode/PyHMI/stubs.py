@@ -13,7 +13,7 @@ def r():
     print('RED')
 def y():
     print('YELLOW')
-def g():
+def g(): 
     print('GREEN')
 def b():
     print('BLUE')

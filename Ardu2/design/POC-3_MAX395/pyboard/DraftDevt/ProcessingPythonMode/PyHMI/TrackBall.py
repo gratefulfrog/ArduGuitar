@@ -16,7 +16,7 @@ class TrackBall(Classes.Positionable):
         self.yFunc = yFunc
         self.mouseStartX = 0
         self.mouseEndX = 0
-        self.startPointX = 0
+        self.startPointX = 0 
         self.mouseStartY = 0
         self.mouseEndY = 0
         self.startPointY = 0
@@ -116,4 +116,3 @@ class TrackBall(Classes.Positionable):
         #print('mouseX:\t' + str(mouseX))
         #print('oX:\t' + str(oX))
         return res
-

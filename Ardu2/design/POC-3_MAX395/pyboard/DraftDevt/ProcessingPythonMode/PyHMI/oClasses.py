@@ -16,7 +16,7 @@ class Thing:
         self.yes = t
 
     def pollFunc(self):
-        return (self.name, self.yes)
+        return (self.name, self.yes) 
 
 # end stubs
 
