@@ -319,9 +319,9 @@ class LedPBArray:
         for i in range(2):
             for j in range(2):
                 self.ledPbs[ind] = LedPB(x+j*LedPB.hSpacing, 
-                                    y+i*LedPB.vSpacing, 
-                                    LED.LEDColors[LedPBArray.colInd[ind]],
-                                    stubs.lpbFuncs[ind])
+                                         y+i*LedPB.vSpacing, 
+                                         LED.LEDColors[LedPBArray.colInd[ind]],
+                                         stubs.lpbFuncs[ind])
                 ind+=1
     def display(self):
         for lpb in self.ledPbs:
