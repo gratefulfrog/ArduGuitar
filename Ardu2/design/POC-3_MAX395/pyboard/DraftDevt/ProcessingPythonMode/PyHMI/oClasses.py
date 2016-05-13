@@ -72,11 +72,11 @@ class LCDMgr:
         self.lcd.setLn(0,self.stateString)
         self.lcd.setLn(1,'')
 
-    def __init__(self,state,lcdd, pbs):
+    def __init__(self,state,lcdd):
         self.lcd = lcdd
-        self.lcdPbs = pbs
-        self.lcdPbs[0].clickFuncLis = [self.onLeftButton]
-        self.lcdPbs[1].clickFuncLis = [self.onRightButton]
+        self.lcdPba = Classes.LCDPBArray()
+        self.lcdPba.lcdPbs[0].clickFuncLis = [self.onLeftButton]
+        self.lcdPba.lcdPbs[1].clickFuncLis = [self.onRightButton]
         self.stateString = state
         self.lcd.setLn(0,self.stateString)
         self.lcd.setLn(1,'')
@@ -84,6 +84,7 @@ class LCDMgr:
         
     def display(self):
         self.lcd.display()
+        self.lcdPba.display()
 
     def setSList(self):
         #print('setSList')

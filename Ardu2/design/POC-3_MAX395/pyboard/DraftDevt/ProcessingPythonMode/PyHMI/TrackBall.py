@@ -2,14 +2,14 @@ import Classes
 import stubs
 
 class TrackBall(Classes.Positionable):
-    radius = 35*Classes.Positionable.scaleFactor
+    radius = 22*Classes.Positionable.scaleFactor
     lineColor = '#FFFFFF'
     markColor = '#FF0000' 
     delayMS = 50  # time to wait between line draws
     minL = 3 # min line length
     redLines=True
     
-    def __init__(self,x,y, xFunc, yFunc,bg):
+    def __init__(self,(x,y), xFunc, yFunc,bg):
         # x,y func should take a delta distance as argume
         Classes.Positionable.__init__(self,x,y)
         self.xFunc = xFunc

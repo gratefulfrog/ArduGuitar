@@ -1,3 +1,5 @@
+import stubs
+
 class Positionable:
   scaleFactor =  4
   def __init__(self, xx, yy):
@@ -82,7 +84,6 @@ class LedLine(Positionable):
         self.leds[i].toggle()
         return self
 
-
 class LedCross (Positionable):
     # cross of horizontal green, vertical blue, central bluegreen leds
   
@@ -132,7 +133,7 @@ class LedDisplay(Positionable):
     shortSpacing = 30  # ends x spacing
     nbVTs = 5
 
-    def __init__(self, x, y):
+    def __init__(self, (x, y)):
         Positionable.__init__(self,x,y)
         self.MVT =  LedCross(-(LedDisplay.shortSpacing + LedDisplay.stdSpacing/2),0);
         self.AVT =  LedCross(-LedDisplay.stdSpacing/2,-LedDisplay.stdSpacing/2);
@@ -167,7 +168,7 @@ class LCD(Positionable):
     lcdH = 25*Positionable.scaleFactor
     lcdBG = '#E3DE42'
     
-    def __init__(self,x,y):
+    def __init__(self,(x,y)):
         Positionable.__init__(self,x,y)
         self.lcdFont = createFont('Courier', LCD.lcdH/3.5)
         textFont(self.lcdFont)
@@ -190,7 +191,8 @@ class LCD(Positionable):
         stroke(LED.blue)
         fill(LED.blue)
         textFont(self.lcdFont)
-        text(self.lns[0], 0,LCD.lcdH/3.5+10)
+        textAlign(LEFT,BOTTOM)
+        text(self.lns[0], 0,LCD.lcdH/3.5+10)        
         text(self.lns[1], 0,LCD.lcdH-20)
         popMatrix()
     
@@ -236,7 +238,19 @@ class PushButton (Positionable):
             for f in self.clickFuncLis:
                 f()
             self.lastClickTime = millis()
-    
+
+class LCDPBArray:
+    colInd = [4,5,2,1]
+    oX = 167
+    xOffSet = 14
+    oY = 35
+    def __init__(self):
+        self.lcdPbs = [PushButton(LCDPBArray.oX + i*LCDPBArray.xOffSet,LCDPBArray.oY, None) for i in range (2)]
+        
+    def display(self):
+        for pb in self.lcdPbs:
+            pb.display()    
+            
 class LedPB:
     ledVOffset = -6*Positionable.scaleFactor
     ledHOffset = 3*Positionable.scaleFactor
@@ -253,6 +267,25 @@ class LedPB:
         self.led.display()
         popMatrix()
         self.pb.display()
+
+class LedPBArray:
+    colInd = [4,5,2,1]
+    oX = 140
+    oY = 51
+    def __init__(self,(x,y)):
+        self.ledPbs = [None for i in range(4)]
+        ind=0
+        for i in range(2):
+            for j in range(2):
+                self.ledPbs[ind] = LedPB(x+j*LedPB.hSpacing, 
+                                    y+i*LedPB.vSpacing, 
+                                    LED.LEDColors[LedPBArray.colInd[ind]],
+                                    stubs.lpbFuncs[ind])
+                ind+=1
+    def display(self):
+        for lpb in self.ledPbs:
+            lpb.display()
+                
         
 class Selector(Positionable):
     sW = 25*Positionable.scaleFactor
@@ -264,7 +297,7 @@ class Selector(Positionable):
     selectedColor = '#FC6608'
     clickPrecision = 5
 
-    def __init__(self,x,y,cc,isHorizontal, func, nbStops=5, initPos=0):
+    def __init__(self,(x,y),cc,isHorizontal, func, nbStops=5, initPos=0):
         Positionable.__init__(self,x,y)
         self.c = cc
         self.isHorizontal = isHorizontal
