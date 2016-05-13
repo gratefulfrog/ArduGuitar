@@ -1,8 +1,8 @@
-import Classes 
+from Classes import Positionable, MouseLockable
 import stubs
 
-class TrackBall(Classes.Positionable):
-    radius = 22*Classes.Positionable.scaleFactor
+class TrackBall(Positionable,MouseLockable):
+    radius = 22*Positionable.scaleFactor
     lineColor = '#FFFFFF'
     markColor = '#FF0000' 
     delayMS = 50  # time to wait between line draws
@@ -11,7 +11,8 @@ class TrackBall(Classes.Positionable):
     
     def __init__(self,(x,y), xFunc, yFunc,bg):
         # x,y func should take a delta distance as argume
-        Classes.Positionable.__init__(self,x,y)
+        Positionable.__init__(self,x,y)
+        MouseLockable.__init__(self)
         self.xFunc = xFunc
         self.yFunc = yFunc
         self.bg = bg
@@ -32,7 +33,7 @@ class TrackBall(Classes.Positionable):
         
     def display(self):
         pushMatrix()
-        translate(self.x*Classes.Positionable.scaleFactor,self.y*Classes.Positionable.scaleFactor)
+        translate(self.x*Positionable.scaleFactor,self.y*Positionable.scaleFactor)
         self.incH(True)
         self.incH(False)
         self.outline()
@@ -77,6 +78,8 @@ class TrackBall(Classes.Positionable):
             self.startPointY = mouseY
         else:
             self.sliding=False
+            
+    def slidingHelper(self):
             self.mouseEndX = mouseX
             self.mouseEndY = mouseY
             dX = self.mouseEndX - self.startPointX
@@ -86,12 +89,11 @@ class TrackBall(Classes.Positionable):
             dT = round(map(dY,-w,w,-5,5))
             if dV!=0:
                 self.xFunc(dV)
+                self.startPointX= self.mouseEndX
             if dT!=0:
                 self.yFunc(dT)
-            
-            #print('dX,dY:\t' + str(dX) +','+str(dY))
-            #print('dV,dT:\t' + str(dV) +','+str(dT))
-            
+                self.startPointY= self.mouseEndY
+           
     def getSet(unused,isHorizontal):
         if isHorizontal:
             return (mouseY, 'self.mouseStartY','self.hSteps','self.hI')
@@ -99,9 +101,9 @@ class TrackBall(Classes.Positionable):
             return  (mouseX, 'self.mouseStartX','self.vSteps','self.vI')
         
     def incH(self,isHorizontal=False):
-        if self.mouseOffTarget():
-            return
         if mousePressed:
+            if not self.isOver():
+                return
             if not self.sliding:
                 self.setSliding(True)
             (mouse,mouseStartS,StepS,IS) = self.getSet(isHorizontal)
@@ -119,14 +121,14 @@ class TrackBall(Classes.Positionable):
                     #self.hI= (9 if self.hI==0 else self.hI-1)
                 exec(StepS  +'-=1')
                 #self.hSteps -=1
+                self.slidingHelper();
         elif self.sliding:
+            # we are over and locked and release mouse
             self.setSliding(False)
+            self.unlock()
 
-    def mouseOffTarget(self):
-        oX = TrackBall.radius+self.x*Classes.Positionable.scaleFactor
-        oY = TrackBall.radius+self.y*Classes.Positionable.scaleFactor
-        res= sq(mouseX-oX) + sq(mouseY-oY) > sq(TrackBall.radius)
-        #print('mouse off target:\t' +str(res))
-        #print('mouseX:\t' + str(mouseX))
-        #print('oX:\t' + str(oX))
+    def isOver(self):
+        oX = TrackBall.radius+self.x*Positionable.scaleFactor
+        oY = TrackBall.radius+self.y*Positionable.scaleFactor
+        res= (sq(mouseX-oX) + sq(mouseY-oY) <= sq(TrackBall.radius)) and self.lock()  
         return res

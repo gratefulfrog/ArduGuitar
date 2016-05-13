@@ -1,7 +1,7 @@
-from Classes import Positionable
+from Classes import Positionable,MouseLockable
 import stubs
 
-class SplitPot(Positionable):
+class SplitPot(Positionable,MouseLockable):
     # name display
     volT='V'
     toneT='T'
@@ -20,6 +20,7 @@ class SplitPot(Positionable):
 
     def __init__(self,x,y,name,vtFuncTuple,isToneRange=False):
         Positionable.__init__(self,x,y)
+        MouseLockable.__init__(self)
         self.nameT = name
         self.onNewVolFunc  = vtFuncTuple[0]
         self.onNewToneFunc = vtFuncTuple[1]
@@ -79,6 +80,7 @@ class SplitPot(Positionable):
             # we had begun a mouse press event, and released the mouse
             self.invertFill()
             self.contact=False
+            self.unlock()
             print('Clear!')
     
     def overVy(self):
@@ -93,7 +95,7 @@ class SplitPot(Positionable):
     def isOver(self):
         self.overVy()
         self.overTy()
-        return (self.overX() and (self.oT or self.oV))
+        return (self.overX() and self.lock() and (self.oT or self.oV))
 
     def invertFill(self):
         temp = self.strokeC

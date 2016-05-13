@@ -9,6 +9,24 @@ class Positionable:
   def  copy(self):
     return Positionable(self.x, self.y)
 
+class MouseLockable:
+    hasMouse = None
+    
+    def __init__(self):
+        self.id = stubs.IDs.next()
+        
+    def lock(self):
+        # return True if lock was obtaine False otherwise
+        if not (MouseLockable.hasMouse == None or MouseLockable.hasMouse == self.id):
+            return False
+        else:
+            MouseLockable.hasMouse = self.id
+            return True
+        
+    def unlock(self):
+        if MouseLockable.hasMouse == self.id:
+            MouseLockable.hasMouse = None
+
 class LED (Positionable): 
     ledLedSpacing    = 10 ## millimetes center/center
     ledButtonSpacing = 8
@@ -197,7 +215,7 @@ class LCD(Positionable):
         popMatrix()
     
 
-class PushButton (Positionable):
+class PushButton (Positionable,MouseLockable):
     pbW = 6*Positionable.scaleFactor
     pbH = 6*Positionable.scaleFactor
     pushedColor = 0
@@ -207,19 +225,21 @@ class PushButton (Positionable):
 
     def __init__(self, x, y, actuatorFuncLis):
         Positionable.__init__(self,x,y)
+        MouseLockable.__init__(self)
         self.clickFuncLis = actuatorFuncLis
         self.c = PushButton.releasedColor
         self.lastClickTime = millis()
         
     def display(self):
         if self.overButton(mouseX,mouseY):
-            if mousePressed:
+            if mousePressed :
                 self.c = PushButton.pushedColor
                 self.onClick()
             else:
                 self.c = PushButton.overColor
         else:
             self.c = PushButton.releasedColor
+            self.unlock()
         pushMatrix()
         translate(self.x*Positionable.scaleFactor,self.y*Positionable.scaleFactor)
         rectMode(CORNER)
@@ -231,7 +251,7 @@ class PushButton (Positionable):
     def overButton(self, mx, my):
         xx = self.x*Positionable.scaleFactor
         yy = self.y*Positionable.scaleFactor
-        return(mx >= xx and  mx <= xx+PushButton.pbW and my >= yy and my <= yy+PushButton.pbH)
+        return(mx > xx and  mx < xx+PushButton.pbW and my > yy and my < yy+PushButton.pbH and self.lock())
 
     def onClick(self):
         if millis() > PushButton.debounceDelay + self.lastClickTime:
@@ -287,7 +307,7 @@ class LedPBArray:
             lpb.display()
                 
         
-class Selector(Positionable):
+class Selector(Positionable,MouseLockable):
     sW = 25*Positionable.scaleFactor
     sH = 3*Positionable.scaleFactor
     sR = 2*sH  # radius
@@ -299,6 +319,7 @@ class Selector(Positionable):
 
     def __init__(self,(x,y),cc,isHorizontal, func, nbStops=5, initPos=0):
         Positionable.__init__(self,x,y)
+        MouseLockable.__init__(self)
         self.c = cc
         self.isHorizontal = isHorizontal
         self.posFunc = func
@@ -345,9 +366,9 @@ class Selector(Positionable):
         return res
     
     def setPos(self, pIndex):
-        self.pos = pIndex
-        self.posFunc(self.pos)                    
-            
+        if self.pos != pIndex:
+            self.pos = pIndex
+            self.posFunc(self.pos)                        
             
     def displaySlider(self):
         fill(self.c)
@@ -367,11 +388,12 @@ class Selector(Positionable):
         translate(self.x*Positionable.scaleFactor,self.y*Positionable.scaleFactor)
         if mousePressed and self.isOverS():
             self.sliding = True
-        elif self.sliding and mousePressed:
-            None
-        elif self.sliding and not mousePressed:
-            self.sliding  = False
+        if self.sliding:
             self.setPos(self.getClosestPos())
+        if not mousePressed:
+            self.sliding  = False
+            self.unlock()
+            
         self.displayRect()
         if self.sliding:
             self.displaySliding()
@@ -396,4 +418,4 @@ class Selector(Positionable):
                mouseY <= (sY + delta))
         
         #print('Over: ' + str(res))
-        return res
+        return res and self.lock()

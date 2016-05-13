@@ -8,6 +8,11 @@ def mSleep(msecs):
     while millis()-now < msecs:
         None
 
+def genIDs(maxi):
+    for i in range(maxi):
+        (yield i)
+IDs = genIDs(25)
+
 # pushbutton funcs
 def r():
     print('RED')
@@ -21,12 +26,12 @@ def b():
 lpbFuncs = [r,y,g,b]
 
 def validateConf(conf):
-    if random.randint(0,1):
+    #if random.randint(0,1):
         print(conf + ' : OK!')
         return True
-    else:
-        print(conf + ' : NOT OK!')
-        return False
+    #else:
+    #    print(conf + ' : NOT OK!')
+    #    return False
 
 def hSelect(p):
     print('Horizontal Selector Func called on pos:\t' + str(p))
