@@ -26,7 +26,7 @@ class MouseLockable:
     def unlock(self):
         if MouseLockable.hasMouse == self.id:
             MouseLockable.hasMouse = None
-
+            
 class LED (Positionable): 
     ledLedSpacing    = 10 ## millimetes center/center
     ledButtonSpacing = 8
@@ -231,15 +231,18 @@ class PushButton (Positionable,MouseLockable):
         self.lastClickTime = millis()
         
     def display(self):
-        if self.overButton(mouseX,mouseY):
-            if mousePressed :
+        if self.isOver():
+            # we have the lock and we are over
+            if mousePressed and self.lock():
                 self.c = PushButton.pushedColor
                 self.onClick()
             else:
+                self.unlock()
                 self.c = PushButton.overColor
         else:
             self.c = PushButton.releasedColor
             self.unlock()
+        #self.mouseTest()
         pushMatrix()
         translate(self.x*Positionable.scaleFactor,self.y*Positionable.scaleFactor)
         rectMode(CORNER)
@@ -247,11 +250,29 @@ class PushButton (Positionable,MouseLockable):
         stroke(self.c)
         rect(0,0,PushButton.pbW,PushButton.pbH)
         popMatrix()
+        
+        
+    def mouseTest(self):
+        if not self.isOver():
+            self.c=PushButton.releasedColor
+            #self.unlock()
+            return
+            # we are over with a lock
+        if mousePressed:
+            #over with a lock and mouse is pressed
+            self.c = PushButton.pushedColor
+            self.onClick()
+        else:
+            self.c = PushButton.overColor
+            # we were previously over, with lock but no longer over,
+            # over with lock but not pressed
+        self.c = PushButton.releasedColor
+        self.unlock()
 
-    def overButton(self, mx, my):
+    def isOver(self):
         xx = self.x*Positionable.scaleFactor
         yy = self.y*Positionable.scaleFactor
-        return(mx > xx and  mx < xx+PushButton.pbW and my > yy and my < yy+PushButton.pbH and self.lock())
+        return(mouseX > xx and  mouseX < xx+PushButton.pbW and mouseY > yy and mouseY < yy+PushButton.pbH) #and self.lock())
 
     def onClick(self):
         if millis() > PushButton.debounceDelay + self.lastClickTime:

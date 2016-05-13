@@ -95,7 +95,7 @@ class SplitPot(Positionable,MouseLockable):
     def isOver(self):
         self.overVy()
         self.overTy()
-        return (self.overX() and self.lock() and (self.oT or self.oV))
+        return (self.overX() and (self.oT or self.oV) and self.lock())
 
     def invertFill(self):
         temp = self.strokeC
