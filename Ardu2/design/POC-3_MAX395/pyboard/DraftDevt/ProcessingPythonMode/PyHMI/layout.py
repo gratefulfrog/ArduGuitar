@@ -1,7 +1,7 @@
 class layout:
     #sceen dimensions
-    widthReal =  250  # millimeters 
-    heightReal = 178
+    widthReal =  233  # millimeters 
+    heightReal = 175
     
     # screen background
     bg = 40
