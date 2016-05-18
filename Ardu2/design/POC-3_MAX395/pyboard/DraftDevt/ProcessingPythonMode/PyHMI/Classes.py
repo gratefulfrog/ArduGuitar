@@ -93,7 +93,8 @@ class LedLine(Positionable):
             self.leds[i].display()
         popMatrix()
         
-    def set(self, v):
+    def setT(self, v):
+        print(v)
         for res  in map (lambda i,v:(i,v), range(3),[v&1,(v&2)>>1,(v&4)>>2]):
             self.leds[res[0]].set(res[1])
         return self
@@ -159,7 +160,7 @@ class LedDisplay(Positionable):
         self.CVT =  LedCross(LedDisplay.stdSpacing/2,-LedDisplay.stdSpacing/2);
         self.DVT =  LedCross(LedDisplay.stdSpacing/2,LedDisplay.stdSpacing/2);
         self.TR =   LedLine(LedDisplay.shortSpacing +LedDisplay.stdSpacing/2,0);  
-        self.allVTs =[self.MVT,self.AVT,self.BVT,self.CVT,self.DVT]
+        self.allVTs =[self.MVT,self.AVT,self.BVT,self.CVT,self.DVT,self.TR]
     
     def display(self):
         pushMatrix()
@@ -170,7 +171,8 @@ class LedDisplay(Positionable):
         popMatrix()
 
     def setV(self, index, v):
-        self.allVTs[index].setV(v)
+        if index < len(self.allVTs)-1:
+            self.allVTs[index].setV(v)
         return self
   
     def setT(self, index,  v):
@@ -223,10 +225,11 @@ class PushButton (Positionable,MouseLockable):
     overColor = '#646464'
     debounceDelay = 200
 
-    def __init__(self, x, y, actuatorFuncLis):
+    def __init__(self, x, y, q, actuatorFuncLis):
         Positionable.__init__(self,x,y)
         MouseLockable.__init__(self)
-        self.clickFuncLis = actuatorFuncLis
+        self.q = q
+        self.clickFuncLis = [self.push] + actuatorFuncLis if actuatorFuncLis else [] 
         self.c = PushButton.releasedColor
         self.lastClickTime = millis()
         
@@ -279,14 +282,17 @@ class PushButton (Positionable,MouseLockable):
             for f in self.clickFuncLis:
                 f()
             self.lastClickTime = millis()
+    
+    def push(self):
+        self.q.push((0x40 | self.id)<<8)
 
 class LCDPBArray:
     colInd = [4,5,2,1]
     oX = 167
     xOffSet = 14
     oY = 35
-    def __init__(self):
-        self.lcdPbs = [PushButton(LCDPBArray.oX + i*LCDPBArray.xOffSet,LCDPBArray.oY, None) for i in range (2)]
+    def __init__(self,q):
+        self.lcdPbs = [PushButton(LCDPBArray.oX + i*LCDPBArray.xOffSet,LCDPBArray.oY, q, None) for i in range (2)]
         
     def display(self):
         for pb in self.lcdPbs:
@@ -298,9 +304,9 @@ class LedPB:
     hSpacing = 10
     vSpacing = 22
 
-    def __init__(self,xx,yy,cc,func):
+    def __init__(self,xx,yy,cc,q,func):
         self.led = LED(LedPB.ledHOffset,LedPB.ledVOffset,cc)
-        self.pb = PushButton(xx,yy, [func, self.led.toggle])
+        self.pb = PushButton(xx,yy, q, [func, self.led.toggle])
 
     def display(self):
         pushMatrix()
@@ -313,7 +319,7 @@ class LedPBArray:
     colInd = [4,5,2,1]
     oX = 140
     oY = 51
-    def __init__(self,(x,y)):
+    def __init__(self,(x,y),q):
         self.ledPbs = [None for i in range(4)]
         ind=0
         for i in range(2):
@@ -321,6 +327,7 @@ class LedPBArray:
                 self.ledPbs[ind] = LedPB(x+j*LedPB.hSpacing, 
                                          y+i*LedPB.vSpacing, 
                                          LED.LEDColors[LedPBArray.colInd[ind]],
+                                         q,
                                          stubs.lpbFuncs[ind])
                 ind+=1
     def display(self):
@@ -338,12 +345,12 @@ class Selector(Positionable,MouseLockable):
     selectedColor = '#FC6608'
     clickPrecision = 5
 
-    def __init__(self,(x,y),cc,isHorizontal, func, nbStops=5, initPos=0):
+    def __init__(self,(x,y),cc,isHorizontal, q, nbStops=5, initPos=0):
         Positionable.__init__(self,x,y)
         MouseLockable.__init__(self)
         self.c = cc
         self.isHorizontal = isHorizontal
-        self.posFunc = func
+        self.q = q
         self.nbStops = nbStops
         self.pos = initPos
         self.sliding = False
@@ -389,7 +396,7 @@ class Selector(Positionable,MouseLockable):
     def setPos(self, pIndex):
         if self.pos != pIndex:
             self.pos = pIndex
-            self.posFunc(self.pos)                        
+            self.q.push( (0X20<<8) | (((self.pos)<< 4 | 0xF) if self.isHorizontal else (0xF0 | self.pos)))                  
             
     def displaySlider(self):
         fill(self.c)

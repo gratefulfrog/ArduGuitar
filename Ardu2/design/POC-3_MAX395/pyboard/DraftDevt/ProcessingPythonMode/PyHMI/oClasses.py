@@ -2,49 +2,6 @@
 
 import Classes, stubs
 
-# sutbs
-class Q: 
-    def __init__(self):
-        self.q=[]
-    def push(self,e):
-        self.q.append(e)
-
-
-class Thing:
-    def __init__(self,n,t=True):
-        self.name=n
-        self.yes = t
-
-    def pollFunc(self):
-        return (self.name, self.yes) 
-
-# end stubs
-
-        
-class PollMgr:
-    class Pollable:
-        def __init__(self,pf):
-            self.pollFunc = pf
-
-        def poll(self):
-            return self.pollFunc()
-
-    def __init__(self,queue):
-        self.pollables = []
-        self.q = queue
-
-    def addPollable(self,pf):
-        # pf is a poll function, returns key,value on None
-        # pollables are ordered FiFo
-        self.pollables.append(PollMgr.Pollable(pf))
-
-    def pollAll(self):
-        for p in self.pollables:
-            res = p.poll()
-            if res:
-                self.q.push(res)
-
-
 class LCDMgr:
     display = 0
     editing = 1
@@ -72,9 +29,10 @@ class LCDMgr:
         self.lcd.setLn(0,self.stateString)
         self.lcd.setLn(1,'')
 
-    def __init__(self,state,lcdd):
+    def __init__(self,state,lcdd, q, validateFunc):
         self.lcd = lcdd
-        self.lcdPba = Classes.LCDPBArray()
+        self.validateFunc = validateFunc
+        self.lcdPba = Classes.LCDPBArray(q)
         self.lcdPba.lcdPbs[0].clickFuncLis = [self.onLeftButton]
         self.lcdPba.lcdPbs[1].clickFuncLis = [self.onRightButton]
         self.stateString = state
@@ -170,10 +128,10 @@ class LCDMgr:
     def confirmed(self):
         ###
         #print('confirmed')
-        if stubs.validateConf(self.lcd.getLn(0)): # put a real test here for the display Char list
+        if self.validateFunc(self.lcd.getLn(0)): # put a real test here for the display Char list
             #     '0123456789ABCDEF'
-            msg = 'Abort - Confirm'
-            self.lcd.setLn(1,msg)
+            #msg = 'Abort - Confirm'
+            #self.lcd.setLn(1,msg)
             #print(msg)
             self.stateString = ''.join([c for c in self.displayCharList if c != ' '])
             self.lcd.setLn(0,self.stateString)

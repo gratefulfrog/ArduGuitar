@@ -18,12 +18,14 @@ class SplitPot(Positionable,MouseLockable):
     lh = 3*Positionable.scaleFactor
     sepoY = h/2-lh/2
 
-    def __init__(self,x,y,name,vtFuncTuple,isToneRange=False):
+    def __init__(self,x,y,name,vtFuncIndex,q,isToneRange=False):
         Positionable.__init__(self,x,y)
         MouseLockable.__init__(self)
         self.nameT = name
-        self.onNewVolFunc  = vtFuncTuple[0]
-        self.onNewToneFunc = vtFuncTuple[1]
+        self.vtFuncIndex = vtFuncIndex
+        #  = vtFuncTuple[0]
+        #self.onNewToneFunc = vtFuncTuple[1]
+        self.q = q
         if isToneRange:
             self.vT= ''
             self.tT = SplitPot.toneRangeT
@@ -43,8 +45,8 @@ class SplitPot(Positionable,MouseLockable):
         self.yV = SplitPot.h- self.yT
         self.yN = (self.yT+self.yV)/2
         # vol tone values
-        self.lastV=0
-        self.lastT=0
+        #self.lastV=0
+        #self.lastT=0
     
     def display(self):
         pushMatrix()
@@ -104,43 +106,48 @@ class SplitPot(Positionable,MouseLockable):
     
     def doVT(self):
         if self.oV:
-            newV=round(map(mouseY,self.oY+SplitPot.h, self.oY+SplitPot.sepoY+SplitPot.lh, 0,5))
-            if newV != self.lastV:
-                self.lastV=newV
-                self.onNewVolFunc(newV)
+            val=round(map(mouseY,self.oY+SplitPot.h, self.oY+SplitPot.sepoY+SplitPot.lh, 0,5))
+            upperByte = (0x10 | self.vtFuncIndex)<<8
+            
         if self.oT:
-            newT=round(map(mouseY,self.oY+SplitPot.sepoY,self.oY,0,5))
-            if newT != self.lastT:
-                self.lastT=newT
-                self.onNewToneFunc(newT)
-
+            val=round(map(mouseY,self.oY+SplitPot.sepoY,self.oY,0,5))
+            upperByte = (0x8 | self.vtFuncIndex)<<8
+           
+        self.q.push( upperByte | int(val))
+                    
 class SplitPotArray(Positionable):
     masterRangeSpace = 33
     potSpace = SplitPot.w/Positionable.scaleFactor
-    names            = ['M','A','B','C','D','TR']
+    #names            = ['M','A','B','C','D','TR']
     nbCoils          = 4
     
-    def __init__(self,(x,y)):
+    def __init__(self,(x,y),names,q):
         Positionable.__init__(self,x,y)
         self.splitPots = [None for i in range(SplitPotArray.nbCoils+2)]
         
         px = SplitPotArray.masterRangeSpace
-        funcArray = [stubs.makeVTFunc(name) for name in SplitPotArray.names[:SplitPotArray.nbCoils+1]]
+        funcArray = [stubs.makeVTFunc(name) for name in names[:SplitPotArray.nbCoils+1]]
         self.splitPots[0] = SplitPot(self.x,
                                      self.y,
-                                     SplitPotArray.names[0],
-                                     funcArray[0])
+                                     names[0],
+                                     0, # id of 'M'
+                                     q)
+                                     #funcArray[0])
         
         for i in range(SplitPotArray.nbCoils):
             self.splitPots[i+1]= SplitPot(self.x+px+i*SplitPotArray.potSpace,
                                           self.y,
-                                          SplitPotArray.names[i+1],
-                                          funcArray[i+1])
+                                          names[i+1],
+                                          i+1,
+                                          q)
+                                          #funcArray[i+1])
         
         self.splitPots[SplitPotArray.nbCoils+1] =  SplitPot(self.x+2*px+3*SplitPotArray.potSpace,
                                                             self.y,
-                                                            SplitPotArray.names[SplitPotArray.nbCoils+1],
-                                                            stubs.makeVTFunc(SplitPotArray.names[SplitPotArray.nbCoils+1],False),
+                                                            names[SplitPotArray.nbCoils+1],
+                                                            SplitPotArray.nbCoils+1, # tone range
+                                                            q,
+                                                            #stubs.makeVTFunc(names[SplitPotArray.nbCoils+1],False),
                                                             True)
         
     def display(self):

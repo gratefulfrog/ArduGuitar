@@ -2,6 +2,8 @@
 
 import Classes, oClasses, stubs, TrackBall,SplitPot
 from layout import layout
+import FrontEnd
+
 
 # DEBUGGING VARS
 DOITER=False
@@ -20,6 +22,25 @@ sv     = None
 tb     = None
 spa    = None
 
+ihm = None
+
+
+def setup():
+    global ihm
+    global components
+    ihm =  FrontEnd.HMIMgr()
+    components = [ihm]
+
+def draw():
+    background(layout.bg)
+    for c in components:
+        c.display()
+    if DOITER:
+        iterSelect()
+        iterLeds()
+
+
+"""
 def setup():
     global ld
     global ledPbA
@@ -31,21 +52,16 @@ def setup():
     global components
     ld     = Classes.LedDisplay(layout.oLD)
     ledPbA = Classes.LedPBArray(layout.oLPA)
-    lcdMgr = oClasses.LCDMgr(stubs.configDict[(0,0)]['S'],Classes.LCD(layout.oLCD))
+    lcdMgr = oClasses.LCDMgr(stubs.configDict[(0,0)]['S'],Classes.LCD(layout.oLCD),stubs.validateConf)
     sh     = Classes.Selector(layout.oSH,Classes.Selector.white,True,stubs.hSelect)
     sv     = Classes.Selector(layout.oSV,Classes.Selector.black,False,stubs.vSelect)
     tb     = TrackBall.TrackBall(layout.oTB, stubs.hTBFunc,stubs.vTBFunc,layout.bg)
     spa    = SplitPot.SplitPotArray(layout.oSPA)
     
     components = [ld,ledPbA,lcdMgr,sh,sv,tb,spa]
+"""
     
-def draw():
-    background(layout.bg)
-    for c in components:
-        c.display()
-    if DOITER:
-        iterSelect()
-        iterLeds()
+
 
 # iteration over leds and selectors
 lastSIter = 0
