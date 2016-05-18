@@ -33,7 +33,7 @@ class HMIMgr:
     funcVec= ['inc', 'pb','conf','vol','tone']
     targVec = [['MVol','MTone'],
                [0,1,2,3,4,5],
-               [None],
+               [0,1], #horizontal, vertical
                ['M','A','B','C','D','TR']]
 
     def __init__(self):
@@ -42,8 +42,8 @@ class HMIMgr:
         self.ld = Classes.LedDisplay(layout.oLD) #not an active component, so no Q needed
         
         self.ledPbA = Classes.LedPBArray(layout.oLPA,self.q)
-        self.spa    = SplitPot.SplitPotArray(layout.oSPA,HMIMgr.targVec[3]+['TR'],self.q)        
-        self.lcdMgr = oClasses.LCDMgr(stubs.configDict[(0,0)]['S'],Classes.LCD(layout.oLCD),self.q,self.validateLCDInput)
+        self.spa    = SplitPot.SplitPotArray(layout.oSPA,HMIMgr.targVec[3],self.q)        
+        self.lcdMgr = oClasses.LCDMgr(stubs.currentDict['S'],Classes.LCD(layout.oLCD),self.q,self.validateLCDInput)
         self.sh     = Classes.Selector(layout.oSH,Classes.Selector.white,True,self.q) 
         self.sv     = Classes.Selector(layout.oSV,Classes.Selector.black,False,self.q)
         
@@ -69,7 +69,7 @@ class HMIMgr:
         
     def processQ(self):
         work = self.q.pop()
-        while (work):
+        while (work != None):
             self.x(work)
             work = self.q.pop()
 
@@ -82,9 +82,10 @@ class HMIMgr:
             if K & (mask>>i):
                 who = HMIMgr.targVec[min(i,3)][K & 0b111]
                 val = (0xFF & V) if (V & 0xFF)<128 else (V & 0XFF)-256
-                stubs.set(HMIMgr.funcVec[i],
+                """stubs.set(HMIMgr.funcVec[i],
                         who,
                         val)
+                """
                 self.setVec[i](who,val)
                 break
     
@@ -109,17 +110,19 @@ class HMIMgr:
             self.ld.setT(HMIMgr.targVec[3].index(who),stubs.currentDict[who][1])
     
     def conf(self,who,val):
-        # who is None
-        left = (val>>4) & 0b1111
-        right = val & 0b1111
-        left = None if left==15 else left
-        right = None if right==15 else right
-        print('conf:\t' + str((left,right)))
+        # who is 0 for horizontal, 1 for vertical    
+        print('conf:\t' + str((val if not who else None,None if not who else val)))
     
     def pb(self,who,unused):
-        # who is 0,1,2,3,4,5
-        stubs.pb(who,None)
-        print('ihm.pb('+str(who)+')')
+        whoFuncs = [(self.ledPbA.ledPbs[0].led.toggle,stubs.r),
+                    (self.ledPbA.ledPbs[1].led.toggle,stubs.y),
+                    (self.ledPbA.ledPbs[2].led.toggle,stubs.g),
+                    (self.ledPbA.ledPbs[3].led.toggle,stubs.b),
+                    (self.lcdMgr.onLeftButton,),
+                    (self.lcdMgr.onRightButton,)]
+                    
+        for f in whoFuncs[who]:
+            f()
 
     def validateLCDInput(self, conf):
         return stubs.validateConf(conf)  # this updates the config

@@ -26,7 +26,31 @@ class MouseLockable:
     def unlock(self):
         if MouseLockable.hasMouse == self.id:
             MouseLockable.hasMouse = None
-            
+        
+class EnQueueable:
+    top5Bits = [1<<i for i in range(7,2,-1)]
+    INC  = 0
+    PB   = 1
+    CONF = 2
+    VOL  = 3
+    TONE = 4
+    
+    def __init__(self,typIndex,q):
+        """0 = inc
+           1 = pb
+           2 = conf
+           3 = vol
+           4 = tone
+        """
+        # type is an index to top5Bits
+        self.top5 = EnQueueable.top5Bits[typIndex]
+        self.q = q
+        
+    def push(self,lower3,secondByte=0):
+        #print('Enqueueable:\t' + hex(self.top5) + '\t' + hex(lower3))
+        self.q.push(((self.top5 |lower3)<<8)|secondByte)
+        
+                    
 class LED (Positionable): 
     ledLedSpacing    = 10 ## millimetes center/center
     ledButtonSpacing = 8
@@ -94,7 +118,6 @@ class LedLine(Positionable):
         popMatrix()
         
     def setT(self, v):
-        print(v)
         for res  in map (lambda i,v:(i,v), range(3),[v&1,(v&2)>>1,(v&4)>>2]):
             self.leds[res[0]].set(res[1])
         return self
@@ -217,19 +240,18 @@ class LCD(Positionable):
         popMatrix()
     
 
-class PushButton (Positionable,MouseLockable):
+class PushButton (Positionable,MouseLockable,EnQueueable):
     pbW = 6*Positionable.scaleFactor
     pbH = 6*Positionable.scaleFactor
     pushedColor = 0
     releasedColor = '#FFFFFF'
     overColor = '#646464'
-    debounceDelay = 200
+    debounceDelay = 150
 
-    def __init__(self, x, y, q, actuatorFuncLis):
+    def __init__(self, x, y, q):
         Positionable.__init__(self,x,y)
         MouseLockable.__init__(self)
-        self.q = q
-        self.clickFuncLis = [self.push] + actuatorFuncLis if actuatorFuncLis else [] 
+        EnQueueable.__init__(self,EnQueueable.PB,q)
         self.c = PushButton.releasedColor
         self.lastClickTime = millis()
         
@@ -279,20 +301,17 @@ class PushButton (Positionable,MouseLockable):
 
     def onClick(self):
         if millis() > PushButton.debounceDelay + self.lastClickTime:
-            for f in self.clickFuncLis:
-                f()
+            #print('pb id:\t' + hex(self.id))
+            self.push(self.id if self.id < 4 else self.id-6)
             self.lastClickTime = millis()
     
-    def push(self):
-        self.q.push((0x40 | self.id)<<8)
-
 class LCDPBArray:
     colInd = [4,5,2,1]
     oX = 167
     xOffSet = 14
     oY = 35
     def __init__(self,q):
-        self.lcdPbs = [PushButton(LCDPBArray.oX + i*LCDPBArray.xOffSet,LCDPBArray.oY, q, None) for i in range (2)]
+        self.lcdPbs = [PushButton(LCDPBArray.oX + i*LCDPBArray.xOffSet,LCDPBArray.oY, q) for i in range (2)]
         
     def display(self):
         for pb in self.lcdPbs:
@@ -304,9 +323,9 @@ class LedPB:
     hSpacing = 10
     vSpacing = 22
 
-    def __init__(self,xx,yy,cc,q,func):
+    def __init__(self,xx,yy,cc,q):
         self.led = LED(LedPB.ledHOffset,LedPB.ledVOffset,cc)
-        self.pb = PushButton(xx,yy, q, [func, self.led.toggle])
+        self.pb = PushButton(xx,yy, q)
 
     def display(self):
         pushMatrix()
@@ -327,15 +346,14 @@ class LedPBArray:
                 self.ledPbs[ind] = LedPB(x+j*LedPB.hSpacing, 
                                          y+i*LedPB.vSpacing, 
                                          LED.LEDColors[LedPBArray.colInd[ind]],
-                                         q,
-                                         stubs.lpbFuncs[ind])
+                                         q)
                 ind+=1
     def display(self):
         for lpb in self.ledPbs:
             lpb.display()
                 
         
-class Selector(Positionable,MouseLockable):
+class Selector(Positionable,MouseLockable,EnQueueable):
     sW = 25*Positionable.scaleFactor
     sH = 3*Positionable.scaleFactor
     sR = 2*sH  # radius
@@ -348,6 +366,7 @@ class Selector(Positionable,MouseLockable):
     def __init__(self,(x,y),cc,isHorizontal, q, nbStops=5, initPos=0):
         Positionable.__init__(self,x,y)
         MouseLockable.__init__(self)
+        EnQueueable.__init__(self,EnQueueable.CONF,q)
         self.c = cc
         self.isHorizontal = isHorizontal
         self.q = q
@@ -396,7 +415,7 @@ class Selector(Positionable,MouseLockable):
     def setPos(self, pIndex):
         if self.pos != pIndex:
             self.pos = pIndex
-            self.q.push( (0X20<<8) | (((self.pos)<< 4 | 0xF) if self.isHorizontal else (0xF0 | self.pos)))                  
+            self.push( 0 if self.isHorizontal else 1,  self.pos)
             
     def displaySlider(self):
         fill(self.c)

@@ -31,13 +31,9 @@ def b():
 lpbFuncs = [r,y,g,b]
 
 def validateConf(conf):
-    #if random.randint(0,1):
-        print(conf + ' : OK!')
-        currentDict['S'] =  conf
-        return True
-    #else:
-    #    print(conf + ' : NOT OK!')
-    #    return False
+    print(conf.strip() + ' : OK!')
+    currentDict['S'] =  conf.strip()
+    return True
 
 def hSelect(p):
     print('Horizontal Selector Func called on pos:\t' + str(p))
@@ -60,16 +56,11 @@ def pWorkaround(v):
     print(v)
 
 
-def pb(ind, lcdmgrInstance):
-    if (ind <5):
-        print (ind)
-    else:
-        print(ind)
-
-
 def set(attribute, owner, value):
     print('SET:\n\tAttribute:\t' + str(attribute) +'\n\tOwner:\t' + str(owner) +'\n\tValue:\t' + hex(value))
 
+
+# this is worng and needs to be fixed!
 configDict = {(0,0) : {'S' : '(+AB)'},
               (1,0) : {'S' : '(|AB)'},
               (2,0) : {'S' : '(+ABCD)'},
@@ -82,8 +73,7 @@ currentDict = {'M' : [0,0],   # vol, tone
                'C' : [0,0], 
                'D' : [0,0], 
                'TR' : [None,0],  # range on [0,5]
-               'S' : '(|(+AB)(+CD))',
+               'S' : '(|(+A(|BC)D)',
                'TREM' : 0,
                'VIB' : 0}
-
 

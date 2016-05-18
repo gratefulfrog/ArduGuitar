@@ -1,4 +1,4 @@
-from Classes import Positionable,MouseLockable
+from Classes import Positionable,MouseLockable,EnQueueable
 import stubs
 
 class SplitPot(Positionable,MouseLockable):
@@ -9,7 +9,8 @@ class SplitPot(Positionable,MouseLockable):
     letterColor='#216249'
     nameColor= '#FFFFFF' #'#FFFF00'
     letterSize=12
-
+    debounceDelay = 150
+    
     # rect Display
     sc=0
     fc='#AFAFAF'
@@ -21,6 +22,8 @@ class SplitPot(Positionable,MouseLockable):
     def __init__(self,x,y,name,vtFuncIndex,q,isToneRange=False):
         Positionable.__init__(self,x,y)
         MouseLockable.__init__(self)
+        self.volEnQueueable = EnQueueable(EnQueueable.VOL,q)
+        self.toneEnQueueable = EnQueueable(EnQueueable.TONE,q)
         self.nameT = name
         self.vtFuncIndex = vtFuncIndex
         #  = vtFuncTuple[0]
@@ -44,6 +47,7 @@ class SplitPot(Positionable,MouseLockable):
         self.yT = SplitPot.sepoY/2
         self.yV = SplitPot.h- self.yT
         self.yN = (self.yT+self.yV)/2
+        self.lastClickTime = millis()
         # vol tone values
         #self.lastV=0
         #self.lastT=0
@@ -83,7 +87,7 @@ class SplitPot(Positionable,MouseLockable):
             self.invertFill()
             self.contact=False
             self.unlock()
-            print('Clear!')
+            #print('Clear!')
     
     def overVy(self):
         self.oV =   (mouseY >self.oY+SplitPot.sepoY+SplitPot.lh and mouseY < self.oY+SplitPot.h)
@@ -105,16 +109,16 @@ class SplitPot(Positionable,MouseLockable):
         self.fillC = temp
     
     def doVT(self):
+        if millis() < SplitPot.debounceDelay + self.lastClickTime:
+            return
         if self.oV:
             val=round(map(mouseY,self.oY+SplitPot.h, self.oY+SplitPot.sepoY+SplitPot.lh, 0,5))
-            upperByte = (0x10 | self.vtFuncIndex)<<8
-            
+            self.volEnQueueable.push( self.vtFuncIndex,int(val))            
         if self.oT:
             val=round(map(mouseY,self.oY+SplitPot.sepoY,self.oY,0,5))
-            upperByte = (0x8 | self.vtFuncIndex)<<8
-           
-        self.q.push( upperByte | int(val))
-                    
+            self.toneEnQueueable.push( self.vtFuncIndex,int(val))
+        self.lastClickTime = millis()
+            
 class SplitPotArray(Positionable):
     masterRangeSpace = 33
     potSpace = SplitPot.w/Positionable.scaleFactor
