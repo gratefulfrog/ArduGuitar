@@ -42,11 +42,11 @@ class HMIMgr:
         self.ld = Classes.LedDisplay(layout.oLD) #not an active component, so no Q needed
         
         self.ledPbA = Classes.LedPBArray(layout.oLPA,self.q)
-        self.spa    = SplitPot.SplitPotArray(layout.oSPA,HMIMgr.targVec[3]+['TR'],self.q)
-        
+        self.spa    = SplitPot.SplitPotArray(layout.oSPA,HMIMgr.targVec[3]+['TR'],self.q)        
         self.lcdMgr = oClasses.LCDMgr(stubs.configDict[(0,0)]['S'],Classes.LCD(layout.oLCD),self.q,self.validateLCDInput)
-        self.sh     = Classes.Selector(layout.oSH,Classes.Selector.white,True,self.q) #stubs.hSelect)
-        self.sv     = Classes.Selector(layout.oSV,Classes.Selector.black,False,self.q) #stubs.vSelect)
+        self.sh     = Classes.Selector(layout.oSH,Classes.Selector.white,True,self.q) 
+        self.sv     = Classes.Selector(layout.oSV,Classes.Selector.black,False,self.q)
+        
         self.tb     = TrackBall.TrackBall(layout.oTB, stubs.hTBFunc,stubs.vTBFunc,layout.bg)
         
         self.setVec = [self.inc, self.pb,self.conf,self.vol, self.tone]
@@ -110,7 +110,11 @@ class HMIMgr:
     
     def conf(self,who,val):
         # who is None
-        print('conf:\t' + hex(val))
+        left = (val>>4) & 0b1111
+        right = val & 0b1111
+        left = None if left==15 else left
+        right = None if right==15 else right
+        print('conf:\t' + str((left,right)))
     
     def pb(self,who,unused):
         # who is 0,1,2,3,4,5
