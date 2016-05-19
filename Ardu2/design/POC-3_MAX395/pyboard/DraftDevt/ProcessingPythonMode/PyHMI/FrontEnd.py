@@ -51,20 +51,21 @@ class HMIMgr:
         
         self.setVec = [self.inc, self.pb,self.conf,self.vol, self.tone]
     
-    def display(self):
+    
+    def pollInterrupters(self):
         self.ld.display()
         self.ledPbA.display()
         self.lcdMgr.display()
         self.sh.display()
         self.sv.display()
         self.tb.display()
+    
+    def pollPollables(self):    
         self.spa.display()
-        
-        
-        """
-        self.pollInterrupters()   # Poll interrupt generating objects, includes enqueue,
-        self.pollSplitPots()      #  Poll split pots includes enqueue,
-        """
+    
+    def display(self):
+        self.pollInterrupters()   # Poll interrupt generating objects, includes enqueue, not needed when interupts can happen!
+        self.pollPollables()      #  Poll split pots includes enqueue,
         self.processQ()
         
     def processQ(self):
