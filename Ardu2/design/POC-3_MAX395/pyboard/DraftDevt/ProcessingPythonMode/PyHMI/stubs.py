@@ -8,11 +8,6 @@ def mSleep(msecs):
     while millis()-now < msecs:
         None
 
-def genIDs(maxi):
-    for i in range(maxi):
-        (yield i)
-IDs = genIDs(25)
-
 # pushbutton funcs
 def r():
     print('RED')  #id = 0
@@ -77,3 +72,9 @@ currentDict = {'M' : [0,0],   # vol, tone
                'TREM' : 0,
                'VIB' : 0}
 
+"""
+def genIDs(maxi):
+    for i in range(maxi):
+        (yield i)
+IDs = genIDs(25)
+"""

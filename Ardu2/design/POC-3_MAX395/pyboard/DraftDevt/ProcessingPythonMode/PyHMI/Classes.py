@@ -10,10 +10,31 @@ class Positionable:
     return Positionable(self.x, self.y)
 
 class MouseLockable:
-    hasMouse = None
+    class IDGen:
+        def __init__(self, ids):
+            self.dict = {}
+            for id in ids:
+                self.dict[id]=0
+            
+        def __iter__(self):
+            return self
     
-    def __init__(self):
-        self.id = stubs.IDs.next()
+        def next(self,id):
+            res = self.dict[id]
+            self.dict[id] +=1
+            return (id,res)
+    
+    hasMouse = None
+    idTypes =['sp','pb','sl','tb']
+    SPLITPOT = idTypes[0]
+    PUSHBUTTON = idTypes[1]
+    SELECTOR = idTypes[2]
+    TRACKBALL = idTypes[3]
+    
+    idGen = IDGen(idTypes)
+    
+    def __init__(self,type):
+        self.id = MouseLockable.idGen.next(type) 
         
     def lock(self):
         # return True if lock was obtaine False otherwise
@@ -250,7 +271,7 @@ class PushButton (Positionable,MouseLockable,EnQueueable):
 
     def __init__(self, x, y, q):
         Positionable.__init__(self,x,y)
-        MouseLockable.__init__(self)
+        MouseLockable.__init__(self,MouseLockable.PUSHBUTTON)
         EnQueueable.__init__(self,EnQueueable.PB,q)
         self.c = PushButton.releasedColor
         self.lastClickTime = millis()
@@ -302,7 +323,7 @@ class PushButton (Positionable,MouseLockable,EnQueueable):
     def onClick(self):
         if millis() > PushButton.debounceDelay + self.lastClickTime:
             #print('pb id:\t' + hex(self.id))
-            self.push(self.id if self.id < 4 else self.id-6)
+            self.push(self.id[1]) 
             self.lastClickTime = millis()
     
 class LCDPBArray:
@@ -365,7 +386,7 @@ class Selector(Positionable,MouseLockable,EnQueueable):
 
     def __init__(self,(x,y),cc,isHorizontal, q, nbStops=5, initPos=0):
         Positionable.__init__(self,x,y)
-        MouseLockable.__init__(self)
+        MouseLockable.__init__(self,MouseLockable.SELECTOR)
         EnQueueable.__init__(self,EnQueueable.CONF,q)
         self.c = cc
         self.isHorizontal = isHorizontal

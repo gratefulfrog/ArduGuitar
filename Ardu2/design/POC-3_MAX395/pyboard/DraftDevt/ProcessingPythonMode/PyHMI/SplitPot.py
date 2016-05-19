@@ -21,7 +21,7 @@ class SplitPot(Positionable,MouseLockable):
 
     def __init__(self,x,y,name,vtFuncIndex,q,isToneRange=False):
         Positionable.__init__(self,x,y)
-        MouseLockable.__init__(self)
+        MouseLockable.__init__(self,MouseLockable.SPLITPOT)
         self.volEnQueueable = EnQueueable(EnQueueable.VOL,q)
         self.toneEnQueueable = EnQueueable(EnQueueable.TONE,q)
         self.nameT = name

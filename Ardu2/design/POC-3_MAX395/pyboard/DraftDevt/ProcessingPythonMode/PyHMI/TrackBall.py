@@ -12,7 +12,7 @@ class TrackBall(Positionable,MouseLockable):
     def __init__(self,(x,y), xFunc, yFunc,bg):
         # x,y func should take a delta distance as argume
         Positionable.__init__(self,x,y)
-        MouseLockable.__init__(self)
+        MouseLockable.__init__(self,MouseLockable.TRACKBALL)
         self.xFunc = xFunc
         self.yFunc = yFunc
         self.bg = bg
