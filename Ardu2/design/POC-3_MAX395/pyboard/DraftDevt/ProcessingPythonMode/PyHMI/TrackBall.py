@@ -1,7 +1,7 @@
-from Classes import Positionable, MouseLockable
+from Classes import Positionable, MouseLockable,EnQueueable
 import stubs
 
-class TrackBall(Positionable,MouseLockable):
+class TrackBall(Positionable,MouseLockable,EnQueueable):
     radius = 22*Positionable.scaleFactor
     lineColor = '#FFFFFF'
     markColor = '#FF0000' 
@@ -9,12 +9,10 @@ class TrackBall(Positionable,MouseLockable):
     minL = 3 # min line length
     redLines=True
     
-    def __init__(self,(x,y), xFunc, yFunc,bg):
-        # x,y func should take a delta distance as argume
+    def __init__(self,(x,y), q, bg):
         Positionable.__init__(self,x,y)
         MouseLockable.__init__(self,MouseLockable.TRACKBALL)
-        self.xFunc = xFunc
-        self.yFunc = yFunc
+        EnQueueable.__init__(self,EnQueueable.INC,q)
         self.bg = bg
         self.mouseStartX = 0
         self.mouseEndX = 0
@@ -85,13 +83,13 @@ class TrackBall(Positionable,MouseLockable):
             dX = self.mouseEndX - self.startPointX
             dY = self.mouseEndY - self.startPointY
             w= TrackBall.radius*2
-            dV = round(map(dX,-w,w,-5,5))
-            dT = round(map(dY,-w,w,-5,5))
+            dV = int(round(map(dX,-w,w,-5,5)))
+            dT = int(round(map(dY,-w,w,-5,5)))
             if dV!=0:
-                self.xFunc(dV)
+                self.push(0,dV) 
                 self.startPointX= self.mouseEndX
             if dT!=0:
-                self.yFunc(dT)
+                self.push(1,dT)
                 self.startPointY= self.mouseEndY
            
     def getSet(unused,isHorizontal):

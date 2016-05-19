@@ -47,7 +47,7 @@ class HMIMgr:
         self.sh     = Classes.Selector(layout.oSH,Classes.Selector.white,True,self.q) 
         self.sv     = Classes.Selector(layout.oSV,Classes.Selector.black,False,self.q)
         
-        self.tb     = TrackBall.TrackBall(layout.oTB, stubs.hTBFunc,stubs.vTBFunc,layout.bg)
+        self.tb     = TrackBall.TrackBall(layout.oTB, self.q, layout.bg) # stubs.hTBFunc,stubs.vTBFunc,layout.bg)
         
         self.setVec = [self.inc, self.pb,self.conf,self.vol, self.tone]
     
@@ -91,10 +91,15 @@ class HMIMgr:
     
     def inc(self,who,val):
         # who is 'MVol','MTone'
-        if who == HMIMgr.targVec[0,0]: 
+        print('INC:\t' + str(who) +'\t' + str(val))
+        if who == HMIMgr.targVec[0][0]: 
             # its vol
+            newVol = max(0,(min(stubs.currentDict['M'][0] + val,5)))
+            stubs.currentDict['M'][0] = newVol
             self.ld.setV(0,stubs.currentDict['M'][0])
         else:
+            newTone = max(0,(min(stubs.currentDict['M'][1] + val,5)))
+            stubs.currentDict['M'][1] = newTone
             self.ld.setT(0,stubs.currentDict['M'][1])
     
     def vol(self,who,val):

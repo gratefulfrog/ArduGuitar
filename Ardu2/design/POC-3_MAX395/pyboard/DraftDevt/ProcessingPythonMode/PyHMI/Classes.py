@@ -69,7 +69,7 @@ class EnQueueable:
         
     def push(self,lower3,secondByte=0):
         #print('Enqueueable:\t' + hex(self.top5) + '\t' + hex(lower3))
-        self.q.push(((self.top5 |lower3)<<8)|secondByte)
+        self.q.push(((self.top5 |lower3)<<8)|(0xFF & (secondByte if secondByte>=0 else 256+secondByte)))
         
                     
 class LED (Positionable): 
