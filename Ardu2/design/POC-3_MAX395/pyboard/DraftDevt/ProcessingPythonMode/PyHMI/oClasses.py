@@ -28,23 +28,29 @@ class LCDMgr:
         self.displayCharList = list(self.stateString.ljust(LCDMgr.lineLength))
         self.lcd.setLn(0,self.stateString)
         self.lcd.setLn(1,self.stateName)
+    
+    def loadConf(self):
+        self.stateString = self.stateDict[self.sKey]
+        self.stateName = self.stateDict[self.nKey][:16]
+        self.lcd.setLn(0,self.stateString)
+        self.lcd.setLn(1,self.stateName)
+        self.setDisplayMode()
 
-    def __init__(self,stateDict,lcdd, q, validateFunc):
+    def __init__(self,(stateDict,sKey,nKey),lcdd, q, validateFunc):
+        self.stateDict = stateDict
+        self.sKey = sKey
+        self.nKey = nKey
         self.lcd = lcdd
         self.validateFunc = validateFunc
         self.lcdPba = Classes.LCDPBArray(q)
         self.lcdPba.lcdPbs[0].clickFuncLis = [self.onLeftButton]
         self.lcdPba.lcdPbs[1].clickFuncLis = [self.onRightButton]
-        self.stateString = stateDict['S']
-        self.stateName = stateDict['Name'][:16]
-        self.lcd.setLn(0,self.stateString)
-        self.lcd.setLn(1,self.stateName)
-        self.setDisplayMode()
+        self.loadConf()
         
     def display(self):
         self.lcd.display()
         self.lcdPba.display()
-
+    
     def setSList(self):
         #print('setSList')
         self.sList = [' '] + self.lettersLeft + LCDMgr.symobls

@@ -1,5 +1,6 @@
 import Classes,  SplitPot, TrackBall,  oClasses, stubs
 from layout import layout
+from Presets import Configs
 
 class Q:
     qLen = 20
@@ -43,7 +44,7 @@ class HMIMgr:
         
         self.ledPbA = Classes.LedPBArray(layout.oLPA,self.q)
         self.spa    = SplitPot.SplitPotArray(layout.oSPA,HMIMgr.targVec[3],self.q)        
-        self.lcdMgr = oClasses.LCDMgr(stubs.currentDict,Classes.LCD(layout.oLCD),self.q,self.validateLCDInput)
+        self.lcdMgr = oClasses.LCDMgr((stubs.currentDict,'S','Name'),Classes.LCD(layout.oLCD),self.q,self.validateLCDInput)
         self.sh     = Classes.Selector(layout.oSH,Classes.Selector.white,True,self.q) 
         self.sv     = Classes.Selector(layout.oSV,Classes.Selector.black,False,self.q)
         
@@ -112,6 +113,7 @@ class HMIMgr:
     def conf(self,who,val):
         # who is 0 for horizontal, 1 for vertical    
         print('CONF:\t' + str((val if not who else None,None if not who else val)))
+        self.loadConf(Configs[(self.sh.pos,self.sv.pos)])
     
     def pb(self,who,unused):
         whoFuncs = [(self.ledPbA.ledPbs[0].led.toggle,stubs.r),
@@ -126,8 +128,11 @@ class HMIMgr:
 
     def validateLCDInput(self, conf):
         return stubs.validateConf(conf)  # this updates the config
-        
-        
+    
+    def loadConf(self, conf):
+        for key in stubs.currentDict.keys():
+            stubs.currentDict[key] = conf[key]
+        self.lcdMgr.loadConf()
     
     
         
