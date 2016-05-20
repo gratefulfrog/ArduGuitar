@@ -38,12 +38,12 @@ class HMIMgr:
 
     def __init__(self):
         self.q = Q()
-        
-        self.ld = Classes.LedDisplay(layout.oLD) #not an active component, so no Q needed
+ 
+        self.ld = Classes.LedDisplay(layout.oLD,(stubs.currentDict,('M','A','B','C','D','TR'))) #not an active component, so no Q needed
         
         self.ledPbA = Classes.LedPBArray(layout.oLPA,self.q)
         self.spa    = SplitPot.SplitPotArray(layout.oSPA,HMIMgr.targVec[3],self.q)        
-        self.lcdMgr = oClasses.LCDMgr(stubs.currentDict['S'],Classes.LCD(layout.oLCD),self.q,self.validateLCDInput)
+        self.lcdMgr = oClasses.LCDMgr(stubs.currentDict,Classes.LCD(layout.oLCD),self.q,self.validateLCDInput)
         self.sh     = Classes.Selector(layout.oSH,Classes.Selector.white,True,self.q) 
         self.sv     = Classes.Selector(layout.oSV,Classes.Selector.black,False,self.q)
         
@@ -78,15 +78,11 @@ class HMIMgr:
         V = twoBytes & 0xFF
         K = (twoBytes>>8) & 0xFF
         mask = 0x80
-        print('V:\t'+ hex(V) +'\tK:\t' +hex(K))
+        print('X:\t'+'V:\t'+ hex(V) +'\tK:\t' +hex(K))
         for i in range(5):
             if K & (mask>>i):
                 who = HMIMgr.targVec[min(i,3)][K & 0b111]
                 val = (0xFF & V) if (V & 0xFF)<128 else (V & 0XFF)-256
-                """stubs.set(HMIMgr.funcVec[i],
-                        who,
-                        val)
-                """
                 self.setVec[i](who,val)
                 break
     
@@ -97,27 +93,25 @@ class HMIMgr:
             # its vol
             newVol = max(0,(min(stubs.currentDict['M'][0] + val,5)))
             stubs.currentDict['M'][0] = newVol
-            self.ld.setV(0,stubs.currentDict['M'][0])
         else:
             newTone = max(0,(min(stubs.currentDict['M'][1] + val,5)))
             stubs.currentDict['M'][1] = newTone
-            self.ld.setT(0,stubs.currentDict['M'][1])
     
     def vol(self,who,val):
         # who is 'M','A','B','C','D'
         if val != stubs.currentDict[who][0]:
+            print('VOL:\t' + str(who) +'\t' + str(val))
             stubs.currentDict[who][0] = val
-            self.ld.setV(HMIMgr.targVec[3].index(who),stubs.currentDict[who][0])
 
     def tone(self,who,val):
         # who is 'M','A','B','C','D','TR'
         if val != stubs.currentDict[who][1]:
+            print('VOL:\t' + str(who) +'\t' + str(val))
             stubs.currentDict[who][1] = val
-            self.ld.setT(HMIMgr.targVec[3].index(who),stubs.currentDict[who][1])
     
     def conf(self,who,val):
         # who is 0 for horizontal, 1 for vertical    
-        print('conf:\t' + str((val if not who else None,None if not who else val)))
+        print('CONF:\t' + str((val if not who else None,None if not who else val)))
     
     def pb(self,who,unused):
         whoFuncs = [(self.ledPbA.ledPbs[0].led.toggle,stubs.r),
@@ -126,7 +120,7 @@ class HMIMgr:
                     (self.ledPbA.ledPbs[3].led.toggle,stubs.b),
                     (self.lcdMgr.onLeftButton,),
                     (self.lcdMgr.onRightButton,)]
-                    
+        print('PB:\t' + str(who))           
         for f in whoFuncs[who]:
             f()
 

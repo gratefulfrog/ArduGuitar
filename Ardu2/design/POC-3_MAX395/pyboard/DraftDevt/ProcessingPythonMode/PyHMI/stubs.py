@@ -62,13 +62,14 @@ configDict = {(0,0) : {'S' : '(+AB)'},
               (3,0) : {'S' : '(|CD)'},
               (4,0) : {'S' : '(+CD)'}}
 
-currentDict = {'M' : [0,0],   # vol, tone
-               'A' : [0,0], 
-               'B' : [0,0], 
-               'C' : [0,0], 
-               'D' : [0,0], 
-               'TR' : [None,0],  # range on [0,5]
-               'S' : '(|(+A(|BC)D)',
+currentDict = {'Name': 'Full Blast',
+               'M' : [5,5],   # vol, tone
+               'A' : [5,5], 
+               'B' : [5,5], 
+               'C' : [5,5], 
+               'D' : [5,5], 
+               'TR' : [None,5],  # range on [0,5]
+               'S' : '(+ABCD)',
                'TREM' : 0,
                'VIB' : 0}
 

@@ -126,18 +126,24 @@ class LED (Positionable):
 class LedLine(Positionable):
     nbLeds = 3
     # vertical line of blue leds, only for Tone Range
-    def __init__(self,x, y):
+    def __init__(self,x, y,(confDict,key)):
         Positionable.__init__(self,x,y)
+        self.confDict = confDict
+        self.key = key
         # led positions are relative to x,y of middle led
         self.leds = [LED(0,(1-i)*Positionable.scaleFactor*LED.ledLedSpacing,LED.blue) for i in range(LedLine.nbLeds)]
     
     def display(self):
+        self.update()
         pushMatrix()
         translate(self.x*Positionable.scaleFactor,self.y*Positionable.scaleFactor)
         for i in range(LedLine.nbLeds):
             self.leds[i].display()
         popMatrix()
-        
+    
+    def update(self):
+        self.setT(self.confDict[self.key][1])
+
     def setT(self, v):
         for res  in map (lambda i,v:(i,v), range(3),[v&1,(v&2)>>1,(v&4)>>2]):
             self.leds[res[0]].set(res[1])
@@ -152,8 +158,10 @@ class LedCross (Positionable):
   
     nbHorizontalLeds =2
 
-    def __init__(self, x, y):
+    def __init__(self, x, y,(confDict,key)):
         Positionable.__init__(self,x,y)
+        self.confDict = confDict
+        self.key = key
         self.centerLed      = LED(0,0,LED.blueGreen)
         self.verticalLeds   = [1,2]
         self.horizontalLeds = [1,2]
@@ -166,6 +174,7 @@ class LedCross (Positionable):
             pos-=2
     
     def display(self):
+        self.update()
         pushMatrix()
         translate(self.x*Positionable.scaleFactor,self.y*Positionable.scaleFactor);
         for  i in range(LedCross.nbHorizontalLeds):
@@ -174,6 +183,10 @@ class LedCross (Positionable):
         self.centerLed.display();
         popMatrix()
 
+    def update(self):
+        self.setV(self.confDict[self.key][0])
+        self.setT(self.confDict[self.key][1])
+    
     def set(self, v, c):
         # set binary value for vol [0,5]
         vals = [v&1,(v&4)>>2,(v&2)>>1] #note bit order 0,2,1 
@@ -196,14 +209,14 @@ class LedDisplay(Positionable):
     shortSpacing = 30  # ends x spacing
     nbVTs = 5
 
-    def __init__(self, (x, y)):
+    def __init__(self, (x, y),(confDict,(mKey,aKey,bKey,cKey,dKey,trKey))):
         Positionable.__init__(self,x,y)
-        self.MVT =  LedCross(-(LedDisplay.shortSpacing + LedDisplay.stdSpacing/2),0);
-        self.AVT =  LedCross(-LedDisplay.stdSpacing/2,-LedDisplay.stdSpacing/2);
-        self.BVT =  LedCross(-LedDisplay.stdSpacing/2,LedDisplay.stdSpacing/2);
-        self.CVT =  LedCross(LedDisplay.stdSpacing/2,-LedDisplay.stdSpacing/2);
-        self.DVT =  LedCross(LedDisplay.stdSpacing/2,LedDisplay.stdSpacing/2);
-        self.TR =   LedLine(LedDisplay.shortSpacing +LedDisplay.stdSpacing/2,0);  
+        self.MVT =  LedCross(-(LedDisplay.shortSpacing + LedDisplay.stdSpacing/2),0,(confDict,mKey));
+        self.AVT =  LedCross(-LedDisplay.stdSpacing/2,-LedDisplay.stdSpacing/2,(confDict,aKey));
+        self.BVT =  LedCross(-LedDisplay.stdSpacing/2,LedDisplay.stdSpacing/2,(confDict,bKey));
+        self.CVT =  LedCross(LedDisplay.stdSpacing/2,-LedDisplay.stdSpacing/2,(confDict,cKey));
+        self.DVT =  LedCross(LedDisplay.stdSpacing/2,LedDisplay.stdSpacing/2,(confDict,dKey));
+        self.TR =   LedLine(LedDisplay.shortSpacing +LedDisplay.stdSpacing/2,0,(confDict,trKey));  
         self.allVTs =[self.MVT,self.AVT,self.BVT,self.CVT,self.DVT,self.TR]
     
     def display(self):

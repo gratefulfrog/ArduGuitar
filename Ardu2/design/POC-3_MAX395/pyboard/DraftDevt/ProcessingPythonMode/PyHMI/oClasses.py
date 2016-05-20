@@ -27,17 +27,18 @@ class LCDMgr:
         self.cursor = LCDMgr.cursorOff
         self.displayCharList = list(self.stateString.ljust(LCDMgr.lineLength))
         self.lcd.setLn(0,self.stateString)
-        self.lcd.setLn(1,'')
+        self.lcd.setLn(1,self.stateName)
 
-    def __init__(self,state,lcdd, q, validateFunc):
+    def __init__(self,stateDict,lcdd, q, validateFunc):
         self.lcd = lcdd
         self.validateFunc = validateFunc
         self.lcdPba = Classes.LCDPBArray(q)
         self.lcdPba.lcdPbs[0].clickFuncLis = [self.onLeftButton]
         self.lcdPba.lcdPbs[1].clickFuncLis = [self.onRightButton]
-        self.stateString = state
+        self.stateString = stateDict['S']
+        self.stateName = stateDict['Name'][:16]
         self.lcd.setLn(0,self.stateString)
-        self.lcd.setLn(1,'')
+        self.lcd.setLn(1,self.stateName)
         self.setDisplayMode()
         
     def display(self):
@@ -135,7 +136,7 @@ class LCDMgr:
             #print(msg)
             self.stateString = ''.join([c for c in self.displayCharList if c != ' '])
             self.lcd.setLn(0,self.stateString)
-            self.lcd.setLn(1,'')
+            self.lcd.setLn(1,self.stateName)
             self.setDisplayMode()
         else:
             #     '0123456789ABCDEF'
