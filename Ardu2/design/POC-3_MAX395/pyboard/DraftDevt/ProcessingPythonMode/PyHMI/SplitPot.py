@@ -9,7 +9,7 @@ class SplitPot(Positionable,MouseLockable):
     letterColor='#216249'
     nameColor= '#FFFFFF' #'#FFFF00'
     letterSize=12
-    debounceDelay = 150
+    debounceDelay = 200
     
     # rect Display
     sc=0

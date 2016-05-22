@@ -280,7 +280,7 @@ class PushButton (Positionable,MouseLockable,EnQueueable):
     pushedColor = 0
     releasedColor = '#FFFFFF'
     overColor = '#646464'
-    debounceDelay = 150
+    debounceDelay = 200
 
     def __init__(self, x, y, q):
         Positionable.__init__(self,x,y)

@@ -79,7 +79,7 @@ class HMIMgr:
         V = twoBytes & 0xFF
         K = (twoBytes>>8) & 0xFF
         mask = 0x80
-        print('X:\t'+'V:\t'+ hex(V) +'\tK:\t' +hex(K))
+        print('X:\tK:\t' + hex(K)) + '\tV:\t'+ hex(V) 
         for i in range(5):
             if K & (mask>>i):
                 who = HMIMgr.targVec[min(i,3)][K & 0b111]
