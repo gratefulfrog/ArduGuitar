@@ -357,11 +357,17 @@ class LedPB:
     hSpacing = 10
     vSpacing = 22
 
-    def __init__(self,xx,yy,cc,q):
+    def __init__(self,xx,yy,cc,q,(confDict,key)):
         self.led = LED(LedPB.ledHOffset,LedPB.ledVOffset,cc)
         self.pb = PushButton(xx,yy, q)
+        self.confDict = confDict
+        self.key = key
+
+    def update(self):
+        self.led.set(self.confDict[self.key])
 
     def display(self):
+        self.update()
         pushMatrix()
         translate(self.pb.x*Positionable.scaleFactor,self.pb.y*Positionable.scaleFactor)
         self.led.display()
@@ -372,7 +378,7 @@ class LedPBArray:
     colInd = [4,5,2,1]
     oX = 140
     oY = 51
-    def __init__(self,(x,y),q):
+    def __init__(self,(x,y),q,confDict,keys):
         self.ledPbs = [None for i in range(4)]
         ind=0
         for i in range(2):
@@ -380,7 +386,7 @@ class LedPBArray:
                 self.ledPbs[ind] = LedPB(x+j*LedPB.hSpacing, 
                                          y+i*LedPB.vSpacing, 
                                          LED.LEDColors[LedPBArray.colInd[ind]],
-                                         q)
+                                         q,(confDict,keys[ind]))
                 ind+=1
     def display(self):
         for lpb in self.ledPbs:

@@ -42,7 +42,7 @@ class HMIMgr:
  
         self.ld = Classes.LedDisplay(layout.oLD,(stubs.currentDict,('M','A','B','C','D','TR'))) #not an active component, so no Q needed
         
-        self.ledPbA = Classes.LedPBArray(layout.oLPA,self.q)
+        self.ledPbA = Classes.LedPBArray(layout.oLPA,self.q,stubs.currentDict,('AUX0','AUX1','TREM','VIB'))
         self.spa    = SplitPot.SplitPotArray(layout.oSPA,HMIMgr.targVec[3],self.q)        
         self.lcdMgr = oClasses.LCDMgr((stubs.currentDict,'S','Name'),Classes.LCD(layout.oLCD),self.q,self.validateLCDInput)
         self.sh     = Classes.Selector(layout.oSH,Classes.Selector.white,True,self.q) 

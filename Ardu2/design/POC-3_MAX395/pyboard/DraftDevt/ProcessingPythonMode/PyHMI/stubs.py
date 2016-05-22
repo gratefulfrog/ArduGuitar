@@ -11,9 +11,11 @@ def mSleep(msecs):
 # pushbutton funcs
 def r():
     print('RED')  #id = 0
+    currentDict['AUX0'] = 0 if currentDict['AUX0'] else 1
     print(str(currentDict))
 def y():
     print('YELLOW')  #id = 1
+    currentDict['AUX1'] = 0 if currentDict['AUX1'] else 1
 def g(): 
     print('GREEN')  #id = 2  Tremolo!
     currentDict['TREM'] = 0 if currentDict['TREM'] else 1
@@ -71,7 +73,9 @@ currentDict = {'Name': 'Full Blast',
                'TR' : [None,5],  # range on [0,5]
                'S' : '(+ABCD)',
                'TREM' : 0,
-               'VIB' : 0}
+               'VIB' : 0, 
+               'AUX0' : 0,
+               'AUX1' : 0}
 
 """
 def genIDs(maxi):
