@@ -1,6 +1,8 @@
 import Classes,  SplitPot, TrackBall,  oClasses, stubs
-from layout import layout
-from Presets import Configs
+from config import PyGuitarConf
+from Presets import Preset
+
+from Presets import Preset
 
 class Q:
     qLen = 20
@@ -39,18 +41,23 @@ class HMIMgr:
 
     def __init__(self):
         self.q = Q()
+        self.conf = PyGuitarConf()
+        self.preset = Preset(self.conf)
+        #print('Current Config:\n' + str(self.preset.currentDict))
+        #print(self.preset.presets)
+    
  
-        self.ld = Classes.LedDisplay(layout.oLD,(stubs.currentDict,('M','A','B','C','D','TR'))) #not an active component, so no Q needed
+        self.ld = Classes.LedDisplay(PyGuitarConf.Layout.oLD,(self.preset.currentDict,self.conf.vocab.configKeys[1:7])) #not an active component, so no Q needed
         
-        self.ledPbA = Classes.LedPBArray(layout.oLPA,self.q,stubs.currentDict,('AUX0','AUX1','TREM','VIB'))
-        self.spa    = SplitPot.SplitPotArray(layout.oSPA,HMIMgr.targVec[3],self.q)        
-        self.lcdMgr = oClasses.LCDMgr((stubs.currentDict,'S','Name'),Classes.LCD(layout.oLCD),self.q,self.validateLCDInput)
-        self.sh     = Classes.Selector(layout.oSH,Classes.Selector.white,True,self.q) 
-        self.sv     = Classes.Selector(layout.oSV,Classes.Selector.black,False,self.q)
+        self.ledPbA = Classes.LedPBArray(PyGuitarConf.Layout.oLPA,self.q,self.preset.currentDict,self.conf.vocab.configKeys[10:]+self.conf.vocab.configKeys[8:10])
+        self.spa    = SplitPot.SplitPotArray(PyGuitarConf.Layout.oSPA,HMIMgr.targVec[3],self.q)        
+        self.lcdMgr = oClasses.LCDMgr((self.preset.currentDict,'S','Name'),Classes.LCD(PyGuitarConf.Layout.oLCD),self.q,self.validateLCDInput)
+        self.sh     = Classes.Selector(PyGuitarConf.Layout.oSH,Classes.Selector.white,True,self.q) 
+        self.sv     = Classes.Selector(PyGuitarConf.Layout.oSV,Classes.Selector.black,False,self.q)
         
-        self.tb     = TrackBall.TrackBall(layout.oTB, self.q, layout.bg) # stubs.hTBFunc,stubs.vTBFunc,layout.bg)
+        self.tb     = TrackBall.TrackBall(PyGuitarConf.Layout.oTB, self.q, PyGuitarConf.Layout.bg) # stubs.hTBFunc,stubs.vTBFunc,PyGuitarConf.Layout.bg)
         
-        self.setVec = [self.inc, self.pb,self.conf,self.vol, self.tone]
+        self.setVec = [self.inc, self.pb, self.doConf, self.vol, self.tone]
     
     
     def pollInterrupters(self):
@@ -92,34 +99,34 @@ class HMIMgr:
         print('INC:\t' + str(who) +'\t' + str(val))
         if who == HMIMgr.targVec[0][0]: 
             # its vol
-            newVol = max(0,(min(stubs.currentDict['M'][0] + val,5)))
-            stubs.currentDict['M'][0] = newVol
+            newVol = max(0,(min(self.preset.currentDict['M'][0] + val,5)))
+            self.preset.currentDict['M'][0] = newVol
         else:
-            newTone = max(0,(min(stubs.currentDict['M'][1] + val,5)))
-            stubs.currentDict['M'][1] = newTone
+            newTone = max(0,(min(self.preset.currentDict['M'][1] + val,5)))
+            self.preset.currentDict['M'][1] = newTone
     
     def vol(self,who,val):
         # who is 'M','A','B','C','D'
-        if val != stubs.currentDict[who][0]:
+        if val != self.preset.currentDict[who][0]:
             print('VOL:\t' + str(who) +'\t' + str(val))
-            stubs.currentDict[who][0] = val
+            self.preset.currentDict[who][0] = val
 
     def tone(self,who,val):
         # who is 'M','A','B','C','D','TR'
-        if val != stubs.currentDict[who][1]:
+        if val != self.preset.currentDict[who][1]:
             print('VOL:\t' + str(who) +'\t' + str(val))
-            stubs.currentDict[who][1] = val
+            self.preset.currentDict[who][1] = val
     
-    def conf(self,who,val):
+    def doConf(self,who,val):
         # who is 0 for horizontal, 1 for vertical    
         print('CONF:\t' + str((val if not who else None,None if not who else val)))
-        self.loadConf(Configs[(self.sh.pos,self.sv.pos)])
+        self.loadConf(self.preset.presets[(self.sh.pos,self.sv.pos)])
     
     def pb(self,who,unused):
-        whoFuncs = [(self.ledPbA.ledPbs[0].led.toggle,stubs.r),
-                    (self.ledPbA.ledPbs[1].led.toggle,stubs.y),
-                    (self.ledPbA.ledPbs[2].led.toggle,stubs.g),
-                    (self.ledPbA.ledPbs[3].led.toggle,stubs.b),
+        whoFuncs = [(self.ledPbA.ledPbs[0].toggle,stubs.r,self.displayCurrentConf),
+                    (self.ledPbA.ledPbs[1].toggle,stubs.y),
+                    (self.ledPbA.ledPbs[2].toggle,stubs.g),
+                    (self.ledPbA.ledPbs[3].toggle,stubs.b),
                     (self.lcdMgr.onLeftButton,),
                     (self.lcdMgr.onRightButton,)]
         print('PB:\t' + str(who))           
@@ -127,12 +134,19 @@ class HMIMgr:
             f()
 
     def validateLCDInput(self, conf):
-        return stubs.validateConf(conf)  # this updates the config
+        res  = stubs.validateConf(conf.strip())
+        if res:
+            self.preset.currentDict['S'] = conf.strip()
+        return res  # this updates the config
+    
+    def displayCurrentConf(self):
+        print(self.preset.currentDict)
     
     def loadConf(self, conf):
-        for key in stubs.currentDict.keys():
-            stubs.currentDict[key] = conf[key]
+        for key in self.preset.currentDict.keys():
+            self.preset.currentDict[key] = conf[key]
         self.lcdMgr.loadConf()
+        self.displayCurrentConf()
     
     
         

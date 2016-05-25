@@ -1,20 +1,21 @@
 ## HMI mockup python version
 
 import Classes
-from layout import layout
+from config import PyGuitarConf
 import FrontEnd
 
+
 def settings():
-  size(int(round(layout.widthReal*Classes.Positionable.scaleFactor)),
-       int(round(layout.heightReal*Classes.Positionable.scaleFactor)))
+  size(int(round(PyGuitarConf.Layout.widthReal*Classes.Positionable.scaleFactor)),
+       int(round(PyGuitarConf.Layout.heightReal*Classes.Positionable.scaleFactor)))
 
 ihm = None
 
 def setup():
     global ihm
+    global conf
     ihm =  FrontEnd.HMIMgr()
 
 def draw():
-    background(layout.bg)
+    background(PyGuitarConf.Layout.bg)
     ihm.display()
- 

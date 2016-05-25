@@ -362,6 +362,9 @@ class LedPB:
         self.pb = PushButton(xx,yy, q)
         self.confDict = confDict
         self.key = key
+        
+    def toggle(self):
+        self.confDict[self.key] = 0 if self.confDict[self.key] else 1
 
     def update(self):
         self.led.set(self.confDict[self.key])

@@ -1,3 +1,7 @@
+
+import sys,csv
+
+
 # this is where I put all the preset configs
 
 """
@@ -5,6 +9,7 @@ Each config is a dictionary of this form:
 currentDict = {'Name': 'EasyMusic','M' : [0,0],'A' : [0,0],'B' : [0,0],'C' : [0,0],'D' : [0,0],'TR' : [None,0],'S' : '(|(+A(|BC)D)','TREM' : 0,'VIB' : 0}
 """
 # configs is a dictionary with key (hs,vs) where hs is horizontal selector pos, and vs is vertical selector pos
+"""
 Configs  = {(0,0): {'Name':'(0,0)','M' : [0,0],'A' : [0,0],'B' : [0,0],'C' : [0,0],'D' : [0,0],'TR' : [None,0],'S' : '(|(Ab)','TREM' : 0,'VIB' : 0, 'AUX0' : 0, 'AUX1' : 0},
             (1,0): {'Name':'(1,0)','M' : [1,0],'A' : [1,0],'B' : [1,0],'C' : [1,0],'D' : [1,0],'TR' : [None,0],'S' : '(|BA)','TREM' : 1,'VIB' : 1, 'AUX0' : 1, 'AUX1' : 1},
             (2,0): {'Name':'(2,0)','M' : [2,0],'A' : [2,0],'B' : [2,0],'C' : [2,0],'D' : [2,0],'TR' : [None,0],'S' : '(|CA)','TREM' : 0,'VIB' : 0, 'AUX0' : 0, 'AUX1' : 0},
@@ -31,4 +36,119 @@ Configs  = {(0,0): {'Name':'(0,0)','M' : [0,0],'A' : [0,0],'B' : [0,0],'C' : [0,
             (3,4): {'Name':'(3,4)','M' : [3,4],'A' : [3,4],'B' : [3,4],'C' : [3,4],'D' : [3,4],'TR' : [None,0],'S' : '(|Da)','TREM' : 1,'VIB' : 1, 'AUX0' : 1, 'AUX1' : 1},
             (4,4): {'Name':'(4,4)','M' : [4,4],'A' : [4,4],'B' : [4,4],'C' : [4,4],'D' : [4,4],'TR' : [None,0],'S' : '(|Da)','TREM' : 0,'VIB' : 0, 'AUX0' : 0, 'AUX1' : 0},
             }
-                
+"""
+class Preset():
+
+    def __init__(self,pyGuitarConf,fileName=None):
+            # the fileName is used to load a presets file, if one exists,
+            # if not, one is created
+            self.conf = pyGuitarConf
+            self.presets = {}
+            if fileName==None:
+                self.filePath =  self.conf.LocalConf.presetDir +   self.conf.LocalConf.dirSeparator +  self.conf.LocalConf.presetFileName
+            else:
+                self.filePath = fileName
+            print "creating preset instance from " + self.filePath
+            try:
+                with open(self.filePath, 'r') as csvfile:
+                    print "opened file: " + self.filePath
+                    reader = csv.DictReader(csvfile,fieldnames = self.conf.Vocab.headings,delimiter=',')
+                    self.header = reader.next()
+                    for row in reader:
+                        self.rowDict2confDict(row)
+            except:
+                print "error reading preset file!  Creating new one!"
+                self.createDefaultPresets()
+            self.currentDict = {}
+            for k in self.presets[(0,0)].keys():
+                self.currentDict[k] = self.presets[(0,0)][k]
+
+    def rowDict2confDict(self,row):
+        curConfDict= {}
+        self.presets[(int(row[self.conf.Vocab.headings[0]]),int(row[self.conf.Vocab.headings[1]]))]= curConfDict
+        curConfDict[self.conf.Vocab.configKeys[0]] = row[self.conf.Vocab.headings[2]]
+        for i in  range(1,6):
+            curConfDict[self.conf.Vocab.configKeys[i]] = [int(row[self.conf.Vocab.headings[1+2*i]]),int(row[self.conf.Vocab.headings[2+2*i]])]
+        curConfDict[self.conf.Vocab.configKeys[6]] = [None,int(row[self.conf.Vocab.headings[13]])]
+        curConfDict[self.conf.Vocab.configKeys[7]] = row[self.conf.Vocab.configKeys[7]]
+        for k in self.conf.Vocab.configKeys[8:]:
+                curConfDict[k] = int(row[k])
+                        
+    def createDefaultPresets(self):
+        # this will create a default preset file in the default location
+        # with default content
+        for i in range(5):
+            for j in range(5):
+                self.presets[(i,j)] = self.conf.presetConf.defaultConfDict
+        self.header = self.conf.Vocab.headings
+        #self.toFile(self.conf..presetFileName)
+    
+    def toFile(self, file = None):
+        # this will write the presets to a file,
+        # if a file argument is provided it is used and it
+        # updates the instance filePath
+        # otherwise the current instance filePath is used
+        if file: 
+            self.filePath = file
+        with open(self.filePath, 'w') as csvfile:
+            writer = csv.DictWriter(csvfile,
+                                    fieldnames = self.conf.Vocab.headings,
+                                    delimiter=',')
+                                    #quotechar="'", 
+                                    #quoting=csv.QUOTE_MINIMAL)
+            writer.writerow(self.header)
+            for p in self.presets.keys():
+                writer.writerow(self.confDict2RowDict(p,self.presets[p]))
+    
+    def confDict2RowDict(self,key,conf):
+        curRowDict= {}
+        # horiz and verti
+        for i in range(2):
+            curRowDict[self.conf.Vocab.headings[i]] = key[i]
+        #Name
+        curRowDict[self.conf.Vocab.headings[2]] = conf[self.conf.Vocab.headings[2]]
+        
+        #M,A,B,C,D  vol and tone    
+        for i in  range(1,6):
+            curRowDict[self.conf.Vocab.headings[1+2*i]] = conf[self.conf.Vocab.configKeys[i]][0]
+            curRowDict[self.conf.Vocab.headings[2+2*i]] = conf[self.conf.Vocab.configKeys[i]][1]
+        # TneRange    
+        curRowDict[self.conf.Vocab.headings[13]] = conf[self.conf.Vocab.configKeys[6]][1]
+        #S,TREM,VIB,AUX0,AUX1
+        for k in self.conf.Vocab.headings[14:]:
+                curRowDict[k] = conf[k]
+        return curRowDict
+    
+    def add(self,name,vDict):
+        # add this to the presets, if the vDict is proper length:
+        # and no keys are wrong
+        # print "preset.add(",name,vDict,")", self.header
+        assert(len(vDict) == len(self.header[1:]))
+        assert [k in self.header for k in vDict.keys()]
+        newDict = {}
+        for k in vDict.keys():
+            newDict[k] = vDict[k]
+        self.presets[name]=newDict
+        
+    def remove(self,name):
+        # just remove it or do nothing if not possible
+        if name in self.presets.keys():
+            del self.presets[name]
+    
+    def rename(self,old,new):
+        # to rename a preset, we create a new dict copied from previous one
+        # put it in with the new name
+        # and remove the reference to the old name
+        # if the old name is not found, do nothing
+        # return True if success, False otherwise
+        # print "renaming preset: " + old + " to: " + new
+        res = False
+        if old in self.presets.keys():
+            newDict = {}
+            for k in self.presets[old].keys():
+                newDict[k] = self.presets[old][k]
+            self.presets[new] = newDict
+            del self.presets[old]
+            res = True
+        return res
+            
