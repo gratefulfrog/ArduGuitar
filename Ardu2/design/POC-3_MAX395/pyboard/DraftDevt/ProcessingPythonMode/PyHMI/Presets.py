@@ -123,8 +123,6 @@ class Preset():
         # add this to the presets, if the vDict is proper length:
         # and no keys are wrong
         # print "preset.add(",name,vDict,")", self.header
-        assert(len(vDict) == len(self.header[1:]))
-        assert [k in self.header for k in vDict.keys()]
         newDict = {}
         for k in vDict.keys():
             newDict[k] = vDict[k]
@@ -151,4 +149,9 @@ class Preset():
             del self.presets[old]
             res = True
         return res
+    
+    def saveCurrentConfigAsPreset(self, key):
+        self.currentDict[self.conf.vocab.configKeys[11]] = 0
+        self.add(key,self.currentDict)
+        self.toFile()
             

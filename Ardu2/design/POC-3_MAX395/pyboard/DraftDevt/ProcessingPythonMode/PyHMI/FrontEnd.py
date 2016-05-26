@@ -123,10 +123,10 @@ class HMIMgr:
         self.loadConf(self.preset.presets[(self.sh.pos,self.sv.pos)])
     
     def pb(self,who,unused):
-        whoFuncs = [(self.ledPbA.ledPbs[0].toggle,stubs.r,self.displayCurrentConf),
-                    (self.ledPbA.ledPbs[1].toggle,stubs.y),
-                    (self.ledPbA.ledPbs[2].toggle,stubs.g),
-                    (self.ledPbA.ledPbs[3].toggle,stubs.b),
+        whoFuncs = [(self.ledPbA.ledPbs[0].toggle,stubs.r,self.displayCurrentConf),     # this one has no real function, currently is used for debugging
+                    (stubs.y,self.saveCurrentConfAsPreset,self.ledPbA.ledPbs[1].flash), # this is the one saves the preset, 
+                    (self.ledPbA.ledPbs[2].toggle,stubs.g),                             # Tremolo
+                    (self.ledPbA.ledPbs[3].toggle,stubs.b),                             # Vibrato
                     (self.lcdMgr.onLeftButton,),
                     (self.lcdMgr.onRightButton,)]
         print('PB:\t' + str(who))           
@@ -147,6 +147,9 @@ class HMIMgr:
             self.preset.currentDict[key] = conf[key]
         self.lcdMgr.loadConf()
         self.displayCurrentConf()
+        
+    def saveCurrentConfAsPreset(self):
+        self.preset.saveCurrentConfigAsPreset((self.sh.pos,self.sv.pos))
     
     
         

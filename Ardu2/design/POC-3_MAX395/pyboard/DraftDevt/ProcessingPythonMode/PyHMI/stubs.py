@@ -11,6 +11,7 @@ def r():
     print('RED')  #id = 0
 def y():
     print('YELLOW')  #id = 1
+    print('Saving presets to disk...')
 def g(): 
     print('GREEN')  #id = 2  Tremolo!
 def b():
@@ -45,4 +46,3 @@ def pWorkaround(v):
 
 def set(attribute, owner, value):
     print('SET:\n\tAttribute:\t' + str(attribute) +'\n\tOwner:\t' + str(owner) +'\n\tValue:\t' + hex(value))
-

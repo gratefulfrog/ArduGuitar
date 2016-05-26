@@ -356,18 +356,40 @@ class LedPB:
     ledHOffset = 3*Positionable.scaleFactor
     hSpacing = 10
     vSpacing = 22
+    flashTime = 1000 # ms
+    timeBetweenBlinks = 100 #ms
 
     def __init__(self,xx,yy,cc,q,(confDict,key)):
         self.led = LED(LedPB.ledHOffset,LedPB.ledVOffset,cc)
         self.pb = PushButton(xx,yy, q)
         self.confDict = confDict
         self.key = key
+        self.flashing = False
         
     def toggle(self):
         self.confDict[self.key] = 0 if self.confDict[self.key] else 1
+    
+    def flash(self):
+        self.flashing = True
+        self.lastChangeTime = millis()
+        self.stop = self.lastChangeTime + self.flashTime
+
+    def doFlashSet(self):    
+        now = millis()
+        if now < self.stop:
+            if now > self.lastChangeTime + self.timeBetweenBlinks:
+                self.lastChangeTime = now
+                self.toggle()
+                self.led.set(self.confDict[self.key])
+        else:
+            self.flashing = False
+            self.confDict[self.key] = 0
 
     def update(self):
-        self.led.set(self.confDict[self.key])
+        if self.flashing:
+            self.doFlashSet()
+        else:
+            self.led.set(self.confDict[self.key])
 
     def display(self):
         self.update()
