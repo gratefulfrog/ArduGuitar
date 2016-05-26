@@ -48,10 +48,10 @@ class Preset():
                 self.filePath =  self.conf.LocalConf.presetDir +   self.conf.LocalConf.dirSeparator +  self.conf.LocalConf.presetFileName
             else:
                 self.filePath = fileName
-            print "creating preset instance from " + self.filePath
+            print "creating preset instance from:\t" + self.filePath
             try:
                 with open(self.filePath, 'r') as csvfile:
-                    print "opened file: " + self.filePath
+                    #print "opened file: " + self.filePath
                     reader = csv.DictReader(csvfile,fieldnames = self.conf.Vocab.headings,delimiter=',')
                     self.header = reader.next()
                     for row in reader:
@@ -99,7 +99,8 @@ class Preset():
             writer.writerow(self.header)
             for p in self.presets.keys():
                 writer.writerow(self.confDict2RowDict(p,self.presets[p]))
-    
+        print "Wrote file:\t" + self.filePath
+        
     def confDict2RowDict(self,key,conf):
         curRowDict= {}
         # horiz and verti

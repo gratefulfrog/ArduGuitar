@@ -107,18 +107,13 @@ class TrackBall(Positionable,MouseLockable,EnQueueable):
             (mouse,mouseStartS,StepS,IS) = self.getSet(isHorizontal)
             positiveMovement= eval(mouseStartS)<= mouse
             exec(StepS + '= map(abs(mouse-eval(mouseStartS)),0,2*TrackBall.radius,0,18)')
-            #self.hSteps = map(abs(mouse-eval(mouseStartS)),0,2*TrackBall.radius,0,18)
             exec(mouseStartS + ' = mouse')
             if eval(StepS)>0:
-            #if self.hSteps>0:
                 if positiveMovement:
                     exec(IS + '= (' + IS + '+1)%10')
-                    #self.hI = (self.hI+1)%10  
                 else: 
                     exec(IS + '= (9 if ' + IS + '==0 else ' + IS +' -1)')
-                    #self.hI= (9 if self.hI==0 else self.hI-1)
                 exec(StepS  +'-=1')
-                #self.hSteps -=1
                 self.slidingHelper();
         elif self.sliding:
             # we are over and locked and release mouse
