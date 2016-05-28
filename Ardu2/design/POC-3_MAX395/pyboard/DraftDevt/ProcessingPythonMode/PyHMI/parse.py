@@ -88,11 +88,6 @@ def connect (coilA,coilB):
     """
     return coilA + coilB
 
-def connectionList (cLis):
-    return [[elt, 'OUT+'] for elt in cLis[0]] + \
-        [[elt, 'OUT-'] for elt in cLis[1]] + \
-        reduce(lambda x,y: x+y,[mapConnect(x) for x in cLis[2]])
-
 def mapConnect(lis, res=[]):
     if len(lis)==1:
         return res
@@ -139,10 +134,8 @@ def ss(n1, n2, *otherNodes):
     """
     return reduce(s, [n1,n2] + list(otherNodes))
 
-########
-### data
-########
-A = p('A')
-B = p('B')
-C = p('C')
-D = p('D')
+def connectionList (cLis):
+    return [[elt, 'OUT+'] for elt in cLis[0]] + \
+        [[elt, 'OUT-'] for elt in cLis[1]] + \
+        reduce(lambda x,y: x+y,[mapConnect(x) for x in cLis[2]])
+
