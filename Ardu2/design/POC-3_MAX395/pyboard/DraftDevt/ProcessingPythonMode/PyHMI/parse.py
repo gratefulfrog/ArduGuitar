@@ -126,16 +126,19 @@ def pp (n1, *otherNodes):
     """"
     returns a list of n parallel connected nodes where n>0
     """
-    return reduce(p, [n1] + list(otherNodes))
+    #print(n1)
+    #print(otherNodes)
+    return p(n1) if not otherNodes else reduce(p, [n1] + list(otherNodes))
 
 def ss(n1, n2, *otherNodes):
     """
     returns a list of n series connected nodes where n > 1
     """
-    return reduce(s, [n1,n2] + list(otherNodes))
+    #print(n1,n2)
+    #print(otherNodes)
+    return s(n1,n2) if not otherNodes else  reduce(s, [n1,n2] + list(otherNodes))
 
 def connectionList (cLis):
     return [[elt, 'OUT+'] for elt in cLis[0]] + \
-        [[elt, 'OUT-'] for elt in cLis[1]] + \
-        reduce(lambda x,y: x+y,[mapConnect(x) for x in cLis[2]])
-
+           [[elt, 'OUT-'] for elt in cLis[1]] + \
+           ([] if not cLis[2] else reduce(lambda x,y: x+y,[mapConnect(x) for x in cLis[2]]))

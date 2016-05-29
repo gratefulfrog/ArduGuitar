@@ -1,7 +1,5 @@
-import Classes,  SplitPot, TrackBall,  oClasses, stubs
+import Classes,  SplitPot, TrackBall, oClasses, sParse, stubs
 from config import PyGuitarConf
-from Presets import Preset
-
 from Presets import Preset
 
 class Q:
@@ -43,22 +41,18 @@ class HMIMgr:
         self.q = Q()
         self.conf = PyGuitarConf()
         self.preset = Preset(self.conf)
-        #print('Current Config:\n' + str(self.preset.currentDict))
-        #print(self.preset.presets)
-    
- 
+
         self.ld = Classes.LedDisplay(PyGuitarConf.Layout.oLD,(self.preset.currentDict,self.conf.vocab.configKeys[1:7])) #not an active component, so no Q needed
         
         self.ledPbA = Classes.LedPBArray(PyGuitarConf.Layout.oLPA,self.q,self.preset.currentDict,self.conf.vocab.configKeys[10:]+self.conf.vocab.configKeys[8:10])
         self.spa    = SplitPot.SplitPotArray(PyGuitarConf.Layout.oSPA,HMIMgr.targVec[3],self.q)        
-        self.lcdMgr = oClasses.LCDMgr((self.preset.currentDict,'S','Name'),Classes.LCD(PyGuitarConf.Layout.oLCD),self.q,self.validateLCDInput)
+        self.lcdMgr = oClasses.LCDMgr((self.preset.currentDict,'S','Name'),Classes.LCD(PyGuitarConf.Layout.oLCD),self.q,self.validateAndApplyLCDInput)
         self.sh     = Classes.Selector(PyGuitarConf.Layout.oSH,Classes.Selector.white,True,self.q) 
         self.sv     = Classes.Selector(PyGuitarConf.Layout.oSV,Classes.Selector.black,False,self.q)
-        
         self.tb     = TrackBall.TrackBall(PyGuitarConf.Layout.oTB, self.q, PyGuitarConf.Layout.bg) # stubs.hTBFunc,stubs.vTBFunc,PyGuitarConf.Layout.bg)
-        
         self.setVec = [self.inc, self.pb, self.doConf, self.vol, self.tone]
-    
+        
+        self.loadConf(self.preset.presets[(self.sh.pos,self.sv.pos)])
     
     def pollInterrupters(self):
         self.ld.display()
@@ -101,10 +95,12 @@ class HMIMgr:
             # its vol
             newVol = max(0,(min(self.preset.currentDict['M'][0] + val,5)))
             self.preset.currentDict['M'][0] = newVol
+            print(who +':\t' + str(newVol))
         else:
             newTone = max(0,(min(self.preset.currentDict['M'][1] + val,5)))
             self.preset.currentDict['M'][1] = newTone
-    
+            print(who +':\t' + str(newTone))
+            
     def vol(self,who,val):
         # who is 'M','A','B','C','D'
         if val != self.preset.currentDict[who][0]:
@@ -114,7 +110,7 @@ class HMIMgr:
     def tone(self,who,val):
         # who is 'M','A','B','C','D','TR'
         if val != self.preset.currentDict[who][1]:
-            print('VOL:\t' + str(who) +'\t' + str(val))
+            print('TONE:\t' + str(who) +'\t' + str(val))
             self.preset.currentDict[who][1] = val
     
     def doConf(self,who,val):
@@ -133,23 +129,48 @@ class HMIMgr:
         for f in whoFuncs[who]:
             f()
 
-    def validateLCDInput(self, conf):
-        res  = stubs.validateConf(conf.strip())
-        if res:
-            self.preset.currentDict['S'] = conf.strip()
-        return res  # this updates the config
+    
     
     def displayCurrentConf(self):
         print(self.preset.currentDict)
     
     def loadConf(self, conf):
-        for key in self.preset.currentDict.keys():
-            self.preset.currentDict[key] = conf[key]
+        try:
+            sp = sParse.SExpParser(conf[self.conf.vocab.configKeys[7]])
+            sp.execute()
+            for key in self.preset.currentDict.keys():
+                self.preset.currentDict[key] = conf[key]
+        except Exception as e:
+            print (e)
+            sp = sParse.SExpParser(self.conf.presetConf.defaultConfDict[self.conf.vocab.configKeys[7]])
+            sp.execute()
+            for key in self.conf.presetConf.defaultConfDict.keys():
+                self.preset.currentDict[key] = self.conf.presetConf.defaultConfDict[key]
+            self.preset.currentDict[self.conf.vocab.configKeys[0]] = 'DEFAULT PRESET'
+            
         self.lcdMgr.loadConf()
         self.displayCurrentConf()
         
     def saveCurrentConfAsPreset(self):
         self.preset.saveCurrentConfigAsPreset((self.sh.pos,self.sv.pos))
     
+    def validateAndApplyLCDInput(self,confString):
+        try:
+            sp = sParse.SExpParser(confString.strip())
+            sp.execute()
+            return True
+        except Exception as e:
+            print (e)
+            return False
+    
+    """
+    def validateLCDInput(self, conf):
+        res  = stubs.validateConf(conf.strip())
+        if res:
+            self.preset.currentDict['S'] = conf.strip()
+        return res  # this updates the config
+    """
+        
+            
     
         

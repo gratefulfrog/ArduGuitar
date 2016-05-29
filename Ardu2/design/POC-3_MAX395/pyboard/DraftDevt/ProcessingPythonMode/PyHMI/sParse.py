@@ -39,7 +39,7 @@ from parse import ss,pp,connectionList
 
 # stub inverter call
 def invert(coil):
-    print ('Inverted Coil:\t\t'+coil)
+    print ('Inverted Coil:\t'+coil)
 def connect(a,b):
     print ('Connected Coils:\t'+ a +','+b)
 
@@ -94,7 +94,10 @@ class SExpParser():
         
     
     def readFromTokens(self,tokens):
-        "Read an expression from a sequence of tokens. Physically destroys tokens"
+        """
+        Read an expression from a sequence of tokens. 
+        Physically destroys tokens.
+        """
         if len(tokens) == 0:
             raise SyntaxError('unexpected EOF while reading')
         token = tokens.pop(0)
@@ -120,12 +123,12 @@ class SExpParser():
             else:
                 res1+=c
             
-        return inverters+[res1]
+        return (inverters+[res1])
 
     def execute(self):
         exps = self.executable()
         res=[]
-        for exp in exps[0:-2]:
+        for exp in exps[:-1]:
             res.append(eval(exp,env))
         for con in connectionList(eval(exps[-1],env)):
             connect(con[0],con[1])

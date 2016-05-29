@@ -130,7 +130,7 @@ class SplitPotArray(Positionable):
         self.splitPots = [None for i in range(SplitPotArray.nbCoils+2)]
         
         px = SplitPotArray.masterRangeSpace
-        funcArray = [stubs.makeVTFunc(name) for name in names[:SplitPotArray.nbCoils+1]]
+        #funcArray = [stubs.makeVTFunc(name) for name in names[:SplitPotArray.nbCoils+1]]
         self.splitPots[0] = SplitPot(self.x,
                                      self.y,
                                      names[0],

@@ -45,8 +45,7 @@ class LCDMgr:
         self.lcdPba = Classes.LCDPBArray(q)
         self.lcdPba.lcdPbs[0].clickFuncLis = [self.onLeftButton]
         self.lcdPba.lcdPbs[1].clickFuncLis = [self.onRightButton]
-        self.loadConf()
-        
+                
     def display(self):
         self.lcd.display()
         self.lcdPba.display()
@@ -133,22 +132,12 @@ class LCDMgr:
         
 
     def confirmed(self):
-        ###
-        #print('confirmed')
         if self.validateFunc(self.lcd.getLn(0)): # put a real test here for the display Char list
-            #     '0123456789ABCDEF'
-            #msg = 'Abort - Confirm'
-            #self.lcd.setLn(1,msg)
-            #print(msg)
             self.stateString = ''.join([c for c in self.displayCharList if c != ' '])
             self.lcd.setLn(0,self.stateString)
             self.lcd.setLn(1,self.stateName)
             self.setDisplayMode()
         else:
-            #     '0123456789ABCDEF'
-            msg = '  Error-Rejected!'
-            #self.lcd.setLn(1,msg)
-            #print(msg)
             self.setEditingMode(True)               
         
     def onRightButton(self):

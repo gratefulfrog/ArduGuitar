@@ -1,10 +1,5 @@
 # stub functions
 
-#utility active sleep function 
-def mSleep(msecs):
-    now = millis()
-    while millis()-now < msecs:
-        None
 
 # pushbutton funcs
 def r():
@@ -19,9 +14,12 @@ def b():
     
 lpbFuncs = [r,y,g,b]
 
-def validateConf(conf):
-    print(conf + ':\tOK!')
-    return True
+"""
+#utility active sleep function 
+def mSleep(msecs):
+    now = millis()
+    while millis()-now < msecs:
+        None
 
 def hSelect(p):
     print('Horizontal Selector Func called on pos:\t' + str(p))
@@ -43,6 +41,11 @@ def makeVTFunc(name, volActive=True):
 def pWorkaround(v):
     print(v)
 
-
 def set(attribute, owner, value):
     print('SET:\n\tAttribute:\t' + str(attribute) +'\n\tOwner:\t' + str(owner) +'\n\tValue:\t' + hex(value))
+    
+
+def validateConf(conf):
+    print(conf + ':\tOK!')
+    return True
+"""

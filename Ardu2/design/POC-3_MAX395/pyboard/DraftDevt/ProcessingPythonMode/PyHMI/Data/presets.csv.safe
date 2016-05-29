@@ -1,5 +1,5 @@
 HorizontalSelector,VerticalSelector,Name,MasterVol,MasterTone,AVol,ATone,BVol,BTone,CVol,CTone,DVol,DTone,ToneRange,S,TREM,VIB,AUX0,AUX1
-0,0,"(0,0)",0,0,0,0,0,0,0,0,0,0,5,(|(Ab),0,0,0,0
+0,0,"(0,0)",0,0,0,0,0,0,0,0,0,0,5,AbCD ,0,0,0,0
 1,0,"(1,0)",1,0,1,0,1,0,1,0,1,0,5,(|BA),1,1,1,1
 2,0,"(2,0)",2,0,2,0,2,0,2,0,2,0,5,(|CA),0,0,0,0
 3,0,"(3,0)",3,0,3,0,3,0,3,0,3,0,5,(|DA),1,1,1,1
