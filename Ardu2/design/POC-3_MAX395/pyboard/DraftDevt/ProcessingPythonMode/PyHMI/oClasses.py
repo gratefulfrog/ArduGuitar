@@ -14,7 +14,7 @@ class LCDMgr:
     eoLine = 15
     lineLength = 16
     letters = ['A','a','B','b','C','c','D','d']  # lower case => inverted
-    symobls = ['(',')','|','+']
+    symbols = ['(','|','+',')']
 
     def initChars():
         #print('initChars')
@@ -52,7 +52,7 @@ class LCDMgr:
     
     def setSList(self):
         #print('setSList')
-        self.sList = [' '] + self.lettersLeft + LCDMgr.symobls
+        self.sList = [' '] + LCDMgr.symbols + self.lettersLeft
         
     def setEditingMode(self, special = None):
         #print('setEditingMode')
