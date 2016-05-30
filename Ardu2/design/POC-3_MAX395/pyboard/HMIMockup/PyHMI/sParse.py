@@ -38,8 +38,9 @@ Now, how to interpret the String:
 from parse import ss,pp,connectionList
 
 # stub inverter call
-def invert(coil):
-    print ('Inverted Coil:\t'+coil)
+def invert(coil,val):
+    print ('Inverted Coil:\t'+ coil + '\t' + str(val))
+    print("""'a.set("%s",State.Inverter,%s)'"""%(coil, 'State.l1' if val else 'State.lOff'))
 def connect(a,b):
     print ('Connected Coils:\t'+ a +','+b)
 
@@ -118,8 +119,11 @@ class SExpParser():
         inverters = []
         for c in  res0:
             if c in SExpParser.inverted:
-                inverters.append('invert('+c.upper()+')')
+                inverters.append('invert('+c.upper()+',1)')
                 res1+=c.upper()
+            elif c in SExpParser.straight:
+                inverters.append('invert('+ c +',0)')
+                res1+=c
             else:
                 res1+=c
             
