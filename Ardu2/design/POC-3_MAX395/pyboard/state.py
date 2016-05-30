@@ -1,5 +1,6 @@
 #!/usr/local/bin/python3.4
-# state.py 
+# state.py
+# 2016 05 30 added Vibrato and Tremolo, then removed it since all the dependencies need to be updated
 
 class State():
     """
@@ -54,6 +55,8 @@ class State():
     Vol	      = -2
     Tone      = -3
     ToneRange = -4
+    #Tremolo   = -5
+    #Vibrato   = -6
     
     debug = True #False
 

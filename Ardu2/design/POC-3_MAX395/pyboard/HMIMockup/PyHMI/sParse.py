@@ -37,13 +37,15 @@ Now, how to interpret the String:
 """
 from parse import ss,pp,connectionList
 
-# stub inverter call
-def invert(coil,val):
-    print ('Inverted Coil:\t'+ coil + '\t' + str(val))
-    print("""'a.set("%s",State.Inverter,%s)'"""%(coil, 'State.l1' if val else 'State.lOff'))
-def connect(a,b):
-    print ('Connected Coils:\t'+ a +','+b)
+# app call generators
 
+def invert(coil,val):
+    #print ('Inverted Coil:\t'+ coil + '\t' + str(val))
+    return "a.set('%s',State.Inverter,%s)"%(coil, 'State.l1' if val else 'State.lOff')
+
+def connect(a,b):
+    #print ('Connected Coils:\t'+ str(a) +','+ str(b))
+    return "a.connect('%s',%d,'%s',%d)"%(a[0],a[1],b[0],b[1]) 
 
 env = { 's':ss,
         'p':pp,
@@ -135,7 +137,8 @@ class SExpParser():
         for exp in exps[:-1]:
             res.append(eval(exp,env))
         for con in connectionList(eval(exps[-1],env)):
-            connect(con[0],con[1])
+            res.append(connect(con[0],con[1]))
+        return res
 
 
     def pModal(self,expLis,mode=0,res=''):
@@ -154,8 +157,7 @@ class SExpParser():
         2: find a list: add a ',' plus the result of recursing on it in mode 0, and recurse on rest in mode 2
         2: find an atom, add a ',' plus it,  recruse on rest in mode 2
         2: find an empty list: add a ')' and return res
-
-2: find an emply list, add ) and terminate
+        2: find an emply list, add ) and terminate
         """
         if not expLis:
             if mode == 2:

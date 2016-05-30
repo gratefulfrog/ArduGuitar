@@ -1,6 +1,6 @@
-# stub functions
+# stub functions NO LONGER USED !!!!
 
-
+"""
 # pushbutton funcs
 def r():
     print('RED')  #id = 0
@@ -14,7 +14,7 @@ def b():
     
 lpbFuncs = [r,y,g,b]
 
-"""
+
 #utility active sleep function 
 def mSleep(msecs):
     now = millis()

@@ -1,6 +1,6 @@
 #oClasses.py
 
-import Classes, stubs
+import Classes 
 
 class LCDMgr:
     display = 0

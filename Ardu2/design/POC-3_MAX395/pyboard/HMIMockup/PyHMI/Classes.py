@@ -1,4 +1,3 @@
-import stubs
 
 class Positionable:
   scaleFactor =  4

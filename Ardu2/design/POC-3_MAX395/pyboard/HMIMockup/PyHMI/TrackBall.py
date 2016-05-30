@@ -1,5 +1,4 @@
 from Classes import Positionable, MouseLockable,EnQueueable
-import stubs
 
 class TrackBall(Positionable,MouseLockable,EnQueueable):
     radius = 22*Positionable.scaleFactor
@@ -37,7 +36,6 @@ class TrackBall(Positionable,MouseLockable,EnQueueable):
         self.outline()
         self.lines(True)
         self.lines(False)
-        #stubs.mSleep(TrackBall.delayMS)
         popMatrix()
     
     def outline(self):

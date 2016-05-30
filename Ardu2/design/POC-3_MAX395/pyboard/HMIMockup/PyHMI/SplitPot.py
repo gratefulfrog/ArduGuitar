@@ -1,5 +1,4 @@
 from Classes import Positionable,MouseLockable,EnQueueable
-import stubs
 
 class SplitPot(Positionable,MouseLockable):
     # name display
