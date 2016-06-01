@@ -176,27 +176,26 @@ class HMIMgr:
         # who is 'M','A','B','C','D','TR'
         if force or val != self.preset.currentDict[who][1]:
             #print('TONE:\t' + str(who) +'\t' + str(val))
-            targ = who
-            trVal = str(1)
-            tVal = str(val)
-            if val == 5:
-                trVal = 'Off'
-                tVal  = str(4)
-            elif who !='M':
-                trVal = str(0) if val else 'Off'
-            if who == 'TR':
+            trVal = 'Off'
+            toneVal = '0'
+            if who =='TR':
+                trVal =  str(val-1) if val else 'Off'
                 targ = 'M'
-            if who == 'TR':
-                #print("a.set('%s',State.ToneRange,State.l%s)"%('M',str(val)))
-                self.outgoing.append("a.set('%s',State.ToneRange,State.l%s)"%(targ,trVal))
+                toneVal = None
             elif who == 'M':
-                #print("a.set('%s',State.Tone,State.l%s)"%(who,outVal))
-                self.outgoing.append("a.set('%s',State.Tone,State.l%s)"%(targ,tVal))
+                targ = who
+                trVal = None
+                toneVal = str(val-1) if val else 'Off'
             else:
-                #print("a.set('%s',State.ToneRange,State.l%s)"%(who,trVal))
-                #print("a.set('%s',State.Tone,State.l%s)"%(who,outVal))
+                targ = who
+                trVal = '0' if val else 'Off'
+                toneVal = str(val-1) if val else 'Off'
+            if trVal != None:
                 self.outgoing.append("a.set('%s',State.ToneRange,State.l%s)"%(targ,trVal))
-                self.outgoing.append("a.set('%s',State.Tone,State.l%s)"%(targ,tVal))
+                #print("a.set('%s',State.ToneRange,State.l%s)"%(targ,trVal))
+            if toneVal != None:
+                self.outgoing.append("a.set('%s',State.Tone,State.l%s)"%(targ,toneVal))
+                #print("a.set('%s',State.Tone,State.l%s)"%(targ,toneVal))
             self.preset.currentDict[who][1] = val
             return True
         return False

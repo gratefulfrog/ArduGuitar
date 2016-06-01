@@ -31,6 +31,7 @@ class SplitPot(Positionable,MouseLockable):
         if isToneRange:
             self.vT= ''
             self.tT = SplitPot.toneRangeT
+            self.overVy = lambda : False
         else:
             self.vT= SplitPot.volT
             self.tT = SplitPot.toneT
