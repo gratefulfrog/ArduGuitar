@@ -1,9 +1,9 @@
-(kicad_pcb (version 4) (host pcbnew 0.201511171411+6319~30~ubuntu15.04.1-product)
+(kicad_pcb (version 4) (host pcbnew 4.1.0-alpha+201605292346+6852~44~ubuntu15.10.1-product)
 
   (general
     (links 194)
     (no_connects 0)
-    (area 104.590474 25.2577 178.081046 158.32066)
+    (area 104.590475 25.4252 178.081046 158.43816)
     (thickness 1.6)
     (drawings 48)
     (tracks 379)
@@ -72,7 +72,6 @@
       (hpglpennumber 1)
       (hpglpenspeed 20)
       (hpglpendiameter 15)
-      (hpglpenoverlay 2)
       (psnegative false)
       (psa4output false)
       (plotreference true)
@@ -1646,12 +1645,12 @@
     )
   )
 
-  (module Housings_DIP:DIP-16_W7.62mm (layer F.Cu) (tedit 564B6267) (tstamp 564C8BA2)
+  (module Housings_DIP:DIP-16_W7.62mm (layer F.Cu) (tedit 5751DD99) (tstamp 564C8BA2)
     (at 138.9888 74.7014 180)
     (descr "16-lead dip package, row spacing 7.62 mm (300 mils)")
     (tags "dil dip 2.54 300")
     (path /564C4B0F)
-    (fp_text reference U2 (at 3.9624 8.7376 180) (layer F.SilkS)
+    (fp_text reference U3 (at 3.9624 8.7376 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value 74HC595 (at 0 -3.72 180) (layer F.Fab) hide
@@ -1707,12 +1706,12 @@
     )
   )
 
-  (module Housings_DIP:DIP-16_W7.62mm (layer F.Cu) (tedit 564B6251) (tstamp 564C8BC1)
+  (module Housings_DIP:DIP-16_W7.62mm (layer F.Cu) (tedit 5751DD7C) (tstamp 564C8BC1)
     (at 135.5344 151.1808 180)
     (descr "16-lead dip package, row spacing 7.62 mm (300 mils)")
     (tags "dil dip 2.54 300")
     (path /564C517A)
-    (fp_text reference U3 (at 3.9624 8.7884 180) (layer F.SilkS)
+    (fp_text reference U0 (at 3.9624 8.7884 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value 74HC595 (at 0 -3.72 180) (layer F.Fab) hide
@@ -1829,12 +1828,12 @@
     )
   )
 
-  (module Housings_DIP:DIP-16_W7.62mm (layer F.Cu) (tedit 564B61E3) (tstamp 564C8BFF)
+  (module Housings_DIP:DIP-16_W7.62mm (layer F.Cu) (tedit 5751DD8A) (tstamp 564C8BFF)
     (at 139.4968 100.3554 180)
     (descr "16-lead dip package, row spacing 7.62 mm (300 mils)")
     (tags "dil dip 2.54 300")
     (path /564C135D)
-    (fp_text reference U5 (at 3.9624 7.1374 180) (layer F.SilkS)
+    (fp_text reference U2 (at 3.9624 7.1374 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value 74HC595 (at 0 -3.72 180) (layer F.Fab) hide
@@ -2508,7 +2507,7 @@
     (descr "Through hole pin header")
     (tags "pin header")
     (path /5655A7D5)
-    (fp_text reference P5 (at -2.794 2.54 360) (layer F.SilkS)
+    (fp_text reference P5 (at -2.794 2.54) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value CONN_01X02 (at 0 -3.1 270) (layer F.Fab) hide
