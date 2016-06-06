@@ -294,4 +294,28 @@ class Invertable(VTable):
             'invert: ' + str(self.invert_) + '\n\t' +\
             super().__repr__().replace('\n','\n\t')
 
-        
+class OnOffable():    
+    """Providing services for anything which can be turned on and off.
+    The name is passed to the superclass!
+    This class behaves like its superclass with simply an addional
+    method:
+    - invert(level)
+    - resetNext() = zeros the next of each member 
+    and a corresponding element in the setFuncs[] vector.
+    """
+    def __init__(self):
+        self.setFuncs =  [self.switch]
+        self.onOff_ = CurrentNextable()
+
+    def switch(self,level):
+        self.onOff_.update(level)
+
+    def resetNext(self):
+        self.onOff_.reset()
+
+    def x(self):
+        self.onOff_.x()
+
+    def __repr__(self):
+        return '\nOnOffable:\n\t' + \
+            'onOff: ' + str(self.onOff_) + '\n\t'

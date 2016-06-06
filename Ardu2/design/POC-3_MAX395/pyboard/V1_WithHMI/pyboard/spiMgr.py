@@ -113,10 +113,12 @@ class SPIMgr():
         # unset the latch
         self.stcp.low()
         # send the bits
+        i=0 # remove for production
         for r in bitArray:
             self.spi.send(r)
             #### COMMENT NEXT LINE FOR Off-Board TESTS!
-            State.printT("send:\t{0:#b}".format(r))
+            State.printT('send reg:\t' + str(i)+ '\t{0:08b}'.format(r))
+            i += 1  # remove for production
         # turn on the latch
         self.stcp.high()
 

@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3.4
 # state.py
 # 2016 05 30 added Vibrato and Tremolo, then removed it since all the dependencies need to be updated
-# 2016 06 06 changed nbShiftRegs to 19 so as to integrate HMI LEDs; added pusbutton colors
+# 2016 06 06 changed nbShiftRegs to 19 so as to integrate HMI LEDs; added pusbutton colors and 'PB' id
 
 class State():
     """
@@ -39,6 +39,7 @@ class State():
     #nbShiftRegs = 14  # i.e. on [0,13[  from stand alone version of code
     nbShiftRegs = 19  # i.e. on [0,18[
     nbSwitchRegs = 4
+    nbHIRegs = 5
     connectionUpdateOnly = 1010
 
     # Make before Break delay in milliseconds 
@@ -53,18 +54,14 @@ class State():
     l4  = 4
     l5  = 5
 
-    # PB Colors
-    RED    = 100
-    YELLOW = 101
-    GREEN  = 102
-    BLUE   = 103
-    
     Inverter  = -1
     Vol	      = -2
     Tone      = -3
     ToneRange = -4
-    #Tremolo   = -5
-    #Vibrato   = -6
+    Tremolo   = 101
+    Vibrato   = 102
+    Red       = 103
+    Yellow    = 104
     
     debug = True #False
 
@@ -72,17 +69,24 @@ class State():
         """ depending on State.debug, print or not
         """
         if State.debug:
-            print(thing) 
+            res = ''
+            for t in thing:
+                res += str(t)
+            print(res)
     
     def stateNeg2SetFuncIndex(stateNeg):
         """
         Static method converts one fo the above negative indices into
         a zero based index for use in the component classes
         """
-        return abs(stateNeg)-1
+        if stateNeg > 100:
+            return 0
+        else:
+            return abs(stateNeg)-1
     
     coils = ['A','B','C','D','M']
     poles = []
+    pb = 'PB'
     
     def __init__(self):
         for c in State.coils:

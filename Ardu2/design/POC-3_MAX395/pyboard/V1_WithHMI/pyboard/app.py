@@ -6,7 +6,7 @@
 #from vactrolControl import vactrolControl
 from bitMgr import BitMgr
 from dictMgr import shuntConfDict
-from components import Invertable,VTable
+from components import Invertable,VTable,OnOffable
 from state import State
 from spiMgr import SPIMgr
 from configs import configDict,mapReplace
@@ -20,6 +20,8 @@ class App():
     The instance will maintain the user readable component classes as well
     as manage the Bits and SPI interfacing.
     usage:
+    from app import App
+    from state import State
     a = App()
     a.set(...)
     a.connect(...)
@@ -27,44 +29,32 @@ class App():
     details:
     >>> from app import App
     >>> a = App()
-    Pin:
-	LatchPin:	X5
-	PinOut:	OUT_PP
-	Value:	0
-	set: LOW
-        send:	0b0
-        ...
-    Pin:
-	LatchPin:	X5
-	PinOut:	OUT_PP
-	Value:	1
-	set: HIGH
     >>> from state import State
+    >>> a.set('PB',State.Vibrato,State.l0)
+    (0, 5) ((0, 223),)
+    ('masking: ', ['0', '0b11011111'])
+    ('setting: (0, 5)',)
+    >>> a.set('PB',State.Tremolo,State.l0)
+    (0, 6) ((0, 191),)
+    ('masking: ', ['0', '0b10111111'])
+    ('setting: (0, 6)',)
+    >>> a.x()
+    xxxxxxxxxxx6543210
+    ('send:\t0b1100000',)
+
     >>> a.set('A',State.Vol,State.l5)
-    masking:  ['4', '0b11000000']
-    setting: (4, 5)
-    currentConfig:	
-    ...
-    >>> >>> a.connect('A',0,'B',1)
-    setting: (0, 1)
-    currentConfig:
-    ...
+    ((10, 7), (4, 5), (4, 7)) ((10, 3), (4, 31))
+    ('masking: ', ['10', '0b11'])
+    ('masking: ', ['4', '0b11111'])
+    ('setting: ((10, 7), (4, 5), (4, 7))',)
+
+    >>> a.connect('A',0,'B',1)
+    ('setting: (8, 2)',)
+    
     >>> a.x()
     setting: None
-    currentConfig:
     ...
-    Pin:
-	LatchPin:	X5
-	PinOut:	OUT_PP
-	Value:	0
-	set: LOW
-        send:	0b10
-        ...
-    Pin:
-	LatchPin:	X5
-	PinOut:	OUT_PP
-	Value:	1
-	set: HIGH
+
     >>> 
     """
     def __init__(self):
@@ -92,6 +82,7 @@ class App():
         for coil in State.coils[:-1]:
             self.coils[coil] = Invertable(coil)
         self.coils[State.coils[-1]]= VTable(State.coils[-1])
+        self.coils[State.pb] = OnOffable()
         self.spiMgr = SPIMgr(State.spiOnX,State.spiLatchPinName)
         # shunt, turn all to State.lOff, unshunt
         self.shuntControl.shunt()
@@ -146,7 +137,6 @@ class App():
         usage:
         >>> a.x()
         """
-        #self.softX()
         for coil in self.coils.values():
             coil.x()
         self.bitMgr.x()
@@ -157,25 +147,7 @@ class App():
         #unshunt
         self.shuntControl.unShunt()
         self.resetConnections = False
-
-    def softX(self):
-        """
-        This version of the method does the following:
-        * sends the new bits ORed with the current bits,
-        * waits for the makeBeforeBreakDelay
-        * sends the new bits
-        usage:
-        >>> a.softX()
-        """
-        #self.vactrol.on()
-        #pyb.delay(10)
-        """self.spiMgr.update(map(lambda x,y: x|y,
-                               self.bitMgr.cnConfig[BitMgr.cur],
-                               self.bitMgr.cnConfig[BitMgr.nex]))
-        """
-        self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.nex])
-        #self.vactrol.off()
-
+      
     def loadConfig(self,confName):
         """ loads a predefined configuration.
         Arg 0 : the name of the conf to load, for lookup in configDict

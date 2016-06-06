@@ -3,6 +3,7 @@
 # provides functionality to update bit arrays for shifting
 # small update on 2015 06 07 to allow for multiple settings as per MAX395 SPI
 # requirements.
+# update 2016 06 06 for HMI LED integration, changed end points
 
 from state import State
 from dictMgr import *
@@ -47,8 +48,8 @@ class BitMgr:
     cur = 0 # index of the current config
     nex = 1 # index of the underwork, next config
     # end point ranges for reset method
-    switchRegEndPoints = (0,State.nbSwitchRegs)
-    ivtrRegEndPoints = (State.nbSwitchRegs,State.nbShiftRegs)
+    switchRegEndPoints = (State.nbHIRegs,State.nbSwitchRegs)
+    ivtrRegEndPoints = (State.nbSwitchRegs+State.nbHIRegs,State.nbShiftRegs)
     allRegEndPoints = (0,State.nbShiftRegs)
 
     def baseFunc(onOff,name,att,val):
@@ -141,7 +142,7 @@ class BitMgr:
                                                  name,
                                                  att,
                                                  state)
-            print(setting,masking)  # this is ok!
+            State.printT(setting,masking)  # this is ok!
             # for a.set('A',State.Inverter,State.l0)
             # ((4, 0), (4, 3)) ((4, 240),)
 
@@ -189,16 +190,16 @@ class BitMgr:
         """
         for (reg,mask) in masking:
             State.printT("masking: ", 
-                         ["{0:d}".format(reg), "{0:#b}".format(mask)])
+                         ["{0:d}".format(reg), "{0:08b}".format(mask)])
         State.printT('setting: ' + str(setting))
-        State.printT(self)
+        #State.printT(self)
 
     def __repr__(self):
         s = 'currentConfig:\t' + \
-            str(["{0:#b}".format(x) \
+            str(["{0:08b}".format(x) \
                      for x in self.cnConfig[BitMgr.cur]]) + '\n' + \
                      'nextConfig:\t' + \
-                     str(["{0:#b}".format(x) \
+                     str(["{0:08b}".format(x) \
                               for x in self.cnConfig[BitMgr.nex]])
         return s
 
