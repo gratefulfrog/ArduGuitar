@@ -17,12 +17,15 @@ class SplitPot(Positionable,MouseLockable):
     h  = 68*Positionable.scaleFactor
     lh = 3*Positionable.scaleFactor
     sepoY = h/2-lh/2
+    maxTrack= 100
 
     def __init__(self,x,y,name,vtFuncIndex,q,isToneRange=False):
         Positionable.__init__(self,x,y)
         MouseLockable.__init__(self,MouseLockable.SPLITPOT)
         self.volEnQueueable = EnQueueable(EnQueueable.VOL,q)
         self.toneEnQueueable = EnQueueable(EnQueueable.TONE,q)
+        self.tracking  = False
+        self.vt=self.doVT
         self.nameT = name
         self.vtFuncIndex = vtFuncIndex
         #  = vtFuncTuple[0]
@@ -47,12 +50,24 @@ class SplitPot(Positionable,MouseLockable):
         self.yT = SplitPot.sepoY/2
         self.yV = SplitPot.h- self.yT
         self.yN = (self.yT+self.yV)/2
+        self.mouseStartY = 0
+        self.mouseEndY   = 0
         self.lastClickTime = millis()
-        # vol tone values
-        #self.lastV=0
-        #self.lastT=0
+        
+ 
+    def track(self,onOff):
+        self.tracking = onOff
+        if onOff:
+            self.volEnQueueable = EnQueueable((EnQueueable.INC,EnQueueable.VOL),self.q)
+            self.toneEnQueueable = EnQueueable((EnQueueable.INC,EnQueueable.TONE),self.q)
+            self.vt=self.doTrackingVT
+        else:
+            self.volEnQueueable = EnQueueable(EnQueueable.VOL,self.q)
+            self.toneEnQueueable = EnQueueable(EnQueueable.TONE,self.q)
+            self.vt=self.doVT
+        #print('SplitPot:\t%s\tTracking:\t%s'%(self.nameT,str(self.tracking)))
     
-    def display(self):
+    def displayVisuals(self):
         pushMatrix()
         translate(self.x*Positionable.scaleFactor,self.y*Positionable.scaleFactor);
         fill(self.fillC)
@@ -62,6 +77,9 @@ class SplitPot(Positionable,MouseLockable):
         rect(0,SplitPot.sepoY,SplitPot.w,SplitPot.lh)
         self.displayLetters()
         popMatrix()
+    
+    def display(self):
+        self.displayVisuals()
         self.mouseTest()
     
     def displayLetters(self):
@@ -81,7 +99,8 @@ class SplitPot(Positionable,MouseLockable):
             if not self.contact:
                 self.contact=True
                 self.invertFill()
-            self.doVT()
+                self.mouseStartY=mouseY
+            self.vt()
         elif self.contact:
             # we had begun a mouse press event, and released the mouse
             self.invertFill()
@@ -118,25 +137,39 @@ class SplitPot(Positionable,MouseLockable):
             val=round(map(mouseY,self.oY+SplitPot.sepoY,self.oY,0,5))
             self.toneEnQueueable.push( self.vtFuncIndex,int(val))
         self.lastClickTime = millis()
-            
+
+    def doTrackingVT(self):
+            if millis() < SplitPot.debounceDelay + self.lastClickTime:
+                return
+            endLim  = 5
+            #print('Mouse:\t%d\tStart:\t%d'%(mouseY,self.mouseStartY))
+            if mouseY>self.mouseStartY:
+                endLim = -endLim
+            if self.oV:    
+                val=round(map(abs(mouseY-self.mouseStartY),0, SplitPot.maxTrack, 0,endLim))
+                self.volEnQueueable.push( self.vtFuncIndex,int(val)) 
+            if self.oT:
+                val=round(map(abs(mouseY-self.mouseStartY),0,SplitPot.maxTrack,0,endLim))
+                #print('Tone:\t%d'%val)
+                self.toneEnQueueable.push( self.vtFuncIndex,int(val))
+            self.mouseStartY=mouseY
+            self.lastClickTime = millis()
+                        
 class SplitPotArray(Positionable):
     masterRangeSpace = 33
     potSpace = SplitPot.w/Positionable.scaleFactor
-    #names            = ['M','A','B','C','D','TR']
     nbCoils          = 4
     
-    def __init__(self,(x,y),names,q):
+    def __init__(self,(x,y),names,q,useTracking=False):
         Positionable.__init__(self,x,y)
         self.splitPots = [None for i in range(SplitPotArray.nbCoils+2)]
         
-        px = SplitPotArray.masterRangeSpace
-        #funcArray = [stubs.makeVTFunc(name) for name in names[:SplitPotArray.nbCoils+1]]
+        px = SplitPotArray.masterRangeSpace        
         self.splitPots[0] = SplitPot(self.x,
                                      self.y,
                                      names[0],
                                      0, # id of 'M'
                                      q)
-                                     #funcArray[0])
         
         for i in range(SplitPotArray.nbCoils):
             self.splitPots[i+1]= SplitPot(self.x+px+i*SplitPotArray.potSpace,
@@ -144,16 +177,20 @@ class SplitPotArray(Positionable):
                                           names[i+1],
                                           i+1,
                                           q)
-                                          #funcArray[i+1])
-        
+
         self.splitPots[SplitPotArray.nbCoils+1] =  SplitPot(self.x+2*px+3*SplitPotArray.potSpace,
                                                             self.y,
                                                             names[SplitPotArray.nbCoils+1],
                                                             SplitPotArray.nbCoils+1, # tone range
                                                             q,
-                                                            #stubs.makeVTFunc(names[SplitPotArray.nbCoils+1],False),
                                                             True)
-        
+        self.activateTracking(useTracking)
+                    
+    def activateTracking(self,activate=True):
+        #print('tracking activated:\t%s'%str(activate))
+        for sp in  self.splitPots:
+            sp.track(activate)
+            
     def display(self):
         for sp in  self.splitPots:
             sp.display()

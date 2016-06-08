@@ -38,84 +38,10 @@ Or:
 
 import sys
 import time
-"""
-try:
-    stdout = sys.stdout.buffer
-except AttributeError:
-    # Python2 doesn't have buffer attr
-    stdout = sys.stdout
-
-def stdout_write_bytes(b):
-    b = b.replace(b"\x04", b"")
-    stdout.write(b)
-    stdout.flush()
-"""
 
 class PyboardError(BaseException):
     pass
-"""
-class TelnetToSerial:
-    def __init__(self, ip, user, password, read_timeout=None):
-        import telnetlib
-        self.tn = telnetlib.Telnet(ip, timeout=15)
-        self.read_timeout = read_timeout
-        if b'Login as:' in self.tn.read_until(b'Login as:', timeout=read_timeout):
-            self.tn.write(bytes(user, 'ascii') + b"\r\n")
 
-            if b'Password:' in self.tn.read_until(b'Password:', timeout=read_timeout):
-                # needed because of internal implementation details of the telnet server
-                time.sleep(0.2)
-                self.tn.write(bytes(password, 'ascii') + b"\r\n")
-
-                if b'for more information.' in self.tn.read_until(b'Type "help()" for more information.', timeout=read_timeout):
-                    # login succesful
-                    from collections import deque
-                    self.fifo = deque()
-                    return
-
-        raise PyboardError('Failed to establish a telnet connection with the board')
-
-    def __del__(self):
-        self.close()
-
-    def close(self):
-        try:
-            self.tn.close()
-        except:
-            # the telnet object might not exist yet, so ignore this one
-            pass
-
-    def read(self, size=1):
-        while len(self.fifo) < size:
-            timeout_count = 0
-            data = self.tn.read_eager()
-            if len(data):
-                self.fifo.extend(data)
-                timeout_count = 0
-            else:
-                time.sleep(0.25)
-                if self.read_timeout is not None and timeout_count > 4 * self.read_timeout:
-                    break
-                timeout_count += 1
-
-        data = b''
-        while len(data) < size and len(self.fifo) > 0:
-            data += bytes([self.fifo.popleft()])
-        return data
-
-    def write(self, data):
-        self.tn.write(data)
-        return len(data)
-
-    def inWaiting(self):
-        n_waiting = len(self.fifo)
-        if not n_waiting:
-            data = self.tn.read_eager()
-            self.fifo.extend(data)
-            return len(data)
-        else:
-            return n_waiting
-"""
 
 class Pyboard:
     def __init__(self, device, baudrate=115200, user='micro', password='python', wait=0):
@@ -323,4 +249,3 @@ def main():
         if ret_err:
             stdout_write_bytes(ret_err)
             sys.exit(1)
-

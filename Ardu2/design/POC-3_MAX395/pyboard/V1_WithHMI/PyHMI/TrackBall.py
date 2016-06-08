@@ -1,6 +1,6 @@
 from Classes import Positionable, MouseLockable,EnQueueable
 
-class TrackBall(Positionable,MouseLockable,EnQueueable):
+class TrackBall(Positionable,MouseLockable):
     radius = 22*Positionable.scaleFactor
     lineColor = '#FFFFFF'
     markColor = '#FF0000' 
@@ -11,7 +11,9 @@ class TrackBall(Positionable,MouseLockable,EnQueueable):
     def __init__(self,(x,y), q, bg):
         Positionable.__init__(self,x,y)
         MouseLockable.__init__(self,MouseLockable.TRACKBALL)
-        EnQueueable.__init__(self,EnQueueable.INC,q)
+        self.volEnQueueable  = EnQueueable((EnQueueable.INC,EnQueueable.VOL),q)
+        self.toneEnQueueable = EnQueueable((EnQueueable.INC,EnQueueable.TONE),q)
+        self.targCoilID = 0
         self.bg = bg
         self.mouseStartX = 0
         self.mouseEndX = 0
@@ -84,10 +86,10 @@ class TrackBall(Positionable,MouseLockable,EnQueueable):
             dV = int(round(map(dX,-w,w,-5,5)))
             dT = int(round(map(dY,-w,w,-5,5)))
             if dV!=0:
-                self.push(0,dV) 
+                self.volEnQueueable.push(self.targCoilID,dV) 
                 self.startPointX= self.mouseEndX
             if dT!=0:
-                self.push(1,dT)
+                self.toneEnQueueable.push(self.targCoilID,dT)
                 self.startPointY= self.mouseEndY
            
     def getSet(unused,isHorizontal):

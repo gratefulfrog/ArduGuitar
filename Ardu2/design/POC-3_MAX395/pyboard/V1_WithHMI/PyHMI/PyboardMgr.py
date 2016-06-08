@@ -6,20 +6,16 @@ class PyboardMgr():
         self.sendCounter = 0
         self.pyb = pyboard.Pyboard(portName)
         self.pyb.enter_raw_repl()
-        self.doBlink()
+        try:
+            #self.doBlink()
+            self.send(['None',])
+        except:
+            pass
     
-    """
-    def open(self):
-        return
-        #self.pyb.enter_raw_repl()
-    def close(self): 
-        return   
-        #self.pyb.exit_raw_repl()
-    """    
     def doBlink(self):
-        #self.open()
+        self.pyb.enter_raw_repl()
         self.doBlink_()
-        #self.close()
+        self.pyb.exit_raw_repl()
         
     def doBlink_(self):
         # must already have opened the chanel
@@ -30,17 +26,19 @@ class PyboardMgr():
             time.sleep(.1)
     
     def send(self,strList):
-        # strList is  a list of string commands to send to pyb
-        # channel is opened, strings sent, blink is done, channel is closed
-        res ='\n********** START SEND: %d  **********\n\n'%self.sendCounter
         #print(strList)
+        # strList is  a list of string commands to send to pyb
+        # channel is already open, strings sent, blink is done, channel is not closed
+        res ='\n********** START SEND: %d  **********\n\n'%self.sendCounter
+       # self.pyb.enter_raw_repl()
+        
         strList[-1] = 'ret__='+strList[-1]
-        #self.open()
         for s in strList:
             res += self.pyb.exec(s)
         res+= self.pyb.exec('print(ret__)')
         #self.doBlink_()
-        #self.close()
+        #self.pyb.exit_raw_repl()
+        
         res += '\n********** END SEND: %d **********\n'%self.sendCounter
         self.sendCounter +=1
         return res

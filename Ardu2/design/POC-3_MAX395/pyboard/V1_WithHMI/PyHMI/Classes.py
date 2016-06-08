@@ -48,6 +48,9 @@ class MouseLockable:
             MouseLockable.hasMouse = None
         
 class EnQueueable:
+    """
+    updated 2016 06 08 to handle tuples as argument typIndex
+    """
     top5Bits = [1<<i for i in range(7,2,-1)]
     INC  = 0
     PB   = 1
@@ -63,7 +66,12 @@ class EnQueueable:
            4 = tone
         """
         # type is an index to top5Bits
-        self.top5 = EnQueueable.top5Bits[typIndex]
+        self.top5 = 0
+        if type(typIndex) == tuple:
+            for t in typIndex:
+                self.top5 |= EnQueueable.top5Bits[t]
+        else:
+            self.top5 = EnQueueable.top5Bits[typIndex]
         self.q = q
         
     def push(self,lower3,secondByte=0):

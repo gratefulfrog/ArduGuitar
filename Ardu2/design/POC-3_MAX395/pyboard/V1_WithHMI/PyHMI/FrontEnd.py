@@ -35,7 +35,7 @@ class Q:
 
 class HMIMgr:
     funcVec= ['inc', 'pb','conf','vol','tone']
-    targVec = [['MVol','MTone'],
+    targVec = [['M','A','B','C','D','TR'], #['MVol','MTone'],
                [0,1,2,3,4,5],
                [0,1], #horizontal, vertical
                ['M','A','B','C','D','TR']]
@@ -48,14 +48,9 @@ class HMIMgr:
         self.outgoing  = []
         self.sendCounter+=1
     
-    def sendToPyboard(self):
-        #print('********** START SEND: %d **********'%self.sendCounter)
-        
+    def sendToPyboard(self):    
         print(self.pyboardMgr.send(self.outgoing))
-        
-        #print('********** END SEND: %d **********'%self.sendCounter)
         self.outgoing  = []
-        #self.sendCounter+=1
         
     def initPyGuitar(self):
         initSeq = ['from app import App',
@@ -70,7 +65,7 @@ class HMIMgr:
     def __init__(self):
         
         self.outgoing = []
-
+        self.sendCounter=0
         if DEBUG:
             self.sendCounter=0
             self.toPyboard = self.toPrint
@@ -86,7 +81,7 @@ class HMIMgr:
         self.ld = Classes.LedDisplay(PyGuitarConf.Layout.oLD,(self.preset.currentDict,self.conf.vocab.configKeys[1:7])) #not an active component, so no Q needed
         
         self.ledPbA = Classes.LedPBArray(PyGuitarConf.Layout.oLPA,self.q,self.preset.currentDict,self.conf.vocab.configKeys[10:]+self.conf.vocab.configKeys[8:10])
-        self.spa    = SplitPot.SplitPotArray(PyGuitarConf.Layout.oSPA,HMIMgr.targVec[3],self.q)        
+        self.spa    = SplitPot.SplitPotArray(PyGuitarConf.Layout.oSPA,HMIMgr.targVec[3],self.q,useTracking=False)        
         self.lcdMgr = oClasses.LCDMgr((self.preset.currentDict,'S','Name'),Classes.LCD(PyGuitarConf.Layout.oLCD),self.q,self.validateAndApplyLCDInput)
         self.sh     = Classes.Selector(PyGuitarConf.Layout.oSH,Classes.Selector.white,True,self.q) 
         self.sv     = Classes.Selector(PyGuitarConf.Layout.oSV,Classes.Selector.black,False,self.q)
@@ -138,31 +133,33 @@ class HMIMgr:
         K = (twoBytes>>8) & 0xFF
         mask = 0x80
         res = False
-        #print('X:\tK:\t' + hex(K)) + '\tV:\t'+ hex(V) 
+        #print('X:\tK:\t' + bin(K)) + '\tV:\t'+ hex(V) 
         for i in range(5):
             if K & (mask>>i):
                 who = HMIMgr.targVec[min(i,3)][K & 0b111]
                 val = (0xFF & V) if (V & 0xFF)<128 else (V & 0XFF)-256
-                res = self.setVec[i](who,val) or res
+                res = self.setVec[i](who,val,K&0B11111000) or res
                 break
         return res
     
-    def inc(self,who,val):
-        # who is 'MVol','MTone'
-        #print('INC:\t' + str(who) +'\t' + str(val))
-        if who == HMIMgr.targVec[0][0]: 
-            # its vol
-            newVol = max(0,(min(self.preset.currentDict['M'][0] + val,5)))
-            return self.vol(who[0],newVol)
-            #self.preset.currentDict['M'][0] = newVol
-            #print(who +':\t' + str(newVol))
-        else:
-            newTone = max(0,(min(self.preset.currentDict['M'][1] + val,5)))
-            return self.tone(who[0],newTone)
-            #self.preset.currentDict['M'][1] = newTone
-            #print(who +':\t' + str(newTone))
-            
-    def vol(self,who,val,force=False):
+    def inc(self,who,val,what):
+        # updated version works with updated top byte INC | VOL + M,A,B,C,D
+        # we need to find if its vol or tone then to which coil then call the appropriate methods
+        volMask  = 0B10000
+        toneMask = 0B1000
+        newVal = 0
+        sFunc = None
+        if DEBUG:
+            print('INC:\t%s\t%s\t%d'%('Vol' if (what & volMask) else 'Tone', who,val))
+        if what & volMask:
+            sFunc = self.vol
+            newVal = max(0,(min(self.preset.currentDict[who][0] + val,5)))
+        elif what & toneMask:
+            sFunc = self.tone
+            newVal = max(0,(min(self.preset.currentDict[who][1] + val,5)))
+        return sFunc(who,newVal)
+     
+    def vol(self,who,val,unused=None,force=False):
         # who is 'M','A','B','C','D'
         if force or val != self.preset.currentDict[who][0]:
             #print('VOL:\t' + str(who) +'\t' + str(val))
@@ -172,7 +169,7 @@ class HMIMgr:
             return True
         return False
 
-    def tone(self,who,val,force=False):
+    def tone(self,who,val,unused=None,force=False):
         # who is 'M','A','B','C','D','TR'
         if force or val != self.preset.currentDict[who][1]:
             #print('TONE:\t' + str(who) +'\t' + str(val))
@@ -200,15 +197,15 @@ class HMIMgr:
             return True
         return False
                 
-    def doConf(self,who,val):
+    def doConf(self,who,val, unused=None):
         # who is 0 for horizontal, 1 for vertical    
         #print('CONF:\t' + str((val if not who else None,None if not who else val)))
         self.sendReset()
         self.loadConf(self.preset.presets[(self.sh.pos,self.sv.pos)])
         return True
     
-    def pb(self,who,unused):
-        whoFuncs = [(self.ledPbA.ledPbs[0].toggle,self.displayCurrentConf),     # this one has no real function, currently is used for debugging
+    def pb(self,who,unused=None,unusedA=None):
+        whoFuncs = [(self.toggleTracking,self.displayCurrentConf),     # this one toggles splitpot tracking, currently is used for debugging
                     (self.saveCurrentConfAsPreset,self.ledPbA.ledPbs[1].flash), # this is the one saves the preset, 
                     (self.toggleTrem,), #,self.ledPbA.ledPbs[2].toggle,stubs.g),                             # Tremolo
                     (self.toggleVib,), #self.ledPbA.ledPbs[3].toggle,stubs.b),                             # Vibrato
@@ -220,17 +217,42 @@ class HMIMgr:
             res = f() or res
         return res # True if who in [2,3] else False
     
+    def toggleTracking(self):
+        self.preset.currentDict[self.conf.vocab.configKeys[10]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[10]] else 1
+        self.spa.activateTracking(self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        return False
+    
+    def tracking(self,onOff):
+        self.preset.currentDict[self.conf.vocab.configKeys[10]] = 1 if onOff else 0
+        self.spa.activateTracking(self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        print('Tracking:\t%d'%self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        return False
+    
+    def trem(self,onOff):
+        res = ((onOff and not self.preset.currentDict[self.conf.vocab.configKeys[8]]) or (self.preset.currentDict[self.conf.vocab.configKeys[8]] and not onOff))
+        self.preset.currentDict[self.conf.vocab.configKeys[8]] = 1 if onOff else 0
+        v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 'Off'
+        print ("CANNOT YET SEND:\ta.set('M',State.Tremolo,l%s)"%v)
+        return res
+    
+    def vib(self,onOff):
+        res = ((onOff and not self.preset.currentDict[self.conf.vocab.configKeys[9]]) or (self.preset.currentDict[self.conf.vocab.configKeys[9]] and not onOff))
+        self.preset.currentDict[self.conf.vocab.configKeys[9]] = 1 if onOff else 0
+        v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 'Off'
+        print ("CANNOT YET SEND:\ta.set('M',State.Vibtrato,l%s)"%v)
+        return res
+    
     def toggleTrem(self):
         #trem =2, vibrato =3
         self.preset.currentDict[self.conf.vocab.configKeys[8]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 1
-        v = str(1) if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 'Off'
+        v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 'Off'
         print ("CANNOT YET SEND:\ta.set('M',State.Tremolo,l%s)"%v)
         #self.outgoing.append("a.set('M',State.Tremolo,l%s)"%v)
         return False # True
     def toggleVib(self):
         #trem =2, vibrato =3
         self.preset.currentDict[self.conf.vocab.configKeys[9]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 1
-        v = str(1) if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 'Off'
+        v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 'Off'
         print ("CANNOT YET SEND:\ta.set('M',State.Vibtrato,l%s)"%v)
         #self.outgoing.append("a.set('M',State.Vibtrato,l%s)"%v)
         return False #True
@@ -252,13 +274,14 @@ class HMIMgr:
                 self.preset.currentDict[key] = self.conf.presetConf.defaultConfDict[key]
             self.preset.currentDict[self.conf.vocab.configKeys[0]] = 'DEFAULT PRESET'
         
-        self.tone('TR',self.preset.currentDict['TR'][1],True)
+        self.tone('TR',self.preset.currentDict['TR'][1],force=True)
         for c in ['A','B','C','D','M']:
-            self.vol(c,self.preset.currentDict[c][0],True)
-            self.tone(c,self.preset.currentDict[c][1],True)
-        self.toggleTrem()
-        self.toggleVib()
+            self.vol(c,self.preset.currentDict[c][0],force=True)
+            self.tone(c,self.preset.currentDict[c][1],force=True)
         self.lcdMgr.loadConf()
+        self.trem(self.preset.currentDict[self.conf.vocab.configKeys[8]])
+        self.vib(self.preset.currentDict[self.conf.vocab.configKeys[9]])
+        self.tracking(self.preset.currentDict[self.conf.vocab.configKeys[10]])
         #self.displayCurrentConf()
         
     def saveCurrentConfAsPreset(self):
