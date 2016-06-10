@@ -3,7 +3,7 @@ from config import PyGuitarConf
 from Presets import Preset
 from PyboardMgr import PyboardMgr
 
-DEBUG = False
+DEBUG = True
 
 class Q:
     qLen = 20
@@ -220,6 +220,7 @@ class HMIMgr:
     def toggleTracking(self):
         self.preset.currentDict[self.conf.vocab.configKeys[10]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[10]] else 1
         self.spa.activateTracking(self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        print('Tracking:\t%d'%self.preset.currentDict[self.conf.vocab.configKeys[10]])
         return False
     
     def tracking(self,onOff):
@@ -249,6 +250,7 @@ class HMIMgr:
         print ("CANNOT YET SEND:\ta.set('M',State.Tremolo,l%s)"%v)
         #self.outgoing.append("a.set('M',State.Tremolo,l%s)"%v)
         return False # True
+    
     def toggleVib(self):
         #trem =2, vibrato =3
         self.preset.currentDict[self.conf.vocab.configKeys[9]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 1
@@ -256,6 +258,7 @@ class HMIMgr:
         print ("CANNOT YET SEND:\ta.set('M',State.Vibtrato,l%s)"%v)
         #self.outgoing.append("a.set('M',State.Vibtrato,l%s)"%v)
         return False #True
+    
     def displayCurrentConf(self):
         print(self.preset.currentDict)
     
@@ -294,6 +297,7 @@ class HMIMgr:
                 #print(e)
                 self.outgoing.append(e)
             self.sendX()
+            self.preset.currentDict[self.conf.vocab.configKeys[7]]=confString.strip()
             return True
         except Exception as e:
             print (e)

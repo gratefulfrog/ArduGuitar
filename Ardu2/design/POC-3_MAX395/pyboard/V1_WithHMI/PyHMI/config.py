@@ -52,7 +52,7 @@ class PyGuitarConf():
                                         # 18
 
     class LocalConf():
-        presetDir     = '/home/bob/ArduGuitar/Ardu2/design/POC-3_MAX395/pyboard/HMIMockup/PyHMI/Data'
+        presetDir     = '/home/bob/ArduGuitar/Ardu2/design/POC-3_MAX395/pyboard/V1_WithHMI/PyHMI/Data'
         dirSeparator  = '/'
         presetFileName = 'presets.csv'
         

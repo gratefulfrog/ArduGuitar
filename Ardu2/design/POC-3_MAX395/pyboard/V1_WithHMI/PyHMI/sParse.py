@@ -40,8 +40,8 @@ from parse import ss,pp,connectionList
 # app call generators
 
 def invert(coil,val):
-    #print ('Inverted Coil:\t'+ coil + '\t' + str(val))
-    return "a.set('%s',State.Inverter,%s)"%(coil, 'State.l1' if val else 'State.lOff')
+    print ('Inverted Coil:\t'+ coil + '\t' + str(val))
+    return "a.set('%s',State.Inverter,%s)"%(coil, 'State.l1' if val else 'State.l0')
 
 def connect(a,b):
     #print ('Connected Coils:\t'+ str(a) +','+ str(b))

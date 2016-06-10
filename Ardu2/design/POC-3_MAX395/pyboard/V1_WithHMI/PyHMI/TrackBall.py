@@ -89,14 +89,16 @@ class TrackBall(Positionable,MouseLockable):
                 self.volEnQueueable.push(self.targCoilID,dV) 
                 self.startPointX= self.mouseEndX
             if dT!=0:
-                self.toneEnQueueable.push(self.targCoilID,dT)
+                self.toneEnQueueable.push(self.targCoilID,-dT)
                 self.startPointY= self.mouseEndY
            
     def getSet(unused,isHorizontal):
         if isHorizontal:
-            return (mouseY, 'self.mouseStartY','self.hSteps','self.hI')
+            #return (mouseY, 'self.mouseStartY','self.hSteps','self.hI')
+            return (mouseX, 'self.mouseStartX','self.hSteps','self.hI')
         else:
-            return  (mouseX, 'self.mouseStartX','self.vSteps','self.vI')
+            #return  (mouseX, 'self.mouseStartX','self.vSteps','self.vI')
+            return  (mouseY, 'self.mouseStartY','self.vSteps','self.vI')
         
     def incH(self,isHorizontal=False):
         if mousePressed:
@@ -105,7 +107,7 @@ class TrackBall(Positionable,MouseLockable):
             if not self.sliding:
                 self.setSliding(True)
             (mouse,mouseStartS,StepS,IS) = self.getSet(isHorizontal)
-            positiveMovement= eval(mouseStartS)<= mouse
+            positiveMovement= (eval(mouseStartS)<= mouse)
             exec(StepS + '= map(abs(mouse-eval(mouseStartS)),0,2*TrackBall.radius,0,18)')
             exec(mouseStartS + ' = mouse')
             if eval(StepS)>0:

@@ -128,6 +128,7 @@ class Preset():
         for k in vDict.keys():
             newDict[k] = vDict[k]
         self.presets[name]=newDict
+        #print(self.presets[name])
         
     def remove(self,name):
         # just remove it or do nothing if not possible
@@ -154,5 +155,6 @@ class Preset():
     def saveCurrentConfigAsPreset(self, key):
         self.currentDict[self.conf.vocab.configKeys[11]] = 0
         self.add(key,self.currentDict)
+        #print(self.presets)
         self.toFile()
             
