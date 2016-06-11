@@ -30,6 +30,7 @@ class LCDMgr:
         self.lcd.setLn(1,self.stateName)
     
     def loadConf(self):
+        print('in lcd mgr loading conf...')
         self.stateString = self.stateDict[self.sKey]
         self.stateName = self.stateDict[self.nKey][:16]
         self.lcd.setLn(0,self.stateString)
@@ -43,8 +44,6 @@ class LCDMgr:
         self.lcd = lcdd
         self.validateFunc = validateFunc
         self.lcdPba = Classes.LCDPBArray(q)
-        self.lcdPba.lcdPbs[0].clickFuncLis = [self.onLeftButton]
-        self.lcdPba.lcdPbs[1].clickFuncLis = [self.onRightButton]
                 
     def display(self):
         self.lcd.display()

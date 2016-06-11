@@ -252,14 +252,19 @@ class LCD(Positionable):
     lcdH = 25*Positionable.scaleFactor
     lcdBG = '#E3DE42'
     
-    def __init__(self,(x,y)):
+    def __init__(self,(x,y),mgr):
         Positionable.__init__(self,x,y)
         self.lcdFont = createFont('Courier', LCD.lcdH/3.5)
         textFont(self.lcdFont)
+        self.mgr = mgr
         self.lns =['0123456789ABCDEF','0123456789ABCDEF']
     
-    def setLn(self, lineNb, val):
+    def setLn(self, lineNb, val,X= True):
+        #print('setlin in LCD...')
         self.lns[lineNb] = val
+        self.mgr.outgoing.append('a.lcdSetLine(%d,"%s")'% (lineNb,val))
+        if X:
+            self.mgr.sendX(False)
         return self
   
     def getLn(self, lineNb):

@@ -3,7 +3,7 @@ from config import PyGuitarConf
 from Presets import Preset
 from PyboardMgr import PyboardMgr
 
-DEBUG = True
+DEBUG = False
 
 class Q:
     qLen = 20
@@ -61,7 +61,6 @@ class HMIMgr:
         self.outgoing += initSeq
         self.sendToPyboard()
         
-        
     def __init__(self):
         
         self.outgoing = []
@@ -82,7 +81,7 @@ class HMIMgr:
         
         self.ledPbA = Classes.LedPBArray(PyGuitarConf.Layout.oLPA,self.q,self.preset.currentDict,self.conf.vocab.configKeys[10:]+self.conf.vocab.configKeys[8:10])
         self.spa    = SplitPot.SplitPotArray(PyGuitarConf.Layout.oSPA,HMIMgr.targVec[3],self.q,useTracking=False)        
-        self.lcdMgr = oClasses.LCDMgr((self.preset.currentDict,'S','Name'),Classes.LCD(PyGuitarConf.Layout.oLCD),self.q,self.validateAndApplyLCDInput)
+        self.lcdMgr = oClasses.LCDMgr((self.preset.currentDict,'S','Name'),Classes.LCD(PyGuitarConf.Layout.oLCD,self),self.q,self.validateAndApplyLCDInput)
         self.sh     = Classes.Selector(PyGuitarConf.Layout.oSH,Classes.Selector.white,True,self.q) 
         self.sv     = Classes.Selector(PyGuitarConf.Layout.oSV,Classes.Selector.black,False,self.q)
         self.tb     = TrackBall.TrackBall(PyGuitarConf.Layout.oTB, self.q, PyGuitarConf.Layout.bg) # stubs.hTBFunc,stubs.vTBFunc,PyGuitarConf.Layout.bg)
@@ -92,9 +91,10 @@ class HMIMgr:
         self.loadConf(self.preset.presets[(self.sh.pos,self.sv.pos)])
         self.sendX()
     
-    def sendX(self):
+    def sendX(self,spi=True):
         #print('a.x()')
-        self.outgoing.append('a.x()')
+        if spi:
+            self.outgoing.append('a.x()')
         self.toPyboard()
         
     def sendReset(self):
@@ -285,6 +285,8 @@ class HMIMgr:
         self.trem(self.preset.currentDict[self.conf.vocab.configKeys[8]])
         self.vib(self.preset.currentDict[self.conf.vocab.configKeys[9]])
         self.tracking(self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        print(self.outgoing)
+        #self.sendX()
         #self.displayCurrentConf()
         
     def saveCurrentConfAsPreset(self):

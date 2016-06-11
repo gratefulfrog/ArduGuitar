@@ -10,7 +10,7 @@ from components import Invertable,VTable,OnOffable
 from state import State
 from spiMgr import SPIMgr
 from configs import configDict,mapReplace
-from hardware import ShuntControl
+from hardware import ShuntControl,LcdDisplay
 import pyb
 
 class App():
@@ -84,6 +84,7 @@ class App():
         self.coils[State.coils[-1]]= VTable(State.coils[-1])
         self.coils[State.pb] = OnOffable()
         self.spiMgr = SPIMgr(State.spiOnX,State.spiLatchPinName)
+        self.lcd = LcdDisplay(State.lcdConfDict)
         # shunt, turn all to State.lOff, unshunt
         self.shuntControl.shunt()
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
@@ -170,6 +171,9 @@ class App():
 
     def showConfig(self):
         print(self.bitMgr)
-    
+
+    def lcdSetLine(self, lineNb, line):
+        print('Setting LCD Line:\t%d\t"%s"'%(lineNb, line))
+        self.lcd.setLn(lineNb, line)
 
 

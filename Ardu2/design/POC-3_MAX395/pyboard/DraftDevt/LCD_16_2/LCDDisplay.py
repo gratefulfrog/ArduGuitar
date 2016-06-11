@@ -7,8 +7,8 @@ from pyb_gpio_lcd import GpioLcd
 # Wiring used for this example:
 #
 #  1 - Vss (aka Ground) - Connect to one of the ground pins on you pyboard.
-#  2 - VDD - I connected to VIN which is 5 volts when your pyboard is powerd vi USB
-#  3 - VE (Contrast voltage) - I'll discuss this below
+#  2 - VDD - connected to VIN which is 5 volts when your pyboard is powerd vi USB
+#  3 - VE - connected to VIN (Contrast voltage) - I'll discuss this below
 #  4 - RS (Register Select) connect to Y12 (as per call to GpioLcd)
 #  5 - RW (Read/Write) - connect to ground
 #  6 - EN (Enable) connect to Y11 (as per call to GpioLcd)
@@ -22,8 +22,6 @@ from pyb_gpio_lcd import GpioLcd
 # 14 - D7 - connect to Y8 (as per call to GpioLcd)
 # 15 - A (BackLight Anode) - Connect to VIN
 # 16 - K (Backlight Cathode) - Connect to Ground
-#
-# On 14-pin LCDs, there is no backlight, so pins 15 & 16 don't exist.
 #
 # The Contrast line (pin 3) typically connects to the center tap of a
 # 10K potentiometer, and the other 2 legs of the 10K potentiometer are
@@ -44,47 +42,57 @@ class LcdDisplay(GpioLcd):
                  num_lines=2,
                  num_columns=16):
         GpioLcd.__init__(self,
-                         rs_pin=Pin.board.Y12,
-                         enable_pin=Pin.board.Y11,
-                         d4_pin=Pin.board.Y5,
-                         d5_pin=Pin.board.Y6,
-                         d6_pin=Pin.board.Y7,
-                         d7_pin=Pin.board.Y8,
-                         num_lines=2,
-                         num_columns=16)
+                         rs_pin,
+                         enable_pin,
+                         d4_pin,
+                         d5_pin,
+                         d6_pin,
+                         d7_pin,
+                         num_lines,
+                         num_columns)
         self.lns =['0123456789ABCDEF','0123456789ABCDEF']
     
     def setLn(self, lineNb, val):
-        self.lns[lineNb] = val
+        """
+        Set the LCD line linNb to display the val;
+        val is left justified to num_cols to overwrite any 
+        characters leftover from previous writes.
+        """
+        self.lns[lineNb] = '%-*s' % ((self.num_columns), val)
         self.move_to(0,lineNb)
-        self.putstr(val)
+        self.putstr(self.lns[lineNb])
         return self
   
     def getLn(self, lineNb):
         return self.lns[lineNb]
         
+lcd = LcdDisplay(rs_pin=Pin.board.X18,
+                 enable_pin=Pin.board.Y7,
+                 d4_pin=Pin.board.Y8,
+                 d5_pin=Pin('A15',mode=Pin.OUT_PP), #board.P3
+                 d6_pin=Pin('A14',mode=Pin.OUT_PP), #board.P4,
+                 d7_pin=Pin('A13',mode=Pin.OUT_PP), #board.P5,
+                 num_lines=2,
+                 num_columns=16)
 
-def test_main():
-    """Test function for verifying basic functionality."""
+def testLCD():
+    """
+    Test function for verifying basic functionality.
+    """
+    global lcd
     print("Running test_main")
-    lcd = LcdDisplay((rs_pin=Pin.board.Y12,
-                      enable_pin=Pin.board.Y11,
-                      d4_pin=Pin.board.Y5,
-                      d5_pin=Pin.board.Y6,
-                      d6_pin=Pin.board.Y7,
-                      d7_pin=Pin.board.Y8,
-                      num_lines=2,
-                      num_columns=16)
-    #lcd.putstr("It Works!\nSecond Line")
+     #lcd.putstr("It Works!\nSecond Line")
+    lcd.setLn(0,'It Works!')
+    lcd.setLn(1,'Second Line')
     delay(3000)
-    lcd.backlight_off()
-    lcd.clear()
+    #lcd.backlight_off()
+    #lcd.clear()
     count = 0
     while count<20:
-        lcd.move_to(0, 0)
-        lcd.putstr(str(millis() // 1000))
+        #lcd.move_to(0, 0)
+        #lcd.putstr(str(millis() // 1000))
+        lcd.setLn(0,str(millis() // 1000))
         delay(1000)
         count += 1
-    return lcd
-
+    #return lcd
 

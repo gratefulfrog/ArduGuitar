@@ -23,16 +23,22 @@ class State():
     >>
     etc.
     """
+
+    lcdConfDict = {'rs_pin'      : 'X18',
+                   'enable_pin'  : 'Y7',
+                   'd4_pin'      : 'Y8',
+                   'd5_pin'      : 'A15', #board.P3
+                   'd6_pin'      : 'A14', #board.P4,
+                   'd7_pin'      : 'A13', #board.P5,
+                   'num_lines'   : 2,
+                   'num_columns' : 16}
+
     
     # SPI state for pyboard setup
     # define the latching pin
     spiLatchPinName = 'X5'
     # say which side of the pyboard are we using
     spiOnX = True
-
-    # no longer used 2015 12 09
-    # vactrol control pin
-    #vactrolPinName = 'X4'
     
     # Shift Register info
     # updated to handle 14 Max395s + 5 ShiftRegs for the LED displays
@@ -42,6 +48,8 @@ class State():
     nbHIRegs = 5
     connectionUpdateOnly = 1010
 
+
+    
     # Make before Break delay in milliseconds 
     # for quieter switching, hopefully..
     makeBeforeBreakDelay = 5
