@@ -4,10 +4,34 @@
 
 #import time
 
+class LED:
+    def __init__(self,name):
+        self.name = name
+        self.state = 0
+        
+    def on(self):
+        self.state = 1
+    def off(self):
+        self.state=0
+"""
+LED = [led(1),
+       led(2),
+       led(3),
+       led(4)]
+"""
 def delay(dela):
     d=dela*10000
     while(d):
         d -=1
+
+def udelay(dela):
+    delay(dela)
+    
+count = 0
+def millis():
+    global count
+    count+=1
+    return count
         
 class SPI():
     """simulation SPI class provides basic SPI simulation
@@ -134,6 +158,13 @@ class ADC:
     def __repr__(self):
         return 'An ADC on pin: ' + self.pin
 
+class Accel():
+    def __init__(self):
+        self.what = 'Accel'
+    def __repr__(self):
+        return 'Accel'
+
+    
 class ExtInt:
     IRQ_FALLING = 'IRQ_FALLING'
     IRQ_RISING = 'IRQ_RISING'
@@ -145,5 +176,5 @@ class ExtInt:
         self.callback = callback
         
     def __repr__(self):
-        return 'An ExtInt:\n  Pin:\t%s\n  Irq:\t%s\n  Pull:\t%s\n  Callback:\t%s'% (self.pinName,self.irq,self.pull,str(self.callback))
+        return 'An ExtInt:\n  Pin:\t%s\n  Irq:\t%s\n  Pull:\t%s\n'% (self.pinName,self.irq,self.pull)
     

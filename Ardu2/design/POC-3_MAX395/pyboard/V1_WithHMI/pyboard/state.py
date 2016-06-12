@@ -2,7 +2,7 @@
 # state.py
 # 2016 05 30 added Vibrato and Tremolo, then removed it since all the dependencies need to be updated
 # 2016 06 06 changed nbShiftRegs to 19 so as to integrate HMI LEDs; added pusbutton colors and 'PB' id
-
+# 2016 06 10-30 : added new dits for integration of HMI
 class State():
     """
     This class contains all static information required to operate
@@ -33,6 +33,25 @@ class State():
                    'num_lines'   : 2,
                    'num_columns' : 16}
 
+    # dict maps a pin name string to tuple (line,id)
+    pinNameDict = {'X19' :  (0,0),   # selector 0, pin a
+                   'X20' :  (1,1),   # selector 0, pin b
+                   'X21' :  (2,2),   # selector 0, pin c
+                   'X22' :  (3,3),   # selector 1, pin a
+                   'X11' :  (4,4),   # selector 1, pin b
+                   'X12' :  (5,5),   # selector 1, pin c
+                   'X9'  :  (6,2),   # TREM PB
+                   'X10' :  (7,3),   # VIB  PB
+                   'Y3'  :  (8,0),   # TRACK/RED PB
+                   'Y4'  :  (9,1),   # SAVE/YELLOW PB
+                   'Y9'  : (10,0),   # TrackBall X axis interrupt
+                   'Y10' : (11,1),   # TrackBall Y axis interrupt
+                   'Y5'  : (12,4),    # LCD LEFT PB
+                   'Y6'  : (13,5)     # LCD RIGHT PB
+                   }
+
+    PBPinNameVec = ['Y3','Y4','X9','X10','Y5','Y6']
+                   
     
     # SPI state for pyboard setup
     # define the latching pin

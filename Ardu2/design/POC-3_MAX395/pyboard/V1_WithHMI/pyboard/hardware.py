@@ -3,17 +3,19 @@
 # * ShuntControl
 # * Selector
 # * Illuminator
-# * Pushbutton
+# * SWDebouncedPushbutton
+# * HWDebouncedPushButton
 # * IlluminatedPushbutton
 # * ShakeControl (3-axis shake controller)
 # * VoltageDividerPot
 # * LCDDisplay (added 2016 06 11)
 #####
 
-from pyb import millis, Pin, Timer, delay, Accel, LED, ADC
+from pyb import millis, Pin, Timer, delay, Accel, LED, ADC, ExtInt
 from pyb_gpio_lcd import GpioLcd
 from dictMgr import shuntConfDict
 from state import State
+from q import EnQueueable
 
 class ShuntControl:
     """simple class providing on/off functionality of a vactrol
@@ -174,7 +176,7 @@ class Illuminator(Illuminator__):
             '\n\tvalue:\t' + str(self.p.value())  + '\n'                    
 
 
-# Pushbutton
+# SWDebouncedPushbutton
 # debounce a momentary pushbutton with HIGH == ON state and
 # at every push, toggle a LED illuminator
 # usage:
@@ -184,7 +186,7 @@ class Illuminator(Illuminator__):
 # >>> while True:
 # ...   b.update()
 #
-class Pushbutton:
+class SWDebouncedPushbutton:
     debounceDelay = 20 #milliseconds between pushes
 
     def __init__(self, pin, onHigh=None):
@@ -213,16 +215,47 @@ class Pushbutton:
             '\n\tpin:\t' + str(self.pin) + \
             '\n\tlastDebounceTime:\t' + str(self.lastDebounceTime)  + \
             '\n\tlastReading:\t' + str(self.lastReading)  + \
-            '\n\tonHigh:\t' + str(self.onHigh)  + '\n'                    
+            '\n\tonHigh:\t' + str(self.onHigh)  + '\n'
+
+# HWDebouncedPushButton
+# uses interrupts and queueing to indicate a push
+class HWDebouncedPushButton(EnQueueable):
+    """
+    an interrupt generating pushbutton, using the q to manage actions
+    """
+    def __init__(self,pinName,q):
+        EnQueueable.__init__(self,EnQueueable.PB,q)
+        self.extInt = ExtInt(pinName, ExtInt.IRQ_FALLING, Pin.PULL_UP, self.callback)
+        self.id = State.pinNameDict[pinName][1]
+        
+    def callback(self,unusedLine):
+        self.push(self.id)
+
+    def __repr__(self):
+        return 'HWDebouncedPushButton:\n  ID:\t%d\n%s'%(self.id,repr(self.extInt))
+
+# PushButtonArray
+# an array of HWDebouncedPushputton
+class PushButtonArray():
+    def __init__(self,q):
+        self.pbVec = []
+        for pinName in State.PBPinNameVec:
+            self.pbVec.append(HWDebouncedPushButton(pinName,q))
+
+    def __repr__(self):
+        res = ''
+        for pb in self.pbVec:
+            res += repr(pb) +'\n'
+        return res
                     
-class IlluminatedPushbutton(Pushbutton) :
+class IlluminatedPushbutton(SWDebouncedPushbutton) :
     """
     a Pushbutton with an Illuminator built-in, in addtion to the
     onHigh action, of course.
     """
 
     def __init__(self, pin, illum, onAction = None):
-        Pushbutton.__init__(self,pin,self.illumOnHigh)
+        SWDebouncedPushbutton.__init__(self,pin,self.illumOnHigh)
         self.illuminator = illum
         self.onAction = onAction
         
@@ -235,7 +268,7 @@ class IlluminatedPushbutton(Pushbutton) :
         return 'IlluminatedPushbutton:' + \
             '\n\tilluminator:\t' + str(self.illuminator) + \
             '\n\tonAction:\t' + str(self.onAction)  + \
-            '\n' + Pushbutton.__repr__(self)
+            '\n' + SWDebouncedPushbutton.__repr__(self)
 
 class ShakeControl1:
     """ 
