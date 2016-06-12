@@ -9,6 +9,8 @@ class Q:
         self.gptr = 0  # get pointer
         self.qNbObj=0  # object counter
         self.q = [0xFF for i in range(Q.qLen)]
+        self.debuggingPushMsg='push:'
+        self.debuggingPopMsg='pop:%s'
 
     def push(self,e):
         if self.qNbObj == Q.qLen:
@@ -17,7 +19,7 @@ class Q:
             self.q[self.pptr] = e
             self.pptr = (self.pptr+1) % Q.qLen
             self.qNbObj += 1
-            #print('push:\t' + hex(e))
+            print(self.debuggingPushMsg,e)
             
     def pop(self):
         res = None
@@ -25,7 +27,7 @@ class Q:
             res = self.q[self.gptr]
             self.gptr = (self.gptr+1) % Q.qLen
             self.qNbObj -=1
-            #print('pop:\t' + hex(res))
+            print(self.debuggingPopMsg%hex(res))
         return res
 
     def __repr__(self):

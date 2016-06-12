@@ -51,7 +51,6 @@ class State():
                    }
 
     PBPinNameVec = ['Y3','Y4','X9','X10','Y5','Y6']
-                   
     
     # SPI state for pyboard setup
     # define the latching pin

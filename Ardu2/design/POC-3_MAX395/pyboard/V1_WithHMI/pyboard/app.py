@@ -10,7 +10,8 @@ from components import Invertable,VTable,OnOffable
 from state import State
 from spiMgr import SPIMgr
 from configs import configDict,mapReplace
-from hardware import ShuntControl,LcdDisplay
+from hardware import ShuntControl,LcdDisplay,PushButtonArray
+from q import Q
 import pyb
 
 class App():
@@ -71,6 +72,8 @@ class App():
         after creation of the SPIMgr, the update message is sent to it to 
         initialize all the pins.
         """
+        self.q = Q()
+        self.pba = PushButtonArray(self.q)
         self.reset()
 
     def reset(self):

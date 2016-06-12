@@ -17,6 +17,10 @@ from dictMgr import shuntConfDict
 from state import State
 from q import EnQueueable
 
+import micropython
+micropython.alloc_emergency_exception_buf(100)
+
+
 class ShuntControl:
     """simple class providing on/off functionality of a vactrol
     controlled by a pyboard bin.
@@ -230,6 +234,7 @@ class HWDebouncedPushButton(EnQueueable):
         
     def callback(self,unusedLine):
         self.push(self.id)
+        print('PB:\t',self.id)
 
     def __repr__(self):
         return 'HWDebouncedPushButton:\n  ID:\t%d\n%s'%(self.id,repr(self.extInt))
