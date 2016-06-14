@@ -12,6 +12,8 @@ from spiMgr import SPIMgr
 from configs import configDict,mapReplace
 from hardware import ShuntControl,LcdDisplay,PushButtonArray
 from q import Q
+from config import PyGuitarConf
+from Presets import Preset
 import pyb
 
 class App():
@@ -72,7 +74,10 @@ class App():
         after creation of the SPIMgr, the update message is sent to it to 
         initialize all the pins.
         """
+        self.setVec = [self.inc, self.pb, self.doConf, self.vol, self.tone]
         self.q = Q()
+        self.conf = PyGuitarConf()
+        self.preset = Preset(self.conf)
         self.pba = PushButtonArray(self.q)
         self.reset()
 
@@ -93,6 +98,100 @@ class App():
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
         self.shuntControl.unShunt()
 
+    def pollPollables(self):
+        pass
+
+    def mainLoop(self):
+        self.pollPollables()
+        self.processQ()
+
+    def processQ(self):
+        work = self.q.pop()
+        worked = False
+        while (work != None):
+            worked = self.doWork(work) or worked
+            work = self.q.pop()
+        if worked:
+            self.x()
+
+    def doWork(self,twoBytes):
+        V = twoBytes & 0xFF
+        K = (twoBytes>>8) & 0xFF
+        mask = 0x80
+        res = False
+        State.printT('X:\tK:\t' + bin(K)) + '\tV:\t'+ hex(V) 
+        for i in range(5):
+            if K & (mask>>i):
+                who = HMIMgr.targVec[min(i,3)][K & 0b111]
+                val = (0xFF & V) if (V & 0xFF)<128 else (V & 0XFF)-256
+                res = self.setVec[i](who,val,K&0B11111000) or res
+                break
+        return res
+
+    def inc(self,who,val,what):
+        # updated version works with updated top byte INC | VOL + M,A,B,C,D
+        # we need to find if its vol or tone then to which coil then call the appropriate methods
+        volMask  = 0B10000
+        toneMask = 0B1000
+        newVal = 0
+        sFunc = None
+        State.printT('INC:\t%s\t%s\t%d'%('Vol' if (what & volMask) else 'Tone', who,val))
+        if what & volMask:
+            sFunc = self.vol
+            newVal = max(0,(min(self.preset.currentDict[who][0] + val,5)))
+        elif what & toneMask:
+            sFunc = self.tone
+            newVal = max(0,(min(self.preset.currentDict[who][1] + val,5)))
+        return sFunc(who,newVal)
+
+    def vol(self,who,val,unused=None,force=False):
+        # who is 'M','A','B','C','D'
+        if force or val != self.preset.currentDict[who][0]:
+            #print('VOL:\t' + str(who) +'\t' + str(val))
+            #print("a.set('%s',State.Vol,State.l%s)"%(who,(str(val) if val !=0 else 'Off')))
+            #self.outgoing.append("a.set('%s',State.Vol,State.l%s)"%(who,(str(val)))) # if val !=0 else 'Off')))
+            self.set(who,State.Vol,eval('State.l%s'%str(val)))
+            self.preset.currentDict[who][0] = val
+            return True
+        return False
+
+    def tone(self,who,val,unused=None,force=False):
+        # who is 'M','A','B','C','D','TR'
+        if force or val != self.preset.currentDict[who][1]:
+            #print('TONE:\t' + str(who) +'\t' + str(val))
+            trVal = 'Off'
+            toneVal = '0'
+            if who =='TR':
+                trVal =  str(val-1) if val else 'Off'
+                targ = 'M'
+                toneVal = None
+            elif who == 'M':
+                targ = who
+                trVal = None
+                toneVal = str(val-1) if val else 'Off'
+            else:
+                targ = who
+                trVal = '0' if val else 'Off'
+                toneVal = str(val-1) if val else 'Off'
+            if trVal != None:
+                #self.outgoing.append("a.set('%s',State.ToneRange,State.l%s)"%(targ,trVal))
+                self.set(targ,State.ToneRange,eval('State.l%s'%trVal))
+            if toneVal != None:
+                #self.outgoing.append("a.set('%s',State.Tone,State.l%s)"%(targ,toneVal))
+                self.set(targ,State.Tone,eval('State.l%s'%toneVal))
+            self.preset.currentDict[who][1] = val
+            return True
+        return False
+
+    def pb(self,who,val,what):
+           pass
+
+    def doConf(self,who,val,what):
+           pass
+
+
+##################  old stuff !!
+     
     def set(self,name,att,state):
         """
         This is called to set a coil's V or T or TR or I attribute to 
@@ -173,10 +272,10 @@ class App():
         self.x()
 
     def showConfig(self):
-        print(self.bitMgr)
+        State.printT(self.bitMgr)
 
     def lcdSetLine(self, lineNb, line):
-        print('Setting LCD Line:\t%d\t"%s"'%(lineNb, line))
+        State.printT('Setting LCD Line:\t%d\t"%s"'%(lineNb, line))
         self.lcd.setLn(lineNb, line)
 
 
