@@ -60,6 +60,12 @@ class App():
 
     >>> 
     """
+    
+    targVec = [['M','A','B','C','D','TR'], #['MVol','MTone'],
+               [0,1,2,3,4,5],
+               [0,1], #horizontal, vertical
+               ['M','A','B','C','D','TR']]
+    
     def __init__(self):
         """
         Instance creation; creation of member variables which are
@@ -104,12 +110,13 @@ class App():
     def mainLoop(self):
         self.pollPollables()
         self.processQ()
+        # put a sleep comand here to save energy
 
     def processQ(self):
         work = self.q.pop()
         worked = False
         while (work != None):
-            worked = self.doWork(work) or worked
+            worked |= self.doWork(work) #or worked
             work = self.q.pop()
         if worked:
             self.x()
@@ -122,7 +129,7 @@ class App():
         State.printT('X:\tK:\t' + bin(K)) + '\tV:\t'+ hex(V) 
         for i in range(5):
             if K & (mask>>i):
-                who = HMIMgr.targVec[min(i,3)][K & 0b111]
+                who = App.targVec[min(i,3)][K & 0b111]
                 val = (0xFF & V) if (V & 0xFF)<128 else (V & 0XFF)-256
                 res = self.setVec[i](who,val,K&0B11111000) or res
                 break

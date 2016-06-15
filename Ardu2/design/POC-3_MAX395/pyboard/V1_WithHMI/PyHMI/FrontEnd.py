@@ -3,7 +3,7 @@ from config import PyGuitarConf
 from Presets import Preset
 from PyboardMgr import PyboardMgr
 
-DEBUG = False
+DEBUG = True
 
 class Q:
     qLen = 20
@@ -34,7 +34,6 @@ class Q:
             
 
 class HMIMgr:
-    funcVec= ['inc', 'pb','conf','vol','tone']
     targVec = [['M','A','B','C','D','TR'], #['MVol','MTone'],
                [0,1,2,3,4,5],
                [0,1], #horizontal, vertical
@@ -123,7 +122,7 @@ class HMIMgr:
         worked = False
         self.outgoing = []
         while (work != None):
-            worked = self.x(work) or worked
+            worked |= self.x(work) 
             work = self.q.pop()
         if worked:
             self.sendX()
