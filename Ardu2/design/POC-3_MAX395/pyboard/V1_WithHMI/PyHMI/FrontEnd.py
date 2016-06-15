@@ -122,12 +122,13 @@ class HMIMgr:
         worked = False
         self.outgoing = []
         while (work != None):
-            worked |= self.x(work) 
+            worked = self.x(work) or worked
             work = self.q.pop()
         if worked:
             self.sendX()
-
-    def x(self,twoBytes):
+    
+    # called doWork in the pyboard version!
+    def x(self,twoBytes):  
         V = twoBytes & 0xFF
         K = (twoBytes>>8) & 0xFF
         mask = 0x80
@@ -304,6 +305,4 @@ class HMIMgr:
             print (e)
             return False
         
-    def doParse(self,confString):
-        sp = sParse.SExpParser(confString.strip())
-        return sp.execute()
+    

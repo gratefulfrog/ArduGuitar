@@ -14,6 +14,7 @@ from hardware import ShuntControl,LcdDisplay,PushButtonArray
 from q import Q
 from config import PyGuitarConf
 from Presets import Preset
+from lcdMgr import LCDMgr
 import pyb
 
 class App():
@@ -86,6 +87,7 @@ class App():
         self.preset = Preset(self.conf)
         self.pba = PushButtonArray(self.q)
         self.reset()
+        self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
 
     def reset(self):
         self.shuntControl = ShuntControl(shuntConfDict)
@@ -116,7 +118,7 @@ class App():
         work = self.q.pop()
         worked = False
         while (work != None):
-            worked |= self.doWork(work) #or worked
+            worked = self.doWork(work) or worked
             work = self.q.pop()
         if worked:
             self.x()
@@ -126,7 +128,8 @@ class App():
         K = (twoBytes>>8) & 0xFF
         mask = 0x80
         res = False
-        State.printT('X:\tK:\t' + bin(K)) + '\tV:\t'+ hex(V) 
+        #State.printT('X:\tK:\t' + bin(K) + '\tV:\t'+ hex(V)
+        print('X:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
         for i in range(5):
             if K & (mask>>i):
                 who = App.targVec[min(i,3)][K & 0b111]
@@ -190,11 +193,69 @@ class App():
             return True
         return False
 
+    def doConf(self,who,val, unused=None):
+        # who is 0 for horizontal, 1 for vertical    
+        #print('CONF:\t' + str((val if not who else None,None if not who else val)))
+        #self.sendReset()
+        self.reset()
+        self.loadConf(self.preset.presets[(self.sh.pos,self.sv.pos)])
+        return True
+
     def pb(self,who,val,what):
            pass
 
-    def doConf(self,who,val,what):
-           pass
+    def loadConf(self, conf):
+        try:
+            #res = self.doParse(conf[self.conf.vocab.configKeys[7]])
+            self.doParse(conf[self.conf.vocab.configKeys[7]])
+            """
+            for e in res:
+                #print(e)
+                self.outgoing.append(e)
+            """
+            for key in self.preset.currentDict.keys():
+                self.preset.currentDict[key] = conf[key]
+        except Exception as e:
+            print (e)
+            self.doParse(self.conf.presetConf.defaultConfDict[self.conf.vocab.configKeys[7]])
+            for key in self.conf.presetConf.defaultConfDict.keys():
+                self.preset.currentDict[key] = self.conf.presetConf.defaultConfDict[key]
+            self.preset.currentDict[self.conf.vocab.configKeys[0]] = 'DEFAULT PRESET'
+        
+        self.tone('TR',self.preset.currentDict['TR'][1],force=True)
+        for c in ['A','B','C','D','M']:
+            self.vol(c,self.preset.currentDict[c][0],force=True)
+            self.tone(c,self.preset.currentDict[c][1],force=True)
+        self.lcdMgr.loadConf()
+        self.trem(self.preset.currentDict[self.conf.vocab.configKeys[8]])
+        self.vib(self.preset.currentDict[self.conf.vocab.configKeys[9]])
+        self.tracking(self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        print(self.outgoing)
+
+    def doParse(self,confString):
+        sp = sParse.SExpParser(self,confString.strip())
+        #return sp.execute()
+        sp.execute()
+
+    def saveCurrentConfAsPreset(self):
+        self.preset.saveCurrentConfigAsPreset((self.sh.pos,self.sv.pos))
+    
+    def validateAndApplyLCDInput(self,confString):
+        try:
+            #res = self.doParse(confString.strip())
+            self.doParse(confString.strip())
+            """
+            for e in res:
+               #print(e)
+               self.outgoing.append(e)
+            """
+            #self.sendX()
+            self.x()
+            self.preset.currentDict[self.conf.vocab.configKeys[7]]=confString.strip()
+            return True
+        except Exception as e:
+            print (e)
+            return False
 
 
 ##################  old stuff !!

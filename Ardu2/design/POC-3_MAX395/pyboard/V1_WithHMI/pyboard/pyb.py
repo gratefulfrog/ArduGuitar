@@ -32,7 +32,7 @@ def millis():
     global count
     count+=1
     return count
-        
+       
 class SPI():
     """simulation SPI class provides basic SPI simulation
     - definitions
@@ -101,11 +101,14 @@ class Pin():
     PULL_UP = 'PULL_UP'
     
 
-    def __init__(self, latch, mode, pull = None):
+    def __init__(self, latch, mode=None, pull = None):
         self.latchPin = latch
         self.pinOut = mode
         self.puLL = pull
         self.val = 0
+
+    def init(self,*ags):
+        pass
 
     def high(self):
         self.val = 1
@@ -115,7 +118,7 @@ class Pin():
         self.val = 0
         print (str(self) + '\n\tset: LOW')
 
-    def value(self):
+    def value(self,*args):
         return self.val
 
     def __repr__(self):

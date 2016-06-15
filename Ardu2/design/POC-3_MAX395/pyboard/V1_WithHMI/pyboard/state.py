@@ -89,16 +89,17 @@ class State():
     Red       = 103
     Yellow    = 104
     
-    debug = True #False
+    debug = False
 
     def printT(*thing):
         """ depending on State.debug, print or not
         """
         if State.debug:
-            res = ''
+            #res = ''
             for t in thing:
-                res += str(t)
-            print(res)
+                #res += str(t)
+                print(t)
+            #print(res)
     
     def stateNeg2SetFuncIndex(stateNeg):
         """
