@@ -82,11 +82,16 @@ class BitMgr:
         usage
         >>> b = BitMgr()
         """
+        """
         self.cnConfig = ([0 for x in range(BitMgr.allRegEndPoints[0],
                                            BitMgr.allRegEndPoints[1])], 
                          [0 for x in range(BitMgr.allRegEndPoints[0],
                                            BitMgr.allRegEndPoints[1])])
-
+        """
+        self.cnConfig = (bytearray([0 for x in range(BitMgr.allRegEndPoints[0],
+                                                     BitMgr.allRegEndPoints[1])]),
+                         bytearray([0 for x in range(BitMgr.allRegEndPoints[0])]))
+        
     def reset(self,whatRange, curBool=True,nexBool=True):
         """
         usage:
