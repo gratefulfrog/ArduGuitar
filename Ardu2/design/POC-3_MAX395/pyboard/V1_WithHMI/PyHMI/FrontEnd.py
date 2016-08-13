@@ -3,7 +3,7 @@ from config import PyGuitarConf
 from Presets import Preset
 from PyboardMgr import PyboardMgr
 
-DEBUG = True
+DEBUG = True # False
 
 class Q:
     qLen = 20
@@ -304,5 +304,8 @@ class HMIMgr:
         except Exception as e:
             print (e)
             return False
-        
+
+    def doParse(self,confString):
+        sp = sParse.SExpParser(confString.strip())
+        return sp.execute()
     
