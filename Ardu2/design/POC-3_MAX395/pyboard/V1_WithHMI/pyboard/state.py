@@ -50,7 +50,10 @@ class State():
                    'Y6'  : (13,5)     # LCD RIGHT PB
                    }
 
-    PBPinNameVec = ['Y3','Y4','X9','X10','Y5','Y6']
+    PBPinNameVec = ('Y3','Y4','X9','X10','Y5','Y6')
+    SelectorPinNameArray = (('X19', 'X20', 'X21'), # horizontal
+                            ('X22', 'X11', 'X12')) # vertical
+                   
     
     # SPI state for pyboard setup
     # define the latching pin

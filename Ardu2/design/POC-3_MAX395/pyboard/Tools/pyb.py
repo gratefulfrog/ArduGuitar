@@ -8,7 +8,27 @@ def delay(dela):
     d=dela*10000
     while(d):
         d -=1
+
+def udelay(dela):
+    delay(dela)
+
+mm=1000
+def millis():
+    global mm
+    mm +=100
+    return mm
+
+class Accel:
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.z = 0
+
+class LED:
+    def __init__(self,id):
+        self.i=id
         
+
 class SPI():
     """simulation SPI class provides basic SPI simulation
     - definitions
@@ -77,11 +97,14 @@ class Pin():
     PULL_UP = 'PULL_UP'
     
 
-    def __init__(self, latch, mode, pull = None):
+    def __init__(self, latch, mode='OUT_PP', pull = None):
         self.latchPin = latch
         self.pinOut = mode
         self.puLL = pull
         self.val = 0
+
+    def init(self,mode):
+        self.pinOut = mode
 
     def high(self):
         self.val = 1
@@ -91,7 +114,9 @@ class Pin():
         self.val = 0
         print (str(self) + '\n\tset: LOW')
 
-    def value(self):
+    def value(self,v=None):
+        if not v == None:
+            self.val = v
         return self.val
 
     def __repr__(self):
@@ -137,6 +162,7 @@ class ADC:
 class ExtInt:
     IRQ_FALLING = 'IRQ_FALLING'
     IRQ_RISING = 'IRQ_RISING'
+    IRQ_RISING_FALLING = 'IRQ_RISING_FALLING'
 
     def __init__(self,pinName,irq,pull, callback):
         self.pinName = pinName

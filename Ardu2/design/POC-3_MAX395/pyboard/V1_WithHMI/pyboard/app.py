@@ -10,7 +10,7 @@ from components import Invertable,VTable,OnOffable
 from state import State
 from spiMgr import SPIMgr
 from configs import configDict,mapReplace
-from hardware import ShuntControl,LcdDisplay,PushButtonArray
+from hardware import ShuntControl,LcdDisplay,PushButtonArray,SelectorInterrupt
 from q import Q
 from config import PyGuitarConf
 from Presets import Preset
@@ -88,6 +88,9 @@ class App():
         self.pba = PushButtonArray(self.q)
         self.reset()
         self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
+        self.selectorVec=[None,None]
+        for i in range(2):
+         self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q)
 
     def reset(self):
         self.shuntControl = ShuntControl(shuntConfDict)
@@ -128,8 +131,8 @@ class App():
         K = (twoBytes>>8) & 0xFF
         mask = 0x80
         res = False
-        #State.printT('X:\tK:\t' + bin(K) + '\tV:\t'+ hex(V)
-        print('X:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
+        State.printT('X:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
+        #print('X:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
         for i in range(5):
             if K & (mask>>i):
                 who = App.targVec[min(i,3)][K & 0b111]
@@ -198,12 +201,16 @@ class App():
         #print('CONF:\t' + str((val if not who else None,None if not who else val)))
         #self.sendReset()
         self.reset()
-        self.loadConf(self.preset.presets[(self.sh.pos,self.sv.pos)])
+        self.selectorVec[who].setPostion()
+        self.loadConf(self.preset.presets[(self.selectorVec[0],self.selectorVec[1])]) #self.sh.pos,self.sv.pos)])
         return True
 
     def pb(self,who,val,what):
            pass
 
+    def displayCurrentConf(self):
+        State.printT(self.preset.currentDict)
+    
     def loadConf(self, conf):
         try:
             #res = self.doParse(conf[self.conf.vocab.configKeys[7]])
@@ -230,7 +237,7 @@ class App():
         self.trem(self.preset.currentDict[self.conf.vocab.configKeys[8]])
         self.vib(self.preset.currentDict[self.conf.vocab.configKeys[9]])
         self.tracking(self.preset.currentDict[self.conf.vocab.configKeys[10]])
-        print(self.outgoing)
+        State.printT(self.outgoing)
 
     def doParse(self,confString):
         sp = sParse.SExpParser(self,confString.strip())
@@ -238,7 +245,7 @@ class App():
         sp.execute()
 
     def saveCurrentConfAsPreset(self):
-        self.preset.saveCurrentConfigAsPreset((self.sh.pos,self.sv.pos))
+        self.preset.saveCurrentConfigAsPreset((self.selectorVec[0],self.selectorVec[1]))   #((self.sh.pos,self.sv.pos))
     
     def validateAndApplyLCDInput(self,confString):
         try:
