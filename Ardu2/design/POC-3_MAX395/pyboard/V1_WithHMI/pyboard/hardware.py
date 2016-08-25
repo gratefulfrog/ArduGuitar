@@ -45,6 +45,7 @@ class ShuntControl:
         return 'ShuntControl: ' + '\n\t'  \
             'Timer.channel:\t' + str(self.control)
 
+
 # SelectorInterrupt
 # support for 3 or 5 ... position selector switches
 class SelectorInterrupt (EnQueueable):
@@ -88,13 +89,12 @@ class SelectorInterrupt (EnQueueable):
         if len(pinNames) not in (2,3):
             raise Exception('invalid nb of pins', pinNames)
         self.pinLis =  [Pin(p, Pin.IN, Pin.PULL_UP) for p in pinNames]
-        nbPos = 2*len(pinNames) -1
-        self.truthDict = SelectorInterrupt.masterDict[nbPos]
+        self.truthDict = SelectorInterrupt.masterDict[len(pinNames)]
         self.id = id
         self.currentPosition = 0
         self.setPosition()  # reads the pin values and deduces current switch position
         self.extIntVec = [None for p in pinNames]
-        for i in range(len(pins)):
+        for i in range(len(pinNames)):
             self.extIntVec[i]=ExtInt(pinNames[i],
                                      ExtInt.IRQ_RISING_FALLING,
                                      Pin.PULL_UP,
@@ -102,26 +102,14 @@ class SelectorInterrupt (EnQueueable):
 
     def callback(self,unusedLine):
         self.push(self.id)
-        print('CONF:\t',self.id)
+        print('SelectorCallBack:\t',self.id)
         
     def setPosition(self):
         """ reads the pin values and deduces current switch position
         in case of failure, exception is raised.
         """
         tLis  = [p.value() for p in self.pinLis]
-        self.currentPosition = self.self.truthDict[tuple(tLis)]
-        """
-        i = 0
-        found = False
-        while not found:
-            if all(map(lambda x,y: x==y,tLis,self.truthTable[i])):
-                found = True
-            else:
-                i +=1
-        if not found:
-            raise Exception('position not found', tLis)
-        self.currentPosition = i
-        """
+        self.currentPosition = self.truthDict[tuple(tLis)]
         
     def __repr__(self):
         return 'Selector:' + \
@@ -130,6 +118,7 @@ class SelectorInterrupt (EnQueueable):
             '\n\ttruthTable:\t' + str(self.truthDict)  + '\n'
 
 
+    
 # HWDebouncedPushButton
 # uses interrupts and queueing to indicate a push
 class HWDebouncedPushButton(EnQueueable):

@@ -4,18 +4,19 @@
 # This is where all the user interface calls are found!
 
 #from vactrolControl import vactrolControl
-from bitMgr import BitMgr
-from dictMgr import shuntConfDict
+#from bitMgr import BitMgr
+#from dictMgr import shuntConfDict
 from components import Invertable,VTable,OnOffable
 from state import State
-from spiMgr import SPIMgr
-from configs import configDict,mapReplace
-from hardware import ShuntControl,LcdDisplay,PushButtonArray,SelectorInterrupt
+#from spiMgr import SPIMgr
+#from configs import configDict,mapReplace
+#from hardware import ShuntControl,LcdDisplay,PushButtonArray,SelectorInterrupt
+from hardware import SelectorInterrupt
 from q import Q
 from config import PyGuitarConf
 from Presets import Preset
 import sParse
-from lcdMgr import LCDMgr
+#from lcdMgr import LCDMgr
 import pyb
 
 class App():
@@ -86,16 +87,16 @@ class App():
         self.q = Q()
         self.conf = PyGuitarConf()
         self.preset = Preset(self.conf)
-        self.pba = PushButtonArray(self.q)
+        #self.pba = PushButtonArray(self.q)
         self.reset()
-        self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
+        #self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
         self.selectorVec=[None,None]
         for i in range(2):
          self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q)
 
     def reset(self):
-        self.shuntControl = ShuntControl(shuntConfDict)
-        self.bitMgr = BitMgr()
+        #self.shuntControl = ShuntControl(shuntConfDict)
+        #self.bitMgr = BitMgr()
         self.state = State()
         self.resetConnections = True
         self.coils = {}
@@ -103,12 +104,12 @@ class App():
             self.coils[coil] = Invertable(coil)
         self.coils[State.coils[-1]]= VTable(State.coils[-1])
         self.coils[State.pb] = OnOffable()
-        self.spiMgr = SPIMgr(State.spiOnX,State.spiLatchPinName)
-        self.lcd = LcdDisplay(State.lcdConfDict)
+        #self.spiMgr = SPIMgr(State.spiOnX,State.spiLatchPinName)
+        #self.lcd = LcdDisplay(State.lcdConfDict)
         # shunt, turn all to State.lOff, unshunt
-        self.shuntControl.shunt()
-        self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
-        self.shuntControl.unShunt()
+        #self.shuntControl.shunt()
+        #self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
+        #self.shuntControl.unShunt()
 
     def pollPollables(self):
         pass
@@ -127,15 +128,15 @@ class App():
             worked = self.doWork(work) or worked
             work = self.q.pop()
         if worked:
-            self.x()
+            print("self.x()")
 
     def doWork(self,twoBytes):
         V = twoBytes & 0xFF
         K = (twoBytes>>8) & 0xFF
         mask = 0x80
         res = False
-        State.printT('X:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
-        #print('X:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
+        #State.printT('X:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
+        print('X:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
         for i in range(5):
             if K & (mask>>i):
                 who = App.targVec[min(i,3)][K & 0b111]
@@ -201,14 +202,15 @@ class App():
 
     def doConf(self,who,val, unused=None):
         # who is 0 for horizontal, 1 for vertical    
-        #print('CONF:\t' + str((val if not who else None,None if not who else val)))
+        print('CONF:\t' + str((val if not who else None,None if not who else val)))
         #self.sendReset()
         self.reset()
         self.selectorVec[who].setPosition()
         cf = (self.selectorVec[0].currentPosition,self.selectorVec[1].currentPosition)
-        if cf != tuple(self.preset.currentDict['Name']):
-            State.printT('loading conf: ' + str(cf))
+        if cf != self.preset.currentDict['Name']:
+            print('loading conf: ' + str(cf))
             self.loadConf(self.preset.presets[cf]) #self.sh.pos,self.sv.pos)])
+        
         return True
 
     def pb(self,who,val,what):
@@ -286,8 +288,9 @@ class App():
         usage:
         >>> a.set('M',State.Vol,State.l0)
         """
-        self.coils[name].setFuncs[State.stateNeg2SetFuncIndex(att)](state)
-        self.bitMgr.update(name,att,state)
+        pass
+        #self.coils[name].setFuncs[State.stateNeg2SetFuncIndex(att)](state)
+        #self.bitMgr.update(name,att,state)
 
     def connect(self,name,pole,otherName,otherPole):
         """
@@ -301,6 +304,8 @@ class App():
         connection updates are applied, then the updates are exectued, 
         and only then will the NEXT vector be reset.
         """
+        pass
+        """
         if not self.resetConnections:
             # if the connections have not been reset, then reset just
             # the switches part of the NEXT vector
@@ -311,7 +316,8 @@ class App():
         self.coils[name].connect(pole,(otherName,otherPole))
         self.bitMgr.update((name,pole),
                            (otherName,otherPole))
-
+        """
+        
     def x(self):
         """
         This method calls the x() method on each of the coils, then on the

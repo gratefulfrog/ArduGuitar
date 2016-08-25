@@ -38,17 +38,19 @@ Now, how to interpret the String:
 from parse import ss,pp,connectionList
 from state import State
 
+
 # app call generators
 
-def invert(coil,val):
+def invert(ap,coil,val):
     print ('Inverted Coil:\t'+ coil + '\t' + str(val))
     #return "a.set('%s',State.Inverter,%s)"%(coil, 'State.l1' if val else 'State.l0')
-    self.a.set(coli,State.Inverter,(State.l1 if val else State.l0))
+    ap.set(coil,State.Inverter,(State.l1 if val else State.l0))
 
-def connect(a,b):
+def connect(ap,a,b):
     #print ('Connected Coils:\t'+ str(a) +','+ str(b))
     #return "a.connect('%s',%d,'%s',%d)"%(a[0],a[1],b[0],b[1])
-    self.a.connect(a[0],a[1],b[0],b[1])
+    ap.connect(a[0],a[1],b[0],b[1])
+
 
 env = { 's':ss,
         'p':pp,
@@ -95,7 +97,7 @@ class SExpParser():
     def checkSingleton(self,exp):
         if len(exp) == 1:
             if exp not in SExpParser.atoms:
-                raise SyntaxError('unkonwn coil name: ' + exp)
+                raise SyntaxError('unknown coil name: ' + exp)
         elif exp[0] != '(':
             raise SyntaxError('misformed expression: ' + exp)
         
@@ -126,11 +128,11 @@ class SExpParser():
         for c in  res0:
             if c in SExpParser.inverted:
                 #inverters.append('invert('+c.upper()+',1)')
-                invert(c.upper(),1)
+                invert(self.a,c.upper(),1)
                 res1+=c.upper()
             elif c in SExpParser.straight:
                 #inverters.append('invert('+ c +',0)')
-                invert(c,0)
+                invert(self.a,c,0)
                 res1+=c
             else:
                 res1+=c
@@ -145,7 +147,7 @@ class SExpParser():
         #    res.append(eval(exp,env))
         for con in connectionList(eval(exps[-1],env)):
             #res.append(connect(con[0],con[1]))
-            connect(con[0],con[1])
+            connect(self.a,con[0],con[1])
         #return res
 
     def pModal(self,expLis,mode=0,res=''):

@@ -71,24 +71,21 @@ class Preset():
 
     def rowDict2confDict(self,row):
         curConfDict= {}
-        #self.presets[(int(row[self.conf.Vocab.headings[0]]),int(row[self.conf.Vocab.headings[1]]))]= curConfDict
         self.presets[(int(row[0]),int(row[1]))]= curConfDict
         
-        #curConfDict[self.conf.Vocab.configKeys[0]] = row[self.conf.Vocab.headings[2]]
         curConfDict[self.conf.Vocab.configKeys[0]] = row[2]
 
         for i in  range(1,6):
-            #curConfDict[self.conf.Vocab.configKeys[i]] = [int(row[self.conf.Vocab.headings[1+2*i]]),int(row[self.conf.Vocab.headings[2+2*i]])]
             curConfDict[self.conf.Vocab.configKeys[i]] = [int(row[1+2*i]),int(row[2+2*i])]
-        #curConfDict[self.conf.Vocab.configKeys[6]] = [None,int(row[self.conf.Vocab.headings[13]])]
         curConfDict[self.conf.Vocab.configKeys[6]] = [None,int(row[13])]
-        #curConfDict[self.conf.Vocab.configKeys[7]] = row[self.conf.Vocab.configKeys[7]]
-        curConfDict[self.conf.Vocab.configKeys[7]] = row[7]
-        j=8
+        curConfDict[self.conf.Vocab.configKeys[7]] = row[14]
+        #print(row[14])
+        j=15
         for k in self.conf.Vocab.configKeys[8:]:
                 curConfDict[k] = int(row[j])
+                print(str(k) + ' = '+  str(int(row[j])))
                 j+=1
-        #print(curConfDict)
+        print(curConfDict)
         
         
     def createDefaultPresets(self):

@@ -92,7 +92,7 @@ class State():
     Red       = 103
     Yellow    = 104
     
-    debug = False #True
+    debug = True
 
     def printT(*thing):
         """ depending on State.debug, print or not

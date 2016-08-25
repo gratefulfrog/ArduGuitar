@@ -13,4 +13,5 @@ def setPath():
         sys.path[i] = sys.path[i-1]
     sys.path[0]='/sd'
 
+setPath()
 
