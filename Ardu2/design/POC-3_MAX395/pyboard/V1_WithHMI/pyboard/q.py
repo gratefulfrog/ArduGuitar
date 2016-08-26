@@ -1,20 +1,24 @@
+import array
+
 class Q:
     """
     Circular Q of ints
     """
-    qLen = 20
+    qLen = 500
     
     def __init__(self):
         self.pptr = 0  # put pointer
         self.gptr = 0  # get pointer
         self.qNbObj=0  # object counter
-        self.q = [0xFF for i in range(Q.qLen)]
+        #self.q = [0xFF for i in range(Q.qLen)]
+        self.q = array.array('i',[0xFF for i in range(Q.qLen)])
         self.debuggingPushMsg='push:'
         self.debuggingPopMsg='pop:%s'
 
     def push(self,e):
         if self.qNbObj == Q.qLen:
-            raise Exception('Q Full! ignoring push!')
+            print('************************** Q Full! ignoring push! *******************************')
+            #raise Exception('Q Full! ignoring push!')
         else:
             self.q[self.pptr] = e
             self.pptr = (self.pptr+1) % Q.qLen

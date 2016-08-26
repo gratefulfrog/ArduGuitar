@@ -1,16 +1,14 @@
-#!/usr/local/bin/python3.4
 # app.py
 # provides classes for the application level.
 # This is where all the user interface calls are found!
 
-#from vactrolControl import vactrolControl
 from bitMgr import BitMgr
 from dictMgr import shuntConfDict
 from components import Invertable,VTable,OnOffable
 from state import State
 from spiMgr import SPIMgr
 from configs import configDict,mapReplace
-from hardware import ShuntControl,LcdDisplay,PushButtonArray,SelectorInterrupt
+from hardware import ShuntControl,LcdDisplay,PushButtonArray,SelectorInterrupt,TrackBall
 from q import Q
 from config import PyGuitarConf
 from Presets import Preset
@@ -83,6 +81,7 @@ class App():
         after creation of the SPIMgr, the update message is sent to it to 
         initialize all the pins.
         """
+        self.gcd=False
         self.setVec = [self.inc, self.pb, self.doConf, self.vol, self.tone]
         self.q = Q()
         self.conf = PyGuitarConf()
@@ -94,6 +93,7 @@ class App():
         self.selectorVec=[None,None]
         for i in range(2):
          self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q)
+        self.tb = TrackBall(self.q)
         self.currentConfTupleKey = (-1,-1)
         self.doConf(0)  # anonymous value just to fill the argument
         self.x()
@@ -116,6 +116,7 @@ class App():
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
         self.shuntControl.unShunt()
         gc.collect()
+        self.gcd=True
 
     def pollPollables(self):
         pass
@@ -135,6 +136,10 @@ class App():
             work = self.q.pop()
         if worked:
             self.x()
+            self.gcd=False
+        elif not self.gcd:
+            gc.collect()  # time to do this is 5ms
+            self.gcd=True
 
     def doWork(self,twoBytes):
         V = twoBytes & 0xFF
@@ -270,6 +275,7 @@ class App():
         self.vib(self.preset.currentDict[self.conf.vocab.configKeys[9]])
         self.tracking(self.preset.currentDict[self.conf.vocab.configKeys[10]])
         gc.collect()
+        self.gcd=True
 
     def doParse(self,confString):
         sp = sParse.SExpParser(self,confString.strip())

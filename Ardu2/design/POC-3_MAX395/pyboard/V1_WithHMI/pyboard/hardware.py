@@ -5,6 +5,7 @@
 # * HWDebouncedPushButton
 # * ShakeControl (3-axis shake controller)
 # * LCDDisplay (added 2016 06 11)
+# * TrackBall (added 2016 08 26)
 #### obsolete or unused ###
 # * Selector
 # * Illuminator
@@ -120,8 +121,6 @@ class SelectorInterrupt (EnQueueable):
             '\n\tpinLis:\t' + str(self.pinLis) +\
             '\n\ttruthTable:\t' + str(self.truthDict)  + '\n'
 
-
-    
 # HWDebouncedPushButton
 # uses interrupts and queueing to indicate a push
 class HWDebouncedPushButton(EnQueueable):
@@ -154,7 +153,6 @@ class PushButtonArray():
             res += repr(pb) +'\n'
         return res
                     
-
 class ShakeControl1:
     """ 
     provides single axis shake control; when there is shake in the
@@ -268,7 +266,6 @@ class ShakeControl1:
             '\n\tlast Action Time\t' + str(self.lastActionTime)  + \
             '\n\tlast Read Time\t'   + str(self.lastReadTime)
         
-    
 class ShakeControl:
     """ 
     provides 3-axis shake control; when there is shake in the appropriate
@@ -413,7 +410,71 @@ class LcdDisplay(GpioLcd):
     def getLn(self, lineNb):
         return self.lns[lineNb]
 
+# class TrackBall:
+# trackball quadrature resolution 1
+"""
+Wiring:
+Red: V+ (checked out OK at both 5v and 3.3V)
+Black: GND
+Blue: Y-axis channel-A (leads if rotation is upwards, i.e. away from wires)
+Green: Y-axis channel-B (leads if rotation is downwards)
+Yellow: X-Axis channel-A (leads if rotation is right-wards, i.e. to the right when looking at the device wires at bottom)
+White: X-Axis channel-B (leads if rotation is left-wards)
 
+Some simple algorithms:
+1x resolution: 
+* on rise of channel-A: count += (channel-B==High ? -1 : +1)
+2x resolution:  
+* on rise of channel-A: count += (channel-B==High ? -1 : +1)
+* on drop of channel-A: count += (channel-B==High ? +1 : -1)
+4x resolution:
+* on rise of channel-A: count += (channel-B==High ? -1 : +1)
+* on rise of channel-B: count += (channel-A==High ? +1 : -1)
+* on drop of channel-A: count += (channel-B==High ? +1 : -1)
+* on drop of channel-B: count += (channel-A==High ? -1 : +1)
+
+The circuit only has 2 interrupts available so use resolution 1.
+x1_ = pyb.Pin(blue,   pyb.Pin.IN)
+x2_ = pyb.Pin(yellow, pyb.Pin.IN)
+y1_ = pyb.Pin(green,  pyb.Pin.IN)
+y2_ = pyb.Pin(white,  pyb.Pin.IN)
+"""
+
+class TrackBall:
+    def __init__(self,qq):
+        self.volEnQueueable  = EnQueueable((EnQueueable.INC,EnQueueable.VOL),qq)
+        self.toneEnQueueable = EnQueueable((EnQueueable.INC,EnQueueable.TONE),qq)
+        self.targCoilID = 0;
+        self.x1=Pin(State.trackballStateDict['x1'], Pin.IN, Pin.PULL_DOWN)
+        self.x2=Pin(State.trackballStateDict['x2'], Pin.IN, Pin.PULL_DOWN)
+        self.y1=Pin(State.trackballStateDict['y1'], Pin.IN, Pin.PULL_DOWN)
+        self.y2=Pin(State.trackballStateDict['y2'], Pin.IN, Pin.PULL_DOWN)
+        self.extInts = (ExtInt(State.trackballStateDict['x1'],
+                                   ExtInt.IRQ_RISING,
+                                   Pin.PULL_DOWN,
+                                   self.x11),
+                        ExtInt(State.trackballStateDict['y1'],
+                                   ExtInt.IRQ_RISING,
+                                   Pin.PULL_DOWN,
+                                   self.y11))
+            
+    def x11(self,unused):
+        if self.x2.value():
+            self.volEnQueueable.push(self.targCoilID,-1)
+        else:
+            self.volEnQueueable.push(self.targCoilID,1)
+
+    def y11(self,unused):
+        if self.y2.value():
+            self.toneEnQueueable.push(self.targCoilID,-1)
+        else:
+            self.toneEnQueueable.push(self.targCoilID,1)
+
+
+
+
+
+    
 #############  Obsolete or Unused ############
 # Selector
 # support for 3 or 5 ... position selector switches

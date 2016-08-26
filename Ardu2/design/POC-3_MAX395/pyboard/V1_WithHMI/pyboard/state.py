@@ -54,6 +54,11 @@ class State():
     SelectorPinNameArray = (('X19', 'X20', 'X21'), # horizontal
                             ('X22', 'X11', 'X12')) # vertical
                    
+    # trackball state data
+    trackballStateDict = {'x1' : 'Y9',  # blue wire
+                          'x2' : 'Y2',  # yellow wire
+                          'y1' : 'Y10', # green wire
+                          'y2' : 'B4'}  # white wire
     
     # SPI state for pyboard setup
     # define the latching pin
@@ -68,8 +73,6 @@ class State():
     nbSwitchRegs = 4
     nbHIRegs = 5
     connectionUpdateOnly = 1010
-
-
     
     # Make before Break delay in milliseconds 
     # for quieter switching, hopefully..
