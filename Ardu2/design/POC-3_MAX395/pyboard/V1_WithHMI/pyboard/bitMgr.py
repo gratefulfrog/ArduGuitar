@@ -90,7 +90,8 @@ class BitMgr:
         """
         self.cnConfig = (bytearray([0 for x in range(BitMgr.allRegEndPoints[0],
                                                      BitMgr.allRegEndPoints[1])]),
-                         bytearray([0 for x in range(BitMgr.allRegEndPoints[0])]))
+                         bytearray([0 for x in range(BitMgr.allRegEndPoints[0],
+                                                     BitMgr.allRegEndPoints[1])]))
         
     def reset(self,whatRange, curBool=True,nexBool=True):
         """
@@ -176,6 +177,7 @@ class BitMgr:
             self.cnConfig[BitMgr.nex][settingTup[0]] |= pow(2,settingTup[1])
         # end of helper to handle tuples of tuples in settings.    
         for (reg,mask) in masking:
+            State.printT('Reg:\t'+str(reg))
             self.cnConfig[BitMgr.nex][reg] &= mask
         if setting:
             if (tuple == type(setting[0])):

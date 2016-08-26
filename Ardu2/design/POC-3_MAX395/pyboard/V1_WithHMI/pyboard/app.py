@@ -206,14 +206,26 @@ class App():
         self.reset()
         self.selectorVec[who].setPosition()
         cf = (self.selectorVec[0].currentPosition,self.selectorVec[1].currentPosition)
-        if cf != tuple(self.preset.currentDict['Name']):
-            State.printT('loading conf: ' + str(cf))
-            self.loadConf(self.preset.presets[cf]) #self.sh.pos,self.sv.pos)])
+        State.printT('loading conf: ' + str(cf))
+        self.loadConf(self.preset.presets[cf]) #self.sh.pos,self.sv.pos)])
         return True
 
+    # stubs!!!!
     def pb(self,who,val,what):
-           pass
-
+        pass
+    def toggleTracking(self):
+        pass
+    def tracking(self,onOff):
+        pass
+    def trem(self,onOff):
+        pass
+    def vib(self,onOff):
+        pass
+    def toggleTrem(self):
+        pass
+    def toggleVib(self):
+        pass
+    
     def displayCurrentConf(self):
         State.printT(self.preset.currentDict)
     
@@ -243,7 +255,6 @@ class App():
         self.trem(self.preset.currentDict[self.conf.vocab.configKeys[8]])
         self.vib(self.preset.currentDict[self.conf.vocab.configKeys[9]])
         self.tracking(self.preset.currentDict[self.conf.vocab.configKeys[10]])
-        State.printT(self.outgoing)
 
     def doParse(self,confString):
         sp = sParse.SExpParser(self,confString.strip())

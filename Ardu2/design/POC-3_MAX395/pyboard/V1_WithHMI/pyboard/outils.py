@@ -15,7 +15,17 @@ def ceiling (n,d):
     res = n//d 
     return res if not (n/d - res) else res +1
 
+def ljust(s,width,padchar=' '):
+    """  Needed becaue micropython does not implement str.ljust
+    takes a string s, and puts width padhcar's after it to make the total lenght of 
+    st + padding equal to width. The original string is returned if width <= len(s)
+    """
+    l = len(s)
+    if width<= l:
+        return s
+    return s + padchar*(width-l)
 
+        
 class RMap:
     def __init__(self,fromRange, toRange, makeInt=False):
         """ 

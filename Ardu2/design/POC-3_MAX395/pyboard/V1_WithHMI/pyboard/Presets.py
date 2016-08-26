@@ -52,15 +52,13 @@ class Preset():
             try:
                 #print(self.filePath) 
                 with open(self.filePath, 'r') as csvfile:
-                    #print "opened file: " + self.filePath
+                    # from official csv module, not used on pyboard!
                     #reader = csv.DictReader(csvfile,fieldnames = self.conf.Vocab.headings,delimiter=',')
-                    reader = csv.CSV.Reader(csvfile)
-                    #print(reader)
                     #self.header = reader.next()
+                    # the next lines refer to my version of the csv reader
+                    reader = csv.CSV.Reader(csvfile)
                     self.header = next(reader)
-                    #print(self.header)
                     for row in reader:
-                        #print(row)
                         self.rowDict2confDict(row)
             except:
                 State.printT( "error reading preset file!  Creating new one!")
@@ -95,7 +93,7 @@ class Preset():
             for j in range(5):
                 self.presets[(i,j)] = self.conf.presetConf.defaultConfDict
         self.header = self.conf.Vocab.headings
-        #self.toFile(self.conf..presetFileName)
+        #self.toFile(self.conf.presetFileName)
     
     def toFile(self, file = None):
         # this will write the presets to a file,

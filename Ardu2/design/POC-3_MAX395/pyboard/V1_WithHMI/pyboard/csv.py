@@ -7,8 +7,8 @@ READING interface:
  try:
                 with open(self.filePath, 'r') as csvfile:
                     #print "opened file: " + self.filePath
-                    reader = csv.DictReader(csvfile,fieldnames = self.conf.Vocab.headings,delimiter=',')
-                    self.header = reader.next()
+                    reader = csv.Reader(csvfile)
+                    self.header = next(reader)
                     for row in reader:
                         self.rowDict2confDict(row)
 

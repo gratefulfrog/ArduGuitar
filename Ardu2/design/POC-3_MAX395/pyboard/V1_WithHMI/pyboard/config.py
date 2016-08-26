@@ -39,18 +39,18 @@ class PyGuitarConf():
         presetFileName = 'presets.csv'
         
     class PresetConf():
-        defaultPresetValList= ['(0,0)',
+        defaultPresetValList= ['(0,0)', # 'Name'
                                [5,5],   # M vol, tone
-                               [5,5], 
-                               [5,5], 
-                               [5,5], 
-                               [5,5], 
-                               [None,4],  # range on [0,4]
-                               '(+ABCD)',
-                               0,
-                               0, 
-                               0,
-                               0]
+                               [5,5],   # A vol tone
+                               [5,5],   # B vol tone
+                               [5,5],   # C vol tone 
+                               [5,5],   # D vol tone
+                               [None,4],  # tone range on [0,4]
+                               '(+ABCD)', # 'S'
+                               0,         # 'TREM'
+                               0,         # 'VIB'
+                               0,         # 'AUX0'
+                               0]         # 'AUX1'
         def __init__(self):
             self.defaultConfDict = {}
             for i in range(len(PyGuitarConf.Vocab.configKeys)):

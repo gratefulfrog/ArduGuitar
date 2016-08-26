@@ -1,7 +1,6 @@
 #lcdMgr.py
-#oClasses.py
 
-#import Classes 
+from outils import ljust
 
 class LCDMgr:
     display = 0
@@ -26,7 +25,8 @@ class LCDMgr:
         self.lastClick='r'
         self.mode = LCDMgr.display
         self.cursor = LCDMgr.cursorOff
-        self.displayCharList = list(self.stateString.ljust(LCDMgr.lineLength))
+        #self.displayCharList = list(self.stateString.ljust(LCDMgr.lineLength))
+        self.displayCharList = list(ljust(self.stateString,LCDMgr.lineLength))
         self.lcd.setLn(0,self.stateString)
         self.lcd.setLn(1,self.stateName)
     

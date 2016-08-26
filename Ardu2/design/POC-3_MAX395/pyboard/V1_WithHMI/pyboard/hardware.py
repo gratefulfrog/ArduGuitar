@@ -96,7 +96,7 @@ class SelectorInterrupt (EnQueueable):
         self.extIntVec = [None for p in pinNames]
         for i in range(len(pinNames)):
             self.extIntVec[i]=ExtInt(pinNames[i],
-                                     ExtInt.IRQ_RISING_FALLING,
+                                     ExtInt.IRQ_FALLING,
                                      Pin.PULL_UP,
                                      self.callback)
 
