@@ -224,7 +224,7 @@ class App():
         return True
 
     # stubs!!!!
-    def pb(self,who,val,what):
+    def pb(self,who,unused=None,unusedA=None): 
         pass
     def toggleTracking(self):
         pass
