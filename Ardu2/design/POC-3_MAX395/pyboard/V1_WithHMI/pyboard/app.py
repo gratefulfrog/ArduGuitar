@@ -96,6 +96,7 @@ class App():
          self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q)
         self.currentConfTupleKey = (-1,-1)
         self.doConf(0)  # anonymous value just to fill the argument
+        self.x()
 
 
     def reset(self):
@@ -239,9 +240,10 @@ class App():
         pass
     
     def displayCurrentConf(self):
-        State.printT(self.preset.currentDict)
+        return self.preset.currentDict
     
     def loadConf(self, conf):
+        print('loading conf: ' + str(conf))
         try:
             #res = self.doParse(conf[self.conf.vocab.configKeys[7]])
             self.doParse(conf[self.conf.vocab.configKeys[7]])
@@ -275,7 +277,8 @@ class App():
         sp.execute()
 
     def saveCurrentConfAsPreset(self):
-        self.preset.saveCurrentConfigAsPreset((self.selectorVec[0].currentPosition,self.selectorVec[1].currentPosition))
+        self.preset.saveCurrentConfigAsPreset(self.currentConfTupleKey)
+        #(self.selectorVec[0].currentPosition,self.selectorVec[1].currentPosition))
         #((self.sh.pos,self.sv.pos))
     
     def validateAndApplyLCDInput(self,confString):
