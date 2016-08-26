@@ -17,6 +17,7 @@ from Presets import Preset
 import sParse
 from lcdMgr import LCDMgr
 import pyb
+import gc
 
 class App():
     """
@@ -87,11 +88,15 @@ class App():
         self.conf = PyGuitarConf()
         self.preset = Preset(self.conf)
         self.pba = PushButtonArray(self.q)
+        self.lastConfTime = 0
         self.reset()
         self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
         self.selectorVec=[None,None]
         for i in range(2):
          self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q)
+        self.currentConfTupleKey = (-1,-1)
+        self.doConf(0)  # anonymous value just to fill the argument
+
 
     def reset(self):
         self.shuntControl = ShuntControl(shuntConfDict)
@@ -109,6 +114,7 @@ class App():
         self.shuntControl.shunt()
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
         self.shuntControl.unShunt()
+        gc.collect()
 
     def pollPollables(self):
         pass
@@ -199,15 +205,21 @@ class App():
             return True
         return False
 
-    def doConf(self,who,val, unused=None):
+    def doConf(self,who,unused0=None, unused1=None):
         # who is 0 for horizontal, 1 for vertical    
-        #print('CONF:\t' + str((val if not who else None,None if not who else val)))
-        #self.sendReset()
-        self.reset()
+        """
+        if pyb.millis()-self.lastConfTime < State.confCallbackDelay:
+            print('no load of conf... too quick!')
+            return False
+        """
         self.selectorVec[who].setPosition()
         cf = (self.selectorVec[0].currentPosition,self.selectorVec[1].currentPosition)
-        State.printT('loading conf: ' + str(cf))
+        if  self.currentConfTupleKey == cf:
+            return False
+        self.reset()
+        print('loading conf: ' + str(cf))
         self.loadConf(self.preset.presets[cf]) #self.sh.pos,self.sv.pos)])
+        self.currentConfTupleKey = cf
         return True
 
     # stubs!!!!
@@ -255,6 +267,7 @@ class App():
         self.trem(self.preset.currentDict[self.conf.vocab.configKeys[8]])
         self.vib(self.preset.currentDict[self.conf.vocab.configKeys[9]])
         self.tracking(self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        gc.collect()
 
     def doParse(self,confString):
         sp = sParse.SExpParser(self,confString.strip())
@@ -262,7 +275,8 @@ class App():
         sp.execute()
 
     def saveCurrentConfAsPreset(self):
-        self.preset.saveCurrentConfigAsPreset((self.selectorVec[0],self.selectorVec[1]))   #((self.sh.pos,self.sv.pos))
+        self.preset.saveCurrentConfigAsPreset((self.selectorVec[0].currentPosition,self.selectorVec[1].currentPosition))
+        #((self.sh.pos,self.sv.pos))
     
     def validateAndApplyLCDInput(self,confString):
         try:

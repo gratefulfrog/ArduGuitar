@@ -77,6 +77,7 @@ class SelectorInterrupt (EnQueueable):
                       (1,0,1): 2,  # position 2, i.e. middle: middle pin is GND
                       (1,0,0): 3,  # position 3, i.e. middle/right: middle & right pins are GND
                       (1,1,0): 4}} # position 4, i.e. right: right pin is GND
+
     
     def __init__(self,pinNames,id,q):
         """create an instance of a 3 or 5 position switch connected to the 
@@ -96,13 +97,15 @@ class SelectorInterrupt (EnQueueable):
         self.extIntVec = [None for p in pinNames]
         for i in range(len(pinNames)):
             self.extIntVec[i]=ExtInt(pinNames[i],
-                                     ExtInt.IRQ_FALLING,
+                                     ExtInt.IRQ_RISING_FALLING,
                                      Pin.PULL_UP,
                                      self.callback)
 
+            
     def callback(self,unusedLine):
         self.push(self.id)
-        print('SelectorCallBack:\t',self.id)
+        #State.printT('SelectorCallBack:\t',self.id)
+        #print('SelectorCallBack:\t',self.id)
         
     def setPosition(self):
         """ reads the pin values and deduces current switch position
