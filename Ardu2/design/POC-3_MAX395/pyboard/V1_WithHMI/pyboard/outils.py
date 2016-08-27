@@ -42,6 +42,7 @@ class RMap:
         self.ratio = (toRange[1]-toRange[0])/(fromRange[1]-fromRange[0])
         self.fZero = fromRange[0]
         self.tZero = toRange[0]
+        self.tEnd  = toRange[1]
         if makeInt:
             self.typ = lambda x:round(x)
         else:
@@ -51,7 +52,10 @@ class RMap:
     def v(self,val):
         """
         return the result of mapping val from the from range 
-        to the target range.
+        to the target range. 
+        Will only return values on [toRange[0],tRange[1]], ie. clamping!
         """
-        return self.typ(self.ratio*(val-self.fZero) + self.tZero)
+        return self.typ(min(self.tEnd,
+                            max(self.tZero,
+                                self.ratio*(val-self.fZero) + self.tZero)))
     

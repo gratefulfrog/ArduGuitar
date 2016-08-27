@@ -81,13 +81,12 @@ class App():
         after creation of the SPIMgr, the update message is sent to it to 
         initialize all the pins.
         """
-        self.gcd=False
+        self.gcd=False # true if we just did a garbage collection, false if work has been done and garbage not yet collected
         self.setVec = [self.inc, self.pb, self.doConf, self.vol, self.tone]
         self.q = Q()
         self.conf = PyGuitarConf()
         self.preset = Preset(self.conf)
         self.pba = PushButtonArray(self.q)
-        self.lastConfTime = 0
         self.reset()
         self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
         self.selectorVec=[None,None]
@@ -213,11 +212,6 @@ class App():
 
     def doConf(self,who,unused0=None, unused1=None):
         # who is 0 for horizontal, 1 for vertical    
-        """
-        if pyb.millis()-self.lastConfTime < State.confCallbackDelay:
-            print('no load of conf... too quick!')
-            return False
-        """
         self.selectorVec[who].setPosition()
         cf = (self.selectorVec[0].currentPosition,self.selectorVec[1].currentPosition)
         if  self.currentConfTupleKey == cf:

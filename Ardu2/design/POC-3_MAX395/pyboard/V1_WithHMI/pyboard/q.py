@@ -12,8 +12,8 @@ class Q:
         self.qNbObj=0  # object counter
         #self.q = [0xFF for i in range(Q.qLen)]
         self.q = array.array('i',[0xFF for i in range(Q.qLen)])
-        self.debuggingPushMsg='push:'
-        self.debuggingPopMsg='pop:%s'
+        self.debuggingPushMsg='push:'  # cannot use hex here because push is called by interrupt handlers 
+        self.debuggingPopMsg='pop:%s'  # and would allocate memory if it embedded a call to hex(e)
 
     def push(self,e):
         if self.qNbObj == Q.qLen:

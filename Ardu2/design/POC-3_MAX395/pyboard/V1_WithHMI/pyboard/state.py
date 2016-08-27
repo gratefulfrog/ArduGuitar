@@ -59,6 +59,13 @@ class State():
                           'x2' : 'Y2',  # yellow wire
                           'y1' : 'Y10', # green wire
                           'y2' : 'B4'}  # white wire
+
+    splitPotPinNameVec = ('X1',  # 0: Master
+                          'X2',  # 1: Coil A
+                          'X3',  # 2: Coil B
+                          'X4',  # 3: Coil C
+                          'Y11', # 4: Coil D
+                          'Y12') # 5: ToneRange
     
     # SPI state for pyboard setup
     # define the latching pin

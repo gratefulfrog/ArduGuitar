@@ -13,5 +13,21 @@ def set():
         sys.path[i] = sys.path[i-1]
     sys.path[0]='/sd'
 
+def runTest():
+    global a
+    try:
+        import hwTester
+        a=hwTester.App()
+        a.mainLoop()
+    except:
+        print('\n**** Could not run hwTester.App.mainLoop... ****')
+        print('**** running app.App.mainLoop instead... ****')
+        import app
+        a=app.App()
+        a.mainLoop()
+
 set()
+runTest()
+
+
 
