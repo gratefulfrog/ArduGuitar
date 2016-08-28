@@ -1,19 +1,8 @@
 # outils.py
 # provides various utility classes and functions
 # * RMap: maps values from one range to another
-# * floor function
-# * ceiling function
-
-def floor (n,d):
-    """ floor of the experssion n/d
-    """
-    return n//d
-
-def ceiling (n,d):
-    """ ceiling of the experssion n/d
-    """
-    res = n//d 
-    return res if not (n/d - res) else res +1
+# * CURRENTLY DISABLED floor function
+# * CURRENTLY DISABLED ceiling function
 
 def ljust(s,width,padchar=' '):
     """  Needed becaue micropython does not implement str.ljust
@@ -59,3 +48,15 @@ class RMap:
                             max(self.tZero,
                                 self.ratio*(val-self.fZero) + self.tZero)))
     
+
+### not in use removed from code ###
+#def floor (n,d):
+#    """ floor of the experssion n/d
+#    """
+#    return n//d
+#
+#def ceiling (n,d):
+#    """ ceiling of the experssion n/d
+#    """
+#    res = n//d 
+#    return res if not (n/d - res) else res +1
