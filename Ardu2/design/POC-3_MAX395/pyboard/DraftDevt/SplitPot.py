@@ -4,7 +4,7 @@ Using the pyboard ADC which reads 3.3v from on [0,4095].
 We split the pot into equal parts after removing the cutoff value, e.g. 30.
 *****
 
-Testing revealed a great instability in the ADC.
+Testing revealed a great instability in the ADC, but this may be due to the use of breadboard for connections??
 
 This meant that a 10K PULL DOWN RESISTOR must be connected to the wiper.
 The cutOff must be at least 25? Indeed, 30 is better!
@@ -12,7 +12,7 @@ In additon, we poll the ADC 10 times at 1ms intervals to get an avg value and if
 are bad, then all is rejected.
 Results:
 >>> from SplitPot import *
->>> test()
+>>> test(track=False)
 sp_0            sp_1            sp_2            sp_3            sp_4            sp_5_ToneRage
 (None, None)    (None, None)    (None, None)    (None, None)    (None, None)    (None, None)
 (None, None)    (1, 3)          (None, None)    (None, None)    (None, None)    (None, None)
@@ -40,7 +40,18 @@ sp_0            sp_1            sp_2            sp_3            sp_4            
 (1, 3)          (1, 1)          (0, 2)          (0, 4)          (1, 1)          (1, 1)      
 (1, 3)          (0, 3)          (0, 2)          (0, 4)          (1, 1)          (1, 1)      
 (1, 4)          (0, 3)          (0, 2)          (0, 4)          (1, 1)          (1, 1)      
-Done.
+KeyboardInterrupt: 
+>>> test(track=True)
+sp_0            sp_1            sp_2            sp_3            sp_4            sp_5_ToneRage
+(None, None)    (None, None)    (None, None)    (None, None)    (None, None)    (None, None)
+(1, -3)         (None, None)    (None, None)    (None, None)    (None, None)    (None, None)
+(1, -3)         (None, None)    (None, None)    (None, None)    (None, None)    (None, None)
+(1, 3)          (None, None)    (None, None)    (None, None)    (None, None)    (None, None)
+(1, 4)          (None, None)    (None, None)    (None, None)    (None, None)    (None, None)
+(1, -3)         (None, None)    (None, None)    (None, None)    (None, None)    (None, None)
+(1, 2)          (None, None)    (None, None)    (None, None)    (None, None)    (None, None)
+KeyboardInterrupt: 
+
 """
 
 from outils import *
@@ -68,7 +79,8 @@ class SplitPot:
         self.isToneRange = isToneRange
         self.tracking  = False
         self.update    = self.noTrackingUpdate
-
+        #print(self.ranges)
+        
     def track(self,onOff):
         self.tracking  = onOff
         if onOff:
@@ -86,12 +98,21 @@ class SplitPot:
             self.toneEnQueueable = EnQueueable(EnQueueable.TONE,self.q)
             self.vt=self.doVT
         """
-    def trackingUpdate(self, error=400):
-        """ error allows for a bad finger move at start of tracking
+    def trackingUpdate(self, error=250,nbReads=5):
+        """ 
+        error allows for a bad finger move at start of tracking,
+        a track dist<=200 would produce a ZERO output, so we have put a max(1, ...) at the return to 
+        ensure that any touch of the pot will produce 
+        at least a track value of 1 and never 0 because you never would touch it for no reason, would you?!
         """
-        vInit=self.adc.read()
-        if vInit<self.cutOff or (vInit>self.ranges[0][1] and vInit<self.ranges[1][0]) or vInit>self.ranges[1][1]:
-            return None
+        vInit=0
+        for i in range(nbReads):
+            v=self.adc.read()
+            if v<self.cutOff or (v>self.ranges[0][1] and v<self.ranges[1][0]) or v>self.ranges[1][1]:
+                #print('None:1')
+                return None
+            vInit +=v
+        vInit= round(vInit/nbReads)
         vADCmin = vADCmax = v = vInit
         curRange = None
         for i in range((1 if self.isToneRange else 0),2): # 2 splits if not ToneRange, only second split if ToneRange
@@ -99,16 +120,20 @@ class SplitPot:
                 curRange=i
                 break
         if curRange==None:
+            #print('None:2')
             return None
         while v >= self.ranges[curRange][0] and v<=self.ranges[curRange][1]:
+            delay(3)
             vADCmin = min(vADCmin,v)
             vADCmax = max(vADCmax,v)
             v=self.adc.read()
         sign = +1
-        if abs(vADCmax-vInit)<=error:
+        trackDist=vADCmax-vADCmin
+        #print(abs(vADCmax-vInit)<=error and trackDist>error)
+        if abs(vADCmax-vInit)<=error and trackDist>error:
             sign = -1
-        print (vADCmax,vADCmin,vInit,sign)
-        return (curRange, sign*(max(1,self.rMaps[curRange].v(vADCmax-vADCmin))))
+        #print ('Max: ',vADCmax,'Min: ', vADCmin,'Init: ',vInit,'Dist: ',trackDist,'Sign: ',sign)
+        return (curRange, sign*(max(1,self.rMaps[curRange].v(self.ranges[curRange][0]+trackDist))))
 
     def noTrackingUpdate(self, nbReadings=10):
         """
@@ -123,7 +148,7 @@ class SplitPot:
                 return None
             vADC += v
             delay(1)
-        vADC /= nbReadings
+        vADC = round(vADC/nbReadings)
         #print(vADC)
         for i in range((1 if self.isToneRange else 0),2): # 2 splits if not ToneRange, only second split if ToneRange
             if vADC >= self.ranges[i][0] and vADC<=self.ranges[i][1]:
