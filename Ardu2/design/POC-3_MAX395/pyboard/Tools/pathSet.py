@@ -1,7 +1,12 @@
 # pathSet.py
 # set sys.path to first import from /sd.
 
+auto=False # True
+
 import sys
+from pyb import delay
+
+
 def set():
     """
     extend the path variable by one slot,
@@ -18,16 +23,30 @@ def runTest():
     try:
         import hwTester
         a=hwTester.App()
+        print('Running hwTester.App()...')
+        delay(1000)
         a.mainLoop()
+        return a
+    except KeyboardInterrupt:
+        print('Done.')
+        return a
     except:
         print('\n**** Could not run hwTester.App.mainLoop... ****')
         print('**** running app.App.mainLoop instead... ****')
-        import app
-        a=app.App()
-        a.mainLoop()
+        try:
+            import app
+            a=app.App()
+            print('Running app.App()...')
+            delay(1000)
+            a.mainLoop()
+        except KeyboardInterrupt:
+            print('Done.')
+            return a
+
 
 set()
-runTest()
+if auto:
+    runTest()
 
 
 

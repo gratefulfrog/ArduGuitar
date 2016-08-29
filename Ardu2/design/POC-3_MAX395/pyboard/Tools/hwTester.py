@@ -8,8 +8,8 @@ from components import Invertable,VTable,OnOffable
 from state import State
 #from spiMgr import SPIMgr
 from configs import configDict #,mapReplace
-#from hardware import ShuntControl,LcdDisplay,PushButtonArray,SelectorInterrupt,TrackBall
-from hardware import PushButtonArray,SelectorInterrupt,TrackBall
+#from hardware import ShuntControl,LcdDisplay,PushButtonArray,SelectorInterrupt,TrackBall,SplitPotArray
+from hardware import PushButtonArray,SelectorInterrupt,TrackBall,SplitPotArray
 from q import Q
 from config import PyGuitarConf
 from Presets import Preset
@@ -59,6 +59,7 @@ class App():
         #self.pba = PushButtonArray(self.q)
         self.reset()
         #self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
+        self.spa = SplitPotArray(State.splitPotPinNameVec,self.q,useTracking=False)
         self.selectorVec=[None,None]
         for i in range(2):
          self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q)
@@ -88,7 +89,7 @@ class App():
         self.gcd=True
 
     def pollPollables(self):
-        pass
+        self.spa.poll()
 
     def mainLoop(self):
         try:

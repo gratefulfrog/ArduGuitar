@@ -62,7 +62,7 @@ class SplitPot:
     This version only works for 2 pot split,
     reads the ADC 10 times over 10ms, and aborts if any of the values is out of scope!
     """
-    def __init__(self,pinName,isToneRange=False,outputRangeTuple=(0,5),cutOff=25,spacing=30):
+    def __init__(self,pinName,isToneRange=False,outputRangeTuple=(0,5),cutOff=30,spacing=30):
         """
         Create an instance:
         * pinName is used for the creation of the ADC, be sure to use a pin with an ADC!
