@@ -48,7 +48,8 @@ class Preset():
                 self.filePath =  self.conf.LocalConf.presetDir +   self.conf.LocalConf.dirSeparator +  self.conf.LocalConf.presetFileName
             else:
                 self.filePath = fileName
-            State.printT ("creating preset instance from:\t" + self.filePath)
+            #State.printT ("creating preset instance from:\t" + self.filePath)
+            print("creating preset instance from:\t" + self.filePath)
             try:
                 #print(self.filePath) 
                 with open(self.filePath, 'r') as csvfile:
@@ -61,13 +62,17 @@ class Preset():
                     for row in reader:
                         self.rowDict2confDict(row)
             except:
-                State.printT( "error reading preset file!  Creating new one!")
+                #State.printT( "error reading preset file!  Creating new one!")
+                print( "error reading preset file!  Creating new one!")
                 self.createDefaultPresets()
             self.currentDict = {}
+            print(self.presets)
+            print(self.presets[(0,0)])
             for k in self.presets[(0,0)].keys():
                 self.currentDict[k] = self.presets[(0,0)][k]
 
     def rowDict2confDict(self,row):
+        print(row)
         curConfDict= {}
         self.presets[(int(row[0]),int(row[1]))]= curConfDict
         
@@ -77,7 +82,7 @@ class Preset():
             curConfDict[self.conf.Vocab.configKeys[i]] = [int(row[1+2*i]),int(row[2+2*i])]
         curConfDict[self.conf.Vocab.configKeys[6]] = [None,int(row[13])]
         curConfDict[self.conf.Vocab.configKeys[7]] = row[14]
-        #print(row[14])
+        print(row[14])
         j=15
         for k in self.conf.Vocab.configKeys[8:]:
                 curConfDict[k] = int(row[j])
@@ -107,9 +112,16 @@ class Preset():
             writer = csv.CSV.Writer(csvfile)
             #writer.writerow(self.header)
             writer.writeRow(self.header)
+            #print(self.header)
             for p in self.presets.keys():
-                writer.writeRow(self.confDict2RowDict(p,self.presets[p]))
-        State.printT( "Wrote file:\t" + self.filePath)
+                rowDict = self.confDict2RowDict(p,self.presets[p])
+                #print(rowDict)
+                rawRow = list(map(lambda k: rowDict[k],self.header))
+                #print(rawRow)
+                writer.writeRow(rawRow)
+                #writer.writeRow(self.confDict2RowDict(p,self.presets[p]))
+        #State.printT( "Wrote file:\t" + self.filePath)
+        print( "Wrote file:\t" + self.filePath)
         
     def confDict2RowDict(self,key,conf):
         curRowDict= {}

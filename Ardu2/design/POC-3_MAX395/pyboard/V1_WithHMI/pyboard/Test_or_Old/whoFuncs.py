@@ -17,7 +17,10 @@ f2
 >>> t.apfun(T.whoFuncs[2])
 <T object at 797af300>
 f3 
+>>> t.apfun(T.whoFuncs[3])
+Thing.g
 """
+import thing
 
 class T:
 
@@ -33,7 +36,10 @@ class T:
         print('f3')
 
     # a static class variable containing the methods
-    whoFuncs = (f1,f2,f3)
+    whoFuncs = (f1,f2,f3,thing.Thing.g)
+
+    def __init__(self):
+        self.thing = thing.Thing()
     
     def f1(self):
         print('f1')

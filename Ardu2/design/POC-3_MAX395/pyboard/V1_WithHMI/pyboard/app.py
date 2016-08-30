@@ -222,21 +222,64 @@ class App():
         self.currentConfTupleKey = cf
         return True
 
-    # stubs!!!!
-    def pb(self,who,unused=None,unusedA=None): 
-        pass
+    def pb(self,who,unused=None,unusedA=None):
+        whoFuncs = ( # this one toggles splitpot tracking,currently is used for debugging
+            (self.toggleTracking,self.displayCurrentConf),  # pb 0
+            # this is the one saves the preset,      
+            (self.saveCurrentConfAsPreset,),                # pb 1
+            # Tremolo
+            (self.toggleTrem,),                             # pb 2
+            # Vibrato
+            (self.toggleVib,),                              # pb 3
+            (self.lcdMgr.onLeftButton,),                    # pb 4
+            (self.lcdMgr.onRightButton,))                   # pb 5
+
+        print('PB:\t' + str(who))  
+        res = False         
+        for f in whoFuncs[who]:
+            res = f() or res
+        return res # True if who in [2,3] else False
+
     def toggleTracking(self):
-        pass
+        self.preset.currentDict[self.conf.vocab.configKeys[10]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[10]] else 1
+        self.spa.track(self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        print('Tracking:\t%d'%self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        return False
+    
     def tracking(self,onOff):
-        pass
+        self.preset.currentDict[self.conf.vocab.configKeys[10]] = 1 if onOff else 0
+        self.spa.track(self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        print('Tracking:\t%d'%self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        return False
+    
     def trem(self,onOff):
-        pass
+        res = ((onOff and not self.preset.currentDict[self.conf.vocab.configKeys[8]]) or (self.preset.currentDict[self.conf.vocab.configKeys[8]] and not onOff))
+        self.preset.currentDict[self.conf.vocab.configKeys[8]] = 1 if onOff else 0
+        v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 'Off'
+        print ("CANNOT YET SEND:\ta.set('M',State.Tremolo,l%s)"%v)
+        return res
+    
     def vib(self,onOff):
-        pass
+        res = ((onOff and not self.preset.currentDict[self.conf.vocab.configKeys[9]]) or (self.preset.currentDict[self.conf.vocab.configKeys[9]] and not onOff))
+        self.preset.currentDict[self.conf.vocab.configKeys[9]] = 1 if onOff else 0
+        v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 'Off'
+        print ("CANNOT YET SEND:\ta.set('M',State.Vibtrato,l%s)"%v)
+        return res
+    
     def toggleTrem(self):
-        pass
+        #trem =2, vibrato =3
+        self.preset.currentDict[self.conf.vocab.configKeys[8]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 1
+        v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 'Off'
+        print ("CANNOT YET SEND:\ta.set('M',State.Tremolo,l%s)"%v)
+        return True
+    
     def toggleVib(self):
-        pass
+        #trem =2, vibrato =3
+        self.preset.currentDict[self.conf.vocab.configKeys[9]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 1
+        v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 'Off'
+        print ("CANNOT YET SEND:\ta.set('M',State.Vibtrato,l%s)"%v)
+        #self.outgoing.append("a.set('M',State.Vibtrato,l%s)"%v)
+        return True
     
     def displayCurrentConf(self):
         return self.preset.currentDict
@@ -387,4 +430,4 @@ class App():
         State.printT('Setting LCD Line:\t%d\t"%s"'%(lineNb, line))
         self.lcd.setLn(lineNb, line)
 
-
+        

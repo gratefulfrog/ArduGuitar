@@ -211,11 +211,7 @@ class HMIMgr:
                     (self.toggleVib,), #self.ledPbA.ledPbs[3].toggle,stubs.b),                             # Vibrato
                     (self.lcdMgr.onLeftButton,),
                     (self.lcdMgr.onRightButton,)]
-        #print('PB:\t' + str(who))  
-        res = False         
-        for f in whoFuncs[who]:
-            res = f() or res
-        return res # True if who in [2,3] else False
+
     
     def toggleTracking(self):
         self.preset.currentDict[self.conf.vocab.configKeys[10]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[10]] else 1

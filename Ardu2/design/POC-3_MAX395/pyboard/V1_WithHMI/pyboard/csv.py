@@ -56,6 +56,7 @@ class CSV():
             return self.parse(line)
             
         def parse(self,line):
+            print(line)
             return self.parseIter(line,current='',mode=0,res=[])
 
         def parseIter(self,line,current,mode,res):
@@ -149,11 +150,15 @@ class CSV():
             if the elt has a delimeter, then quote it,
             
             """
-            toFile = ''
+            #import gc
+            #print(gc.mem_free())
+            #print(row)
+            #print(row[-1])
+            tooFile = ''
             for elt in row[:-1]:
-                toFile += self.fix(elt) + self.delimeter
-            toFile += row[-1] + '\n'
-            self.openFile.write(toFile)
+                tooFile += self.fix(elt) + self.delimeter
+            tooFile += self.fix(row[-1]) + '\n'
+            self.openFile.write(tooFile)
 
         def fix(self,elt):
             res = str(elt)
