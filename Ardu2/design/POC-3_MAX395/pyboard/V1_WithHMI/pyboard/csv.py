@@ -56,7 +56,7 @@ class CSV():
             return self.parse(line)
             
         def parse(self,line):
-            print(line)
+            #print(line)
             return self.parseIter(line,current='',mode=0,res=[])
 
         def parseIter(self,line,current,mode,res):

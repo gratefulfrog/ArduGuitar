@@ -217,7 +217,7 @@ class App():
         if  self.currentConfTupleKey == cf:
             return False
         self.reset()
-        print('loading conf: ' + str(cf))
+        State.printT('loading conf: ' + str(cf))
         self.loadConf(self.preset.presets[cf]) #self.sh.pos,self.sv.pos)])
         self.currentConfTupleKey = cf
         return True
@@ -234,7 +234,7 @@ class App():
             (self.lcdMgr.onLeftButton,),                    # pb 4
             (self.lcdMgr.onRightButton,))                   # pb 5
 
-        print('PB:\t' + str(who))  
+        State.printT('PB:\t' + str(who))  
         res = False         
         for f in whoFuncs[who]:
             res = f() or res
@@ -243,13 +243,13 @@ class App():
     def toggleTracking(self):
         self.preset.currentDict[self.conf.vocab.configKeys[10]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[10]] else 1
         self.spa.track(self.preset.currentDict[self.conf.vocab.configKeys[10]])
-        print('Tracking:\t%d'%self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        State.printT('Tracking:\t%d'%self.preset.currentDict[self.conf.vocab.configKeys[10]])
         return False
     
     def tracking(self,onOff):
         self.preset.currentDict[self.conf.vocab.configKeys[10]] = 1 if onOff else 0
         self.spa.track(self.preset.currentDict[self.conf.vocab.configKeys[10]])
-        print('Tracking:\t%d'%self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        State.printT('Tracking:\t%d'%self.preset.currentDict[self.conf.vocab.configKeys[10]])
         return False
     
     def trem(self,onOff):
@@ -285,7 +285,7 @@ class App():
         return self.preset.currentDict
     
     def loadConf(self, conf):
-        print('loading conf: ' + str(conf))
+        State.printT('loading conf: ' + str(conf))
         try:
             #res = self.doParse(conf[self.conf.vocab.configKeys[7]])
             self.doParse(conf[self.conf.vocab.configKeys[7]])
