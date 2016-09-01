@@ -1,5 +1,5 @@
 
-import sys,csv
+import csv
 from state import State
 
 # this is where I put all the preset configs
@@ -117,8 +117,8 @@ class Preset():
                 rowDict = self.confDict2RowDict(p,self.presets[p])
                 print(rowDict)
                 #rawRow = list(map(lambda k: rowDict[k],self.header))
-                #rawRow = [rowDict[k] for k in self.header]
-                rawRow = self.makeRawRowWorkAround(rowDict)
+                rawRow = [rowDict[k] for k in self.header]
+                #rawRow = self.makeRawRowWorkAround(rowDict)
                 print(rawRow)
                 writer.writeRow(rawRow)
                 #writer.writeRow(self.confDict2RowDict(p,self.presets[p]))
