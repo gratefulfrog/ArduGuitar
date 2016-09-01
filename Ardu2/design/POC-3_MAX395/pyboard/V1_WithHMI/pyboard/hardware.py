@@ -6,6 +6,7 @@
 # * ShakeControl (3-axis shake controller)
 # * LCDDisplay (added 2016 06 11)
 # * TrackBall (added 2016 08 26)
+# * SplitPot & SplitPotArray (added 2016 08 30)
 #### obsolete or unused ###
 # * Selector
 # * Illuminator
