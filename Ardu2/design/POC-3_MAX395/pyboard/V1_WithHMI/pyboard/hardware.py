@@ -4,6 +4,7 @@
 # * SelectorInterrupt  (added 2016 08 24)
 # * HWDebouncedPushButton
 # * ShakeControl (3-axis shake controller)
+# $ TremVib  (tremolo and vibrato mgt class)
 # * LCDDisplay (added 2016 06 11)
 # * TrackBall (added 2016 08 26)
 # * SplitPot & SplitPotArray (added 2016 08 30)
@@ -168,7 +169,7 @@ class ShakeControl1:
     timeOut = 2000  # interval after which to call offFunc and turn off associated control
     
     def __init__(self, readFunc, toggleFunc, offFunc,
-                 pt=pThreshold,nt=nThreshold,rd=readDelay,to=timeOut):
+                 pt=pThreshold,nt=nThreshold,rd=readDelay,to=timeOut,autoOff=False):
         """ 
         Instance Creation:
         provides default values for thresholds, read delay, and timeout
@@ -182,6 +183,7 @@ class ShakeControl1:
         prevZone: is the zone value from when we last read the accelerometer
         lastActionTime: is milis since a toggle or an off action was called
         lastReadTime: is millis since call to readFunc (failed or not)
+        autoOff: if True, turn off after timeout
         """
         self.rf = readFunc
         self.tf = toggleFunc
@@ -190,6 +192,7 @@ class ShakeControl1:
         self.nt = nt
         self.rd = rd
         self.to = to
+        self.autoOff=autoOff
         self.baseVal  = 0
         self.prevZone = 0
         self.lastActionTime = 0
@@ -242,6 +245,11 @@ class ShakeControl1:
         return res
 
     def update(self):
+        if self.autoOff:  # we look for timeout, otherwise keep going
+            if millis() - self.lastActionTime > self.timeOut:
+                self.of() # oFunc must be not None
+                self.lastActionTime = millis()
+                return  # we're done!
         ok,v = self.readA()
         if ok:  # read went ok
             curZone = self.detectionZone(v - self.baseVal)
@@ -250,9 +258,6 @@ class ShakeControl1:
                     self.tf() #tfunc must be not None
                     self.lastActionTime = millis()
                     self.prevZone = curZone
-            if millis() - self.lastActionTime > self.timeOut:
-                self.of() # oFunc must be not None
-                self.lastActionTime = millis()
 
     def __repr__(self):
         return 'ShakeControl1:' + \
@@ -277,57 +282,141 @@ class ShakeControl:
               [LED(3),0], # yellow -> y-axis
               [LED(2),0]] # green  -> z-axis
 
-    def makeTFunc(tf,i):
+    def makeTFunc(tf,i,useLEDS):
         """
         this class method takes a toggle function tf, and a led index
         and returns a new toggle function that toggles the led before
         executing the external toggle call.
         and 'None' toggle function is okay!
         """
-        def f():
-            if ShakeControl.ledVec[i][1]:
-                ShakeControl.ledVec[i][1]=0
-                ShakeControl.ledVec[i][0].off()
-            else:
-                ShakeControl.ledVec[i][1]=1
-                ShakeControl.ledVec[i][0].on()
-            tf and tf()
-        return f
-
-    def makeOFunc(of,i):
+        if useLEDS:
+            def f():
+                if ShakeControl.ledVec[i][1]:
+                    ShakeControl.ledVec[i][1]=0
+                    ShakeControl.ledVec[i][0].off()
+                else:
+                    ShakeControl.ledVec[i][1]=1
+                    ShakeControl.ledVec[i][0].on()
+                tf and tf()
+            return f
+        else:
+            def f():
+                tf and tf()
+            return f
+    
+    def makeOFunc(of,i,useLEDS):
         """
         similar to to above, this class method takes an off function of, and a led index
         and returns a new off function that turns off the led before
         executing the external off call.
         and 'None' off function is okay!
         """
-        def f():
-            ShakeControl.ledVec[i][1]=0
-            ShakeControl.ledVec[i][0].off()
-            of and of()
-        return f
-              
+        if useLEDS:
+            def f():
+                ShakeControl.ledVec[i][1]=0
+                ShakeControl.ledVec[i][0].off()
+                of and of()
+            return f
+        else:
+            def f():
+                of and of()
+            return f
+            
     def __init__(self,
                  tfx=None, tfy=None, tfz=None,
-                 ofx=None, ofy=None, ofz=None):
+                 ofx=None, ofy=None, ofz=None,
+                 useLEDS=False):
         """
         creates a 3-axis instance with default values, or as per args.
         """
         self.a = Accel()
         self.sVec= list(map(lambda r,t,o: ShakeControl1(r,t,o),
                             [self.a.x,self.a.y,self.a.z],
-                            [ShakeControl.makeTFunc(i,f) for (f,i) in map(lambda ind,f: (ind,f),
-                                                                          range(3),
-                                                                          [tfx,tfy,tfz])],
-                            [ShakeControl.makeOFunc(i,f) for (f,i) in map(lambda ind,f: (ind,f),
-                                                                          range(3),
-                                                                          [ofx,ofy,ofz])]))
+                            [ShakeControl.makeTFunc(i,f,useLEDS) for (f,i) in map(lambda ind,f: (ind,f),
+                                                                                  range(3),
+                                                                                  [tfx,tfy,tfz])],
+                            [ShakeControl.makeOFunc(i,f,useLEDS) for (f,i) in map(lambda ind,f: (ind,f),
+                                                                                  range(3),
+                                                                                  [ofx,ofy,ofz])]))
 
     def update(self):
         """ the update method just calls update on all the individual shake controls
         """
         for s in self.sVec:
             s.update()
+
+    def doInit(self):
+        """
+        reset the shake controls for gravity and last read time
+        """
+        for s in self.sVec:
+            s.doInit()
+
+class TremVib:
+    vVec = (State.vibratoLowerLimit, State.vibratoUpperLimit)
+    tVec = (State.tremoloLowerLimit, State.tremoloUpperLimit)
+
+    def doTrem(self):
+        if not self.aVec[0]:
+            return
+        State.printT('Tremolo Level:\n',self.tremoloLevel)
+        #print('Push: M Vol %s'%self.vVec[self.tremoloLevel])
+        self.volEnQueueable.push(self.targCoilID,self.vVec[self.tremoloLevel])
+        self.tremoloLevel ^= 1
+    
+    def doVib(self):
+        if not self.aVec[1]:
+            return
+        State.printT('Vibrato Level:\n',self.vibratoLevel)
+        #print('Push: M Tone %s'%self.tVec[self.vibratoLevel])
+        self.toneEnQueueable.push(self.targCoilID,self.tVec[self.vibratoLevel])
+        self.vibratoLevel ^= 1
+
+    def toggleTrem(self):
+        self.tremOff(not self.aVec[0])
+
+    def toggleVib(self):
+        self.vibOff(not self.aVec[1])
+
+    def tremOff(self,on=False):
+        self.off(0,on)
+
+    def vibOff(self,on=False):
+        self.off(1,on)
+
+    def off(self,whatIndex,on):
+        """
+        turn on or off the control given by the whatIindex
+        """
+        self.aVec[whatIndex] = on
+        if self.aVec[whatIndex]:
+            self.ctrl.doInit()
+        State.printT( ('Vibrato' if whatIndex else 'Tremolo')+':\t' + str(self.aVec[whatIndex]))
+
+    def __init__(self,q):
+        self.volEnQueueable=EnQueueable(EnQueueable.VOL,q)
+        self.toneEnQueueable=EnQueueable(EnQueueable.TONE,q)
+        self.targCoilID = 0
+        # create the control with no off func, and autoOff disabled, and no leds!
+        self.ctrl= ShakeControl(tfx=self.doTrem,
+                                tfy=self.doVib)
+        #active vect with index: Trem =0, Vib=1
+        self.aVec = [False,False]
+        self.tremoloLevel = self.vibratoLevel = 1
+
+    def poll(self):
+        if any(self.aVec):
+            self.ctrl.update()
+
+    """
+    # for testing
+    def mainLoop(self):
+        self.aVec = [True,True]
+        self.ctrl.doInit()
+        while any(self.aVec):
+            self.ctrl.update()
+            delay(50)
+    """
 
 # LcdDisplay
 # Wiring:

@@ -8,7 +8,7 @@ from components import Invertable,VTable,OnOffable
 from state import State
 from spiMgr import SPIMgr
 from configs import configDict,mapReplace
-from hardware import ShuntControl,LcdDisplay,PushButtonArray,SelectorInterrupt,TrackBall,SplitPotArray
+from hardware import ShuntControl,LcdDisplay,PushButtonArray,SelectorInterrupt,TrackBall,SplitPotArray,TremVib
 from q import Q
 from config import PyGuitarConf
 from Presets import Preset
@@ -89,6 +89,7 @@ class App():
         self.pba = PushButtonArray(self.q)
         self.reset()
         self.spa = SplitPotArray(State.splitPotPinNameVec,self.q,useTracking=False)
+        self.tv  = TremVib(self.q)
         self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
         self.selectorVec=[None,None]
         for i in range(2):
@@ -119,6 +120,7 @@ class App():
 
     def pollPollables(self):
         self.spa.poll()
+        self.tv.poll()
 
     def mainLoop(self):
         while True:
@@ -255,30 +257,36 @@ class App():
     def trem(self,onOff):
         res = ((onOff and not self.preset.currentDict[self.conf.vocab.configKeys[8]]) or (self.preset.currentDict[self.conf.vocab.configKeys[8]] and not onOff))
         self.preset.currentDict[self.conf.vocab.configKeys[8]] = 1 if onOff else 0
-        v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 'Off'
-        print ("CANNOT YET SEND:\ta.set('M',State.Tremolo,l%s)"%v)
+        self.tv.tremOff(onOff)
+        #v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 'Off'
+        #print ("CANNOT YET SEND:\ta.set('M',State.Tremolo,l%s)"%v)
         return res
     
     def vib(self,onOff):
         res = ((onOff and not self.preset.currentDict[self.conf.vocab.configKeys[9]]) or (self.preset.currentDict[self.conf.vocab.configKeys[9]] and not onOff))
         self.preset.currentDict[self.conf.vocab.configKeys[9]] = 1 if onOff else 0
-        v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 'Off'
-        print ("CANNOT YET SEND:\ta.set('M',State.Vibtrato,l%s)"%v)
+        self.tv.vibOff(onOff)
+        #v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 'Off'
+        #print ("CANNOT YET SEND:\ta.set('M',State.Vibtrato,l%s)"%v)
         return res
     
     def toggleTrem(self):
         #trem =2, vibrato =3
-        self.preset.currentDict[self.conf.vocab.configKeys[8]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 1
-        v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 'Off'
-        print ("CANNOT YET SEND:\ta.set('M',State.Tremolo,l%s)"%v)
+        #self.preset.currentDict[self.conf.vocab.configKeys[8]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 1
+        #v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 'Off'
+        #print ("CANNOT YET SEND:\ta.set('M',State.Tremolo,l%s)"%v)
+        self.preset.currentDict[self.conf.vocab.configKeys[8]] ^= 1 
+        self.tv.toggleTrem()
         return True
     
     def toggleVib(self):
         #trem =2, vibrato =3
-        self.preset.currentDict[self.conf.vocab.configKeys[9]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 1
-        v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 'Off'
-        print ("CANNOT YET SEND:\ta.set('M',State.Vibtrato,l%s)"%v)
+        #self.preset.currentDict[self.conf.vocab.configKeys[9]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 1
+        #v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 'Off'
+        #print ("CANNOT YET SEND:\ta.set('M',State.Vibtrato,l%s)"%v)
         #self.outgoing.append("a.set('M',State.Vibtrato,l%s)"%v)
+        self.preset.currentDict[self.conf.vocab.configKeys[9]] ^= 1
+        self.tv.toggleVib()
         return True
     
     def displayCurrentConf(self):
