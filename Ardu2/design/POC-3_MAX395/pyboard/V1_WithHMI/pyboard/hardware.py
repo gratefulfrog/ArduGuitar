@@ -134,10 +134,11 @@ class HWDebouncedPushButton(EnQueueable):
         EnQueueable.__init__(self,EnQueueable.PB,q)
         self.extInt = ExtInt(pinName, ExtInt.IRQ_FALLING, Pin.PULL_UP, self.callback)
         self.id = State.pinNameDict[pinName][1]
+        self.debugPinName = pinName
         
     def callback(self,unusedLine):
         self.push(self.id)
-        print('PB:\t',self.id)
+        print('HWDebouncedPushButton.callback on line:\t', line, '\tPin:\t',self.debugPinName)
 
     def __repr__(self):
         return 'HWDebouncedPushButton:\n  ID:\t%d\n%s'%(self.id,repr(self.extInt))
@@ -301,6 +302,7 @@ class ShakeControl:
             return f
         else:
             def f():
+                print(tf)
                 tf and tf()
             return f
     
@@ -359,16 +361,16 @@ class TremVib:
     def doTrem(self):
         if not self.aVec[0]:
             return
-        State.printT('Tremolo Level:\n',self.tremoloLevel)
-        #print('Push: M Vol %s'%self.vVec[self.tremoloLevel])
+        print('Tremolo Level:\t',self.tremoloLevel)
+        print('Push: M Vol %s'%self.vVec[self.tremoloLevel])
         self.volEnQueueable.push(self.targCoilID,self.vVec[self.tremoloLevel])
         self.tremoloLevel ^= 1
     
     def doVib(self):
         if not self.aVec[1]:
             return
-        State.printT('Vibrato Level:\n',self.vibratoLevel)
-        #print('Push: M Tone %s'%self.tVec[self.vibratoLevel])
+        print('Vibrato Level:\t',self.vibratoLevel)
+        print('Push: M Tone %s'%self.tVec[self.vibratoLevel])
         self.toneEnQueueable.push(self.targCoilID,self.tVec[self.vibratoLevel])
         self.vibratoLevel ^= 1
 
@@ -394,8 +396,8 @@ class TremVib:
         State.printT( ('Vibrato' if whatIndex else 'Tremolo')+':\t' + str(self.aVec[whatIndex]))
 
     def __init__(self,q):
-        self.volEnQueueable=EnQueueable(EnQueueable.VOL,q)
-        self.toneEnQueueable=EnQueueable(EnQueueable.TONE,q)
+        self.volEnQueueable=EnQueueable((EnQueueable.VOL,),q)
+        self.toneEnQueueable=EnQueueable((EnQueueable.TONE,),q)
         self.targCoilID = 0
         # create the control with no off func, and autoOff disabled, and no leds!
         self.ctrl= ShakeControl(tfx=self.doTrem,
@@ -408,7 +410,7 @@ class TremVib:
         if any(self.aVec):
             self.ctrl.update()
 
-    """
+    
     # for testing
     def mainLoop(self):
         self.aVec = [True,True]
@@ -416,7 +418,7 @@ class TremVib:
         while any(self.aVec):
             self.ctrl.update()
             delay(50)
-    """
+    
 
 # LcdDisplay
 # Wiring:
@@ -598,8 +600,8 @@ class SplitPot:
                         EnQueueable((EnQueueable.INC,EnQueueable.TONE),self.q)]
         else:
             self.update = self.noTrackingUpdate
-            self.enQV= [EnQueueable((EnQueueable.VOL),self.q),
-                        EnQueueable((EnQueueable.TONE),self.q)]
+            self.enQV= [EnQueueable((EnQueueable.VOL,),self.q),
+                        EnQueueable((EnQueueable.TONE,),self.q)]
 
     def poll(self):
         res = self.update()

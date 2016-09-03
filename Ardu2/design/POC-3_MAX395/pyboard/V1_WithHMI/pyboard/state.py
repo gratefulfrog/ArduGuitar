@@ -71,11 +71,6 @@ class State():
     splitPotTrackingError        = 250
     splitPotTrackingNbReads      = 5
     splitPotNoTrackingNbReadings = 10
-
-    vibratoLowerLimit      = 1
-    vibratoUpperLimit      = 5
-    tremoloLowerLimit      = 1
-    tremoloUpperLimit      = 5
     
     # SPI state for pyboard setup
     # define the latching pin
@@ -111,6 +106,12 @@ class State():
     Vibrato   = 102
     Red       = 103
     Yellow    = 104
+
+    vibratoLowerLimit      = l1
+    vibratoUpperLimit      = l5
+    tremoloLowerLimit      = l1
+    tremoloUpperLimit      = l5
+
     
     debug = True #False # True
 

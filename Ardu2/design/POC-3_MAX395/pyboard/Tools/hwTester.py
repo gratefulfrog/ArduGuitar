@@ -8,30 +8,17 @@ from components import Invertable,VTable,OnOffable
 from state import State
 #from spiMgr import SPIMgr
 from configs import configDict #,mapReplace
-#from hardware import ShuntControl,LcdDisplay,PushButtonArray,SelectorInterrupt,TrackBall,SplitPotArray
+from hardware import ShuntControl,LcdDisplay,PushButtonArray,SelectorInterrupt,TrackBall,SplitPotArray,TremVib
 from hardware import PushButtonArray,SelectorInterrupt,TrackBall,SplitPotArray
 from q import Q
 from config import PyGuitarConf
 from Presets import Preset
 #import sParse
-#from lcdMgr import LCDMgr
+from lcdMgr import LCDMgr
 import pyb
 import gc
 
-class App():
-    """
-    This class is the top level user facing application TEST class.
-    A single instance should be created and maintained during execution.
-    Usage:
-    >>> from hwTester import App
-    >>> a=App()
-    >>> a.mainLoop()
-    ... lots of stuff happens...
-    # user enter CTRL-C to interrupt loop
-
-    finished processing Q, now exiting mainLoop...
-    """
-    
+class App():    
     targVec = [['M','A','B','C','D','TR'], #['MVol','MTone'],
                [0,1,2,3,4,5],
                [0,1], #horizontal, vertical
@@ -56,10 +43,11 @@ class App():
         self.q = Q()
         self.conf = PyGuitarConf()
         self.preset = Preset(self.conf)
-        #self.pba = PushButtonArray(self.q)
+        self.tv  = TremVib(self.q)
+        self.pba = PushButtonArray(self.q)
         self.reset()
-        #self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
         self.spa = SplitPotArray(State.splitPotPinNameVec,self.q,useTracking=False)
+        self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
         self.selectorVec=[None,None]
         for i in range(2):
          self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q)
@@ -80,7 +68,7 @@ class App():
         self.coils[State.coils[-1]]= VTable(State.coils[-1])
         self.coils[State.pb] = OnOffable()
         #self.spiMgr = SPIMgr(State.spiOnX,State.spiLatchPinName)
-        #self.lcd = LcdDisplay(State.lcdConfDict)
+        self.lcd = LcdDisplay(State.lcdConfDict)
         # shunt, turn all to State.lOff, unshunt
         #self.shuntControl.shunt()
         #self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
@@ -89,16 +77,18 @@ class App():
         self.gcd=True
 
     def pollPollables(self):
-        self.spa.poll()
-
+        #self.spa.poll()
+        self.tv.poll()
+        
     def mainLoop(self):
         try:
             while True:
                 self.pollPollables()
                 self.processQ()
                 # put a sleep comand here to save energy
-                pyb.delay(50)
-        except:
+                #pyb.delay(50)
+        except Exception as e:
+            print(e)
             self.processQ()
             print('\nfinished processing Q, now exiting mainLoop...')        
             
@@ -151,8 +141,6 @@ class App():
         if force or val != self.preset.currentDict[who][0]:
             print('VOL:\t' + str(who) +'\t' + str(val))
             print("a.set('%s',State.Vol,State.l%s)"%(who,(str(val) if val !=0 else 'Off')))
-            #self.outgoing.append("a.set('%s',State.Vol,State.l%s)"%(who,(str(val)))) # if val !=0 else 'Off')))
-            #self.set(who,State.Vol,eval('State.l%s'%str(val)))
             self.preset.currentDict[who][0] = val
             return True
         return False
@@ -199,19 +187,93 @@ class App():
         self.currentConfTupleKey = cf
         return True
 
-    # stubs!!!!
-    def pb(self,who,unused=None,unusedA=None): 
-        pass
+    def pb(self,who,unused=None,unusedA=None):
+        whoFuncs = ( # this one toggles splitpot tracking,currently is used for debugging
+            (self.toggleTracking,self.displayCurrentConf),  # pb 0
+            # this is the one saves the preset,      
+            (self.saveCurrentConfAsPreset,),                # pb 1
+            # Tremolo
+            (self.toggleTrem,),                             # pb 2
+            # Vibrato
+            (self.toggleVib,),                              # pb 3
+            (self.lcdMgr.onLeftButton,),                    # pb 4
+            (self.lcdMgr.onRightButton,))                   # pb 5
+
+        State.printT('PB:\t' + str(who))  
+        res = False         
+        for f in whoFuncs[who]:
+            res = f() or res
+        return res # True if who in [2,3] else False
+
     def toggleTracking(self):
-        pass
-    def tracking(self,onOff):
-        pass
-    def trem(self,onOff):
-        pass
-    def vib(self,onOff):
-        pass
-    def toggleTrem(self):
-        pass
-    def toggleVib(self):
-        pass
+        self.preset.currentDict[self.conf.vocab.configKeys[10]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[10]] else 1
+        self.spa.track(self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        State.printT('Tracking:\t%d'%self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        return False
     
+    def tracking(self,onOff):
+        self.preset.currentDict[self.conf.vocab.configKeys[10]] = 1 if onOff else 0
+        self.spa.track(self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        State.printT('Tracking:\t%d'%self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        return False
+    
+    def trem(self,onOff):
+        res = ((onOff and not self.preset.currentDict[self.conf.vocab.configKeys[8]]) or (self.preset.currentDict[self.conf.vocab.configKeys[8]] and not onOff))
+        self.preset.currentDict[self.conf.vocab.configKeys[8]] = 1 if onOff else 0
+        self.tv.tremOff(onOff)
+        #v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 'Off'
+        #print ("CANNOT YET SEND:\ta.set('M',State.Tremolo,l%s)"%v)
+        return res
+    
+    def vib(self,onOff):
+        res = ((onOff and not self.preset.currentDict[self.conf.vocab.configKeys[9]]) or (self.preset.currentDict[self.conf.vocab.configKeys[9]] and not onOff))
+        self.preset.currentDict[self.conf.vocab.configKeys[9]] = 1 if onOff else 0
+        self.tv.vibOff(onOff)
+        #v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 'Off'
+        #print ("CANNOT YET SEND:\ta.set('M',State.Vibtrato,l%s)"%v)
+        return res
+    
+    def toggleTrem(self):
+        #trem =2, vibrato =3
+        #self.preset.currentDict[self.conf.vocab.configKeys[8]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 1
+        #v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 'Off'
+        #print ("CANNOT YET SEND:\ta.set('M',State.Tremolo,l%s)"%v)
+        self.preset.currentDict[self.conf.vocab.configKeys[8]] ^= 1 
+        self.tv.toggleTrem()
+        return True
+    
+    def toggleVib(self):
+        #trem =2, vibrato =3
+        #self.preset.currentDict[self.conf.vocab.configKeys[9]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 1
+        #v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 'Off'
+        #print ("CANNOT YET SEND:\ta.set('M',State.Vibtrato,l%s)"%v)
+        #self.outgoing.append("a.set('M',State.Vibtrato,l%s)"%v)
+        self.preset.currentDict[self.conf.vocab.configKeys[9]] ^= 1
+        self.tv.toggleVib()
+        return True
+
+    def doParse(self,confString):
+        sp = sParse.SExpParser(self,confString.strip())
+        #return sp.execute()
+        sp.execute()
+
+    def validateAndApplyLCDInput(self,confString):
+        try:
+            #res = self.doParse(confString.strip())
+            self.doParse(confString.strip())
+            """
+            for e in res:
+               #print(e)
+               self.outgoing.append(e)
+            """
+            #self.sendX()
+            #self.x()
+            self.preset.currentDict[self.conf.vocab.configKeys[7]]=confString.strip()
+            return True
+        except Exception as e:
+            print (e)
+            return False
+
+    def displayCurrentConf(self):
+        print('displayCurrentConf called!')
+        
