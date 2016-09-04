@@ -86,8 +86,8 @@ class App():
         self.q = Q()
         self.conf = PyGuitarConf()
         self.preset = Preset(self.conf)
-        self.pba = PushButtonArray(self.q)
         self.reset()
+        self.pba = PushButtonArray(self.q)
         self.spa = SplitPotArray(State.splitPotPinNameVec,self.q,useTracking=False)
         self.tv  = TremVib(self.q)
         self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
@@ -102,7 +102,7 @@ class App():
     def reset(self):
         self.shuntControl = ShuntControl(shuntConfDict)
         self.bitMgr = BitMgr()
-        self.state = State()
+        self.state = State() # needed since State.__init__ must be called!
         self.resetConnections = True
         self.coils = {}
         for coil in State.coils[:-1]:
@@ -119,8 +119,10 @@ class App():
         self.gcd=True
 
     def pollPollables(self):
-        self.spa.poll()
-        self.tv.poll()
+        #State.printT('polling spa...')
+        State.spaPoll and self.spa.poll()
+        #State.printT('polling tv')
+        State.tvPoll and self.tv.poll()
 
     def mainLoop(self):
         while True:
@@ -130,6 +132,7 @@ class App():
             pyb.delay(50)
             
     def processQ(self):
+        #State.printT('processQ')
         work = self.q.pop()
         worked = False
         while (work != None):
@@ -147,7 +150,7 @@ class App():
         K = (twoBytes>>8) & 0xFF
         mask = 0x80
         res = False
-        State.printT('X:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
+        State.printT('Work:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
         #print('X:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
         for i in range(5):
             if K & (mask>>i):
@@ -176,7 +179,7 @@ class App():
     def vol(self,who,val,unused=None,force=False):
         # who is 'M','A','B','C','D'
         if force or val != self.preset.currentDict[who][0]:
-            #print('VOL:\t' + str(who) +'\t' + str(val))
+            State.printT('VOL:\t' + str(who) +'\t' + str(val))
             #print("a.set('%s',State.Vol,State.l%s)"%(who,(str(val) if val !=0 else 'Off')))
             #self.outgoing.append("a.set('%s',State.Vol,State.l%s)"%(who,(str(val)))) # if val !=0 else 'Off')))
             self.set(who,State.Vol,eval('State.l%s'%str(val)))
@@ -187,7 +190,7 @@ class App():
     def tone(self,who,val,unused=None,force=False):
         # who is 'M','A','B','C','D','TR'
         if force or val != self.preset.currentDict[who][1]:
-            #print('TONE:\t' + str(who) +'\t' + str(val))
+            State.printT('TONE:\t' + str(who) +'\t' + str(val))
             trVal = 'Off'
             toneVal = '0'
             if who =='TR':

@@ -138,10 +138,9 @@ class HWDebouncedPushButton(EnQueueable):
         
     def callback(self,unusedLine):
         self.push(self.id)
-        print('HWDebouncedPushButton.callback on line:\t', line, '\tPin:\t',self.debugPinName)
 
     def __repr__(self):
-        return 'HWDebouncedPushButton:\n  ID:\t%d\n%s'%(self.id,repr(self.extInt))
+        return 'HWDebouncedPushButton:\n  ID:\t%d\n  %s'%(self.id,repr(self.extInt))
 
 # PushButtonArray
 # an array of HWDebouncedPushputton
@@ -152,7 +151,7 @@ class PushButtonArray():
             self.pbVec.append(HWDebouncedPushButton(pinName,q))
 
     def __repr__(self):
-        res = ''
+        res = 'PushButtonArray:\n'
         for pb in self.pbVec:
             res += repr(pb) +'\n'
         return res
@@ -170,7 +169,8 @@ class ShakeControl1:
     timeOut = 2000  # interval after which to call offFunc and turn off associated control
     
     def __init__(self, readFunc, toggleFunc, offFunc,
-                 pt=pThreshold,nt=nThreshold,rd=readDelay,to=timeOut,autoOff=False):
+                 pt=State.AccpThreshold,nt=State.AccnThreshold,rd=State.AccreadDelay,to=State.AcctimeOut,
+                 autoOff=False):
         """ 
         Instance Creation:
         provides default values for thresholds, read delay, and timeout
@@ -211,7 +211,7 @@ class ShakeControl1:
             delay(loopDelay)
             init,self.baseVal = self.readA()
         self.lastActionTime = millis()
-        print ('Initialized!')
+        State.printT('Initialized!')
         
     def readA(self):
         """
@@ -261,18 +261,19 @@ class ShakeControl1:
                     self.prevZone = curZone
 
     def __repr__(self):
-        return 'ShakeControl1:' + \
-            '\n\treadFunc\t'         + str(self.rf)  + \
-            '\n\ttoggle Func\t'      + str(self.tf)  + \
-            '\n\toff Func\t'         + str(self.of) + \
-            '\n\tpos Threshold\t'    + str(self.pt)  + \
-            '\n\tneg Threshold\t'    + str(self.nt)  + \
-            '\n\tread Delay\t'       + str(self.rd)  + \
-            '\n\ttime Out\t'         + str(self.to)  + \
-            '\n\tbase Value\t'       + str(self.baseVal)   + \
-            '\n\tprevious Zone\t'    + str(self.prevZone)  + \
+        return 'ShakeControl1:'                                  + \
+            '\n\treadFunc        \t' + str(self.rf)              + \
+            '\n\ttoggle Func     \t' + str(self.tf)              + \
+            '\n\toff Func        \t' + str(self.of)              + \
+            '\n\tpos Threshold   \t' + str(self.pt)              + \
+            '\n\tneg Threshold   \t' + str(self.nt)              + \
+            '\n\tread Delay      \t' + str(self.rd)              + \
+            '\n\ttime Out        \t' + str(self.to)              + \
+            '\n\tautoOff         \t' + str(self.autoOff)         + \
+            '\n\tbase Value      \t' + str(self.baseVal)         + \
+            '\n\tprevious Zone   \t' + str(self.prevZone)        + \
             '\n\tlast Action Time\t' + str(self.lastActionTime)  + \
-            '\n\tlast Read Time\t'   + str(self.lastReadTime)
+            '\n\tlast Read Time  \t' + str(self.lastReadTime)
         
 class ShakeControl:
     """ 
@@ -302,7 +303,6 @@ class ShakeControl:
             return f
         else:
             def f():
-                print(tf)
                 tf and tf()
             return f
     
@@ -354,6 +354,12 @@ class ShakeControl:
         for s in self.sVec:
             s.doInit()
 
+    def __repr__(self):
+        res = 'Accel:          \t\t'  + str(self.a) + '\n'
+        for sc in self.sVec:
+            res += repr(sc) +'\n'
+        return res
+
 class TremVib:
     vVec = (State.vibratoLowerLimit, State.vibratoUpperLimit)
     tVec = (State.tremoloLowerLimit, State.tremoloUpperLimit)
@@ -361,16 +367,16 @@ class TremVib:
     def doTrem(self):
         if not self.aVec[0]:
             return
-        print('Tremolo Level:\t',self.tremoloLevel)
-        print('Push: M Vol %s'%self.vVec[self.tremoloLevel])
+        State.printT('Tremolo Level:\t',self.tremoloLevel)
+        #print('Push: M Vol %s'%self.vVec[self.tremoloLevel])
         self.volEnQueueable.push(self.targCoilID,self.vVec[self.tremoloLevel])
         self.tremoloLevel ^= 1
     
     def doVib(self):
         if not self.aVec[1]:
             return
-        print('Vibrato Level:\t',self.vibratoLevel)
-        print('Push: M Tone %s'%self.tVec[self.vibratoLevel])
+        State.printT('Vibrato Level:\t',self.vibratoLevel)
+        #print('Push: M Tone %s'%self.tVec[self.vibratoLevel])
         self.toneEnQueueable.push(self.targCoilID,self.tVec[self.vibratoLevel])
         self.vibratoLevel ^= 1
 
@@ -410,7 +416,17 @@ class TremVib:
         if any(self.aVec):
             self.ctrl.update()
 
-    
+    def __repr__(self):
+        res = 'TremVib:'                                          + \
+              '\nvolEnQueueable: \t' + repr(self.volEnQueueable)  + \
+              '\ntoneEnQueueable:\t' + repr(self.toneEnQueueable) + \
+              '\ntargCoilID:     \t' + str(self.targCoilID)       + \
+              '\naVec:           \t' + str(self.aVec)             + \
+              '\ntremoloLevel:   \t' + str(self.tremoloLevel)     + \
+              '\nvibratoLevel:   \t' + str(self.vibratoLevel)     + \
+              '\nctrl:::\n'          + repr(self.ctrl)
+        return res
+    """
     # for testing
     def mainLoop(self):
         self.aVec = [True,True]
@@ -418,7 +434,7 @@ class TremVib:
         while any(self.aVec):
             self.ctrl.update()
             delay(50)
-    
+    """
 
 # LcdDisplay
 # Wiring:
@@ -563,6 +579,18 @@ class TrackBall:
         else:
             self.toneEnQueueable.push(self.targCoilID,1)
 
+    def __repr__(self):
+        res = 'TrackBall:'                                        + \
+              '\nvolEnQueueable: \t' + repr(self.volEnQueueable)  + \
+              '\ntoneEnQueueable:\t' + repr(self.toneEnQueueable) + \
+              '\ntargCoilID:     \t' + str(self.targCoilID)       + \
+              '\nx1:             \t' + str(self.x1)               + \
+              '\nx2:             \t' + str(self.x2)               + \
+              '\ny1:             \t' + str(self.y1)               + \
+              '\ny2:             \t' + str(self.y2)               + \
+              '\nExtInts:        \t' + str([i for i in self.extInts])
+        return res
+
 # SplitPot classes
 #SplitPot
 class SplitPot:
@@ -621,7 +649,7 @@ class SplitPot:
         for i in range(nbReads):
             v=self.adc.read()
             if v<self.cutOff or (v>self.ranges[0][1] and v<self.ranges[1][0]) or v>self.ranges[1][1]:
-                #print('None:1')
+                #State.printT('None:1')
                 return None
             vInit +=v
         vInit= round(vInit/nbReads)
@@ -632,13 +660,15 @@ class SplitPot:
                 curRange=i
                 break
         if curRange==None:
-            #print('None:2')
+            #State.printT('None:2')
             return None
+        #State.printT('Entering the While loop...')
         while v >= self.ranges[curRange][0] and v<=self.ranges[curRange][1]:
             delay(3)
             vADCmin = min(vADCmin,v)
             vADCmax = max(vADCmax,v)
             v=self.adc.read()
+            #State.printT('v, vADCmax, vADCmin:\t',v, vADCmax, vADCmin)
         sign = +1
         trackDist=vADCmax-vADCmin
         #print(abs(vADCmax-vInit)<=error and trackDist>error)
