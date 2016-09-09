@@ -80,7 +80,8 @@ class Preset():
                     reader = csv.CSV.Reader(csvfile)
                     self.header = next(reader)
                     for row in reader:
-                        self.rowDict2confDict(row)
+                        if len(row)>2:
+                            self.rowDict2confDict(row)
             except Exception as e:
                 print(e)
                 State.printT( "error reading preset file!  Creating new one!")
