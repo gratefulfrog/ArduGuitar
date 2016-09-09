@@ -11,28 +11,24 @@ class PyGuitarConf():
                 'TREM',                #  8
                 'VIB',                 #  9
                 'AUX0',                # 10
-                'AUX1']                # 11
+                'AUX1',                # 11
+                'SEQ']                 # 12
         
         headings= ['HorizontalSelector',  #  0
                 'VerticalSelector',    #  1
                 configKeys[0],         #  2
-                configKeys[1] + 'asterVol',           #  3
-                configKeys[1] + 'asterTone',          #  4
-                configKeys[2] + 'Vol',                #  5
-                configKeys[2] + 'Tone',               #  6
-                configKeys[3] + 'Vol',                #  7
-                configKeys[3] + 'Tone',               #  8
-                configKeys[4] + 'Vol',                #  9
-                configKeys[4] + 'Tone',               # 10
-                configKeys[5] + 'Vol',                # 11
-                configKeys[5] + 'Tone',               # 12
-                'ToneRange'] +  configKeys[7:]        # 13
-                                        # 14
-                                        # 15 
-                                        # 16
-                                        # 17
-                                        # 18
-
+                configKeys[1] + 'asterVol',         #  3
+                configKeys[1] + 'asterTone',        #  4
+                configKeys[2] + 'Vol',              #  5
+                configKeys[2] + 'Tone',             #  6
+                configKeys[3] + 'Vol',              #  7
+                configKeys[3] + 'Tone',             #  8
+                configKeys[4] + 'Vol',              #  9
+                configKeys[4] + 'Tone',             # 10
+                configKeys[5] + 'Vol',              # 11
+                configKeys[5] + 'Tone',             # 12
+                'ToneRange'] +  configKeys[7:]      # 13 # 14 # 15 # 16 # 17 # 18 # 19
+                                                                                
     class LocalConf():
         presetDir     = '/sd/Data'
         dirSeparator  = '/'
@@ -50,7 +46,8 @@ class PyGuitarConf():
                                0,         # 'TREM'
                                0,         # 'VIB'
                                0,         # 'AUX0'
-                               0]         # 'AUX1'
+                               0,         # 'AUX1'
+                               '']        # 'SEQ'
         def __init__(self):
             self.defaultConfDict = {}
             for i in range(len(PyGuitarConf.Vocab.configKeys)):

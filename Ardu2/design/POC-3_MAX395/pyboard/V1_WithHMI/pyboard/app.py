@@ -215,21 +215,28 @@ class App():
             return True
         return False
 
-    def doConf(self,who,unused0=None, unused1=None):
-        # who is 0 for horizontal, 1 for vertical    
-        self.selectorVec[who].setPosition()
-        cf = (self.selectorVec[0].currentPosition,self.selectorVec[1].currentPosition)
-        if  self.currentConfTupleKey == cf:
-            return False
+    def doConfHelper(self,cf):
         self.reset()
         State.printT('loading conf: ' + str(cf))
         self.loadConf(self.preset.presets[cf]) #self.sh.pos,self.sv.pos)])
         self.currentConfTupleKey = cf
         return True
 
+    def doConf(self,who,unused0=None, unused1=None):
+        # who is 0 for horizontal, 1 for vertical    
+        self.selectorVec[who].setPosition()
+        cf = (self.selectorVec[0].currentPosition,self.selectorVec[1].currentPosition)
+        if  self.currentConfTupleKey == cf:
+            return False
+        return self.doConfHelper(cf)
+    
+    def doNextSeq(self):
+        cf = self.preset.seqNext()
+        return self.doConfHelper(cf)
+    
     def pb(self,who,unused=None,unusedA=None):
         whoFuncs = ( # this one toggles splitpot tracking,currently is used for debugging
-            (self.toggleTracking,self.displayCurrentConf),  # pb 0
+            (self.toggleTracking,self.displayCurrentConf),  # pb 0 (self.doNextSeq, self.displayCurrentConf
             # this is the one saves the preset,      
             (self.saveCurrentConfAsPreset,),                # pb 1
             # Tremolo
