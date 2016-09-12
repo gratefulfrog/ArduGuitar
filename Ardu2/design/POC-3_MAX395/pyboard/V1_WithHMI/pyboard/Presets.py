@@ -49,6 +49,7 @@ class Preset():
                     self.seqLis.append((k,index))
             self.seqLis.sort(key=lambda pr: pr[1])
             self.seqLen    = len(self.seqLis)
+            self.seqStartKey = self.seqLis[0][0]  # the tuple that is the key to the initial seq preset
             self.reset()
             
         def reset(self):
@@ -65,7 +66,9 @@ class Preset():
             self.conf = pyGuitarConf
             self.presets = {}
             if fileName==None:
-                self.filePath =  self.conf.LocalConf.presetDir +   self.conf.LocalConf.dirSeparator +  self.conf.LocalConf.presetFileName
+                self.filePath =  self.conf.LocalConf.presetDir +\
+                                 self.conf.LocalConf.dirSeparator +  \
+                                 self.conf.LocalConf.presetFileName
             else:
                 self.filePath = fileName
             State.printT ("creating preset instance from:\t" + self.filePath)
@@ -74,8 +77,8 @@ class Preset():
                 #print(self.filePath) 
                 with open(self.filePath, 'r') as csvfile:
                     # from official csv module, not used on pyboard!
-                    #reader = csv.DictReader(csvfile,fieldnames = self.conf.Vocab.headings,delimiter=',')
-                    #self.header = reader.next()
+                    # reader = csv.DictReader(csvfile,fieldnames = self.conf.Vocab.headings,delimiter=',')
+                    # self.header = reader.next()
                     # the next lines refer to my version of the csv reader
                     reader = csv.CSV.Reader(csvfile)
                     self.header = next(reader)

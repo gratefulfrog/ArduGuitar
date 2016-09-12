@@ -93,9 +93,10 @@ class App():
         self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
         self.selectorVec=[None,None]
         for i in range(2):
-         self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q)
+            self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q)
         self.tb = TrackBall(self.q)
         self.currentConfTupleKey = (-1,-1)
+        self.sequencing = False
         self.doConf(0)  # anonymous value just to fill the argument
         self.x()
 
@@ -219,7 +220,6 @@ class App():
         self.reset()
         State.printT('loading conf: ' + str(cf))
         self.loadConf(self.preset.presets[cf]) #self.sh.pos,self.sv.pos)])
-        self.currentConfTupleKey = cf
         return True
 
     def doConf(self,who,unused0=None, unused1=None):
@@ -228,23 +228,32 @@ class App():
         cf = (self.selectorVec[0].currentPosition,self.selectorVec[1].currentPosition)
         if  self.currentConfTupleKey == cf:
             return False
+        else:
+            self.startSeq(cf == self.preset.seq.seqStartKey)
+        self.currentConfTupleKey = cf
         return self.doConfHelper(cf)
-    
+
+    def startSeq(self,onOff):
+        self.sequencing = onOff
+        if onOff:
+            self.preset.seq.reset()
+            
     def doNextSeq(self):
-        cf = self.preset.seqNext()
+        cf = self.preset.seq.nextKey()
         return self.doConfHelper(cf)
     
     def pb(self,who,unused=None,unusedA=None):
-        whoFuncs = ( # this one toggles splitpot tracking,currently is used for debugging
-            (self.toggleTracking,self.displayCurrentConf),  # pb 0 (self.doNextSeq, self.displayCurrentConf
+        whoFuncs = (
+            # this either steps the seq or toggles splitpot tracking if not sequencing
+            (self.pb0Func, self.displayCurrentConf),  # pb 0 # either step sequence or toggle tracking if not sequencing
             # this is the one saves the preset,      
-            (self.saveCurrentConfAsPreset,),                # pb 1
+            (self.saveCurrentConfAsPreset,),          # pb 1
             # Tremolo
-            (self.toggleTrem,),                             # pb 2
+            (self.toggleTrem,),                       # pb 2
             # Vibrato
-            (self.toggleVib,),                              # pb 3
-            (self.lcdMgr.onLeftButton,),                    # pb 4
-            (self.lcdMgr.onRightButton,))                   # pb 5
+            (self.toggleVib,),                        # pb 3
+            (self.lcdMgr.onLeftButton,),              # pb 4
+            (self.lcdMgr.onRightButton,))             # pb 5
 
         State.printT('PB:\t' + str(who))  
         res = False         
@@ -252,8 +261,18 @@ class App():
             res = f() or res
         return res # True if who in [2,3] else False
 
+    def pb0Func(self):
+        if self.sequencing:
+            State.printT('pb0Func:\tstepping the sequence...')
+            State.debug and input('Press Return:')
+            return self.doNextSeq()
+        else:
+            State.printT('pb0Func:\ttoggling tracking...')
+            State.debug and input('Press Return:')
+            return self.toggleTracking()
+
     def toggleTracking(self):
-        self.preset.currentDict[self.conf.vocab.configKeys[10]] = 0 if self.preset.currentDict[self.conf.vocab.configKeys[10]] else 1
+        self.preset.currentDict[self.conf.vocab.configKeys[10]] ^= 1 # 0 if self.preset.currentDict[self.conf.vocab.configKeys[10]] else 1
         self.spa.track(self.preset.currentDict[self.conf.vocab.configKeys[10]])
         State.printT('Tracking:\t%d'%self.preset.currentDict[self.conf.vocab.configKeys[10]])
         return False
@@ -359,6 +378,14 @@ class App():
             print (e)
             return False
 
+    def __repr__(self):
+        res=[]
+        for k in dir(self):
+            try:
+                res.append((k,self.__dict__[k]))
+            except:
+                pass
+        return res
 
 ##################  old stuff !!
      
