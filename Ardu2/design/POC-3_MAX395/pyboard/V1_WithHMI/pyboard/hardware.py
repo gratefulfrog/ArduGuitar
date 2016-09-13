@@ -4,11 +4,12 @@
 # * SelectorInterrupt  (added 2016 08 24)
 # * HWDebouncedPushButton
 # * ShakeControl (3-axis shake controller)
-# $ TremVib  (tremolo and vibrato mgt class)
-# * LCDDisplay (added 2016 06 11)
+# * TremVib  (tremolo and vibrato mgt class)
+# * LcdDisplayI2C  (added 2016 09 13)
 # * TrackBall (added 2016 08 26)
 # * SplitPot & SplitPotArray (added 2016 08 30)
 #### obsolete or unused ###
+# * LCDDisplay6Wire (added 2016 06 11), moved 2016 09 13
 # * Selector
 # * Illuminator
 # * SWDebouncedPushbutton
@@ -17,8 +18,9 @@
 
 #####
 
-from pyb import millis, Pin, Timer, delay, Accel, LED, ADC, ExtInt
-from pyb_gpio_lcd import GpioLcd
+from pyb import millis, Pin, Timer, delay, Accel, LED, ADC, ExtInt, I2C
+#from pyb_gpio_lcd import GpioLcd
+from pyb_i2c_adafruit_lcd import I2cLcd
 from dictMgr import shuntConfDict
 from state import State
 from q import EnQueueable
@@ -436,71 +438,16 @@ class TremVib:
             delay(50)
     """
 
-# LcdDisplay
-# Wiring:
-# LCD PIN - connected to
-#  1 - Vss (aka Ground) - Connect to one of the ground pins on you pyboard.
-#  2 - VDD - connected to VIN which is 5 volts when your pyboard is powerd vi USB
-#  3 - VE - connected to VIN (Contrast voltage) - I'll discuss this below
-#  4 - RS (Register Select) connect to Y12 (as per call to GpioLcd)
-#  5 - RW (Read/Write) - connect to ground
-#  6 - EN (Enable) connect to Y11 (as per call to GpioLcd)
-#  7 - D0 - leave unconnected
-#  8 - D1 - leave unconnected
-#  9 - D2 - leave unconnected
-# 10 - D3 - leave unconnected
-# 11 - D4 - connect to Y5 (as per call to GpioLcd)
-# 12 - D5 - connect to Y6 (as per call to GpioLcd)
-# 13 - D6 - connect to Y7 (as per call to GpioLcd)
-# 14 - D7 - connect to Y8 (as per call to GpioLcd)
-# 15 - A (BackLight Anode) - Connect to VIN
-# 16 - K (Backlight Cathode) - Connect to Ground
-#
-# The Contrast line (pin 3) typically connects to the center tap of a
-# 10K potentiometer, and the other 2 legs of the 10K potentiometer are
-# connected to pins 1 and 2 (Ground and VDD)
-#
-# The wiring diagram on the followig page shows a typical "base" wiring:
-# http://www.instructables.com/id/How-to-drive-a-character-LCD-displays-using-DIP-sw/step2/HD44780-pinout/
-# Add to that the EN, RS, and D4-D7 lines.
-
-class LcdDisplay(GpioLcd):
+class LcdDisplayI2C(I2cLcd):
     """
-    Wiring:
-    LCD PIN - connected to
-     1 - Vss (aka Ground) - Connect to one of the ground pins on you pyboard.
-     2 - VDD - connected to VIN which is 5 volts when your pyboard is powerd vi USB
-     3 - VE - connected to VIN (Contrast voltage) - I'll discuss this below
-     4 - RS (Register Select) connect to Y12 (as per call to GpioLcd)
-     5 - RW (Read/Write) - connect to ground
-     6 - EN (Enable) connect to Y11 (as per call to GpioLcd)
-     7 - D0 - leave unconnected
-     8 - D1 - leave unconnected
-     9 - D2 - leave unconnected
-    10 - D3 - leave unconnected
-    11 - D4 - connect to Y5 (as per call to GpioLcd)
-    12 - D5 - connect to Y6 (as per call to GpioLcd)
-    13 - D6 - connect to Y7 (as per call to GpioLcd)
-    14 - D7 - connect to Y8 (as per call to GpioLcd)
-    15 - A (BackLight Anode) - Connect to VIN
-    16 - K (Backlight Cathode) - Connect to Ground
-    
-    The Contrast line (pin 3) typically connects to the center tap of a
-    10K potentiometer, and the other 2 legs of the 10K potentiometer are
-    connected to pins 1 and 2 (Ground and VDD)
-    
-    The wiring diagram on the followig page shows a typical "base" wiring:
-    http://www.instructables.com/id/How-to-drive-a-character-LCD-displays-using-DIP-sw/step2/HD44780-pinout/
-    Add to that the EN, RS, and D4-D7 lines.
+    Wiring: 
+    X9 : CLOCK
+    X10: Data
     """
     def __init__(self,confDict):
-        GpioLcd.__init__(self,
-                         Pin(confDict['rs_pin']),
-                         Pin(confDict['enable_pin']),
-                         Pin(confDict['d4_pin']),
-                         Pin(confDict['d5_pin']),
-                         Pin(confDict['d6_pin']),
-                         Pin(confDict['d7_pin']),
+        I2cLcd.__init__(self,
+                         I2C(confDict['i2c_id'],I2C.MASTER),
+                         confDict['i2c_addr'],
                          confDict['num_lines'],
                          confDict['num_columns'])
         self.lns =['0123456789ABCDEF','0123456789ABCDEF']
@@ -519,6 +466,10 @@ class LcdDisplay(GpioLcd):
     def getLn(self, lineNb):
         return self.lns[lineNb]
 
+
+
+
+    
 # class TrackBall:
 # trackball quadrature resolution 1
 """
@@ -720,6 +671,89 @@ class SplitPotArray:
 
     
 #############  Obsolete or Unused ############
+# LcdDisplay
+# Wiring:
+# LCD PIN - connected to
+#  1 - Vss (aka Ground) - Connect to one of the ground pins on you pyboard.
+#  2 - VDD - connected to VIN which is 5 volts when your pyboard is powerd vi USB
+#  3 - VE - connected to VIN (Contrast voltage) - I'll discuss this below
+#  4 - RS (Register Select) connect to Y12 (as per call to GpioLcd)
+#  5 - RW (Read/Write) - connect to ground
+#  6 - EN (Enable) connect to Y11 (as per call to GpioLcd)
+#  7 - D0 - leave unconnected
+#  8 - D1 - leave unconnected
+#  9 - D2 - leave unconnected
+# 10 - D3 - leave unconnected
+# 11 - D4 - connect to Y5 (as per call to GpioLcd)
+# 12 - D5 - connect to Y6 (as per call to GpioLcd)
+# 13 - D6 - connect to Y7 (as per call to GpioLcd)
+# 14 - D7 - connect to Y8 (as per call to GpioLcd)
+# 15 - A (BackLight Anode) - Connect to VIN
+# 16 - K (Backlight Cathode) - Connect to Ground
+#
+# The Contrast line (pin 3) typically connects to the center tap of a
+# 10K potentiometer, and the other 2 legs of the 10K potentiometer are
+# connected to pins 1 and 2 (Ground and VDD)
+#
+# The wiring diagram on the followig page shows a typical "base" wiring:
+# http://www.instructables.com/id/How-to-drive-a-character-LCD-displays-using-DIP-sw/step2/HD44780-pinout/
+# Add to that the EN, RS, and D4-D7 lines.
+#
+#class LcdDisplay6Wire(GpioLcd):
+#    """
+#    Wiring:
+#    LCD PIN - connected to
+#     1 - Vss (aka Ground) - Connect to one of the ground pins on you pyboard.
+#     2 - VDD - connected to VIN which is 5 volts when your pyboard is powerd vi USB
+#     3 - VE - connected to VIN (Contrast voltage) - I'll discuss this below
+#     4 - RS (Register Select) connect to Y12 (as per call to GpioLcd)
+#     5 - RW (Read/Write) - connect to ground
+#     6 - EN (Enable) connect to Y11 (as per call to GpioLcd)
+#     7 - D0 - leave unconnected
+#     8 - D1 - leave unconnected
+#     9 - D2 - leave unconnected
+#    10 - D3 - leave unconnected
+#    11 - D4 - connect to Y5 (as per call to GpioLcd)
+#    12 - D5 - connect to Y6 (as per call to GpioLcd)
+#    13 - D6 - connect to Y7 (as per call to GpioLcd)
+#    14 - D7 - connect to Y8 (as per call to GpioLcd)
+#    15 - A (BackLight Anode) - Connect to VIN
+#    16 - K (Backlight Cathode) - Connect to Ground
+#    
+#    The Contrast line (pin 3) typically connects to the center tap of a
+#    10K potentiometer, and the other 2 legs of the 10K potentiometer are
+#    connected to pins 1 and 2 (Ground and VDD)
+#    
+#    The wiring diagram on the followig page shows a typical "base" wiring:
+#    http://www.instructables.com/id/How-to-drive-a-character-LCD-displays-using-DIP-sw/step2/HD44780-pinout/
+#    Add to that the EN, RS, and D4-D7 lines.
+#    """
+#    def __init__(self,confDict):
+#        GpioLcd.__init__(self,
+#                         Pin(confDict['rs_pin']),
+#                         Pin(confDict['enable_pin']),
+#                         Pin(confDict['d4_pin']),
+#                         Pin(confDict['d5_pin']),
+#                         Pin(confDict['d6_pin']),
+#                         Pin(confDict['d7_pin']),
+#                         confDict['num_lines'],
+#                         confDict['num_columns'])
+#        self.lns =['0123456789ABCDEF','0123456789ABCDEF']
+#   
+#    def setLn(self, lineNb, val):
+#        """
+#        Set the LCD line linNb to display the val;
+#        val is left justified to num_cols to overwrite any 
+#        characters leftover from previous writes.
+#        """
+#        self.lns[lineNb] = '%-*s' % ((self.num_columns), val) # left justify with spaces to nb of display cols
+#        self.move_to(0,lineNb)
+#        self.putstr(self.lns[lineNb])
+#        return self
+#  
+#    def getLn(self, lineNb):
+#        return self.lns[lineNb]
+#
 # Selector
 # support for 3 or 5 ... position selector switches
 # class Selector:

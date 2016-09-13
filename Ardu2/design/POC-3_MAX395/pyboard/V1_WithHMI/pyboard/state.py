@@ -4,6 +4,7 @@
 # 2016 06 06 changed nbShiftRegs to 19 so as to integrate HMI LEDs; added pusbutton colors and 'PB' id
 # 2016 06 10-30 : added new dits for integration of HMI
 # 2016 09 04: update pin mappings after conflict issues
+# 2016 09 13: updates for I2C LCD and new pin map for TracBall
 class State():
     """
     This class contains all static information required to operate
@@ -38,7 +39,8 @@ class State():
                 #res += str(t)
                 print(t)
             #print(res)
-    
+    """
+    # for 6Wire version
     lcdConfDict = {'rs_pin'      : 'X18',
                    'enable_pin'  : 'Y7',
                    'd4_pin'      : 'Y8',
@@ -47,7 +49,13 @@ class State():
                    'd7_pin'      : 'A13', #board.P5,
                    'num_lines'   : 2,
                    'num_columns' : 16}
-
+    """
+    # for I2C version
+    lcdConfDict = {'i2c_id'      : 1,
+                   'i2c_addr'    :0x20,
+                   'num_lines'   : 2,
+                   'num_columns' : 16}
+    
     # dict maps a pin name string to tuple (line,id)
     pinNameDict = {'X19' :  (0,0),   # selector 0, pin a
                    'X20' :  (1,1),   # selector 0, pin b
@@ -56,7 +64,7 @@ class State():
                    'X11' :  (4,4),   # selector 1, pin b
                    'X12' :  (5,5),   # selector 1, pin c
                    'X7'  :  (6,2),   # TREM PB
-                   'X17' :  (7,3),   # VIB  PB  # was Y2
+                   'X22' :  (7,3),   # VIB  PB  # was X17, was Y2
                    'Y3'  :  (8,0),   # TRACK/RED PB
                    'Y4'  :  (9,1),   # SAVE/YELLOW PB
                    'Y9'  : (10,0),   # TrackBall X axis interrupt
@@ -65,16 +73,16 @@ class State():
                    'Y6'  : (13,5)     # LCD RIGHT PB
                    }
 
-    PBPinNameVec = ('Y3','Y4','X7','X17','Y5','Y6')
+    PBPinNameVec = ('Y3','Y4','X7','X22','Y5','Y6')
 
     SelectorPinNameArray = (('X19', 'X20', 'X21'), # horizontal
                             ('Y2', 'X11', 'X12')) # vertical
                    
     # trackball state data
     trackballStateDict = {'x1' : 'Y9',  # blue wire
-                          'x2' : 'A15', # yellow wire
+                          'x2' : 'Y7', # yellow wire
                           'y1' : 'Y10', # green wire
-                          'y2' : 'B4'}  # white wire
+                          'y2' : 'Y8'}  # white wire
 
     splitPotPinNameVec = ('X1',  # 0: Master
                           'X2',  # 1: Coil A
