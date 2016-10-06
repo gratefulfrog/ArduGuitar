@@ -3,7 +3,7 @@ from config import PyGuitarConf
 from Presets import Preset
 from PyboardMgr import PyboardMgr
 
-DEBUG = False
+DEBUG = True
 
 class Q:
     qLen = 20

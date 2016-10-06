@@ -52,7 +52,7 @@ class State():
     """
     # for I2C version
     lcdConfDict = {'i2c_id'      : 1,
-                   'i2c_addr'    :0x20,
+                   'i2c_addr'    : 0x20,
                    'num_lines'   : 2,
                    'num_columns' : 16}
     
@@ -63,14 +63,14 @@ class State():
                    'Y2'  :  (3,3),   # selector 1, pin a, was X22
                    'X11' :  (4,4),   # selector 1, pin b
                    'X12' :  (5,5),   # selector 1, pin c
-                   'X7'  :  (6,2),   # TREM PB
-                   'X22' :  (7,3),   # VIB  PB  # was X17, was Y2
-                   'Y3'  :  (8,0),   # TRACK/RED PB
-                   'Y4'  :  (9,1),   # SAVE/YELLOW PB
+                   'X7'  :  (6,2),   # TREM PB pb2
+                   'X22' :  (7,3),   # VIB  PB  pb3 # was X17, was Y2
+                   'Y3'  :  (8,0),   # TRACK/RED PB  pb0
+                   'Y4'  :  (9,1),   # SAVE/YELLOW PB pb1
                    'Y9'  : (10,0),   # TrackBall X axis interrupt
                    'Y10' : (11,1),   # TrackBall Y axis interrupt
-                   'Y5'  : (12,4),    # LCD LEFT PB
-                   'Y6'  : (13,5)     # LCD RIGHT PB
+                   'Y5'  : (12,4),    # LCD LEFT PB pb4
+                   'Y6'  : (13,5)     # LCD RIGHT PB pb5
                    }
 
     PBPinNameVec = ('Y3','Y4','X7','X22','Y5','Y6')
@@ -80,7 +80,7 @@ class State():
                    
     # trackball state data
     trackballStateDict = {'x1' : 'Y9',  # blue wire
-                          'x2' : 'Y7', # yellow wire
+                          'x2' : 'Y7',  # yellow wire
                           'y1' : 'Y10', # green wire
                           'y2' : 'Y8'}  # white wire
 

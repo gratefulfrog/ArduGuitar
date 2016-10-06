@@ -135,20 +135,14 @@ class Preset():
         if file: 
             self.filePath = file
         with open(self.filePath, 'w') as csvfile:
-            #writer = csv.DictWriter(csvfile, fieldnames = self.conf.Vocab.headings, delimiter=',')
             writer = csv.CSV.Writer(csvfile)
-            #writer.writerow(self.header)
             writer.writeRow(self.header)
-            #print(self.header)
             for p in self.presets.keys():
                 rowDict = self.confDict2RowDict(p,self.presets[p])
-                print(rowDict)
-                #rawRow = list(map(lambda k: rowDict[k],self.header))
+                #print(rowDict)
                 rawRow = [rowDict[k] for k in self.header]
-                #rawRow = self.makeRawRowWorkAround(rowDict)
-                print(rawRow)
+                #print(rawRow)
                 writer.writeRow(rawRow)
-                #writer.writeRow(self.confDict2RowDict(p,self.presets[p]))
         State.printT( "Wrote file:\t" + self.filePath)
         #print( "Wrote file:\t" + self.filePath)
 

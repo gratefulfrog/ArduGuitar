@@ -236,11 +236,15 @@ class App():
 
     def startSeq(self,onOff):
         self.sequencing = onOff
+        self.preset.currentDict[self.conf.vocab.configKeys[10]] = 1 if onOff else 0
+        self.set(State.pb,State.Red,State.l0 if self.preset.currentDict[self.conf.vocab.configKeys[10]] else State.lOff)
         if onOff:
             self.preset.seq.reset()
             
     def doNextSeq(self):
         cf = self.preset.seq.nextKey()
+        self.preset.currentDict[self.conf.vocab.configKeys[10]] ^= 1 
+        self.set(State.pb,State.Red,State.l0 if self.preset.currentDict[self.conf.vocab.configKeys[10]] else State.lOff)
         return self.doConfHelper(cf)
     
     def pb(self,who,unused=None,unusedA=None):
@@ -248,7 +252,7 @@ class App():
             # this either steps the seq or toggles splitpot tracking if not sequencing
             (self.pb0Func, self.displayCurrentConf),  # pb 0 # either step sequence or toggle tracking if not sequencing
             # this is the one saves the preset,      
-            (self.saveCurrentConfAsPreset,),          # pb 1
+            (self.turnOnYellowLed, self.saveCurrentConfAsPreset),          # pb 1
             # Tremolo
             (self.toggleTrem,),                       # pb 2
             # Vibrato
@@ -265,22 +269,24 @@ class App():
     def pb0Func(self):
         if self.sequencing:
             State.printT('pb0Func:\tstepping the sequence...')
-            State.debug and input('Press Return:')
+            #State.debug and input('Press Return:')
             return self.doNextSeq()
         else:
             State.printT('pb0Func:\ttoggling tracking...')
-            State.debug and input('Press Return:')
+            #State.debug and input('Press Return:')
             return self.toggleTracking()
 
     def toggleTracking(self):
         self.preset.currentDict[self.conf.vocab.configKeys[10]] ^= 1 # 0 if self.preset.currentDict[self.conf.vocab.configKeys[10]] else 1
         self.spa.track(self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        self.set(State.pb,State.Red,State.l0 if self.preset.currentDict[self.conf.vocab.configKeys[10]] else State.lOff)
         State.printT('Tracking:\t%d'%self.preset.currentDict[self.conf.vocab.configKeys[10]])
-        return False
+        return True # False
     
     def tracking(self,onOff):
         self.preset.currentDict[self.conf.vocab.configKeys[10]] = 1 if onOff else 0
         self.spa.track(self.preset.currentDict[self.conf.vocab.configKeys[10]])
+        self.set(State.pb,State.Red,State.l0 if self.preset.currentDict[self.conf.vocab.configKeys[10]] else State.lOff)
         State.printT('Tracking:\t%d'%self.preset.currentDict[self.conf.vocab.configKeys[10]])
         return False
     
@@ -288,6 +294,7 @@ class App():
         res = ((onOff and not self.preset.currentDict[self.conf.vocab.configKeys[8]]) or (self.preset.currentDict[self.conf.vocab.configKeys[8]] and not onOff))
         self.preset.currentDict[self.conf.vocab.configKeys[8]] = 1 if onOff else 0
         self.tv.tremOff(onOff)
+        self.set(State.pb,State.Tremolo,State.l0 if onOff else State.lOff)
         #v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[8]] else 'Off'
         #print ("CANNOT YET SEND:\ta.set('M',State.Tremolo,l%s)"%v)
         return res
@@ -296,6 +303,7 @@ class App():
         res = ((onOff and not self.preset.currentDict[self.conf.vocab.configKeys[9]]) or (self.preset.currentDict[self.conf.vocab.configKeys[9]] and not onOff))
         self.preset.currentDict[self.conf.vocab.configKeys[9]] = 1 if onOff else 0
         self.tv.vibOff(onOff)
+        self.set(State.pb,State.Vibrato,State.l0 if onOff else State.lOff)
         #v = str(0) if self.preset.currentDict[self.conf.vocab.configKeys[9]] else 'Off'
         #print ("CANNOT YET SEND:\ta.set('M',State.Vibtrato,l%s)"%v)
         return res
@@ -307,6 +315,7 @@ class App():
         #print ("CANNOT YET SEND:\ta.set('M',State.Tremolo,l%s)"%v)
         self.preset.currentDict[self.conf.vocab.configKeys[8]] ^= 1 
         self.tv.toggleTrem()
+        self.set(State.pb,State.Tremolo,State.l0 if self.preset.currentDict[self.conf.vocab.configKeys[8]] else State.lOff)
         return True
     
     def toggleVib(self):
@@ -317,6 +326,7 @@ class App():
         #self.outgoing.append("a.set('M',State.Vibtrato,l%s)"%v)
         self.preset.currentDict[self.conf.vocab.configKeys[9]] ^= 1
         self.tv.toggleVib()
+        self.set(State.pb,State.Vibrato,State.l0 if self.preset.currentDict[self.conf.vocab.configKeys[9]] else State.lOff)
         return True
     
     def displayCurrentConf(self):
@@ -354,13 +364,18 @@ class App():
 
     def doParse(self,confString):
         sp = sParse.SExpParser(self,confString.strip())
-        #return sp.execute()
         sp.execute()
+
+    def turnOnYellowLed(self):
+        self.preset.currentDict[self.conf.vocab.configKeys[11]] = 1
+        self.set(State.pb,State.Yellow,State.l0)
+        self.x()
+        return False
 
     def saveCurrentConfAsPreset(self):
         self.preset.saveCurrentConfigAsPreset(self.currentConfTupleKey)
-        #(self.selectorVec[0].currentPosition,self.selectorVec[1].currentPosition))
-        #((self.sh.pos,self.sv.pos))
+        self.set(State.pb,State.Yellow,State.lOff)
+        return True
     
     def validateAndApplyLCDInput(self,confString):
         try:

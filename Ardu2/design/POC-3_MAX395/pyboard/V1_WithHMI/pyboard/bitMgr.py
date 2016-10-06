@@ -74,6 +74,8 @@ class BitMgr:
         if onOff:
             setting = (vtrDict[name][att][val])
         masking = maskingDict[name][att]
+        if State.debug:
+            print('baseFunc('+ str(onOff) + ', ' + str(name) + ', ' + str(val) +')')
         return (setting,masking)
 
     def __init__(self,nb_shiftRegs=State.nbShiftRegs):

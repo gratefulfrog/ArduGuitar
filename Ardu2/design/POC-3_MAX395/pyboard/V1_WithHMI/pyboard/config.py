@@ -10,8 +10,8 @@ class PyGuitarConf():
                 'S',   # a string like '(|ABc)'  #  7
                 'TREM',                #  8
                 'VIB',                 #  9
-                'AUX0',                # 10
-                'AUX1',                # 11
+                'AUX0',                # 10 tracking/sequencing
+                'AUX1',                # 11 save config
                 'SEQ']                 # 12
         
         headings= ['HorizontalSelector',  #  0
