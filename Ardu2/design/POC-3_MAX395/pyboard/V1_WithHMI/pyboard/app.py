@@ -81,6 +81,7 @@ class App():
         after creation of the SPIMgr, the update message is sent to it to 
         initialize all the pins.
         """
+        self.mainLoopDelay = 50
         self.gcd=False # true if we just did a garbage collection, false if work has been done and garbage not yet collected
         self.setVec = [self.inc, self.pb, self.doConf, self.vol, self.tone]
         self.q = Q()
@@ -122,16 +123,17 @@ class App():
 
     def pollPollables(self):
         #State.printT('polling spa...')
-        State.spaPoll and self.spa.poll()
-        #State.printT('polling tv')
-        State.tvPoll and self.tv.poll()
-
+        self.spa.poll()
+        if (self.preset.currentDict[self.conf.vocab.configKeys[9]] or self.preset.currentDict[self.conf.vocab.configKeys[8]]):
+            #State.printT('polling tv..')
+            self.tv.poll()
+    
     def mainLoop(self):
         while True:
             self.pollPollables()
             self.processQ()
             # put a sleep comand here to save energy
-            pyb.delay(50)
+            pyb.delay(self.mainLoopDelay)
             
     def processQ(self):
         #State.printT('processQ')
@@ -141,9 +143,11 @@ class App():
             worked = self.doWork(work) or worked
             work = self.q.pop()
         if worked:
+            State.printT('worked!')
             self.x()
             self.gcd=False
         elif not self.gcd:
+            State.printT('GC!')
             gc.collect()  # time to do this is 5ms
             self.gcd=True
 
@@ -220,7 +224,7 @@ class App():
     def doConfHelper(self,cf):
         self.reset()
         State.printT('loading conf: ' + str(cf))
-        self.loadConf(self.preset.presets[cf]) #self.sh.pos,self.sv.pos)])
+        self.loadConf(self.preset.presets[cf])
         return True
 
     def doConf(self,who,unused0=None, unused1=None):

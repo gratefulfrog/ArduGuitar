@@ -1,14 +1,14 @@
 # Makefile to cross compile python files into mpy for inclusion
 # in the micropython firmware
 
-CC_DIR = /home/bob/MiscProjects/micropython/mpy-cross
-CC = $(CC_DIR)/mpy-cross 
-STMHAL=/home/bob/MiscProjects/micropython/stmhal
-SCRIPT_DIR=$(STMHAL)/scripts
-BOARD=PYBV10
+MP_DIR     = /home/bob/MiscProjects/micropython
+CC_DIR     = $(MP_DIR)/mpy-cross
+CC         = $(CC_DIR)/mpy-cross 
+STMHAL     = $(MP_DIR)/stmhal
+SCRIPT_DIR = $(STMHAL)/scripts
+BOARD      = PYBV10
 
-TRG=$(patsubst %.py,%.mpy,$(wildcard *.py))
-
+TRG        = $(patsubst %.py,%.mpy,$(wildcard *.py))
 
 all: cross_compiler $(TRG)
 
