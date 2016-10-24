@@ -140,7 +140,8 @@ class State():
     AccnThreshold = -6 #-5
     AccreadDelay = 20 # min interval between reads in milliseconds maybe try 5ms???
     AcctimeOut = 2000  # interval after which to call offFunc and turn off associated control
-    
+
+    HWDebounceDelay = 20 #ms
     
     def stateNeg2SetFuncIndex(stateNeg):
         """

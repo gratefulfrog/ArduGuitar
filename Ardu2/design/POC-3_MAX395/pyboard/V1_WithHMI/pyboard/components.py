@@ -319,3 +319,46 @@ class OnOffable():
     def __repr__(self):
         return '\nOnOffable:\n\t' + \
             'onOff: ' + str(self.onOff_) + '\n\t'
+
+class MicroValuator:
+    """ 
+    Reduces incrementation by the factor,
+    used to desensitize the trackball
+    """
+    factor = 0.1  # make 10 steps for one click
+    minV   = 0    # inclusive
+    maxV   = 5    # inclusive
+
+    def fit2Range(val):
+        return max(MicroValuator.minV, min(val, MicroValuator.maxV))
+
+    def __init__(self):
+        """ idLis is a list of identifiers for the pairs that will be microvaluated
+        """
+        self.mVec = [0,0]
+        #self.pDict = {}
+        #For id in idLis:
+        #    self.pDict[id] = [0,0]
+
+    def set(self,who,val):
+        """ 
+        Sets the value but only for existing keys
+        and only within the range of values
+        """
+        if who in [0,1]:
+            self.mVec[who] = MicroValuator.fit2Range(val)
+        
+    def inc(self,who,howMuch):
+        """ micro increment dict[who][ind] by factor*howmuch
+        """
+        if who in [0,1]:
+            self.mVec[who] = MicroValuator.fit2Range(self.mVec[who]+howMuch*MicroValuator.factor)
+
+    def valRounded(self, who):
+        """
+        Do not check for a correct key, so that if a bad key is given, there will be an exception and we can fix it!
+        """
+        return round(self.mVec[who])
+
+    def __repr__(self):
+        return str(self.mVec)

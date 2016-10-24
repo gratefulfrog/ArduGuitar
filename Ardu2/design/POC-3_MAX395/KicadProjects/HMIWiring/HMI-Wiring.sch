@@ -1,0 +1,1032 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:HMI-Wiring-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L CONN_01X14 P4
+U 1 1 580A64FE
+P 2370 1430
+F 0 "P4" V 2370 1430 50  0000 C CNN
+F 1 "Pyboard_Breakout_Left" V 2492 1425 50  0000 C CNN
+F 2 "" H 2370 1430 50  0001 C CNN
+F 3 "" H 2370 1430 50  0000 C CNN
+	1    2370 1430
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_01X14 P11
+U 1 1 580A6579
+P 3870 1430
+F 0 "P11" V 3860 1430 50  0000 C CNN
+F 1 "Pyboard_Breakout_Rght" V 3992 1425 50  0000 C CNN
+F 2 "" H 3870 1430 50  0001 C CNN
+F 3 "" H 3870 1430 50  0000 C CNN
+	1    3870 1430
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_01X03 P3
+U 1 1 580A666B
+P 2020 5870
+F 0 "P3" V 1984 5683 50  0000 R CNN
+F 1 "SEQ_SAVE" V 2110 6040 50  0000 R CNN
+F 2 "" H 2020 5870 50  0001 C CNN
+F 3 "" H 2020 5870 50  0000 C CNN
+	1    2020 5870
+	0    1    1    0   
+$EndComp
+$Comp
+L CONN_01X03 P1
+U 1 1 580A68E5
+P 1890 3370
+F 0 "P1" V 1854 3183 50  0000 R CNN
+F 1 "SplitPot_0_M" V 1980 3560 50  0000 R CNN
+F 2 "" H 1890 3370 50  0001 C CNN
+F 3 "" H 1890 3370 50  0000 C CNN
+	1    1890 3370
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_01X01 P18
+U 1 1 580A6951
+P 5490 1430
+F 0 "P18" V 5490 1470 50  0000 R CNN
+F 1 "SPI_Digital_Out" V 5590 1490 50  0000 R CNN
+F 2 "" H 5490 1430 50  0001 C CNN
+F 3 "" H 5490 1430 50  0000 C CNN
+	1    5490 1430
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_01X06 P16
+U 1 1 580A6AF2
+P 4970 1430
+F 0 "P16" V 4970 1420 50  0000 C CNN
+F 1 "Pyboard_Breakout_Top" V 5070 1430 50  0000 C CNN
+F 2 "" H 4970 1430 50  0001 C CNN
+F 3 "" H 4970 1430 50  0000 C CNN
+	1    4970 1430
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R3
+U 1 1 580A7372
+P 1990 3750
+F 0 "R3" V 1900 3710 50  0000 L CNN
+F 1 "10K" V 1990 3680 50  0000 L CNN
+F 2 "" V 1920 3750 50  0001 C CNN
+F 3 "" H 1990 3750 50  0000 C CNN
+	1    1990 3750
+	-1   0    0    1   
+$EndComp
+$Comp
+L CONN_01X02 P15
+U 1 1 580A7415
+P 4960 2870
+F 0 "P15" V 4833 2997 50  0000 L CNN
+F 1 "Power" V 4922 2997 50  0000 L CNN
+F 2 "" H 4960 2870 50  0001 C CNN
+F 3 "" H 4960 2870 50  0000 C CNN
+	1    4960 2870
+	0    1    1    0   
+$EndComp
+$Comp
+L CONN_01X06 P8
+U 1 1 580A7533
+P 3340 2870
+F 0 "P8" V 3213 3197 50  0000 L CNN
+F 1 "Analog_Out" V 3340 2690 50  0000 L CNN
+F 2 "" H 3340 2870 50  0001 C CNN
+F 3 "" H 3340 2870 50  0000 C CNN
+	1    3340 2870
+	0    -1   1    0   
+$EndComp
+Text Notes 5430 2620 0    60   ~ 0
+Split Pots
+$Comp
+L CONN_01X06 P19
+U 1 1 580A82AD
+P 6000 5110
+F 0 "P19" V 5873 5437 50  0000 L CNN
+F 1 "TrackBall" V 5962 5437 50  0000 L CNN
+F 2 "" H 6000 5110 50  0001 C CNN
+F 3 "" H 6000 5110 50  0000 C CNN
+	1    6000 5110
+	0    1    1    0   
+$EndComp
+Text Notes 6310 4700 0    60   ~ 0
+Track Ball
+Text Notes 8340 3540 0    60   ~ 0
+LCD
+$Comp
+L CONN_01X02 P22
+U 1 1 580A87A7
+P 7760 3110
+F 0 "P22" V 7633 3237 50  0000 L CNN
+F 1 "Power" V 7760 2780 50  0000 L CNN
+F 2 "" H 7760 3110 50  0001 C CNN
+F 3 "" H 7760 3110 50  0000 C CNN
+	1    7760 3110
+	0    1    1    0   
+$EndComp
+$Comp
+L CONN_01X03 P24
+U 1 1 580A8925
+P 8160 3120
+F 0 "P24" V 8033 3297 50  0000 L CNN
+F 1 "SPI" V 8160 3300 50  0000 L CNN
+F 2 "" H 8160 3120 50  0001 C CNN
+F 3 "" H 8160 3120 50  0000 C CNN
+	1    8160 3120
+	0    1    1    0   
+$EndComp
+Text Notes 8540 2530 0    60   ~ 0
+LEDs
+$Comp
+L CONN_01X02 P2
+U 1 1 580A8C12
+P 1970 5090
+F 0 "P2" V 1843 5217 50  0000 L CNN
+F 1 "Power" V 1932 5217 50  0000 L CNN
+F 2 "" H 1970 5090 50  0001 C CNN
+F 3 "" H 1970 5090 50  0000 C CNN
+	1    1970 5090
+	0    1    1    0   
+$EndComp
+$Comp
+L CONN_01X06 P7
+U 1 1 580A9008
+P 3300 5090
+F 0 "P7" V 3173 5417 50  0000 L CNN
+F 1 "PB_OUT" V 3340 4950 50  0000 L CNN
+F 2 "" H 3300 5090 50  0001 C CNN
+F 3 "" H 3300 5090 50  0000 C CNN
+	1    3300 5090
+	0    1    1    0   
+$EndComp
+$Comp
+L R R1
+U 1 1 580A9783
+P 1610 6620
+F 0 "R1" H 1680 6665 50  0000 L CNN
+F 1 "1K" V 1610 6590 50  0000 L CNN
+F 2 "" V 1540 6620 50  0001 C CNN
+F 3 "" H 1610 6620 50  0000 C CNN
+	1    1610 6620
+	0    1    1    0   
+$EndComp
+Text Notes 4730 4640 0    60   ~ 0
+PushButtons
+Text Notes 4770 4750 0    60   ~ 0
+3v3 Digital
+Text Notes 6290 4790 0    60   ~ 0
+3v3 Digital
+Text Notes 8100 3630 0    60   ~ 0
+5v Digital
+Text Notes 5420 2740 0    60   ~ 0
+3v3 Analog
+Text Notes 5430 1230 0    60   ~ 0
+Pyboard PCB
+$Comp
+L CONN_01X04 P21
+U 1 1 580A84AE
+P 7740 3960
+F 0 "P21" V 7630 4230 50  0000 L CNN
+F 1 "LCD_Backpack" V 7740 4210 50  0000 L CNN
+F 2 "Terminal_Blocks:TerminalBlock_Pheonix_MPT-2.54mm_4pol" H 7740 3960 50  0001 C CNN
+F 3 "" H 7740 3960 50  0000 C CNN
+	1    7740 3960
+	0    1    1    0   
+$EndComp
+Text Notes 8330 2630 0    60   ~ 0
+5v Digital
+$Comp
+L R R2
+U 1 1 580ABCBF
+P 1760 6370
+F 0 "R2" H 1830 6415 50  0000 L CNN
+F 1 "47K" V 1760 6310 50  0000 L CNN
+F 2 "" V 1690 6370 50  0001 C CNN
+F 3 "" H 1760 6370 50  0000 C CNN
+	1    1760 6370
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X04 P20
+U 1 1 580AC767
+P 7540 5180
+F 0 "P20" V 7540 5170 50  0000 L CNN
+F 1 "SEL_0_BLACK" V 7650 4940 50  0000 L CNN
+F 2 "" H 7540 5180 50  0001 C CNN
+F 3 "" H 7540 5180 50  0000 C CNN
+	1    7540 5180
+	0    1    1    0   
+$EndComp
+$Comp
+L CONN_01X04 P23
+U 1 1 580AC914
+P 8050 5180
+F 0 "P23" V 8050 5160 50  0000 L CNN
+F 1 "SEL_1_WHITE" V 8160 4960 50  0000 L CNN
+F 2 "" H 8050 5180 50  0001 C CNN
+F 3 "" H 8050 5180 50  0000 C CNN
+	1    8050 5180
+	0    1    1    0   
+$EndComp
+Text Notes 8330 4700 0    60   ~ 0
+Selectors
+Text Notes 8250 4790 0    60   ~ 0
+GND Digital
+Text Label 1720 1630 3    60   ~ 0
+V+
+Text Label 1820 1630 3    60   ~ 0
+3v3_D
+Text Label 1920 1630 3    60   ~ 0
+GND_D
+Text Label 2020 1630 3    60   ~ 0
+V-
+Text Label 2120 1630 3    60   ~ 0
+RST
+Text Label 2220 1630 3    60   ~ 0
+Y12
+Text Label 2320 1630 3    60   ~ 0
+Y11
+Text Label 2420 1630 3    60   ~ 0
+Y10
+Text Label 2520 1630 3    60   ~ 0
+Y9
+Text Label 2620 1630 3    60   ~ 0
+X7
+Text Label 2720 1630 3    60   ~ 0
+X6
+Text Label 2820 1630 3    60   ~ 0
+X5
+Text Label 2920 1630 3    60   ~ 0
+X4
+Text Label 3020 1630 3    60   ~ 0
+X3
+Text Label 3220 1630 3    60   ~ 0
+Y1
+Text Label 3320 1630 3    60   ~ 0
+Y2
+Text Label 3420 1630 3    60   ~ 0
+Y3
+Text Label 3520 1630 3    60   ~ 0
+Y4
+Text Label 3620 1630 3    60   ~ 0
+Y5
+Text Label 3720 1630 3    60   ~ 0
+Y6
+Text Label 3820 1630 3    60   ~ 0
+Y7
+Text Label 3920 1630 3    60   ~ 0
+Y8
+Text Label 4020 1630 3    60   ~ 0
+X9
+Text Label 4120 1630 3    60   ~ 0
+X10
+Text Label 4220 1630 3    60   ~ 0
+X11
+Text Label 4320 1630 3    60   ~ 0
+X12
+Text Label 4420 1630 3    60   ~ 0
+X1
+Text Label 4520 1630 3    60   ~ 0
+X2
+Text Label 5220 1630 3    60   ~ 0
+GND_A
+Text Label 5120 1630 3    60   ~ 0
+3v3_A
+Text Label 5020 1630 3    60   ~ 0
+X22
+Text Label 4920 1630 3    60   ~ 0
+X21
+Text Label 4820 1630 3    60   ~ 0
+X20
+Text Label 4720 1630 3    60   ~ 0
+X19
+Text Label 5490 1630 3    60   ~ 0
+SPI_D_Out
+Text Label 8200 4980 1    60   ~ 0
+GND_D
+Text Label 7690 4980 1    60   ~ 0
+GND_D
+Text Label 7810 2910 1    60   ~ 0
+GND_D
+Text Label 2020 4890 1    60   ~ 0
+GND_D
+Text Label 1920 4890 1    60   ~ 0
+3v3_D
+Text Label 7710 2910 1    60   ~ 0
+V+
+Text Label 4910 2670 1    60   ~ 0
+3v3_A
+Text Label 5010 2670 1    60   ~ 0
+GND_A
+Text Label 1990 3570 0    60   ~ 0
+GND_A
+Text Label 1790 3570 3    60   ~ 0
+3v3_A
+$Comp
+L CONN_01X03 P5
+U 1 1 580BA874
+P 2440 3370
+F 0 "P5" V 2404 3183 50  0000 R CNN
+F 1 "SplitPot_1_A" V 2530 3560 50  0000 R CNN
+F 2 "" H 2440 3370 50  0001 C CNN
+F 3 "" H 2440 3370 50  0000 C CNN
+	1    2440 3370
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R6
+U 1 1 580BA87A
+P 2540 3750
+F 0 "R6" V 2450 3710 50  0000 L CNN
+F 1 "10K" V 2540 3680 50  0000 L CNN
+F 2 "" V 2470 3750 50  0001 C CNN
+F 3 "" H 2540 3750 50  0000 C CNN
+	1    2540 3750
+	-1   0    0    1   
+$EndComp
+Text Label 2540 3570 0    60   ~ 0
+GND_A
+Text Label 2340 3570 3    60   ~ 0
+3v3_A
+$Comp
+L CONN_01X03 P6
+U 1 1 580BAB8D
+P 2990 3370
+F 0 "P6" V 2954 3183 50  0000 R CNN
+F 1 "SplitPot_2_B" V 3080 3560 50  0000 R CNN
+F 2 "" H 2990 3370 50  0001 C CNN
+F 3 "" H 2990 3370 50  0000 C CNN
+	1    2990 3370
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R9
+U 1 1 580BAB93
+P 3090 3750
+F 0 "R9" V 3000 3710 50  0000 L CNN
+F 1 "10K" V 3090 3680 50  0000 L CNN
+F 2 "" V 3020 3750 50  0001 C CNN
+F 3 "" H 3090 3750 50  0000 C CNN
+	1    3090 3750
+	-1   0    0    1   
+$EndComp
+Text Label 3090 3570 0    60   ~ 0
+GND_A
+Text Label 2890 3570 3    60   ~ 0
+3v3_A
+$Comp
+L CONN_01X03 P10
+U 1 1 580BAB9E
+P 3540 3370
+F 0 "P10" V 3504 3183 50  0000 R CNN
+F 1 "SplitPot_3_C" V 3630 3560 50  0000 R CNN
+F 2 "" H 3540 3370 50  0001 C CNN
+F 3 "" H 3540 3370 50  0000 C CNN
+	1    3540 3370
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R11
+U 1 1 580BABA4
+P 3640 3750
+F 0 "R11" V 3550 3710 50  0000 L CNN
+F 1 "10K" V 3640 3680 50  0000 L CNN
+F 2 "" V 3570 3750 50  0001 C CNN
+F 3 "" H 3640 3750 50  0000 C CNN
+	1    3640 3750
+	-1   0    0    1   
+$EndComp
+Text Label 3640 3570 0    60   ~ 0
+GND_A
+Text Label 3440 3570 3    60   ~ 0
+3v3_A
+$Comp
+L CONN_01X03 P12
+U 1 1 580BAEF7
+P 4090 3370
+F 0 "P12" V 4054 3183 50  0000 R CNN
+F 1 "SplitPot_4_D" V 4180 3560 50  0000 R CNN
+F 2 "" H 4090 3370 50  0001 C CNN
+F 3 "" H 4090 3370 50  0000 C CNN
+	1    4090 3370
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R13
+U 1 1 580BAEFD
+P 4190 3750
+F 0 "R13" V 4100 3710 50  0000 L CNN
+F 1 "10K" V 4190 3680 50  0000 L CNN
+F 2 "" V 4120 3750 50  0001 C CNN
+F 3 "" H 4190 3750 50  0000 C CNN
+	1    4190 3750
+	-1   0    0    1   
+$EndComp
+Text Label 4190 3570 0    60   ~ 0
+GND_A
+Text Label 3990 3570 3    60   ~ 0
+3v3_A
+$Comp
+L CONN_01X03 P14
+U 1 1 580BAF08
+P 4640 3370
+F 0 "P14" V 4604 3183 50  0000 R CNN
+F 1 "SplitPot_5_TR" V 4730 3560 50  0000 R CNN
+F 2 "" H 4640 3370 50  0001 C CNN
+F 3 "" H 4640 3370 50  0000 C CNN
+	1    4640 3370
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R16
+U 1 1 580BAF0E
+P 4740 3750
+F 0 "R16" V 4650 3710 50  0000 L CNN
+F 1 "10K" V 4740 3680 50  0000 L CNN
+F 2 "" V 4670 3750 50  0001 C CNN
+F 3 "" H 4740 3750 50  0000 C CNN
+	1    4740 3750
+	-1   0    0    1   
+$EndComp
+Text Label 4740 3570 0    60   ~ 0
+GND_A
+Text Label 4540 3570 3    60   ~ 0
+3v3_A
+Text Label 3090 2670 1    60   ~ 0
+X1
+Text Label 3190 2670 1    60   ~ 0
+X2
+Text Label 3290 2670 1    60   ~ 0
+X3
+Text Label 3390 2670 1    60   ~ 0
+X4
+Text Label 3490 2670 1    60   ~ 0
+Y11
+Text Label 3590 2670 1    60   ~ 0
+Y12
+Text Notes 5750 5120 3    60   ~ 0
+Red
+Text Notes 5850 5120 3    60   ~ 0
+Blue
+Text Notes 5950 5120 3    60   ~ 0
+Yellow
+Text Notes 6050 5120 3    60   ~ 0
+Green
+Text Notes 6150 5120 3    60   ~ 0
+White
+Text Notes 6250 5120 3    60   ~ 0
+Black
+Text Label 5750 4910 1    60   ~ 0
+3v3_D
+Text Label 6250 4910 1    60   ~ 0
+GND_D
+Text Label 5950 4910 1    60   ~ 0
+Y7
+Text Label 6150 4910 1    60   ~ 0
+Y8
+Text Label 5850 4910 1    60   ~ 0
+Y9
+Text Label 6050 4910 1    60   ~ 0
+Y10
+Text Notes 7590 3970 3    60   ~ 0
+Data
+Text Notes 7690 3970 3    60   ~ 0
+CLK
+Text Notes 7790 3970 3    60   ~ 0
+5V
+Text Notes 7890 3970 3    60   ~ 0
+GND
+Text Label 7890 3760 1    60   ~ 0
+GND_D
+Text Label 7790 3760 1    60   ~ 0
+V+
+Text Label 7590 3760 1    60   ~ 0
+X10
+Text Label 7690 3760 1    60   ~ 0
+X9
+Text Notes 7970 4070 0    50   ~ 0
+Screw Terminal
+Text Notes 8260 3130 3    50   ~ 0
+CLK
+Text Notes 8160 3130 3    50   ~ 0
+Latch
+Text Notes 8060 3130 3    50   ~ 0
+Data
+Text Label 8060 2920 1    60   ~ 0
+SPI_D_Out
+Text Label 8160 2920 1    50   ~ 0
+X5
+Text Label 8260 2920 1    50   ~ 0
+X6
+NoConn ~ 2020 1630
+NoConn ~ 2120 1630
+Text Label 7390 4980 1    50   ~ 0
+X19
+Text Label 7490 4980 1    50   ~ 0
+X20
+Text Label 7590 4980 1    50   ~ 0
+X21
+Text Label 7900 4980 1    50   ~ 0
+Y2
+Text Label 8000 4980 1    50   ~ 0
+X11
+Text Label 8100 4980 1    50   ~ 0
+X12
+$Comp
+L CP C1
+U 1 1 580C3AB9
+P 1760 6890
+F 0 "C1" H 1877 6935 50  0000 L CNN
+F 1 "1µF" H 1877 6846 50  0000 L CNN
+F 2 "" H 1798 6740 50  0001 C CNN
+F 3 "" H 1760 6890 50  0000 C CNN
+	1    1760 6890
+	1    0    0    -1  
+$EndComp
+Text Label 1760 7040 2    60   ~ 0
+GND_D
+Text Label 1460 6620 2    50   ~ 0
+PB_0
+Text Label 2120 5670 1    50   ~ 0
+PB_0
+Text Label 1920 5670 1    60   ~ 0
+GND_D
+Text Label 2020 5670 1    50   ~ 0
+PB_1
+Text Label 1760 6220 2    60   ~ 0
+3v3_D
+$Comp
+L R R4
+U 1 1 580C5AB3
+P 2260 6620
+F 0 "R4" H 2330 6665 50  0000 L CNN
+F 1 "1K" V 2260 6590 50  0000 L CNN
+F 2 "" V 2190 6620 50  0001 C CNN
+F 3 "" H 2260 6620 50  0000 C CNN
+	1    2260 6620
+	0    1    1    0   
+$EndComp
+$Comp
+L R R5
+U 1 1 580C5AB9
+P 2410 6370
+F 0 "R5" H 2480 6415 50  0000 L CNN
+F 1 "47K" V 2410 6310 50  0000 L CNN
+F 2 "" V 2340 6370 50  0001 C CNN
+F 3 "" H 2410 6370 50  0000 C CNN
+	1    2410 6370
+	1    0    0    -1  
+$EndComp
+$Comp
+L CP C2
+U 1 1 580C5ABF
+P 2410 6890
+F 0 "C2" H 2527 6935 50  0000 L CNN
+F 1 "1µF" H 2527 6846 50  0000 L CNN
+F 2 "" H 2448 6740 50  0001 C CNN
+F 3 "" H 2410 6890 50  0000 C CNN
+	1    2410 6890
+	1    0    0    -1  
+$EndComp
+Text Label 2410 7040 2    60   ~ 0
+GND_D
+Text Label 2110 6620 2    50   ~ 0
+PB_1
+Text Label 2410 6220 2    60   ~ 0
+3v3_D
+$Comp
+L R R14
+U 1 1 580C768D
+P 4210 6620
+F 0 "R14" H 4280 6665 50  0000 L CNN
+F 1 "1K" V 4210 6590 50  0000 L CNN
+F 2 "" V 4140 6620 50  0001 C CNN
+F 3 "" H 4210 6620 50  0000 C CNN
+	1    4210 6620
+	0    1    1    0   
+$EndComp
+$Comp
+L R R15
+U 1 1 580C7693
+P 4360 6370
+F 0 "R15" H 4430 6415 50  0000 L CNN
+F 1 "47K" V 4360 6310 50  0000 L CNN
+F 2 "" V 4290 6370 50  0001 C CNN
+F 3 "" H 4360 6370 50  0000 C CNN
+	1    4360 6370
+	1    0    0    -1  
+$EndComp
+$Comp
+L CP C5
+U 1 1 580C7699
+P 4360 6890
+F 0 "C5" H 4477 6935 50  0000 L CNN
+F 1 "1µF" H 4477 6846 50  0000 L CNN
+F 2 "" H 4398 6740 50  0001 C CNN
+F 3 "" H 4360 6890 50  0000 C CNN
+	1    4360 6890
+	1    0    0    -1  
+$EndComp
+Text Label 4360 7040 2    60   ~ 0
+GND_D
+Text Label 4060 6620 2    50   ~ 0
+PB_2
+Text Label 4360 6220 2    60   ~ 0
+3v3_D
+$Comp
+L R R17
+U 1 1 580C8913
+P 4860 6620
+F 0 "R17" H 4930 6665 50  0000 L CNN
+F 1 "1K" V 4860 6590 50  0000 L CNN
+F 2 "" V 4790 6620 50  0001 C CNN
+F 3 "" H 4860 6620 50  0000 C CNN
+	1    4860 6620
+	0    1    1    0   
+$EndComp
+$Comp
+L R R18
+U 1 1 580C8919
+P 5010 6370
+F 0 "R18" H 5080 6415 50  0000 L CNN
+F 1 "47K" V 5010 6310 50  0000 L CNN
+F 2 "" V 4940 6370 50  0001 C CNN
+F 3 "" H 5010 6370 50  0000 C CNN
+	1    5010 6370
+	1    0    0    -1  
+$EndComp
+$Comp
+L CP C6
+U 1 1 580C891F
+P 5010 6890
+F 0 "C6" H 5127 6935 50  0000 L CNN
+F 1 "1µF" H 5127 6846 50  0000 L CNN
+F 2 "" H 5048 6740 50  0001 C CNN
+F 3 "" H 5010 6890 50  0000 C CNN
+	1    5010 6890
+	1    0    0    -1  
+$EndComp
+Text Label 5010 7040 2    60   ~ 0
+GND_D
+Text Label 4710 6620 2    50   ~ 0
+PB_3
+Text Label 5010 6220 2    60   ~ 0
+3v3_D
+$Comp
+L R R7
+U 1 1 580C892B
+P 2910 6620
+F 0 "R7" H 2980 6665 50  0000 L CNN
+F 1 "1K" V 2910 6590 50  0000 L CNN
+F 2 "" V 2840 6620 50  0001 C CNN
+F 3 "" H 2910 6620 50  0000 C CNN
+	1    2910 6620
+	0    1    1    0   
+$EndComp
+$Comp
+L R R8
+U 1 1 580C8931
+P 3060 6370
+F 0 "R8" H 3130 6415 50  0000 L CNN
+F 1 "47K" V 3060 6310 50  0000 L CNN
+F 2 "" V 2990 6370 50  0001 C CNN
+F 3 "" H 3060 6370 50  0000 C CNN
+	1    3060 6370
+	1    0    0    -1  
+$EndComp
+$Comp
+L CP C3
+U 1 1 580C8937
+P 3060 6890
+F 0 "C3" H 3177 6935 50  0000 L CNN
+F 1 "1µF" H 3177 6846 50  0000 L CNN
+F 2 "" H 3098 6740 50  0001 C CNN
+F 3 "" H 3060 6890 50  0000 C CNN
+	1    3060 6890
+	1    0    0    -1  
+$EndComp
+Text Label 3060 7040 2    60   ~ 0
+GND_D
+Text Label 2760 6620 2    50   ~ 0
+PB_4
+Text Label 3060 6220 2    60   ~ 0
+3v3_D
+$Comp
+L R R10
+U 1 1 580C8943
+P 3560 6620
+F 0 "R10" H 3630 6665 50  0000 L CNN
+F 1 "1K" V 3560 6590 50  0000 L CNN
+F 2 "" V 3490 6620 50  0001 C CNN
+F 3 "" H 3560 6620 50  0000 C CNN
+	1    3560 6620
+	0    1    1    0   
+$EndComp
+$Comp
+L R R12
+U 1 1 580C8949
+P 3710 6370
+F 0 "R12" H 3780 6415 50  0000 L CNN
+F 1 "47K" V 3710 6310 50  0000 L CNN
+F 2 "" V 3640 6370 50  0001 C CNN
+F 3 "" H 3710 6370 50  0000 C CNN
+	1    3710 6370
+	1    0    0    -1  
+$EndComp
+$Comp
+L CP C4
+U 1 1 580C894F
+P 3710 6890
+F 0 "C4" H 3827 6935 50  0000 L CNN
+F 1 "1µF" H 3827 6846 50  0000 L CNN
+F 2 "" H 3748 6740 50  0001 C CNN
+F 3 "" H 3710 6890 50  0000 C CNN
+	1    3710 6890
+	1    0    0    -1  
+$EndComp
+Text Label 3710 7040 2    60   ~ 0
+GND_D
+Text Label 3410 6620 2    50   ~ 0
+PB_5
+Text Label 3710 6220 2    60   ~ 0
+3v3_D
+$Comp
+L CONN_01X03 P13
+U 1 1 580C8F8A
+P 4630 5870
+F 0 "P13" V 4594 5683 50  0000 R CNN
+F 1 "TREM_VIB" V 4720 6030 50  0000 R CNN
+F 2 "" H 4630 5870 50  0001 C CNN
+F 3 "" H 4630 5870 50  0000 C CNN
+	1    4630 5870
+	0    1    1    0   
+$EndComp
+Text Label 4730 5670 1    50   ~ 0
+PB_2
+Text Label 4530 5670 1    60   ~ 0
+GND_D
+Text Label 4630 5670 1    50   ~ 0
+PB_3
+$Comp
+L CONN_01X03 P9
+U 1 1 580C9469
+P 3350 5870
+F 0 "P9" V 3314 5683 50  0000 R CNN
+F 1 "LCD_PBs" V 3440 6030 50  0000 R CNN
+F 2 "" H 3350 5870 50  0001 C CNN
+F 3 "" H 3350 5870 50  0000 C CNN
+	1    3350 5870
+	0    1    1    0   
+$EndComp
+Text Label 3450 5670 1    50   ~ 0
+PB_4
+Text Label 3250 5670 1    60   ~ 0
+GND_D
+Text Label 3350 5670 1    50   ~ 0
+PB_5
+Text Label 3050 4890 1    50   ~ 0
+Y3
+Text Label 3150 4890 1    50   ~ 0
+Y4
+Text Label 3450 4890 1    50   ~ 0
+X7
+Text Label 3550 4890 1    50   ~ 0
+X22
+Text Label 3250 4890 1    50   ~ 0
+Y5
+Text Label 3350 4890 1    50   ~ 0
+Y6
+NoConn ~ 3220 1630
+Wire Notes Line
+	6000 4150 1540 4150
+Wire Notes Line
+	1540 4150 1540 2480
+Wire Notes Line
+	1540 2490 6000 2490
+Wire Notes Line
+	6000 2490 6000 4150
+Wire Notes Line
+	5650 4590 6810 4590
+Wire Notes Line
+	6810 4590 6810 5440
+Wire Notes Line
+	5650 5200 5650 4590
+Wire Notes Line
+	7270 4580 8800 4580
+Wire Notes Line
+	7270 4580 7270 5370
+Wire Wire Line
+	1990 3570 1990 3600
+Wire Wire Line
+	1890 2670 1890 3900
+Wire Wire Line
+	1890 3900 1990 3900
+Wire Wire Line
+	2540 3570 2540 3600
+Wire Wire Line
+	2440 2970 2440 3900
+Wire Wire Line
+	2440 3900 2540 3900
+Wire Wire Line
+	3090 3570 3090 3600
+Wire Wire Line
+	2990 3000 2990 3900
+Wire Wire Line
+	2990 3900 3090 3900
+Wire Wire Line
+	3640 3570 3640 3600
+Wire Wire Line
+	3540 3000 3540 3900
+Wire Wire Line
+	3540 3900 3640 3900
+Wire Wire Line
+	4190 3570 4190 3600
+Wire Wire Line
+	4090 2970 4090 3900
+Wire Wire Line
+	4090 3900 4190 3900
+Wire Wire Line
+	4740 3570 4740 3600
+Wire Wire Line
+	4640 2670 4640 3900
+Wire Wire Line
+	4640 3900 4740 3900
+Wire Wire Line
+	1890 2670 3090 2670
+Wire Wire Line
+	2440 2970 3190 2970
+Wire Wire Line
+	3190 2970 3190 2670
+Connection ~ 2440 3570
+Connection ~ 1890 3570
+Wire Wire Line
+	2990 3000 3290 3000
+Wire Wire Line
+	3290 3000 3290 2670
+Connection ~ 2990 3570
+Wire Wire Line
+	3540 3000 3390 3000
+Wire Wire Line
+	3390 3000 3390 2670
+Connection ~ 3540 3570
+Wire Wire Line
+	4090 2970 3490 2970
+Wire Wire Line
+	3490 2970 3490 2670
+Connection ~ 4090 3570
+Wire Wire Line
+	4640 2670 3590 2670
+Connection ~ 4640 3570
+Wire Notes Line
+	5650 5190 5650 5440
+Wire Notes Line
+	5650 5440 6810 5440
+Wire Notes Line
+	7490 4250 7490 3430
+Wire Notes Line
+	7490 3430 8550 3430
+Wire Notes Line
+	8550 3430 8550 4250
+Wire Notes Line
+	8550 4250 7490 4250
+Wire Notes Line
+	7350 2420 7350 3360
+Wire Notes Line
+	7350 3360 8800 3360
+Wire Notes Line
+	8800 3360 8800 2420
+Wire Notes Line
+	8800 2420 7350 2420
+Wire Notes Line
+	7270 5370 8800 5370
+Wire Notes Line
+	8800 5370 8800 4580
+Wire Wire Line
+	1760 6520 1760 6740
+Connection ~ 1760 6620
+Wire Wire Line
+	2410 6520 2410 6740
+Connection ~ 2410 6620
+Wire Wire Line
+	4360 6520 4360 6740
+Connection ~ 4360 6620
+Wire Wire Line
+	5010 6520 5010 6740
+Connection ~ 5010 6620
+Wire Wire Line
+	3060 6520 3060 6740
+Connection ~ 3060 6620
+Wire Wire Line
+	3710 6520 3710 6740
+Connection ~ 3710 6620
+Wire Wire Line
+	1760 6620 1890 6620
+Wire Wire Line
+	1890 6620 1890 6010
+Wire Wire Line
+	1890 6010 2410 6010
+Wire Wire Line
+	2410 6010 2410 4890
+Wire Wire Line
+	2410 4890 3050 4890
+Wire Wire Line
+	2410 6620 2530 6620
+Wire Wire Line
+	2530 6620 2530 5180
+Wire Wire Line
+	2530 5180 3150 5180
+Wire Wire Line
+	3150 5180 3150 4890
+Wire Wire Line
+	3060 6620 3130 6620
+Wire Wire Line
+	3130 6620 3130 5220
+Wire Wire Line
+	3130 5220 3250 5220
+Wire Wire Line
+	3250 5220 3250 4890
+Wire Wire Line
+	3710 6620 3780 6620
+Wire Wire Line
+	3780 6620 3780 5220
+Wire Wire Line
+	3780 5220 3350 5220
+Wire Wire Line
+	3350 5220 3350 4890
+Wire Wire Line
+	4360 6620 4440 6620
+Wire Wire Line
+	4440 6620 4440 5180
+Wire Wire Line
+	4440 5180 3450 5180
+Wire Wire Line
+	3450 5180 3450 4890
+Wire Wire Line
+	5010 6620 5190 6620
+Wire Wire Line
+	5190 6620 5190 4890
+Wire Wire Line
+	5190 4890 3550 4890
+Wire Notes Line
+	1190 7230 1190 4510
+Wire Notes Line
+	1190 4510 5410 4510
+Wire Notes Line
+	5410 4510 5410 7230
+Wire Notes Line
+	5410 7230 1190 7230
+Wire Notes Line
+	6110 1060 1600 1060
+Wire Notes Line
+	1600 1060 1600 2150
+Wire Notes Line
+	1600 2150 6110 2150
+Wire Notes Line
+	6110 2150 6110 1060
+$EndSCHEMATC

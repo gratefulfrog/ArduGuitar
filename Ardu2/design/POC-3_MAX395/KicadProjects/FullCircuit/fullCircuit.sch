@@ -41,13 +41,13 @@ $Descr User 20000 12000
 encoding utf-8
 Sheet 1 1
 Title "ArduGuitar Full Circuit MAX395"
-Date "2015-11-04"
-Rev "1.8"
+Date "2016-10-22"
+Rev "1.8.1"
 Comp "www.arduguitar.org"
-Comment1 "update after review,"
-Comment2 "added V+/V- to headers"
-Comment3 "changed VGA Connector footprint"
-Comment4 "addec schottkey to prevent LM2596 latch-up"
+Comment1 "added V+/V- to headers"
+Comment2 "changed VGA Connector footprint"
+Comment3 "addec schottkey to prevent LM2596 latch-up"
+Comment4 "changed pinout on header Y9->X9"
 $EndDescr
 $Comp
 L MAX395 U17
@@ -2076,9 +2076,9 @@ CS
 Text Label 750  3150 2    60   ~ 0
 ShuntControl
 Text Notes 710  1800 3    35   ~ 0
-Y1 Y2 Y3 Y4 Y5 Y6 Y7 Y8 Y9 X10 X11 X12  X1 X2
-Text Notes 2070 1700 3    35   ~ 0
-V+3V3GND V- RST Y12 Y11 Y10 X9 xx X7 X6 X5 X4 X3
+Y1 Y2 Y3 Y4 Y5 Y6 Y7 Y8 X9 X10 X11 X12  X1 X2
+Text Notes 2070 1780 3    35   ~ 0
+V+3V3GND V- RST Y12 Y11 Y10 Y9 X7 X6 X5 X4 X3
 Text Label 6150 7500 2    35   ~ 0
 DoutSpare
 $Comp

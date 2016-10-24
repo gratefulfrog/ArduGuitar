@@ -4,7 +4,7 @@
 
 from bitMgr import BitMgr
 from dictMgr import shuntConfDict
-from components import Invertable,VTable,OnOffable
+from components import Invertable,VTable,OnOffable,MicroValuator
 from state import State
 from spiMgr import SPIMgr
 from configs import configDict,mapReplace
@@ -102,6 +102,7 @@ class App():
         self.x()
 
     def reset(self):
+        self.mEval = MicroValuator()
         self.shuntControl = ShuntControl(shuntConfDict)
         self.bitMgr = BitMgr()
         self.state = State() # needed since State.__init__ must be called!
@@ -176,10 +177,14 @@ class App():
         State.printT('INC:\t%s\t%s\t%d'%('Vol' if (what & volMask) else 'Tone', who,val))
         if what & volMask:
             sFunc = self.vol
-            newVal = max(0,(min(self.preset.currentDict[who][0] + val,5)))
+            self.mEval.inc(0,val)
+            newVal = self.mEval.valRounded(0)
+            #newVal = max(0,(min(self.preset.currentDict[who][0] + val,5)))
         elif what & toneMask:
             sFunc = self.tone
-            newVal = max(0,(min(self.preset.currentDict[who][1] + val,5)))
+            self.mEval.inc(1,val)
+            newVal = self.mEval.valRounded(1)
+            #newVal = max(0,(min(self.preset.currentDict[who][1] + val,5)))
         return sFunc(who,newVal)
 
     def vol(self,who,val,unused=None,force=False):
@@ -190,6 +195,8 @@ class App():
             #self.outgoing.append("a.set('%s',State.Vol,State.l%s)"%(who,(str(val)))) # if val !=0 else 'Off')))
             self.set(who,State.Vol,eval('State.l%s'%str(val)))
             self.preset.currentDict[who][0] = val
+            if who == 'M':
+                self.mEval.set(0,val)
             return True
         return False
 
@@ -207,6 +214,7 @@ class App():
                 targ = who
                 trVal = None
                 toneVal = str(val-1) if val else 'Off'
+                self.mEval.set(1,val)
             else:
                 targ = who
                 trVal = '0' if val else 'Off'
@@ -254,7 +262,7 @@ class App():
     def pb(self,who,unused=None,unusedA=None):
         whoFuncs = (
             # this either steps the seq or toggles splitpot tracking if not sequencing
-            (self.pb0Func, self.displayCurrentConf),  # pb 0 # either step sequence or toggle tracking if not sequencing
+            (self.pb0Func,),  # pb 0 # either step sequence or toggle tracking if not sequencing
             # this is the one saves the preset,      
             (self.turnOnYellowLed, self.saveCurrentConfAsPreset),          # pb 1
             # Tremolo
@@ -268,6 +276,7 @@ class App():
         res = False         
         for f in whoFuncs[who]:
             res = f() or res
+        State.printT('pb returning: ' +str(res))
         return res # True if who in [2,3] else False
 
     def pb0Func(self):

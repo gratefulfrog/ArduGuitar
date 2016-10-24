@@ -128,21 +128,50 @@ class SelectorInterrupt (EnQueueable):
 
 # HWDebouncedPushButton
 # uses interrupts and queueing to indicate a push
+#class HWDebouncedPushButton(EnQueueable):
+#    """
+#    an interrupt generating pushbutton, using the q to manage actions
+#    """
+#    def __init__(self,pinName,q):
+#        EnQueueable.__init__(self,EnQueueable.PB,q)
+#        self.extInt = ExtInt(pinName, ExtInt.IRQ_FALLING, Pin.PULL_UP, self.callback)
+#        self.id = State.pinNameDict[pinName][1]
+#        self.debugPinName = pinName
+#        
+#    def callback(self,unusedLine):
+#        self.push(self.id)
+#
+#    def __repr__(self):
+#        return 'HWDebouncedPushButton:\n  ID:\t%d\n  %s'%(self.id,repr(self.extInt))
+#
+
 class HWDebouncedPushButton(EnQueueable):
     """
     an interrupt generating pushbutton, using the q to manage actions
+    avoiding repeated pushes using a lock and a time delay
     """
     def __init__(self,pinName,q):
         EnQueueable.__init__(self,EnQueueable.PB,q)
         self.extInt = ExtInt(pinName, ExtInt.IRQ_FALLING, Pin.PULL_UP, self.callback)
         self.id = State.pinNameDict[pinName][1]
         self.debugPinName = pinName
+        self.locked = False
+        self.lastCallBackTime = millis()
+        self.debounceDelay = State.HWDebounceDelay #millis
         
     def callback(self,unusedLine):
-        self.push(self.id)
+        if self.locked:
+            return
+        self.locked = True
+        now = millis()
+        if now-self.lastCallBackTime > self.debounceDelay:
+            self.lastCallBackTime = now
+            self.push(self.id)
+        self.locked = False
 
     def __repr__(self):
         return 'HWDebouncedPushButton:\n  ID:\t%d\n  %s'%(self.id,repr(self.extInt))
+
 
 # PushButtonArray
 # an array of HWDebouncedPushputton
@@ -646,6 +675,8 @@ class SplitPot:
         #print(vADC)
         for i in range((1 if self.isToneRange else 0),2): # 2 splits if not ToneRange, only second split if ToneRange
             if vADC >= self.ranges[i][0] and vADC<=self.ranges[i][1]:
+                
+                State.printT('VADC= ' +str(vADC) + " tuple: "  +str((i,self.rMaps[i].v(vADC))))
                 return (i,self.rMaps[i].v(vADC))
         
 
@@ -668,7 +699,6 @@ class SplitPotArray:
     def poll(self):
         for sp in self.spvVec:
             sp.poll()
-
     
 #############  Obsolete or Unused ############
 # LcdDisplay
