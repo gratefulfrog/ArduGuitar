@@ -1,5 +1,5 @@
 M48
-;DRILL file {KiCad no-vcs-found-undefined} date Tue Oct 25 18:02:25 2016
+;DRILL file {KiCad no-vcs-found-undefined} date Tue Oct 25 21:33:47 2016
 ;FORMAT={3:3/ absolute / metric / suppress leading zeros}
 FMAT,2
 METRIC,TZ
@@ -9,9 +9,9 @@ G90
 G05
 M71
 T1
-X70358Y-143510
-X101854Y-86614
+X69850Y-140462
+X101854Y-90170
 X232918Y-75946
-X232918Y-143510
+X233934Y-140970
 T0
 M30
