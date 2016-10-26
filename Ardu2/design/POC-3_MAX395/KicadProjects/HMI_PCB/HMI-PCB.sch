@@ -49,7 +49,7 @@ U 1 1 580A666B
 P 2020 5870
 F 0 "P2" V 1984 5683 50  0000 R CNN
 F 1 "SEQ_SAVE" V 2110 6040 50  0000 R CNN
-F 2 "Connect:Wafer_Horizontal10x5.8x7RM2.5-3" H 2020 5870 50  0001 C CNN
+F 2 "misc:Wafer_Angled_1x03_1mm_hole" H 2020 5870 50  0001 C CNN
 F 3 "" H 2020 5870 50  0000 C CNN
 	1    2020 5870
 	0    1    1    0   
@@ -60,7 +60,7 @@ U 1 1 580A68E5
 P 1890 3370
 F 0 "P1" V 1854 3183 50  0000 R CNN
 F 1 "SplitPot_0_M" V 1980 3560 50  0000 R CNN
-F 2 "Connect:Wafer_Horizontal10x5.8x7RM2.5-3" H 1890 3370 50  0001 C CNN
+F 2 "misc:Wafer_Angled_1x03_1mm_hole" H 1890 3370 50  0001 C CNN
 F 3 "" H 1890 3370 50  0000 C CNN
 	1    1890 3370
 	0    -1   -1   0   
@@ -68,12 +68,12 @@ $EndComp
 $Comp
 L CONN_01X02 P12
 U 1 1 580A7415
-P 4960 2870
-F 0 "P12" V 4833 2997 50  0000 L CNN
-F 1 "Analog Power IN" V 4922 2997 50  0000 L CNN
-F 2 "Pin_Headers:Pin_Header_Angled_1x02" H 4960 2870 50  0001 C CNN
-F 3 "" H 4960 2870 50  0000 C CNN
-	1    4960 2870
+P 5520 3040
+F 0 "P12" V 5393 3167 50  0000 L CNN
+F 1 "Analog Power IN" V 5530 2750 50  0000 L CNN
+F 2 "misc:Wafer_Angled_1x02_1mm_hole" H 5520 3040 50  0001 C CNN
+F 3 "" H 5520 3040 50  0000 C CNN
+	1    5520 3040
 	0    1    1    0   
 $EndComp
 $Comp
@@ -82,12 +82,12 @@ U 1 1 580A7533
 P 3340 2870
 F 0 "P6" V 3213 3197 50  0000 L CNN
 F 1 "Analog_Out" V 3340 2690 50  0000 L CNN
-F 2 "Connect:Wafer_Horizontal17.5x5.8x7RM2.5-6" H 3340 2870 50  0001 C CNN
+F 2 "misc:Wafer_Angled_1x06_1mm_Hole" H 3340 2870 50  0001 C CNN
 F 3 "" H 3340 2870 50  0000 C CNN
 	1    3340 2870
 	0    -1   1    0   
 $EndComp
-Text Notes 5430 2620 0    60   ~ 0
+Text Notes 5470 3940 0    60   ~ 0
 Split Pots
 $Comp
 L CONN_01X06 P5
@@ -95,7 +95,7 @@ U 1 1 580A9008
 P 3300 5090
 F 0 "P5" V 3173 5417 50  0000 L CNN
 F 1 "PB_OUT" V 3340 4950 50  0000 L CNN
-F 2 "Connect:Wafer_Horizontal17.5x5.8x7RM2.5-6" H 3300 5090 50  0001 C CNN
+F 2 "misc:Wafer_Angled_1x06_1mm_Hole" H 3300 5090 50  0001 C CNN
 F 3 "" H 3300 5090 50  0000 C CNN
 	1    3300 5090
 	0    1    1    0   
@@ -115,7 +115,7 @@ Text Notes 4730 4640 0    60   ~ 0
 PushButtons
 Text Notes 4770 4750 0    60   ~ 0
 3v3 Digital
-Text Notes 5420 2740 0    60   ~ 0
+Text Notes 5460 4060 0    60   ~ 0
 3v3 Analog
 $Comp
 L R R2
@@ -128,9 +128,9 @@ F 3 "" H 1760 6370 50  0000 C CNN
 	1    1760 6370
 	1    0    0    -1  
 $EndComp
-Text Label 4910 2670 1    60   ~ 0
+Text Label 5470 2840 1    60   ~ 0
 3v3_A
-Text Label 5010 2670 1    60   ~ 0
+Text Label 5570 2840 1    60   ~ 0
 GND_A
 Text Label 1790 3570 3    60   ~ 0
 GND_A
@@ -142,7 +142,7 @@ U 1 1 580BA874
 P 2440 3370
 F 0 "P3" V 2404 3183 50  0000 R CNN
 F 1 "SplitPot_1_A" V 2530 3560 50  0000 R CNN
-F 2 "Connect:Wafer_Horizontal10x5.8x7RM2.5-3" H 2440 3370 50  0001 C CNN
+F 2 "misc:Wafer_Angled_1x03_1mm_hole" H 2440 3370 50  0001 C CNN
 F 3 "" H 2440 3370 50  0000 C CNN
 	1    2440 3370
 	0    -1   -1   0   
@@ -168,7 +168,7 @@ U 1 1 580BAB8D
 P 2990 3370
 F 0 "P4" V 2954 3183 50  0000 R CNN
 F 1 "SplitPot_2_B" V 3080 3560 50  0000 R CNN
-F 2 "Connect:Wafer_Horizontal10x5.8x7RM2.5-3" H 2990 3370 50  0001 C CNN
+F 2 "misc:Wafer_Angled_1x03_1mm_hole" H 2990 3370 50  0001 C CNN
 F 3 "" H 2990 3370 50  0000 C CNN
 	1    2990 3370
 	0    -1   -1   0   
@@ -194,7 +194,7 @@ U 1 1 580BAB9E
 P 3540 3370
 F 0 "P8" V 3504 3183 50  0000 R CNN
 F 1 "SplitPot_3_C" V 3630 3560 50  0000 R CNN
-F 2 "Connect:Wafer_Horizontal10x5.8x7RM2.5-3" H 3540 3370 50  0001 C CNN
+F 2 "misc:Wafer_Angled_1x03_1mm_hole" H 3540 3370 50  0001 C CNN
 F 3 "" H 3540 3370 50  0000 C CNN
 	1    3540 3370
 	0    -1   -1   0   
@@ -220,7 +220,7 @@ U 1 1 580BAEF7
 P 4090 3370
 F 0 "P9" V 4054 3183 50  0000 R CNN
 F 1 "SplitPot_4_D" V 4180 3560 50  0000 R CNN
-F 2 "Connect:Wafer_Horizontal10x5.8x7RM2.5-3" H 4090 3370 50  0001 C CNN
+F 2 "misc:Wafer_Angled_1x03_1mm_hole" H 4090 3370 50  0001 C CNN
 F 3 "" H 4090 3370 50  0000 C CNN
 	1    4090 3370
 	0    -1   -1   0   
@@ -246,7 +246,7 @@ U 1 1 580BAF08
 P 4640 3370
 F 0 "P11" V 4604 3183 50  0000 R CNN
 F 1 "SplitPot_5_TR" V 4730 3560 50  0000 R CNN
-F 2 "Connect:Wafer_Horizontal10x5.8x7RM2.5-3" H 4640 3370 50  0001 C CNN
+F 2 "misc:Wafer_Angled_1x03_1mm_hole" H 4640 3370 50  0001 C CNN
 F 3 "" H 4640 3370 50  0000 C CNN
 	1    4640 3370
 	0    -1   -1   0   
@@ -502,7 +502,7 @@ U 1 1 580C8F8A
 P 4630 5870
 F 0 "P10" V 4594 5683 50  0000 R CNN
 F 1 "TREM_VIB" V 4720 6030 50  0000 R CNN
-F 2 "Connect:Wafer_Horizontal10x5.8x7RM2.5-3" H 4630 5870 50  0001 C CNN
+F 2 "misc:Wafer_Angled_1x03_1mm_hole" H 4630 5870 50  0001 C CNN
 F 3 "" H 4630 5870 50  0000 C CNN
 	1    4630 5870
 	0    1    1    0   
@@ -519,7 +519,7 @@ U 1 1 580C9469
 P 3350 5870
 F 0 "P7" V 3314 5683 50  0000 R CNN
 F 1 "LCD_PBs" V 3440 6030 50  0000 R CNN
-F 2 "Connect:Wafer_Horizontal10x5.8x7RM2.5-3" H 3350 5870 50  0001 C CNN
+F 2 "misc:Wafer_Angled_1x03_1mm_hole" H 3350 5870 50  0001 C CNN
 F 3 "" H 3350 5870 50  0000 C CNN
 	1    3350 5870
 	0    1    1    0   
@@ -672,7 +672,7 @@ U 1 1 580CB0EB
 P 6420 4730
 F 0 "P13" H 6496 4770 50  0000 L CNN
 F 1 "Digital Power IN/OUT" H 6496 4681 50  0000 L CNN
-F 2 "Connect:bornier4" H 6420 4730 50  0001 C CNN
+F 2 "misc:bornier4_Dinkle" H 6420 4730 50  0001 C CNN
 F 3 "" H 6420 4730 50  0000 C CNN
 	1    6420 4730
 	1    0    0    -1  
@@ -686,13 +686,13 @@ GND_D
 Text Label 6220 4880 2    60   ~ 0
 GND_D
 Wire Notes Line
-	5780 4430 5780 5100
+	5670 4430 5670 5100
 Wire Notes Line
-	5780 5100 7480 5100
+	5670 5100 7480 5100
 Wire Notes Line
 	7480 5100 7480 4430
 Wire Notes Line
-	7480 4430 5780 4430
+	7480 4430 5670 4430
 Text Notes 7380 4550 2    60   ~ 0
 Digital Power I/O
 NoConn ~ 6220 4580
@@ -727,4 +727,141 @@ Connection ~ 2990 3570
 Connection ~ 3540 3570
 Connection ~ 4090 3570
 Connection ~ 4640 3570
+$Comp
+L C C13
+U 1 1 581098BB
+P 5510 3200
+F 0 "C13" V 5460 3380 50  0000 C CNN
+F 1 "100nF" V 5570 3400 50  0000 C CNN
+F 2 "Capacitors_ThroughHole:C_Disc_D3_P2.5" H 5548 3050 50  0001 C CNN
+F 3 "" H 5510 3200 50  0000 C CNN
+	1    5510 3200
+	0    1    1    0   
+$EndComp
+$Comp
+L CP C14
+U 1 1 58109AF8
+P 5510 3410
+F 0 "C14" V 5550 3240 50  0000 C CNN
+F 1 "10µF" V 5450 3220 50  0000 C CNN
+F 2 "Capacitors_ThroughHole:C_Radial_D5_L11_P2.5" H 5548 3260 50  0001 C CNN
+F 3 "" H 5510 3410 50  0000 C CNN
+	1    5510 3410
+	0    -1   -1   0   
+$EndComp
+Text Label 5360 3200 2    60   ~ 0
+3v3_A
+Text Label 5360 3410 2    60   ~ 0
+3v3_A
+Text Label 5660 3200 0    60   ~ 0
+GND_A
+Text Label 5660 3410 0    60   ~ 0
+GND_A
+$Comp
+L C C7
+U 1 1 5810ACDC
+P 1940 4040
+F 0 "C7" V 1890 3940 50  0000 C CNN
+F 1 "10nF" V 1990 3890 50  0000 C CNN
+F 2 "Capacitors_ThroughHole:C_Disc_D6_P5" H 1978 3890 50  0001 C CNN
+F 3 "" H 1940 4040 50  0000 C CNN
+	1    1940 4040
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1790 3900 1790 4040
+Text Label 2090 4040 1    60   ~ 0
+GND_A
+$Comp
+L C C8
+U 1 1 5810B6B9
+P 2490 4040
+F 0 "C8" V 2440 3940 50  0000 C CNN
+F 1 "10nF" V 2540 3890 50  0000 C CNN
+F 2 "Capacitors_ThroughHole:C_Disc_D6_P5" H 2528 3890 50  0001 C CNN
+F 3 "" H 2490 4040 50  0000 C CNN
+	1    2490 4040
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2340 3900 2340 4040
+Text Label 2640 4040 1    60   ~ 0
+GND_A
+$Comp
+L C C9
+U 1 1 5810B83D
+P 3040 4040
+F 0 "C9" V 2990 3940 50  0000 C CNN
+F 1 "10nF" V 3090 3890 50  0000 C CNN
+F 2 "Capacitors_ThroughHole:C_Disc_D6_P5" H 3078 3890 50  0001 C CNN
+F 3 "" H 3040 4040 50  0000 C CNN
+	1    3040 4040
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2890 3900 2890 4040
+Text Label 3190 4040 1    60   ~ 0
+GND_A
+$Comp
+L C C10
+U 1 1 5810B845
+P 3590 4040
+F 0 "C10" V 3540 3940 50  0000 C CNN
+F 1 "10nF" V 3640 3890 50  0000 C CNN
+F 2 "Capacitors_ThroughHole:C_Disc_D6_P5" H 3628 3890 50  0001 C CNN
+F 3 "" H 3590 4040 50  0000 C CNN
+	1    3590 4040
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3440 3900 3440 4040
+Text Label 3740 4040 1    60   ~ 0
+GND_A
+$Comp
+L C C11
+U 1 1 5810BB2B
+P 4140 4040
+F 0 "C11" V 4090 3940 50  0000 C CNN
+F 1 "10nF" V 4190 3890 50  0000 C CNN
+F 2 "Capacitors_ThroughHole:C_Disc_D6_P5" H 4178 3890 50  0001 C CNN
+F 3 "" H 4140 4040 50  0000 C CNN
+	1    4140 4040
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3990 3900 3990 4040
+Text Label 4290 4040 1    60   ~ 0
+GND_A
+$Comp
+L C C12
+U 1 1 5810BB33
+P 4690 4040
+F 0 "C12" V 4640 3940 50  0000 C CNN
+F 1 "10nF" V 4740 3890 50  0000 C CNN
+F 2 "Capacitors_ThroughHole:C_Disc_D6_P5" H 4728 3890 50  0001 C CNN
+F 3 "" H 4690 4040 50  0000 C CNN
+	1    4690 4040
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4540 3900 4540 4040
+Text Label 4840 4040 1    60   ~ 0
+GND_A
+$Comp
+L C C15
+U 1 1 5810BF8D
+P 5810 4830
+F 0 "C15" H 5700 4730 50  0000 L CNN
+F 1 "22nF" H 5830 4730 50  0000 L CNN
+F 2 "Capacitors_ThroughHole:C_Rect_L7_W2.5_P5" H 5848 4680 50  0001 C CNN
+F 3 "" H 5810 4830 50  0000 C CNN
+	1    5810 4830
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6220 4680 5810 4680
+Wire Wire Line
+	5810 4980 6220 4980
+Wire Wire Line
+	6220 4980 6220 4880
 $EndSCHEMATC
