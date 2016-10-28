@@ -34,11 +34,12 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title ""
-Date ""
-Rev ""
-Comp ""
-Comment1 ""
+Title "PyGuitar Peripherals & 
+"
+Date "2016-10-28"
+Rev "1.3"
+Comp "PyGuitar.org"
+Comment1 "Added LC filter to analog power input"
 Comment2 ""
 Comment3 ""
 Comment4 ""
@@ -68,12 +69,12 @@ $EndComp
 $Comp
 L CONN_01X02 P12
 U 1 1 580A7415
-P 5520 3040
-F 0 "P12" V 5393 3167 50  0000 L CNN
-F 1 "Analog Power IN" V 5530 2750 50  0000 L CNN
-F 2 "misc:Wafer_Angled_1x02_1mm_hole" H 5520 3040 50  0001 C CNN
-F 3 "" H 5520 3040 50  0000 C CNN
-	1    5520 3040
+P 5910 3040
+F 0 "P12" V 5783 3167 50  0000 L CNN
+F 1 "Analog Power IN" V 5480 2260 50  0000 L CNN
+F 2 "misc:Wafer_Angled_1x02_1mm_hole" H 5910 3040 50  0001 C CNN
+F 3 "" H 5910 3040 50  0000 C CNN
+	1    5910 3040
 	0    1    1    0   
 $EndComp
 $Comp
@@ -81,13 +82,13 @@ L CONN_01X06 P6
 U 1 1 580A7533
 P 3340 2870
 F 0 "P6" V 3213 3197 50  0000 L CNN
-F 1 "Analog_Out" V 3340 2690 50  0000 L CNN
+F 1 "Analog_Signal_Out" V 3340 2530 50  0000 L CNN
 F 2 "misc:Wafer_Angled_1x06_1mm_Hole" H 3340 2870 50  0001 C CNN
 F 3 "" H 3340 2870 50  0000 C CNN
 	1    3340 2870
 	0    -1   1    0   
 $EndComp
-Text Notes 5470 3940 0    60   ~ 0
+Text Notes 6010 3960 0    60   ~ 0
 Split Pots
 $Comp
 L CONN_01X06 P5
@@ -115,7 +116,7 @@ Text Notes 4730 4640 0    60   ~ 0
 PushButtons
 Text Notes 4770 4750 0    60   ~ 0
 3v3 Digital
-Text Notes 5460 4060 0    60   ~ 0
+Text Notes 6000 4080 0    60   ~ 0
 3v3 Analog
 $Comp
 L R R2
@@ -128,9 +129,9 @@ F 3 "" H 1760 6370 50  0000 C CNN
 	1    1760 6370
 	1    0    0    -1  
 $EndComp
-Text Label 5470 2840 1    60   ~ 0
+Text Label 5750 3410 2    60   ~ 0
 3v3_A
-Text Label 5570 2840 1    60   ~ 0
+Text Label 5960 2840 1    60   ~ 0
 GND_A
 Text Label 1790 3570 3    60   ~ 0
 GND_A
@@ -543,13 +544,9 @@ Y5
 Text Label 3350 4890 1    50   ~ 0
 Y6
 Wire Notes Line
-	6000 4150 1540 4150
+	1540 4150 6580 4150
 Wire Notes Line
-	1540 4150 1540 2480
-Wire Notes Line
-	1540 2490 6000 2490
-Wire Notes Line
-	6000 2490 6000 4150
+	1540 2290 1540 4150
 Wire Wire Line
 	1890 2670 1890 3900
 Wire Wire Line
@@ -730,33 +727,25 @@ Connection ~ 4640 3570
 $Comp
 L C C13
 U 1 1 581098BB
-P 5510 3200
-F 0 "C13" V 5460 3380 50  0000 C CNN
-F 1 "100nF" V 5570 3400 50  0000 C CNN
-F 2 "Capacitors_ThroughHole:C_Disc_D3_P2.5" H 5548 3050 50  0001 C CNN
-F 3 "" H 5510 3200 50  0000 C CNN
-	1    5510 3200
+P 5900 3200
+F 0 "C13" V 5860 3080 50  0000 C CNN
+F 1 "100nF" V 5960 3400 50  0000 C CNN
+F 2 "Capacitors_ThroughHole:C_Disc_D3_P2.5" H 5938 3050 50  0001 C CNN
+F 3 "" H 5900 3200 50  0000 C CNN
+	1    5900 3200
 	0    1    1    0   
 $EndComp
 $Comp
 L CP C14
 U 1 1 58109AF8
-P 5510 3410
-F 0 "C14" V 5550 3240 50  0000 C CNN
-F 1 "10µF" V 5450 3220 50  0000 C CNN
-F 2 "Capacitors_ThroughHole:C_Radial_D5_L11_P2.5" H 5548 3260 50  0001 C CNN
-F 3 "" H 5510 3410 50  0000 C CNN
-	1    5510 3410
+P 5900 3410
+F 0 "C14" V 5980 3510 50  0000 C CNN
+F 1 "10µF" V 5840 3220 50  0000 C CNN
+F 2 "Capacitors_ThroughHole:C_Radial_D5_L11_P2.5" H 5938 3260 50  0001 C CNN
+F 3 "" H 5900 3410 50  0000 C CNN
+	1    5900 3410
 	0    -1   -1   0   
 $EndComp
-Text Label 5360 3200 2    60   ~ 0
-3v3_A
-Text Label 5360 3410 2    60   ~ 0
-3v3_A
-Text Label 5660 3200 0    60   ~ 0
-GND_A
-Text Label 5660 3410 0    60   ~ 0
-GND_A
 $Comp
 L C C7
 U 1 1 5810ACDC
@@ -851,7 +840,7 @@ $Comp
 L C C15
 U 1 1 5810BF8D
 P 5810 4830
-F 0 "C15" H 5700 4730 50  0000 L CNN
+F 0 "C15" H 5750 4910 50  0000 L CNN
 F 1 "22nF" H 5830 4730 50  0000 L CNN
 F 2 "Capacitors_ThroughHole:C_Rect_L7_W2.5_P5" H 5848 4680 50  0001 C CNN
 F 3 "" H 5810 4830 50  0000 C CNN
@@ -864,4 +853,49 @@ Wire Wire Line
 	5810 4980 6220 4980
 Wire Wire Line
 	6220 4980 6220 4880
+$Comp
+L INDUCTOR_Small L1
+U 1 1 5813167B
+P 5590 3630
+F 0 "L1" V 5550 3640 50  0000 C CNN
+F 1 "10mH" V 5670 3620 50  0000 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM10mm" H 5590 3630 50  0001 C CNN
+F 3 "" H 5590 3630 50  0000 C CNN
+	1    5590 3630
+	0    1    1    0   
+$EndComp
+Wire Notes Line
+	6580 4150 6580 2490
+Wire Wire Line
+	5750 3200 5750 3630
+Connection ~ 5750 3410
+$Comp
+L C C16
+U 1 1 581341E9
+P 5900 3630
+F 0 "C16" V 5850 3540 50  0000 C CNN
+F 1 "1µF" V 5950 3780 50  0000 C CNN
+F 2 "Capacitors_ThroughHole:C_Radial_D5_L6_P2.5" H 5938 3480 50  0001 C CNN
+F 3 "" H 5900 3630 50  0000 C CNN
+	1    5900 3630
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	5750 3630 5690 3630
+Text Label 5860 2840 1    60   ~ 0
+3v3_A_IN
+Wire Wire Line
+	6050 2840 6050 3630
+Connection ~ 6050 3410
+Wire Wire Line
+	5960 2840 6050 2840
+Connection ~ 6050 3200
+Wire Wire Line
+	5490 3630 5490 2840
+Wire Wire Line
+	5490 2840 5860 2840
+Wire Notes Line
+	6580 2500 6580 2290
+Wire Notes Line
+	6580 2290 1540 2290
 $EndSCHEMATC
