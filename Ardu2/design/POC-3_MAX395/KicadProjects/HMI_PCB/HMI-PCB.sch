@@ -741,7 +741,7 @@ U 1 1 58109AF8
 P 5900 3410
 F 0 "C14" V 5980 3510 50  0000 C CNN
 F 1 "10µF" V 5840 3220 50  0000 C CNN
-F 2 "Capacitors_ThroughHole:C_Radial_D5_L11_P2.5" H 5938 3260 50  0001 C CNN
+F 2 "Capacitors_ThroughHole:C_Disc_D3_P2.5" H 5938 3260 50  0001 C CNN
 F 3 "" H 5900 3410 50  0000 C CNN
 	1    5900 3410
 	0    -1   -1   0   
@@ -859,7 +859,7 @@ U 1 1 5813167B
 P 5590 3630
 F 0 "L1" V 5550 3640 50  0000 C CNN
 F 1 "10mH" V 5670 3620 50  0000 C CNN
-F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM10mm" H 5590 3630 50  0001 C CNN
+F 2 "misc:Choke_Radial_D13_P10_10mH" H 5590 3630 50  0001 C CNN
 F 3 "" H 5590 3630 50  0000 C CNN
 	1    5590 3630
 	0    1    1    0   
@@ -875,7 +875,7 @@ U 1 1 581341E9
 P 5900 3630
 F 0 "C16" V 5850 3540 50  0000 C CNN
 F 1 "1µF" V 5950 3780 50  0000 C CNN
-F 2 "Capacitors_ThroughHole:C_Radial_D5_L6_P2.5" H 5938 3480 50  0001 C CNN
+F 2 "Capacitors_ThroughHole:C_Disc_D3_P2.5" H 5938 3480 50  0001 C CNN
 F 3 "" H 5900 3630 50  0000 C CNN
 	1    5900 3630
 	0    -1   -1   0   
