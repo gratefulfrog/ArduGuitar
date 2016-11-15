@@ -24,4 +24,4 @@ module standoff(hi=false){
         intCyl(h);
     }
 }
-standoff(hi=false);
+standoff(hi=true);
