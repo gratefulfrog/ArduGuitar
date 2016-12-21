@@ -88,7 +88,7 @@ class SelectorInterrupt (EnQueueable):
     def __init__(self,pinNames,id,q):
         """create an instance of a 3 or 5 position switch connected to the 
         pins provided.
-        Pins should be configured as Pin('X1', Pin.IN, Pin.PULL_DOWN)
+        Pins should be configured as Pin('X1', Pin.IN, Pin.PULL_UP)
         len(pins) should be 2, for 3 postions, 3, for 5 positions
         incorrect arguments raise exceptions
         """
