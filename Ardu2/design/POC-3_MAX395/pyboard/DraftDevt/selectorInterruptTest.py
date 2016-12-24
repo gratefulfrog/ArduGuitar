@@ -26,7 +26,7 @@ interCount=0
 def callback(e):
     global interCount
     print(interCount,': Interrupt received: ',switchPosNames[e], 'pin value: ', sPins[e].value())
-    ledPins[e].value(sPins[e].value()^1)
+    #ledPins[e].value(sPins[e].value()^1)
 
 def init():
     global ledPins,sPins,interCount
@@ -35,8 +35,8 @@ def init():
     for i in range(3):
         sPins[i] = Pin(pinIds[i],Pin.IN,Pin.PULL_UP)
         ExtInt(sPins[i], ExtInt.IRQ_RISING_FALLING, Pin.PULL_UP, callback)
-        ledPins[i] = Pin(ledPinNames[i], Pin.OUT_PP)
-        ledPins[i].value(sPins[i].value()^1)
+        #ledPins[i] = Pin(ledPinNames[i], Pin.OUT_PP)
+        #ledPins[i].value(sPins[i].value()^1)
         
 
 

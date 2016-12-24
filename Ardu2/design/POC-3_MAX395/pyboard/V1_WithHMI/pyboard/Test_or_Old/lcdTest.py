@@ -1,8 +1,8 @@
 """Implements a character based lcd connected via PCF8574 on i2c."""
 
 from pyb import Pin, delay, millis
-from hardware import LcdDisplay
-
+from hardware import LcdDisplayI2C
+"""
 lcdConfDict = {'rs_pin'      : 'X18',
                'enable_pin'  : 'Y7',
                'd4_pin'      : 'Y8',
@@ -11,9 +11,13 @@ lcdConfDict = {'rs_pin'      : 'X18',
                'd7_pin'      : 'A13', #board.P5,
                'num_lines'   : 2,
                'num_columns' : 16}
-
-
-lcd = LcdDisplay(lcdConfDict)
+"""
+lcdConfDict = {'i2c_id'      : 1,
+                   'i2c_addr'    : 0x20,
+                   'num_lines'   : 2,
+                   'num_columns' : 16}
+    
+lcd = LcdDisplayI2C(lcdConfDict)
 
 def testLCD():
     """

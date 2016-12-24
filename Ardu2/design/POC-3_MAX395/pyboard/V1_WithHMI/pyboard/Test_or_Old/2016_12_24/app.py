@@ -1,10 +1,6 @@
 # app.py
 # provides classes for the application level.
 # This is where all the user interface calls are found!
-#######################################################
-# 2016 12 24: dissabled tracking on splitpots
-#
-
 
 from bitMgr import BitMgr
 from dictMgr import shuntConfDict
@@ -296,7 +292,7 @@ class App():
             #State.debug and input('Press Return:')
             return self.doNextSeq()
         else:
-            return False  # no more tracking for now
+            return False # tracking disabled
             State.printT('pb0Func:\ttoggling tracking...')
             #State.debug and input('Press Return:')
             return self.toggleTracking()
@@ -414,6 +410,8 @@ class App():
             #self.sendX()
             self.x()
             self.preset.currentDict[self.conf.vocab.configKeys[7]]=confString.strip()
+            State.printT("applied LCD input:\t" +confString.strip())
+            State.printT(self.preset.currentDict)
             return True
         except Exception as e:
             print (e)

@@ -5,10 +5,6 @@
 # 2016 06 10-30 : added new dits for integration of HMI
 # 2016 09 04: update pin mappings after conflict issues
 # 2016 09 13: updates for I2C LCD and new pin map for TracBall
-# 2016 12 24:
-#           : added pbBounceDelay
-#           : changed splitPotCutOff to 60 instead of 30 to prevent ADC bounce!
-###############################################################################
 class State():
     """
     This class contains all static information required to operate

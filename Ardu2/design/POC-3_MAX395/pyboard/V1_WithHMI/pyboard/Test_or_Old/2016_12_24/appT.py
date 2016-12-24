@@ -1,10 +1,6 @@
 # app.py
 # provides classes for the application level.
 # This is where all the user interface calls are found!
-#######################################################
-# 2016 12 24: dissabled tracking on splitpots
-#
-
 
 from bitMgr import BitMgr
 from dictMgr import shuntConfDict
@@ -20,6 +16,9 @@ import sParse
 from lcdMgr import LCDMgr
 import pyb
 import gc
+
+polling = True
+pbDelay = 200
 
 class App():
     """
@@ -136,7 +135,8 @@ class App():
     
     def mainLoop(self):
         while True:
-            self.pollPollables()
+            if polling:
+                self.pollPollables()
             self.processQ()
             # put a sleep comand here to save energy
             pyb.delay(self.mainLoopDelay)
@@ -265,7 +265,7 @@ class App():
         return self.doConfHelper(cf)
     
     def pb(self,who,unused=None,unusedA=None):
-        if ((pyb.millis()  - self.pbTime) < State.pbBounceDelay):
+        if (pyb.millis()  - self.pbTime) < State.pbBounceDelay:
             self.pbTime = pyb.millis()
             State.printT('PB BOUNCE!! delta millis:\t' +  str(pyb.millis()  - self.pbTime))
             return False
@@ -282,8 +282,7 @@ class App():
             (self.toggleVib,),                        # pb 3
             (self.lcdMgr.onLeftButton,),              # pb 4
             (self.lcdMgr.onRightButton,))             # pb 5
-
-        State.printT('PB:\t' + str(who))  
+        State.printT('PB:\t' + str(who))
         res = False         
         for f in whoFuncs[who]:
             res = f() or res
@@ -296,10 +295,10 @@ class App():
             #State.debug and input('Press Return:')
             return self.doNextSeq()
         else:
-            return False  # no more tracking for now
-            State.printT('pb0Func:\ttoggling tracking...')
+            return False
+            #State.printT('pb0Func:\ttoggling tracking...')
             #State.debug and input('Press Return:')
-            return self.toggleTracking()
+            #return self.toggleTracking()
 
     def toggleTracking(self):
         self.preset.currentDict[self.conf.vocab.configKeys[10]] ^= 1 # 0 if self.preset.currentDict[self.conf.vocab.configKeys[10]] else 1
