@@ -3,7 +3,7 @@
 # This is where all the user interface calls are found!
 #######################################################
 # 2016 12 24: dissabled tracking on splitpots
-#
+# 2016 12 25: updated validateAndApplyLCDInput to save edited conf as preset, but not to disk
 
 
 from bitMgr import BitMgr
@@ -414,6 +414,8 @@ class App():
             #self.sendX()
             self.x()
             self.preset.currentDict[self.conf.vocab.configKeys[7]]=confString.strip()
+            # updated 2016 12 25 to save edited conf as preset, but not to disk
+            self.preset.saveCurrentConfigAsPreset(self.currentConfTupleKey,False)
             return True
         except Exception as e:
             print (e)

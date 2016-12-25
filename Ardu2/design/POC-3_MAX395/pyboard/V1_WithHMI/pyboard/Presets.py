@@ -1,6 +1,8 @@
-
 import csv
 from state import State
+
+# 2016 12 25: changed saveCurrentConfigAsPreset to allow for both save to disk and not to disk
+
 
 # this is where I put all the preset configs
 
@@ -205,10 +207,17 @@ class Preset():
             del self.presets[old]
             res = True
         return res
-    
+    """
+    # changed 2016 12 25 to save current edited conf as preset but not to disk
     def saveCurrentConfigAsPreset(self, key):
         self.currentDict[self.conf.vocab.configKeys[11]] = 0
         self.add(key,self.currentDict)
         #print(self.presets)
         self.toFile()
-            
+    """        
+    def saveCurrentConfigAsPreset(self, key, saveToDisk = True):
+        self.currentDict[self.conf.vocab.configKeys[11]] = 0
+        self.add(key,self.currentDict)
+        #print(self.presets)
+        if saveToDisk:
+            self.toFile()
