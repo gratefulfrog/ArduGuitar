@@ -4,7 +4,7 @@
 #######################################################
 # 2016 12 24: dissabled tracking on splitpots
 # 2016 12 25: updated validateAndApplyLCDInput to save edited conf as preset, but not to disk
-
+# 2016 12 28: added polling version to pb and selectors with swtich
 
 from bitMgr import BitMgr
 from dictMgr import shuntConfDict
@@ -71,7 +71,7 @@ class App():
                [0,1], #horizontal, vertical
                ['M','A','B','C','D','TR']]
     
-    def __init__(self):
+    def __init__(self, uPolling):
         """
         Instance creation; creation of member variables which are
         mainly instances of supporting classes.
@@ -85,6 +85,7 @@ class App():
         after creation of the SPIMgr, the update message is sent to it to 
         initialize all the pins.
         """
+        self.usePolling = uPolling
         self.mainLoopDelay = 50
         self.gcd=False # true if we just did a garbage collection, false if work has been done and garbage not yet collected
         self.setVec = [self.inc, self.pb, self.doConf, self.vol, self.tone]
@@ -92,13 +93,13 @@ class App():
         self.conf = PyGuitarConf()
         self.preset = Preset(self.conf)
         self.reset()
-        self.pba = PushButtonArray(self.q)
+        self.pba = PushButtonArray(self.q,usePolling)
         self.spa = SplitPotArray(State.splitPotPinNameVec,self.q,useTracking=False)
         self.tv  = TremVib(self.q)
         self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
         self.selectorVec=[None,None]
         for i in range(2):
-            self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q)
+            self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q,usePolling)
         self.tb = TrackBall(self.q)
         self.currentConfTupleKey = (-1,-1)
         self.sequencing = False
@@ -129,6 +130,10 @@ class App():
 
     def pollPollables(self):
         #State.printT('polling spa...')
+        if usePolling:
+            self.pba.poll()
+            for i in range(2):
+                self.selectorVec[i].poll()
         self.spa.poll()
         if (self.preset.currentDict[self.conf.vocab.configKeys[9]] or self.preset.currentDict[self.conf.vocab.configKeys[8]]):
             #State.printT('polling tv..')

@@ -15,8 +15,8 @@
 # * SWDebouncedPushbutton
 # * IlluminatedPushbutton
 # * VoltageDividerPot
-
 #####
+# 2016 12 28: added polling to pb and selector
 
 from pyb import millis, Pin, Timer, delay, Accel, LED, ADC, ExtInt, I2C
 #from pyb_gpio_lcd import GpioLcd
@@ -85,7 +85,7 @@ class SelectorInterrupt (EnQueueable):
                       (1,1,0): 4}} # position 4, i.e. right: right pin is GND
 
     
-    def __init__(self,pinNames,id,q):
+    def __init__(self,pinNames,id,q,usePolling):
         """create an instance of a 3 or 5 position switch connected to the 
         pins provided.
         Pins should be configured as Pin('X1', Pin.IN, Pin.PULL_UP)
@@ -100,13 +100,16 @@ class SelectorInterrupt (EnQueueable):
         self.id = id
         self.currentPosition = 0
         self.setPosition()  # reads the pin values and deduces current switch position
-        self.extIntVec = [None for p in pinNames]
-        for i in range(len(pinNames)):
-            self.extIntVec[i]=ExtInt(pinNames[i],
-                                     ExtInt.IRQ_RISING_FALLING,
-                                     Pin.PULL_UP,
-                                     self.callback)
-
+        if not usePolling:
+            self.extIntVec = [None for p in pinNames]
+            for i in range(len(pinNames)):
+                self.extIntVec[i]=ExtInt(pinNames[i],
+                                         ExtInt.IRQ_RISING_FALLING,
+                                         Pin.PULL_UP,
+                                         self.callback)
+        else:
+            self.lastCallBackTime = millis()
+            self.debounceDelay = State.HWDebounceDelay #millis        
             
     def callback(self,unusedLine):
         self.push(self.id)
@@ -119,6 +122,15 @@ class SelectorInterrupt (EnQueueable):
         """
         tLis  = [p.value() for p in self.pinLis]
         self.currentPosition = self.truthDict[tuple(tLis)]
+
+    def poll(self):
+        if (millis() - self.lastCallBackTime < self.debounceDelay):
+            return
+        prevPos = self.currentPosition
+        self.setPosition()
+        if (prevPos != self.currentPosition):
+            self.lastCallBackTime = millis()
+            self.callback(None)
         
     def __repr__(self):
         return 'Selector:' + \
@@ -150,9 +162,12 @@ class HWDebouncedPushButton(EnQueueable):
     an interrupt generating pushbutton, using the q to manage actions
     avoiding repeated pushes using a lock and a time delay
     """
-    def __init__(self,pinName,q):
+    def __init__(self,pinName,q,usePolling):
         EnQueueable.__init__(self,EnQueueable.PB,q)
-        self.extInt = ExtInt(pinName, ExtInt.IRQ_FALLING, Pin.PULL_UP, self.callback)
+        if  usePoling:
+            self.pin = Pin(pinName,Pin.IN,Pin.PULL_UP)
+        else:
+            self.extInt = ExtInt(pinName, ExtInt.IRQ_FALLING, Pin.PULL_UP, self.callback)
         self.id = State.pinNameDict[pinName][1]
         self.debugPinName = pinName
         self.locked = False
@@ -169,6 +184,10 @@ class HWDebouncedPushButton(EnQueueable):
             self.push(self.id)
         self.locked = False
 
+    def poll(self):
+        if not self.pin.value():
+            self.callback(None)
+        
     def __repr__(self):
         return 'HWDebouncedPushButton:\n  ID:\t%d\n  %s'%(self.id,repr(self.extInt))
 
@@ -176,11 +195,15 @@ class HWDebouncedPushButton(EnQueueable):
 # PushButtonArray
 # an array of HWDebouncedPushputton
 class PushButtonArray():
-    def __init__(self,q):
+    def __init__(self,q,usePolling):
         self.pbVec = []
         for pinName in State.PBPinNameVec:
-            self.pbVec.append(HWDebouncedPushButton(pinName,q))
+            self.pbVec.append(HWDebouncedPushButton(pinName,q,usePoling))
 
+    def poll(self):
+        for pb in self.pbVec:
+            pb.poll()
+            
     def __repr__(self):
         res = 'PushButtonArray:\n'
         for pb in self.pbVec:

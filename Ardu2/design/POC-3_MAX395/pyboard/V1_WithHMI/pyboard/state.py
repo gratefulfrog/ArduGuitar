@@ -8,6 +8,7 @@
 # 2016 12 24:
 #           : added pbBounceDelay
 #           : changed splitPotCutOff to 60 instead of 30 to prevent ADC bounce!
+# 2016 12 28: increased HWdeboucneDelay from 20 to 50 ms
 ###############################################################################
 class State():
     """
@@ -146,7 +147,7 @@ class State():
     AccreadDelay = 20 # min interval between reads in milliseconds maybe try 5ms???
     AcctimeOut = 2000  # interval after which to call offFunc and turn off associated control
 
-    HWDebounceDelay = 20 #ms
+    HWDebounceDelay = 50 #ms
     
     def stateNeg2SetFuncIndex(stateNeg):
         """
