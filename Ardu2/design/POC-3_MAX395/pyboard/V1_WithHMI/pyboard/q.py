@@ -10,20 +10,16 @@ class Q:
         self.pptr = 0  # put pointer
         self.gptr = 0  # get pointer
         self.qNbObj=0  # object counter
-        #self.q = [0xFF for i in range(Q.qLen)]
-        self.q = array.array('i',[0xFF for i in range(Q.qLen)])
-        self.debuggingPushMsg='push:'  # cannot use hex here because push is called by interrupt handlers 
-        self.debuggingPopMsg='pop:%s'  # and would allocate memory if it embedded a call to hex(e)
+        self.q = array.array('I',[0xFFFF for i in range(Q.qLen)])
 
     def push(self,e):
         if self.qNbObj == Q.qLen:
-            print('************************** Q Full! ignoring push! *******************************')
-            #raise Exception('Q Full! ignoring push!')
+            #print('************************** Q Full! ignoring push! *******************************')
+            raise Exception('Q Full! ignoring push!')
         else:
             self.q[self.pptr] = e
             self.pptr = (self.pptr+1) % Q.qLen
             self.qNbObj += 1
-            print(self.debuggingPushMsg,e)
             
     def pop(self):
         res = None
@@ -31,7 +27,6 @@ class Q:
             res = self.q[self.gptr]
             self.gptr = (self.gptr+1) % Q.qLen
             self.qNbObj -=1
-            print(self.debuggingPopMsg%hex(res))
         return res
 
     def __repr__(self):
@@ -80,5 +75,6 @@ class EnQueueable:
         
     def push(self,lower3,secondByte=0):
         #print('Enqueueable:\t' + hex(self.top5) + '\t' + hex(lower3))
+        #print('pushing...', ((self.top5 |lower3)<<8)|(0xFF & (secondByte if secondByte>=0 else 256+secondByte)))
         self.q.push(((self.top5 |lower3)<<8)|(0xFF & (secondByte if secondByte>=0 else 256+secondByte)))
         

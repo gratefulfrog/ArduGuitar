@@ -8,7 +8,9 @@
 # 2016 12 24:
 #           : added pbBounceDelay
 #           : changed splitPotCutOff to 60 instead of 30 to prevent ADC bounce!
-# 2016 12 28: increased HWdeboucneDelay from 20 to 50 ms
+# 2016 12 28: increased HWdeboucneDelay from 20 to 100 ms
+#           :  pbDebounceDelay to pbProcessingDelay, this is used to reject
+#              mutliple reactions to pb
 ###############################################################################
 class State():
     """
@@ -31,7 +33,7 @@ class State():
     etc.
     """
     # debugging switches and methods
-    debug = True #False # True
+    debug = False # True
     tvPoll = True
     spaPoll = True
     
@@ -79,7 +81,7 @@ class State():
                    }
 
     PBPinNameVec = ('Y3','Y4','X7','X22','Y5','Y6')
-    pbBounceDelay = 200
+    pbProcessingDelay = 200
 
     SelectorPinNameArray = (('X19', 'X20', 'X21'), # horizontal
                             ('Y2', 'X11', 'X12')) # vertical
@@ -147,7 +149,7 @@ class State():
     AccreadDelay = 20 # min interval between reads in milliseconds maybe try 5ms???
     AcctimeOut = 2000  # interval after which to call offFunc and turn off associated control
 
-    HWDebounceDelay = 50 #ms
+    HWDebounceDelay = 100 #ms
     
     def stateNeg2SetFuncIndex(stateNeg):
         """

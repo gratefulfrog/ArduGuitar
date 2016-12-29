@@ -12,7 +12,7 @@ from components import Invertable,VTable,OnOffable,MicroValuator
 from state import State
 from spiMgr import SPIMgr
 from configs import configDict,mapReplace
-from hardware import ShuntControl,LcdDisplayI2C,PushButtonArray,SelectorInterrupt,TrackBall,SplitPotArray,TremVib
+from hardware import BounceMgr,ShuntControl,LcdDisplayI2C,PushButtonArray,SelectorInterrupt,TrackBall,SplitPotArray,TremVib
 from q import Q
 from config import PyGuitarConf
 from Presets import Preset
@@ -71,7 +71,7 @@ class App():
                [0,1], #horizontal, vertical
                ['M','A','B','C','D','TR']]
     
-    def __init__(self, uPolling):
+    def __init__(self, uPolling=True):
         """
         Instance creation; creation of member variables which are
         mainly instances of supporting classes.
@@ -86,20 +86,24 @@ class App():
         initialize all the pins.
         """
         self.usePolling = uPolling
+        self.bounceMgr = BounceMgr(State.HWDebounceDelay)
         self.mainLoopDelay = 50
         self.gcd=False # true if we just did a garbage collection, false if work has been done and garbage not yet collected
         self.setVec = [self.inc, self.pb, self.doConf, self.vol, self.tone]
         self.q = Q()
         self.conf = PyGuitarConf()
         self.preset = Preset(self.conf)
+        self.mEval = MicroValuator()
+        self.shuntControl = ShuntControl(shuntConfDict)
+        self.state = State() # needed since State.__init__ must be called!
         self.reset()
-        self.pba = PushButtonArray(self.q,usePolling)
-        self.spa = SplitPotArray(State.splitPotPinNameVec,self.q,useTracking=False)
+        self.pba = PushButtonArray(self.q,self.usePolling,self.bounceMgr)
+        self.spa = SplitPotArray(State.splitPotPinNameVec,self.q,self.bounceMgr,useTracking=False)
         self.tv  = TremVib(self.q)
         self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
         self.selectorVec=[None,None]
         for i in range(2):
-            self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q,usePolling)
+            self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q,self.usePolling,self.bounceMgr)
         self.tb = TrackBall(self.q)
         self.currentConfTupleKey = (-1,-1)
         self.sequencing = False
@@ -107,10 +111,8 @@ class App():
         self.x()
 
     def reset(self):
-        self.mEval = MicroValuator()
-        self.shuntControl = ShuntControl(shuntConfDict)
+        gc.collect()
         self.bitMgr = BitMgr()
-        self.state = State() # needed since State.__init__ must be called!
         self.resetConnections = True
         self.coils = {}
         for coil in State.coils[:-1]:
@@ -130,7 +132,7 @@ class App():
 
     def pollPollables(self):
         #State.printT('polling spa...')
-        if usePolling:
+        if self.usePolling:
             self.pba.poll()
             for i in range(2):
                 self.selectorVec[i].poll()
@@ -141,18 +143,20 @@ class App():
     
     def mainLoop(self):
         while True:
-            self.pollPollables()
+            self.pollPollables()            
             self.processQ()
             # put a sleep comand here to save energy
-            pyb.delay(self.mainLoopDelay)
+            # pyb.delay(self.mainLoopDelay)
             
     def processQ(self):
         #State.printT('processQ')
         work = self.q.pop()
         worked = False
         while (work != None):
+            print('Work: ', bin(work))
             worked = self.doWork(work) or worked
             work = self.q.pop()
+            
         if worked:
             State.printT('worked!')
             self.x()
@@ -163,11 +167,15 @@ class App():
             self.gcd=True
 
     def doWork(self,twoBytes):
+        print('next deque ined: ', self.q.gptr)
+        print('twoBytes:\t',bin(twoBytes))
         V = twoBytes & 0xFF
         K = (twoBytes>>8) & 0xFF
         mask = 0x80
         res = False
         State.printT('Work:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
+        print('Work:\tK:\t' + bin(K) + '\tV:\t'+ hex(V),'\tQlength:\t',self.q.qNbObj)
+        #print(self.q)
         #print('X:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
         for i in range(5):
             if K & (mask>>i):
@@ -270,12 +278,13 @@ class App():
         return self.doConfHelper(cf)
     
     def pb(self,who,unused=None,unusedA=None):
-        if ((pyb.millis()  - self.pbTime) < State.pbBounceDelay):
+        if ((pyb.millis()  - self.pbTime) < State.pbProcessingDelay):
             self.pbTime = pyb.millis()
-            State.printT('PB BOUNCE!! delta millis:\t' +  str(pyb.millis()  - self.pbTime))
+            State.printT('PB Processing BOUNCE!! delta millis:\t' +  str(pyb.millis()  - self.pbTime))
             return False
-        State.printT('PB delta millis:\t' +  str(pyb.millis()  - self.pbTime))
+        #State.printT('PB delta millis:\t' +  str(pyb.millis()  - self.pbTime))
         self.pbTime = pyb.millis()
+        
         whoFuncs = (
             # this either steps the seq or toggles splitpot tracking if not sequencing
             (self.pb0Func,),  # pb 0 # either step sequence or toggle tracking if not sequencing
@@ -421,7 +430,9 @@ class App():
             self.preset.currentDict[self.conf.vocab.configKeys[7]]=confString.strip()
             # updated 2016 12 25 to save edited conf as preset, but not to disk
             self.preset.saveCurrentConfigAsPreset(self.currentConfTupleKey,False)
-            return True
+            self.currentConfTupleKe = (self.selectorVec[0].currentPosition,self.selectorVec[1].currentPosition)
+            return self.doConfHelper(self.currentConfTupleKey)
+            #return True
         except Exception as e:
             print (e)
             return False

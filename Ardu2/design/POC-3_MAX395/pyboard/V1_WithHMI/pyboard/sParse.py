@@ -47,7 +47,7 @@ def invert(ap,coil,val):
     ap.set(coil,State.Inverter,(State.l1 if val else State.l0))
 
 def connect(ap,a,b):
-    #print ('Connected Coils:\t'+ str(a) +','+ str(b))
+    print ('Connected Coils:\t'+ str(a) +','+ str(b))
     #return "a.connect('%s',%d,'%s',%d)"%(a[0],a[1],b[0],b[1])
     ap.connect(a[0],a[1],b[0],b[1])
 

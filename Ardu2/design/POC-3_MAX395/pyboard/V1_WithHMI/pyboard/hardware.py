@@ -1,5 +1,6 @@
 # hardware.py
 # classes corresponding to physical objects in the system
+# * BounceMgr:
 # * ShuntControl
 # * SelectorInterrupt  (added 2016 08 24)
 # * HWDebouncedPushButton
@@ -17,8 +18,12 @@
 # * VoltageDividerPot
 #####
 # 2016 12 28: added polling to pb and selector
+# 2016 12 28: create class BounceMgr
+#           : added counter to shuntControl
+# 2016 12 29: added stableValue(pin) function to try to fix spurious pb triggering
+###############################################
 
-from pyb import millis, Pin, Timer, delay, Accel, LED, ADC, ExtInt, I2C
+from pyb import millis, Pin, Timer, delay, Accel, LED, ADC, ExtInt, I2C,enable_irq,disable_irq
 #from pyb_gpio_lcd import GpioLcd
 from pyb_i2c_adafruit_lcd import I2cLcd
 from dictMgr import shuntConfDict
@@ -29,6 +34,32 @@ from outils import *
 #import micropython
 #micropython.alloc_emergency_exception_buf(100)
 
+
+def stableValue(pin,stabilityPeriod=20):
+    res = pin.value()
+    if res:
+        return res
+    readTime = millis()
+    while(millis()-readTime < stabilityPeriod):
+        if res != pin.value():
+            res = pin.value()
+            readTime = millis()
+        delay(1)
+    return res
+
+class BounceMgr:
+    """Singleton object to allow for global waiting after any action...
+    """
+    def __init__(self,timeDelay):
+        self.debounceDelay = timeDelay
+        self.lastTriggerTime = 0
+
+    def ready(self):
+        return (millis()- self.lastTriggerTime > self.debounceDelay)
+
+    def trigger(self):
+        self.lastTriggerTime = millis()
+    
 class ShuntControl:
     """simple class providing on/off functionality of a vactrol
     controlled by a pyboard bin.
@@ -38,13 +69,15 @@ class ShuntControl:
         tim = Timer(confData['t'],freq=confData['f'])
         self.control = tim.channel(confData['c'],Timer.PWM, pin=p)
         self.control.pulse_width_percent(0)
-
+        self.shuntCount = 0
+        
     def shunt(self, percent = 20):
-        State.printT('Shunting')
+        State.printT('Shunting:\t' + str(self.shuntCount))
         self.control.pulse_width_percent(percent)
 
     def unShunt(self):
-        State.printT('UNshunting')
+        State.printT('UNshunting:\t' + str(self.shuntCount))
+        self.shuntCount +=1
         self.control.pulse_width_percent(0)
 
     def __repr__(self):
@@ -85,7 +118,7 @@ class SelectorInterrupt (EnQueueable):
                       (1,1,0): 4}} # position 4, i.e. right: right pin is GND
 
     
-    def __init__(self,pinNames,id,q,usePolling):
+    def __init__(self,pinNames,id,q,usePolling, bMgr):
         """create an instance of a 3 or 5 position switch connected to the 
         pins provided.
         Pins should be configured as Pin('X1', Pin.IN, Pin.PULL_UP)
@@ -100,6 +133,7 @@ class SelectorInterrupt (EnQueueable):
         self.id = id
         self.currentPosition = 0
         self.setPosition()  # reads the pin values and deduces current switch position
+        self.bounceMgr = bMgr
         if not usePolling:
             self.extIntVec = [None for p in pinNames]
             for i in range(len(pinNames)):
@@ -107,12 +141,12 @@ class SelectorInterrupt (EnQueueable):
                                          ExtInt.IRQ_RISING_FALLING,
                                          Pin.PULL_UP,
                                          self.callback)
-        else:
-            self.lastCallBackTime = millis()
-            self.debounceDelay = State.HWDebounceDelay #millis        
             
     def callback(self,unusedLine):
+        irq_state = disable_irq()
         self.push(self.id)
+        enable_irq(irq_state)
+        print('Push Selector:%d'%self.id)
         #State.printT('SelectorCallBack:\t',self.id)
         #print('SelectorCallBack:\t',self.id)
         
@@ -120,16 +154,25 @@ class SelectorInterrupt (EnQueueable):
         """ reads the pin values and deduces current switch position
         in case of failure, exception is raised.
         """
-        tLis  = [p.value() for p in self.pinLis]
-        self.currentPosition = self.truthDict[tuple(tLis)]
+        #tLis  = [p.value() for p in self.pinLis]
+        error = True
+        while (error):
+            try:
+                tLis  = [stableValue(p) for p in self.pinLis]
+                self.currentPosition = self.truthDict[tuple(tLis)]
+                error = False
+            except KeyError:
+                print ('Selector Exception ignored!')
+                error = True
+                delay(1)
 
     def poll(self):
-        if (millis() - self.lastCallBackTime < self.debounceDelay):
-            return
+        #if not self.bounceMgr.ready():
+        #    return
         prevPos = self.currentPosition
         self.setPosition()
         if (prevPos != self.currentPosition):
-            self.lastCallBackTime = millis()
+            #self.bounceMgr.trigger()
             self.callback(None)
         
     def __repr__(self):
@@ -140,54 +183,49 @@ class SelectorInterrupt (EnQueueable):
 
 # HWDebouncedPushButton
 # uses interrupts and queueing to indicate a push
-#class HWDebouncedPushButton(EnQueueable):
-#    """
-#    an interrupt generating pushbutton, using the q to manage actions
-#    """
-#    def __init__(self,pinName,q):
-#        EnQueueable.__init__(self,EnQueueable.PB,q)
-#        self.extInt = ExtInt(pinName, ExtInt.IRQ_FALLING, Pin.PULL_UP, self.callback)
-#        self.id = State.pinNameDict[pinName][1]
-#        self.debugPinName = pinName
-#        
-#    def callback(self,unusedLine):
-#        self.push(self.id)
-#
-#    def __repr__(self):
-#        return 'HWDebouncedPushButton:\n  ID:\t%d\n  %s'%(self.id,repr(self.extInt))
-#
 
 class HWDebouncedPushButton(EnQueueable):
     """
     an interrupt generating pushbutton, using the q to manage actions
     avoiding repeated pushes using a lock and a time delay
     """
-    def __init__(self,pinName,q,usePolling):
+    def __init__(self,pinName,q,usePolling,bMgr):
         EnQueueable.__init__(self,EnQueueable.PB,q)
-        if  usePoling:
+        if  usePolling:
             self.pin = Pin(pinName,Pin.IN,Pin.PULL_UP)
         else:
             self.extInt = ExtInt(pinName, ExtInt.IRQ_FALLING, Pin.PULL_UP, self.callback)
         self.id = State.pinNameDict[pinName][1]
         self.debugPinName = pinName
-        self.locked = False
-        self.lastCallBackTime = millis()
-        self.debounceDelay = State.HWDebounceDelay #millis
+        #self.locked = False
+        self.bounceMgr = bMgr
         
     def callback(self,unusedLine):
-        if self.locked:
-            return
-        self.locked = True
-        now = millis()
-        if now-self.lastCallBackTime > self.debounceDelay:
-            self.lastCallBackTime = now
-            self.push(self.id)
-        self.locked = False
-
+        #if self.locked:
+        #    return
+        #self.locked = True
+        irq_state = disable_irq()
+        self.push(self.id)
+        enable_irq(irq_state)
+        print('top5:\t',self.top5)
+        secondByte=0
+        lower3=self.id
+        pushee =  ((self.top5 |lower3)<<8)|(0xFF & (secondByte if secondByte>=0 else 256+secondByte))
+        print('Pushing:\t',bin(pushee))
+        print('Push PB:%d'%self.id)
+        #self.locked = False
+    """    
     def poll(self):
+        if not self.bounceMgr.ready():
+            return
         if not self.pin.value():
+            self.bounceMgr.trigger()
             self.callback(None)
-        
+    """
+    def poll(self):
+        if not stableValue(self.pin):
+            self.callback(None)
+            
     def __repr__(self):
         return 'HWDebouncedPushButton:\n  ID:\t%d\n  %s'%(self.id,repr(self.extInt))
 
@@ -195,10 +233,10 @@ class HWDebouncedPushButton(EnQueueable):
 # PushButtonArray
 # an array of HWDebouncedPushputton
 class PushButtonArray():
-    def __init__(self,q,usePolling):
+    def __init__(self,q,usePolling,bMgr):
         self.pbVec = []
         for pinName in State.PBPinNameVec:
-            self.pbVec.append(HWDebouncedPushButton(pinName,q,usePoling))
+            self.pbVec.append(HWDebouncedPushButton(pinName,q,usePolling,bMgr))
 
     def poll(self):
         for pb in self.pbVec:
@@ -423,7 +461,9 @@ class TremVib:
             return
         State.printT('Tremolo Level:\t',self.tremoloLevel)
         #print('Push: M Vol %s'%self.vVec[self.tremoloLevel])
+        irq_state = disable_irq()
         self.volEnQueueable.push(self.targCoilID,self.vVec[self.tremoloLevel])
+        enable_irq(irq_state)
         self.tremoloLevel ^= 1
     
     def doVib(self):
@@ -431,7 +471,9 @@ class TremVib:
             return
         State.printT('Vibrato Level:\t',self.vibratoLevel)
         #print('Push: M Tone %s'%self.tVec[self.vibratoLevel])
+        irq_state = disable_irq()
         self.toneEnQueueable.push(self.targCoilID,self.tVec[self.vibratoLevel])
+        enable_irq(irq_state)
         self.vibratoLevel ^= 1
 
     def toggleTrem(self):
@@ -572,15 +614,22 @@ class TrackBall:
             
     def x11(self,unused):
         if self.x2.value():
+            irq_state = disable_irq()
             self.volEnQueueable.push(self.targCoilID,-1)
+            enable_irq(irq_state)
         else:
+            irq_state = disable_irq()
             self.volEnQueueable.push(self.targCoilID,1)
-
+            enable_irq(irq_state)
     def y11(self,unused):
         if self.y2.value():
+            irq_state = disable_irq()
             self.toneEnQueueable.push(self.targCoilID,-1)
+            enable_irq(irq_state)
         else:
+            irq_state = disable_irq()
             self.toneEnQueueable.push(self.targCoilID,1)
+            enable_irq(irq_state)
 
     def __repr__(self):
         res = 'TrackBall:'                                        + \
@@ -601,7 +650,7 @@ class SplitPot:
     This version only works for 2 pot split,
     reads the ADC 10 times over 10ms, and aborts if any of the values is out of scope!
     """
-    def __init__(self,pinName,id,q,isToneRange=False,outputRangeTuple=(0,5),cutOff=30,spacing=30):
+    def __init__(self,pinName,id,q,bMgr,isToneRange=False,outputRangeTuple=(0,5),cutOff=30,spacing=30):
         """
         Create an instance:
         * pinName is used for the creation of the ADC, be sure to use a pin with an ADC!
@@ -621,6 +670,7 @@ class SplitPot:
         self.tracking  = False
         self.update    = self.noTrackingUpdate
         self.track(False)
+        self.bounceMgr = bMgr
         #print(self.ranges)
 
     def track(self,onOff):
@@ -635,9 +685,14 @@ class SplitPot:
                         EnQueueable((EnQueueable.TONE,),self.q)]
 
     def poll(self):
+        #if not self.bounceMgr.ready():
+         #   return
         res = self.update()
         if res:
+            #self.bounceMgr.trigger()
+            irq_state = disable_irq()
             self.enQV[res[0]].push(self.id,res[1])
+            enable_irq(irq_state)
 
     def trackingUpdate(self):
         """ 
@@ -706,13 +761,13 @@ class SplitPot:
 #SplitPotArray
 class SplitPotArray:
     #SplitPot.SplitPotArray(State.splitPotPinNameVec,self.q,useTracking=False)
-    def __init__(self,pinNames,q,cutOff=State.splitPotCutOff,useTracking=False,spacing=State.splitPotSpacing):
+    def __init__(self,pinNames,q,bMgr,cutOff=State.splitPotCutOff,useTracking=False,spacing=State.splitPotSpacing):
         self.spvVec = []
         i=0
         for pn in pinNames[:-1]:
-            self.spvVec.append(SplitPot(pn,i,q,cutOff=cutOff,spacing=spacing))
+            self.spvVec.append(SplitPot(pn,i,q,bMgr,cutOff=cutOff,spacing=spacing))
             i+=1
-        self.spvVec.append(SplitPot(pinNames[-1],i,q,isToneRange=True,cutOff=cutOff,spacing=spacing))
+        self.spvVec.append(SplitPot(pinNames[-1],i,q,bMgr,isToneRange=True,cutOff=cutOff,spacing=spacing))
         self.track(useTracking)
 
     def track(self,onOff):
