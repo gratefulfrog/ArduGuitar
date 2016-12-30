@@ -88,9 +88,10 @@ class Preset():
                         if len(row)>2:
                             self.rowDict2confDict(row)
             except Exception as e:
+                print('reading csv file threw exception!')
                 print(e)
                 State.printT( "error reading preset file!  Creating new one!")
-                #print( "error reading preset file!  Creating new one!")
+                print( "error reading preset file!  Creating new one!")
                 self.createDefaultPresets()
             self.currentDict = {}
             #print(self.presets)
@@ -138,6 +139,7 @@ class Preset():
             self.filePath = file
         with open(self.filePath, 'w') as csvfile:
             writer = csv.CSV.Writer(csvfile)
+            #print(self.header)
             writer.writeRow(self.header)
             for p in self.presets.keys():
                 rowDict = self.confDict2RowDict(p,self.presets[p])

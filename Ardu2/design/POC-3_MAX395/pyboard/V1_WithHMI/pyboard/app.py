@@ -150,13 +150,17 @@ class App():
             
     def processQ(self):
         #State.printT('processQ')
+        irq_state = pyb.disable_irq()
         work = self.q.pop()
+        pyb.enable_irq(irq_state)
         worked = False
         while (work != None):
-            print('Work: ', bin(work))
+            #print('Work: ', bin(work))
             worked = self.doWork(work) or worked
+            irq_state = pyb.disable_irq()
             work = self.q.pop()
-            
+            pyb.enable_irq(irq_state)
+        
         if worked:
             State.printT('worked!')
             self.x()
@@ -167,14 +171,14 @@ class App():
             self.gcd=True
 
     def doWork(self,twoBytes):
-        print('next deque ined: ', self.q.gptr)
-        print('twoBytes:\t',bin(twoBytes))
+        #print('next deque index: ', self.q.gptr)
+        #print('twoBytes of work:\t',bin(twoBytes))
         V = twoBytes & 0xFF
         K = (twoBytes>>8) & 0xFF
         mask = 0x80
         res = False
         State.printT('Work:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
-        print('Work:\tK:\t' + bin(K) + '\tV:\t'+ hex(V),'\tQlength:\t',self.q.qNbObj)
+        #print('Work:\tK:\t' + bin(K) + '\tV:\t'+ hex(V),'\tQlength:\t',self.q.qNbObj)
         #print(self.q)
         #print('X:\tK:\t' + bin(K) + '\tV:\t'+ hex(V))
         for i in range(5):
@@ -376,20 +380,28 @@ class App():
         try:
             #res = self.doParse(conf[self.conf.vocab.configKeys[7]])
             self.doParse(conf[self.conf.vocab.configKeys[7]])
+            #print('doParse ok')
             """
             for e in res:
                 #print(e)
                 self.outgoing.append(e)
             """
+            #print('currentDict: ',self.preset.currentDict)
+            #print('keys: ', [key for key in self.preset.currentDict.keys()])
             for key in self.preset.currentDict.keys():
                 self.preset.currentDict[key] = conf[key]
+                #print('key: ',key, ' processed ok!')
         except Exception as e:
-            print (e)
+            print('loadConf threw exception type:',type(e), ' args: ', e.args)
+            print('conf was:\t', conf)
+            import sys
+            sys.exit()
+            ## this code will never be called!
             self.doParse(self.conf.presetConf.defaultConfDict[self.conf.vocab.configKeys[7]])
             for key in self.conf.presetConf.defaultConfDict.keys():
                 self.preset.currentDict[key] = self.conf.presetConf.defaultConfDict[key]
             self.preset.currentDict[self.conf.vocab.configKeys[0]] = 'DEFAULT PRESET'
-        
+            ## end of code never called!
         self.tone('TR',self.preset.currentDict['TR'][1],force=True)
         for c in ['A','B','C','D','M']:
             self.vol(c,self.preset.currentDict[c][0],force=True)
@@ -403,7 +415,9 @@ class App():
 
     def doParse(self,confString):
         sp = sParse.SExpParser(self,confString.strip())
+        #print('sParse.SExpParser ok')
         sp.execute()
+        #print('sp.execute ok')
 
     def turnOnYellowLed(self):
         self.preset.currentDict[self.conf.vocab.configKeys[11]] = 1
@@ -430,11 +444,11 @@ class App():
             self.preset.currentDict[self.conf.vocab.configKeys[7]]=confString.strip()
             # updated 2016 12 25 to save edited conf as preset, but not to disk
             self.preset.saveCurrentConfigAsPreset(self.currentConfTupleKey,False)
-            self.currentConfTupleKe = (self.selectorVec[0].currentPosition,self.selectorVec[1].currentPosition)
-            return self.doConfHelper(self.currentConfTupleKey)
-            #return True
+            self.currentConfTupleKey = (self.selectorVec[0].currentPosition,self.selectorVec[1].currentPosition)
+            self.doConfHelper(self.currentConfTupleKey)
+            return True
         except Exception as e:
-            print (e)
+            print('validateAndApplyLCDInput threw exception: ', type(e), 'args: ', e)
             return False
 
     def __repr__(self):
@@ -486,6 +500,7 @@ class App():
         self.coils[name].connect(pole,(otherName,otherPole))
         self.bitMgr.update((name,pole),
                            (otherName,otherPole))
+        #print('app.connect ok: ',name,pole,otherName,otherPole)
 
     def x(self):
         """

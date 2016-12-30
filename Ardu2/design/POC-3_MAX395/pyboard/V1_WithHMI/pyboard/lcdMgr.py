@@ -31,7 +31,7 @@ class LCDMgr:
         self.lcd.setLn(1,self.stateName)
     
     def loadConf(self):
-        print('in lcd mgr loading conf...')
+        #print('in lcd mgr loading conf...')
         self.stateString = self.stateDict[self.sKey]
         self.stateName = self.stateDict[self.nKey][:16]
         self.lcd.setLn(0,self.stateString)
@@ -122,7 +122,7 @@ class LCDMgr:
         else:
             self.advanceCursor()
         self.lastClick ='l'
-        #self.updateDisplay()
+        return False  ## always since it can never be a saved action?
 
     def incAtCursor(self):
         #print('incAtCursor')
@@ -132,16 +132,20 @@ class LCDMgr:
         
 
     def confirmed(self):
-        if self.validateFunc(self.lcd.getLn(0)): # put a real test here for the display Char list
+        res = False
+        if self.validateFunc(self.lcd.getLn(0)): 
             self.stateString = ''.join([c for c in self.displayCharList if c != ' '])
             self.lcd.setLn(0,self.stateString)
             self.lcd.setLn(1,self.stateName)
             self.setDisplayMode()
+            res = True
         else:
-            self.setEditingMode(True)               
+            self.setEditingMode(True)
+        return res
         
     def onRightButton(self):
         #print('onRightButton')
+        res = False
         if self.mode == LCDMgr.display:
             return
         elif self.mode == LCDMgr.eoEdit:
@@ -149,10 +153,10 @@ class LCDMgr:
         elif self.mode ==LCDMgr.error:
             self.setDisplayMode()
         elif self.mode == LCDMgr.confirmAbortMode:
-            self.confirmed()
+            res  = self.confirmed()
         else:
             self.incAtCursor()
         self.lastClick='r'
-        #self.updateDisplay()
+        return res
 
             

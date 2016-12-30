@@ -42,12 +42,12 @@ from state import State
 # app call generators
 
 def invert(ap,coil,val):
-    print ('Inverted Coil:\t'+ coil + '\t' + str(val))
+    #print ('Inverted Coil:\t'+ coil + '\t' + str(val))
     #return "a.set('%s',State.Inverter,%s)"%(coil, 'State.l1' if val else 'State.l0')
     ap.set(coil,State.Inverter,(State.l1 if val else State.l0))
 
 def connect(ap,a,b):
-    print ('Connected Coils:\t'+ str(a) +','+ str(b))
+    #print ('Connected Coils:\t'+ str(a) +','+ str(b))
     #return "a.connect('%s',%d,'%s',%d)"%(a[0],a[1],b[0],b[1])
     ap.connect(a[0],a[1],b[0],b[1])
 
@@ -142,14 +142,21 @@ class SExpParser():
 
     def execute(self):
         exps = self.executable()
+        #print('sParse, after self.executable: exps', exps)
         #res=[]
         #for exp in exps[:-1]:
         #    res.append(eval(exp,env))
+        #print('in execute: ',connectionList(eval(exps[-1],env)))
         for con in connectionList(eval(exps[-1],env)):
             #res.append(connect(con[0],con[1]))
-            connect(self.a,con[0],con[1])
-        #return res
-
+            #print('sParse.execute, about to call connect: ', con)
+            if con[0][0] > con[1][0]:
+                #print('interchanged endpoints!')
+                connect(self.a,con[1],con[0])
+            else:
+                connect(self.a,con[0],con[1])
+            #print('sParse.execute, successful call to connect: ', con)
+        
     def pModal(self,expLis,mode=0,res=''):
         """
         modes are:

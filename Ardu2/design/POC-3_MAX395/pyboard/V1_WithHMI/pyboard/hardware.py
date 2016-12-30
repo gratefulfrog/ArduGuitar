@@ -146,7 +146,7 @@ class SelectorInterrupt (EnQueueable):
         irq_state = disable_irq()
         self.push(self.id)
         enable_irq(irq_state)
-        print('Push Selector:%d'%self.id)
+        #print('Push Selector:%d'%self.id)
         #State.printT('SelectorCallBack:\t',self.id)
         #print('SelectorCallBack:\t',self.id)
         
@@ -207,12 +207,12 @@ class HWDebouncedPushButton(EnQueueable):
         irq_state = disable_irq()
         self.push(self.id)
         enable_irq(irq_state)
-        print('top5:\t',self.top5)
-        secondByte=0
-        lower3=self.id
-        pushee =  ((self.top5 |lower3)<<8)|(0xFF & (secondByte if secondByte>=0 else 256+secondByte))
-        print('Pushing:\t',bin(pushee))
-        print('Push PB:%d'%self.id)
+        #print('top5:\t',self.top5)
+        #secondByte=0
+        #lower3=self.id
+        #pushee =  ((self.top5 |lower3)<<8)|(0xFF & (secondByte if secondByte>=0 else 256+secondByte))
+        #print('Pushing:\t',bin(pushee))
+        #print('Push PB:%d'%self.id)
         #self.locked = False
     """    
     def poll(self):
