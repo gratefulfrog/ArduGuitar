@@ -682,6 +682,25 @@ class SplitPot:
             enable_irq(irq_state)
 
     def trackingUpdate(self):
+        """
+        This means we touch and hold, slide, then let go. 
+        The slide distance corresponds to the dec/increment desired
+        if vRead is a valid value:
+            vInit <- vRead
+            vLast <- vInit
+        esle:
+           return None
+        while vRead is valid:
+           vLast <- vRead
+        if (vLast -vInit) !=0: # we have some tracked values
+          convert to increment or decrement and add to present value??
+          return new value
+        else:
+           return None
+        """
+        pass
+    
+    def trackingUpdateOld(self):
         """ 
         error allows for a bad finger move at start of tracking,
         a track dist<=200 would produce a ZERO output, so we have put a max(1, ...) at the return to 
