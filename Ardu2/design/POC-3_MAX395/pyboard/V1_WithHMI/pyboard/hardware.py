@@ -684,16 +684,34 @@ class SplitPot:
     def trackingUpdate(self):
         """
         This means we touch and hold, slide, then let go. 
-        The slide distance corresponds to the dec/increment desired
-        if vRead is a valid value:
+        The slide distance corresponds to the magnitude and sign of the
+        desired dec/increment.
+        To simplify, we dec/inc by +/- 0,1,2.
+        The initial touch determines the choice of vol or tone.
+        The slide can go beyond the mid line dead zone without being
+        invalidated!
+        Sadly, calling INC means that the microvaluator will interpret the value to be inced,
+        so we have to multiply the inc by 10 !!
+        vRead <- adc.read()
+        rangeId <- computeRange(Vread)
+        if rangeId != None: that means vRead is a value in a valid range
             vInit <- vRead
             vLast <- vInit
-        esle:
+        else:
            return None
-        while vRead is valid:
+        while vRead >lowCutOff && vRead < highCutoff:
            vLast <- vRead
-        if (vLast -vInit) !=0: # we have some tracked values
-          convert to increment or decrement and add to present value??
+           vRead <- adc.read()
+        delta <- abs(vLast - vInit)
+        sign <- 1 if vLast >= vInit else -1
+        if delta < epsilon: # we have no  tracked values
+          return None
+        else if delta > bigStep:
+           return (rangeId,20*sign)
+        else:
+           return (rangeId, 10*sign)
+          convert to +1 or -1 (or maybe even +/-2 if big difference bewteen vLast and vInit
+          and add to present value??
           return new value
         else:
            return None

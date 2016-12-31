@@ -233,7 +233,7 @@ class App():
         return res
 
     def inc(self,who,val,what):
-        # updated version works with updated top byte INC | VOL + M,A,B,C,D
+        # updated version works with updated top byte INC | VOL + M,A,B,C,D,TR -does it work for tone range?
         # we need to find if its vol or tone then to which coil then call the appropriate methods
         volMask  = 0B10000
         toneMask = 0B1000
