@@ -27,15 +27,15 @@ class LCDMgr:
         self.cursor = LCDMgr.cursorOff
         #self.displayCharList = list(self.stateString.ljust(LCDMgr.lineLength))
         self.displayCharList = list(ljust(self.stateString,LCDMgr.lineLength))
-        self.lcd.setLn(0,self.stateString)
-        self.lcd.setLn(1,self.stateName)
+        self.setLn(0,self.stateString)
+        self.setLn(1,self.stateName)
     
     def loadConf(self):
         #print('in lcd mgr loading conf...')
         self.stateString = self.stateDict[self.sKey]
         self.stateName = self.stateDict[self.nKey][:16]
-        self.lcd.setLn(0,self.stateString)
-        self.lcd.setLn(1,self.stateName)
+        self.setLn(0,self.stateString)
+        self.setLn(1,self.stateName)
         self.setDisplayMode()
 
     def __init__(self,stateDict,sKey,nKey,lcdd, q, validateFunc):
@@ -44,12 +44,21 @@ class LCDMgr:
         self.nKey = nKey
         self.lcd = lcdd
         self.validateFunc = validateFunc
-        #self.lcdPba = Classes.LCDPBArray(q)
-                
-    def display(self):
-        self.lcd.display()
-        #self.lcdPba.display()
+        self.lineVec = ['','']
+
+    def setLn(self,i,txt):
+        self.lineVec[i]=txt
+        self.lcd.setLn(i,txt)
+
+    def getLn(self,i):
+        return self.lineVec[i]
     
+    def display(self):
+        i=0
+        for line in self.lineVec:
+            self.setLn(i,line)
+            i+=1
+            
     def setSList(self):
         #print('setSList')
         self.sList = [' '] + LCDMgr.symbols + self.lettersLeft
@@ -68,12 +77,12 @@ class LCDMgr:
     def updateEditDisplay(self, special=None):
         # this is a stub
         msg = ''.join(self.displayCharList)
-        self.lcd.setLn(0,msg)
+        self.setLn(0,msg)
         #print(msg)
         if self.cursor>=0:
             msg = ' '* self.cursor  + '^' + ' Error!' if special else ' '* self.cursor  + '^'
             #print(msg)
-            self.lcd.setLn(1,msg)
+            self.setLn(1,msg)
         
     def setConfirmAbortMode(self):
         #print('setConfirmAbortMode')
@@ -82,7 +91,7 @@ class LCDMgr:
     def doConfirm(self):
         #     '0123456789ABCDEF'
         msg = 'Abort - Confirm'
-        self.lcd.setLn(1,msg)
+        self.setLn(1,msg)
         #print(msg)
         self.setConfirmAbortMode()
             
@@ -130,13 +139,12 @@ class LCDMgr:
         self.displayCharList[self.cursor]= self.sList[self.charPtr]
         self.updateEditDisplay()
         
-
     def confirmed(self):
         res = False
         if self.validateFunc(self.lcd.getLn(0)): 
             self.stateString = ''.join([c for c in self.displayCharList if c != ' '])
-            self.lcd.setLn(0,self.stateString)
-            self.lcd.setLn(1,self.stateName)
+            self.setLn(0,self.stateString)
+            self.setLn(1,self.stateName)
             self.setDisplayMode()
             res = True
         else:

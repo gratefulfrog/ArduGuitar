@@ -11,8 +11,8 @@ from dictMgr import shuntConfDict
 from components import Invertable,VTable,OnOffable,MicroValuator
 from state import State
 from spiMgr import SPIMgr
-from configs import configDict,mapReplace
-from hardware import BounceMgr,ShuntControl,LcdDisplayI2C,PushButtonArray,SelectorInterrupt,TrackBall,SplitPotArray,TremVib
+#from configs import configDict,mapReplace
+from hardware import ShuntControl,LcdDisplayI2C,PushButtonArray,SelectorInterrupt,TrackBall,SplitPotArray,TremVib #BounceMgr,
 from q import Q
 from config import PyGuitarConf
 from Presets import Preset
@@ -65,6 +65,40 @@ class App():
 
     >>> 
     """
+    class LCDMessenger:
+        messageTime = 3000 # ms
+        def __init__(self):
+            self.messaging = False
+            self.startTime = 0
+            self.oldLines = ['','']
+            
+        def message(self, text, lcdM, lnLen=16):
+            """ 
+            inits the display of some text to the lcd
+            if time has run out, cancels messaging
+            """
+            if not self.messaging:
+                self.messaging = True
+                for i in range(2):
+                    self.oldLines[i] = lcdM.getLn(i)
+                    lcdM.setLn(i,text[i*lnLen:(i+1)*lnLen])
+                self.startTime = pyb.millis()
+                    
+        def update(self,lcdM):
+            if not self.messaging:
+                return
+            else:
+                self.messaging = ((pyb.millis() - self.startTime) < App.LCDMessenger.messageTime)
+                if not self.messaging:
+                    for i in range(2):
+                        lcdM.setLn(i,self.oldLines[i])
+                    
+        def stopMessaging(self,lcdM):
+            if self.messaging:
+                self.messaging = False
+                for i in range(2):
+                    lcdM.setLn(i,self.oldLines[i])
+            
     
     targVec = [['M','A','B','C','D','TR'], #['MVol','MTone'],
                [0,1,2,3,4,5],
@@ -86,7 +120,8 @@ class App():
         initialize all the pins.
         """
         self.usePolling = uPolling
-        self.bounceMgr = BounceMgr(State.HWDebounceDelay)
+        self.messenger = App.LCDMessenger()
+        #self.bounceMgr = BounceMgr(State.HWDebounceDelay)
         self.mainLoopDelay = 50
         self.gcd=False # true if we just did a garbage collection, false if work has been done and garbage not yet collected
         self.setVec = [self.inc, self.pb, self.doConf, self.vol, self.tone]
@@ -97,13 +132,13 @@ class App():
         self.shuntControl = ShuntControl(shuntConfDict)
         self.state = State() # needed since State.__init__ must be called!
         self.reset()
-        self.pba = PushButtonArray(self.q,self.usePolling,self.bounceMgr)
-        self.spa = SplitPotArray(State.splitPotPinNameVec,self.q,self.bounceMgr,useTracking=False)
+        self.pba = PushButtonArray(self.q,self.usePolling) #,self.bounceMgr)
+        self.spa = SplitPotArray(State.splitPotPinNameVec,self.q,useTracking=False) #self.bounceMgr
         self.tv  = TremVib(self.q)
         self.lcdMgr= LCDMgr(self.preset.currentDict,'S','Name',self.lcd,self.q,self.validateAndApplyLCDInput)
         self.selectorVec=[None,None]
         for i in range(2):
-            self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q,self.usePolling,self.bounceMgr)
+            self.selectorVec[i] = SelectorInterrupt(State.SelectorPinNameArray[i],i,self.q,self.usePolling) #,self.bounceMgr)
         self.tb = TrackBall(self.q)
         self.currentConfTupleKey = (-1,-1)
         self.sequencing = False
@@ -122,6 +157,7 @@ class App():
         self.spiMgr = SPIMgr(State.spiOnX,State.spiLatchPinName)
         #self.lcd = LcdDisplay6Wire(State.lcdConfDict)
         self.lcd = LcdDisplayI2C(State.lcdConfDict)
+        self.messenger.stopMessaging(self.lcd)
         # shunt, turn all to State.lOff, unshunt
         self.shuntControl.shunt()
         self.spiMgr.update(self.bitMgr.cnConfig[BitMgr.cur])
@@ -143,8 +179,14 @@ class App():
     
     def mainLoop(self):
         while True:
-            self.pollPollables()            
-            self.processQ()
+            self.messenger.update(self.lcdMgr)
+            try:
+                self.pollPollables()            
+                self.processQ()    
+            except Exception as e:
+                self.messenger.message(str(e), self.lcdMgr)
+                print(type(e),str(e.args))
+                
             # put a sleep comand here to save energy
             # pyb.delay(self.mainLoopDelay)
             
@@ -162,6 +204,7 @@ class App():
             pyb.enable_irq(irq_state)
         
         if worked:
+            self.messenger.stopMessaging(self.lcd)
             State.printT('worked!')
             self.x()
             self.gcd=False
@@ -392,16 +435,16 @@ class App():
                 self.preset.currentDict[key] = conf[key]
                 #print('key: ',key, ' processed ok!')
         except Exception as e:
-            print('loadConf threw exception type:',type(e), ' args: ', e.args)
-            print('conf was:\t', conf)
-            import sys
-            sys.exit()
-            ## this code will never be called!
+            #print('loadConf threw exception type:',type(e), ' args: ', e.args)
+            #print('conf was:\t', conf)
+            #import sys
+            #sys.exit()
+            
             self.doParse(self.conf.presetConf.defaultConfDict[self.conf.vocab.configKeys[7]])
             for key in self.conf.presetConf.defaultConfDict.keys():
                 self.preset.currentDict[key] = self.conf.presetConf.defaultConfDict[key]
             self.preset.currentDict[self.conf.vocab.configKeys[0]] = 'DEFAULT PRESET'
-            ## end of code never called!
+            raise e
         self.tone('TR',self.preset.currentDict['TR'][1],force=True)
         for c in ['A','B','C','D','M']:
             self.vol(c,self.preset.currentDict[c][0],force=True)
@@ -438,8 +481,12 @@ class App():
             for e in res:
                #print(e)
                self.outgoing.append(e)
+            self.sendX()
             """
-            #self.sendX()
+            
+            ## is this self.x() well placed, or even needed here?
+            # maybe because the connect and invert calls resulting from doParse need to be execucted,
+            # but the return True at the end of this 'try' block will execute all self.x() too!
             self.x()
             self.preset.currentDict[self.conf.vocab.configKeys[7]]=confString.strip()
             # updated 2016 12 25 to save edited conf as preset, but not to disk
@@ -449,6 +496,8 @@ class App():
             return True
         except Exception as e:
             print('validateAndApplyLCDInput threw exception: ', type(e), 'args: ', e)
+            # raise e
+            # finally called
             return False
 
     def __repr__(self):
@@ -521,32 +570,34 @@ class App():
         #unshunt
         self.shuntControl.unShunt()
         self.resetConnections = False
-      
-    def loadConfig(self,confName):
-        """ loads a predefined configuration.
-        Arg 0 : the name of the conf to load, for lookup in configDict
-        Note:
-        - this resets next bitMgr config and each coils next config
-          before beginning since there is no 'addition' of settings here
-        - it also resets all the coils connection and vtri values prior
-          to executing.
-        """
-        self.bitMgr.reset(BitMgr.allRegEndPoints,
-                          curBool=False,
-                          nexBool=True)
-        for coil in self.coils.values():
-            coil.resetNext()
-        for expr in mapReplace('self',
-                               configDict[confName]):
-            State.printT('Evalutating:\t' + expr)
-            eval(expr , globals(),{'self':self})
-        self.x()
 
     def showConfig(self):
         State.printT(self.bitMgr)
 
-    def lcdSetLine(self, lineNb, line):
-        State.printT('Setting LCD Line:\t%d\t"%s"'%(lineNb, line))
-        self.lcd.setLn(lineNb, line)
-
-        
+##############################
+#### obsolete code  
+#    def loadConfig(self,confName):
+#        """ loads a predefined configuration.
+#        Arg 0 : the name of the conf to load, for lookup in configDict
+#        Note:
+#        - this resets next bitMgr config and each coils next config
+#          before beginning since there is no 'addition' of settings here
+#        - it also resets all the coils connection and vtri values prior
+#          to executing.
+#        """
+#        self.bitMgr.reset(BitMgr.allRegEndPoints,
+#                          curBool=False,
+#                          nexBool=True)
+#        for coil in self.coils.values():
+#            coil.resetNext()
+#        for expr in mapReplace('self',
+#                               configDict[confName]):
+#            State.printT('Evalutating:\t' + expr)
+#            eval(expr , globals(),{'self':self})
+#        self.x()
+#
+#    def lcdSetLine(self, lineNb, line):
+#        State.printT('Setting LCD Line:\t%d\t"%s"'%(lineNb, line))
+#        self.lcd.setLn(lineNb, line)
+#
+##############################

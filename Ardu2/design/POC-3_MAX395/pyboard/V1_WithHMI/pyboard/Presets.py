@@ -74,7 +74,7 @@ class Preset():
             else:
                 self.filePath = fileName
             State.printT ("creating preset instance from:\t" + self.filePath)
-            #print("creating preset instance from:\t" + self.filePath)
+            print("creating preset instance from:\t" + self.filePath)
             try:
                 #print(self.filePath) 
                 with open(self.filePath, 'r') as csvfile:
@@ -87,9 +87,10 @@ class Preset():
                     for row in reader:
                         if len(row)>2:
                             self.rowDict2confDict(row)
+                    if len(self.presets) ==0:
+                        raise Exception("read failure")
             except Exception as e:
-                print('reading csv file threw exception!')
-                print(e)
+                print('reading csv file threw exception: ', type(e), 'Args: ', e.args)
                 State.printT( "error reading preset file!  Creating new one!")
                 print( "error reading preset file!  Creating new one!")
                 self.createDefaultPresets()
@@ -120,7 +121,7 @@ class Preset():
             j+=1
         #print(curConfDict)
         
-        
+    """    
     def createDefaultPresets(self):
         # this will create a default preset file in the default location
         # with default content
@@ -129,12 +130,29 @@ class Preset():
                 self.presets[(i,j)] = self.conf.presetConf.defaultConfDict
         self.header = self.conf.Vocab.headings
         #self.toFile(self.conf.presetFileName)
-    
+    """
+    def createDefaultPresets(self):
+        """
+        this will create a default preset dictionary
+        with default content
+        and attempt to save to SD,
+        in case of write failure, message to console and continue anyway!
+        """
+        import defaultPresets
+        self.presets= defaultPresets.defPresetDict
+        self.header = self.conf.Vocab.headings
+        try:
+            self.toFile()
+        except Exception as e:
+            print('Writing csv file raised exception: ', type(e), 'Args: ', e.args)
+                            
     def toFile(self, file = None):
-        # this will write the presets to a file,
-        # if a file argument is provided it is used and it
-        # updates the instance filePath
-        # otherwise the current instance filePath is used
+        """
+        this will write the presets to a file,
+        if a file argument is provided it is used and it
+        updates the instance filePath
+        otherwise the current instance filePath is used
+        """
         if file: 
             self.filePath = file
         with open(self.filePath, 'w') as csvfile:
@@ -148,7 +166,7 @@ class Preset():
                 #print(rawRow)
                 writer.writeRow(rawRow)
         State.printT( "Wrote file:\t" + self.filePath)
-        #print( "Wrote file:\t" + self.filePath)
+        print( "Wrote file:\t" + self.filePath)
 
     def makeRawRowWorkAround(self,rowDict):
         res = []

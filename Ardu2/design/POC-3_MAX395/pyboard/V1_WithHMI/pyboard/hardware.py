@@ -47,19 +47,6 @@ def stableValue(pin,stabilityPeriod=20):
         delay(1)
     return res
 
-class BounceMgr:
-    """Singleton object to allow for global waiting after any action...
-    """
-    def __init__(self,timeDelay):
-        self.debounceDelay = timeDelay
-        self.lastTriggerTime = 0
-
-    def ready(self):
-        return (millis()- self.lastTriggerTime > self.debounceDelay)
-
-    def trigger(self):
-        self.lastTriggerTime = millis()
-    
 class ShuntControl:
     """simple class providing on/off functionality of a vactrol
     controlled by a pyboard bin.
@@ -118,7 +105,7 @@ class SelectorInterrupt (EnQueueable):
                       (1,1,0): 4}} # position 4, i.e. right: right pin is GND
 
     
-    def __init__(self,pinNames,id,q,usePolling, bMgr):
+    def __init__(self,pinNames,id,q,usePolling): #, bMgr):
         """create an instance of a 3 or 5 position switch connected to the 
         pins provided.
         Pins should be configured as Pin('X1', Pin.IN, Pin.PULL_UP)
@@ -133,7 +120,7 @@ class SelectorInterrupt (EnQueueable):
         self.id = id
         self.currentPosition = 0
         self.setPosition()  # reads the pin values and deduces current switch position
-        self.bounceMgr = bMgr
+        #self.bounceMgr = bMgr
         if not usePolling:
             self.extIntVec = [None for p in pinNames]
             for i in range(len(pinNames)):
@@ -189,7 +176,7 @@ class HWDebouncedPushButton(EnQueueable):
     an interrupt generating pushbutton, using the q to manage actions
     avoiding repeated pushes using a lock and a time delay
     """
-    def __init__(self,pinName,q,usePolling,bMgr):
+    def __init__(self,pinName,q,usePolling): #,bMgr):
         EnQueueable.__init__(self,EnQueueable.PB,q)
         if  usePolling:
             self.pin = Pin(pinName,Pin.IN,Pin.PULL_UP)
@@ -198,7 +185,7 @@ class HWDebouncedPushButton(EnQueueable):
         self.id = State.pinNameDict[pinName][1]
         self.debugPinName = pinName
         #self.locked = False
-        self.bounceMgr = bMgr
+        #self.bounceMgr = bMgr
         
     def callback(self,unusedLine):
         #if self.locked:
@@ -233,10 +220,10 @@ class HWDebouncedPushButton(EnQueueable):
 # PushButtonArray
 # an array of HWDebouncedPushputton
 class PushButtonArray():
-    def __init__(self,q,usePolling,bMgr):
+    def __init__(self,q,usePolling): #,bMgr):
         self.pbVec = []
         for pinName in State.PBPinNameVec:
-            self.pbVec.append(HWDebouncedPushButton(pinName,q,usePolling,bMgr))
+            self.pbVec.append(HWDebouncedPushButton(pinName,q,usePolling)) #,bMgr))
 
     def poll(self):
         for pb in self.pbVec:
@@ -650,7 +637,7 @@ class SplitPot:
     This version only works for 2 pot split,
     reads the ADC 10 times over 10ms, and aborts if any of the values is out of scope!
     """
-    def __init__(self,pinName,id,q,bMgr,isToneRange=False,outputRangeTuple=(0,5),cutOff=30,spacing=30):
+    def __init__(self,pinName,id,q,isToneRange=False,outputRangeTuple=(0,5),cutOff=30,spacing=30): #bMgr,
         """
         Create an instance:
         * pinName is used for the creation of the ADC, be sure to use a pin with an ADC!
@@ -670,7 +657,7 @@ class SplitPot:
         self.tracking  = False
         self.update    = self.noTrackingUpdate
         self.track(False)
-        self.bounceMgr = bMgr
+        #self.bounceMgr = bMgr
         #print(self.ranges)
 
     def track(self,onOff):
@@ -761,13 +748,13 @@ class SplitPot:
 #SplitPotArray
 class SplitPotArray:
     #SplitPot.SplitPotArray(State.splitPotPinNameVec,self.q,useTracking=False)
-    def __init__(self,pinNames,q,bMgr,cutOff=State.splitPotCutOff,useTracking=False,spacing=State.splitPotSpacing):
+    def __init__(self,pinNames,q,cutOff=State.splitPotCutOff,useTracking=False,spacing=State.splitPotSpacing): #bMgr,
         self.spvVec = []
         i=0
         for pn in pinNames[:-1]:
-            self.spvVec.append(SplitPot(pn,i,q,bMgr,cutOff=cutOff,spacing=spacing))
+            self.spvVec.append(SplitPot(pn,i,q,cutOff=cutOff,spacing=spacing)) #bMgr,
             i+=1
-        self.spvVec.append(SplitPot(pinNames[-1],i,q,bMgr,isToneRange=True,cutOff=cutOff,spacing=spacing))
+        self.spvVec.append(SplitPot(pinNames[-1],i,q,isToneRange=True,cutOff=cutOff,spacing=spacing)) # bMgr,
         self.track(useTracking)
 
     def track(self,onOff):
@@ -1086,3 +1073,17 @@ class SplitPotArray:
 #         """
 #         return self.v(self.a.read())
 # 
+#class BounceMgr:
+#    """Singleton object to allow for global waiting after any action...
+#    """
+#    def __init__(self,timeDelay):
+#        self.debounceDelay = timeDelay
+#        self.lastTriggerTime = 0
+#
+#    def ready(self):
+#        return (millis()- self.lastTriggerTime > self.debounceDelay)
+#
+#    def trigger(self):
+#        self.lastTriggerTime = millis()
+#        
+
