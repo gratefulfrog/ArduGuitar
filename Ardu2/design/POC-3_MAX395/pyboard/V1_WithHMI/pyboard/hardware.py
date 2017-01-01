@@ -762,6 +762,7 @@ class SplitPot:
             #print('return (',rangeID,sign*State.splitPotTrackingBigMultiplier,')')
             return (rangeID,sign*State.splitPotTrackingBigMultiplier)
         else:
+            # this is full vol/tone in one go!
             #print('return (',rangeID,sign*5,')') # State.splitPotTrackingBigMultiplier
             return (rangeID,sign*5) #State.splitPotTrackingBigMultiplier)
             
