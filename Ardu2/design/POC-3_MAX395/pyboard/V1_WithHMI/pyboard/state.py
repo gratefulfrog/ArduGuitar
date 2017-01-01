@@ -98,11 +98,17 @@ class State():
                           'X4',  # 3: Coil C
                           'Y11', # 4: Coil D
                           'Y12') # 5: ToneRange
-    splitPotCutOff               = 60 # 30 update of 2016 12 24
-    splitPotSpacing              = 30
-    splitPotTrackingError        = 250
-    splitPotTrackingNbReads      = 5
-    splitPotNoTrackingNbReadings = 10
+    splitPotCutOff                  = 60 # 30 update of 2016 12 24
+    splitPotSpacing                 = 30
+
+    splitPotTrackingError           = 0 # 50 #150
+    splitPotTrackingBigStep         = 300 #400
+    splitPotTrackingPercentCutoff   = 0.3
+    splitPotTrackingSmallMultiplier = 1
+    splitPotTrackingBigMultiplier   = 2
+    splitPotMasterFactor            = 5
+    
+    splitPotNoTrackingNbReadings    = 10
     
     # SPI state for pyboard setup
     # define the latching pin

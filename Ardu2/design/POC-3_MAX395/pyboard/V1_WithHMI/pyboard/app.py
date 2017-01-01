@@ -5,6 +5,7 @@
 # 2016 12 24: dissabled tracking on splitpots
 # 2016 12 25: updated validateAndApplyLCDInput to save edited conf as preset, but not to disk
 # 2016 12 28: added polling version to pb and selectors with swtich
+# 2017 01 01: re-activated tracking on pb 0, if not sequencing... to see what happens!
 
 from bitMgr import BitMgr
 from dictMgr import shuntConfDict
@@ -233,23 +234,28 @@ class App():
         return res
 
     def inc(self,who,val,what):
-        # updated version works with updated top byte INC | VOL + M,A,B,C,D,TR -does it work for tone range?
+        # updated version works with updated top byte INC | VOL + M,A,B,C,D,TR -it DOES work for tone range!
         # we need to find if its vol or tone then to which coil then call the appropriate methods
         volMask  = 0B10000
         toneMask = 0B1000
-        newVal = 0
+        newVal = val
         sFunc = None
         State.printT('INC:\t%s\t%s\t%d'%('Vol' if (what & volMask) else 'Tone', who,val))
+        #print('INC:\t%s\t%s\t%d'%('Vol' if (what & volMask) else 'Tone', who,val))
         if what & volMask:
             sFunc = self.vol
-            self.mEval.inc(0,val)
-            newVal = self.mEval.valRounded(0)
-            #newVal = max(0,(min(self.preset.currentDict[who][0] + val,5)))
+            if who == 'M':
+                self.mEval.inc(0,val)
+                newVal = self.mEval.valRounded(0)
+            else:
+                newVal = max(0,(min(self.preset.currentDict[who][0] + val,5)))
         elif what & toneMask:
             sFunc = self.tone
-            self.mEval.inc(1,val)
-            newVal = self.mEval.valRounded(1)
-            #newVal = max(0,(min(self.preset.currentDict[who][1] + val,5)))
+            if who == 'M':
+                self.mEval.inc(1,val)
+                newVal = self.mEval.valRounded(1)
+            else:
+                newVal = max(0,(min(self.preset.currentDict[who][1] + val,5)))
         return sFunc(who,newVal)
 
     def vol(self,who,val,unused=None,force=False):
@@ -357,9 +363,10 @@ class App():
             #State.debug and input('Press Return:')
             return self.doNextSeq()
         else:
-            return False  # no more tracking for now
+            #return False  # no more tracking for now
             State.printT('pb0Func:\ttoggling tracking...')
             #State.debug and input('Press Return:')
+            #print('pb0Func:\ttoggling tracking...')
             return self.toggleTracking()
 
     def toggleTracking(self):

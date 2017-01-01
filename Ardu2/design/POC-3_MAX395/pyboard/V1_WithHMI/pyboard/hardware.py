@@ -657,8 +657,9 @@ class SplitPot:
         self.tracking  = False
         self.update    = self.noTrackingUpdate
         self.track(False)
-        #self.bounceMgr = bMgr
-        #print(self.ranges)
+
+    def isMaster(self):
+        return (self.id == 0)
 
     def track(self,onOff):
         self.tracking  = onOff
@@ -681,6 +682,19 @@ class SplitPot:
             self.enQV[res[0]].push(self.id,res[1])
             enable_irq(irq_state)
 
+    def getTrackingRange(self,vADC):
+        curRange = None
+        # 2 splits if not ToneRange, only second split if ToneRange
+        for i in range((1 if self.isToneRange else 0),2): 
+            if vADC >= self.ranges[i][0] and vADC<=self.ranges[i][1]:
+                curRange=i
+                break
+        return curRange
+
+    def inBounds(self,vADC):
+        #print ('inBounds returning: ', (vADC >= self.cutOff and vADC <= self.ranges[1][1]))
+        return (vADC >= self.cutOff and vADC <= self.ranges[1][1])
+        
     def trackingUpdate(self):
         """
         This means we touch and hold, slide, then let go. 
@@ -699,11 +713,11 @@ class SplitPot:
             vLast <- vInit
         else:
            return None
-        while vRead >lowCutOff && vRead < highCutoff:
+        while vRead >lowCutOff && vRead < highCutoff and the delta(vLast,vRead) is with 30% of vLast 
            vLast <- vRead
            vRead <- adc.read()
         delta <- abs(vLast - vInit)
-        sign <- 1 if vLast >= vInit else -1
+        sign <- 1 if vLast >= vInit else -1 # NO it's upside down!
         if delta < epsilon: # we have no  tracked values
           return None
         else if delta > bigStep:
@@ -716,49 +730,41 @@ class SplitPot:
         else:
            return None
         """
-        pass
-    
-    def trackingUpdateOld(self):
-        """ 
-        error allows for a bad finger move at start of tracking,
-        a track dist<=200 would produce a ZERO output, so we have put a max(1, ...) at the return to 
-        ensure that any touch of the pot will produce 
-        at least a track value of 1 and never 0 because you never would touch it for no reason, would you?!
-        """
-        error   = State.splitPotTrackingError
-        nbReads = State.splitPotTrackingNbReads
-        vInit=0
-        for i in range(nbReads):
-            v=self.adc.read()
-            if v<self.cutOff or (v>self.ranges[0][1] and v<self.ranges[1][0]) or v>self.ranges[1][1]:
-                #State.printT('None:1')
-                return None
-            vInit +=v
-        vInit= round(vInit/nbReads)
-        vADCmin = vADCmax = v = vInit
-        curRange = None
-        for i in range((1 if self.isToneRange else 0),2): # 2 splits if not ToneRange, only second split if ToneRange
-            if vInit >= self.ranges[i][0] and vInit<=self.ranges[i][1]:
-                curRange=i
-                break
-        if curRange==None:
-            #State.printT('None:2')
+        vInit = self.adc.read()
+        rangeID = self.getTrackingRange(vInit)
+        if rangeID == None:
+            return
+        vLast = vInit
+        vRead = self.adc.read()
+        #print('vInit: ', vInit)
+        #print('rangeID: ', rangeID)
+        #print('new vRead: ',vRead)
+        while (self.inBounds(vRead) and abs(vRead-vLast) < State.splitPotTrackingPercentCutoff*vLast):
+            vLast = vRead
+            vRead = self.adc.read()
+            delay(1)
+        #print('final vRead: ', vRead)
+        #print('final vLast: ', vLast)
+        delta  = abs(vLast-vInit)
+        sign   = -1 if vInit >= vLast else 1
+        #print('vInit: ', vInit, 'vLast: ',vLast)
+        #print('delta: ', delta, 'sign: ', sign)
+        #print('parametered Corrected! SplitPot ID: ',self.id)
+        if self.isMaster():
+            sign *= State.splitPotMasterFactor # correct for microvaluation on master vol/tone!
+        if delta < State.splitPotTrackingError:
+            #print('return None')
             return None
-        #State.printT('Entering the While loop...')
-        while v >= self.ranges[curRange][0] and v<=self.ranges[curRange][1]:
-            delay(3)
-            vADCmin = min(vADCmin,v)
-            vADCmax = max(vADCmax,v)
-            v=self.adc.read()
-            #State.printT('v, vADCmax, vADCmin:\t',v, vADCmax, vADCmin)
-        sign = +1
-        trackDist=vADCmax-vADCmin
-        #print(abs(vADCmax-vInit)<=error and trackDist>error)
-        if abs(vADCmax-vInit)<=error and trackDist>error:
-            sign = -1
-        #print ('Max: ',vADCmax,'Min: ', vADCmin,'Init: ',vInit,'Dist: ',trackDist,'Sign: ',sign)
-        return (curRange, sign*(max(1,self.rMaps[curRange].v(self.ranges[curRange][0]+trackDist))))
-
+        elif delta < State.splitPotTrackingBigStep:
+            #print('return (',rangeID,sign*State.splitPotTrackingSmallMultiplier,')')
+            return (rangeID,sign*State.splitPotTrackingSmallMultiplier)
+        elif delta < 2*State.splitPotTrackingBigStep:
+            #print('return (',rangeID,sign*State.splitPotTrackingBigMultiplier,')')
+            return (rangeID,sign*State.splitPotTrackingBigMultiplier)
+        else:
+            #print('return (',rangeID,sign*5,')') # State.splitPotTrackingBigMultiplier
+            return (rangeID,sign*5) #State.splitPotTrackingBigMultiplier)
+            
     def noTrackingUpdate(self):
         """
         takes nbReadings reads, then avgs them and maps the result to the appropriate range and returns it.
@@ -795,6 +801,7 @@ class SplitPotArray:
         self.track(useTracking)
 
     def track(self,onOff):
+        #print('called spa track: ', onOff)
         for sp in self.spvVec:
             sp.track(onOff)
 
