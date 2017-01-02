@@ -1,8 +1,7 @@
 # pathSet.py
 # set sys.path to first import from /sd.
-# updated 2017 01 02
 
-auto=True
+auto=False # True
 
 import sys
 from pyb import delay
@@ -22,14 +21,28 @@ def set():
 def runTest():
     global a
     try:
-        import app
-        a=app.App()
-        print('Running app.App()...')
+        import hwTester
+        a=hwTester.App()
+        print('Running hwTester.App()...')
         delay(1000)
         a.mainLoop()
+        return a
     except KeyboardInterrupt:
         print('Done.')
         return a
+    except:
+        print('\n**** Could not run hwTester.App.mainLoop... ****')
+        print('**** running app.App.mainLoop instead... ****')
+        try:
+            import app
+            a=app.App()
+            print('Running app.App()...')
+            delay(1000)
+            a.mainLoop()
+        except KeyboardInterrupt:
+            print('Done.')
+            return a
+
 
 set()
 if auto:

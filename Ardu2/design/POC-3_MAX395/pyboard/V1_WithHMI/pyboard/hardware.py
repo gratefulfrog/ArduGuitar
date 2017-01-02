@@ -214,7 +214,7 @@ class HWDebouncedPushButton(EnQueueable):
             self.callback(None)
             
     def __repr__(self):
-        return 'HWDebouncedPushButton:\n  ID:\t%d\n  %s'%(self.id,repr(self.extInt))
+        return 'HWDebouncedPushButton:\n  ID:\t%d'%(self.id)
 
 
 # PushButtonArray
@@ -626,8 +626,8 @@ class TrackBall:
               '\nx1:             \t' + str(self.x1)               + \
               '\nx2:             \t' + str(self.x2)               + \
               '\ny1:             \t' + str(self.y1)               + \
-              '\ny2:             \t' + str(self.y2)               + \
-              '\nExtInts:        \t' + str([i for i in self.extInts])
+              '\ny2:             \t' + str(self.y2)               #+ \
+              #'\nExtInts:        \t' + str([i for i in self.extInts])
         return res
 
 # SplitPot classes

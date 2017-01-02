@@ -1,5 +1,9 @@
 # sParse.py
 # parse string expressions into connection function calls
+# 2017 01 02: updated  invert,
+#           : added self.notConcerned to __init__
+#           : updated executable
+
 """
 String expressions are of the form
 * A
@@ -41,10 +45,20 @@ from state import State
 
 # app call generators
 
+#def invert(ap,coil,val):
+#    #print ('Inverted Coil:\t'+ coil + '\t' + str(val))
+#    #return "a.set('%s',State.Inverter,%s)"%(coil, 'State.l1' if val else 'State.l0')
+#    ap.set(coil,State.Inverter,(State.l1 if val else State.l0))
+
 def invert(ap,coil,val):
     #print ('Inverted Coil:\t'+ coil + '\t' + str(val))
     #return "a.set('%s',State.Inverter,%s)"%(coil, 'State.l1' if val else 'State.l0')
-    ap.set(coil,State.Inverter,(State.l1 if val else State.l0))
+    if val == State.lOff:
+        ap.set(coil,State.Inverter,State.lOff)
+        ap.set(coil,State.Vol,State.lOff)
+        ap.set(coil,State.Tone,State.lOff)
+    else:
+        ap.set(coil,State.Inverter,(State.l1 if val else State.l0))
 
 def connect(ap,a,b):
     #print ('Connected Coils:\t'+ str(a) +','+ str(b))
@@ -81,6 +95,7 @@ class SExpParser():
         self.checkDoubles(Exp)
         self.checkSingleton(Exp)
         self.tokens = list(Exp)
+        self.notConcerned = [x for x in SExpParser.straight]
 
     def __repr__(self):
         return str(self.tokens)
@@ -124,20 +139,28 @@ class SExpParser():
     def executable(self):
         res0 = self.pModal(self.readFromTokens([x for x in self.tokens]))
         res1= ''
-        #inverters = []
         for c in  res0:
             if c in SExpParser.inverted:
-                #inverters.append('invert('+c.upper()+',1)')
                 invert(self.a,c.upper(),1)
                 res1+=c.upper()
+                # line added 2017 01 02
+                try:
+                    self.notConcerned.remove(c.upper)
+                except ValueError:
+                    pass
             elif c in SExpParser.straight:
-                #inverters.append('invert('+ c +',0)')
                 invert(self.a,c,0)
                 res1+=c
+                # line added 2017 01 02
+                try:
+                    self.notConcerned.remove(c)
+                except ValueError:
+                    pass
             else:
                 res1+=c
-            
-        #return (inverters+[res1])
+        # 2 lines added 2017 01 02
+        for coil in self.notConcerned:
+            invert(self.a,coil,State.lOff)
         return [res1]
 
     def execute(self):

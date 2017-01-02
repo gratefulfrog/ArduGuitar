@@ -6,6 +6,7 @@
 # 2016 12 25: updated validateAndApplyLCDInput to save edited conf as preset, but not to disk
 # 2016 12 28: added polling version to pb and selectors with swtich
 # 2017 01 01: re-activated tracking on pb 0, if not sequencing... to see what happens!
+# 2017 01 02: reorganized loadConf, created loadConfHelper
 
 from bitMgr import BitMgr
 from dictMgr import shuntConfDict
@@ -21,6 +22,9 @@ import sParse
 from lcdMgr import LCDMgr
 import pyb
 import gc
+
+
+lastUpdate = "updated: 2017 01 02 18:49"
 
 class App():
     """
@@ -120,6 +124,7 @@ class App():
         after creation of the SPIMgr, the update message is sent to it to 
         initialize all the pins.
         """
+        print(lastUpdate)
         self.usePolling = uPolling
         self.messenger = App.LCDMessenger()
         #self.bounceMgr = BounceMgr(State.HWDebounceDelay)
@@ -208,6 +213,9 @@ class App():
             self.messenger.stopMessaging(self.lcd)
             State.printT('worked!')
             self.x()
+            # added 2017 01 02 to ensure that all changes are permanent
+            if not self.sequencing:
+                self.preset.saveCurrentConfigAsPreset(self.currentConfTupleKey, False)
             self.gcd=False
         elif not self.gcd:
             State.printT('GC!')
@@ -424,34 +432,8 @@ class App():
     
     def displayCurrentConf(self):
         return self.preset.currentDict
-    
-    def loadConf(self, conf):
-        State.printT('loading conf: ' + str(conf))
-        try:
-            #res = self.doParse(conf[self.conf.vocab.configKeys[7]])
-            self.doParse(conf[self.conf.vocab.configKeys[7]])
-            #print('doParse ok')
-            """
-            for e in res:
-                #print(e)
-                self.outgoing.append(e)
-            """
-            #print('currentDict: ',self.preset.currentDict)
-            #print('keys: ', [key for key in self.preset.currentDict.keys()])
-            for key in self.preset.currentDict.keys():
-                self.preset.currentDict[key] = conf[key]
-                #print('key: ',key, ' processed ok!')
-        except Exception as e:
-            #print('loadConf threw exception type:',type(e), ' args: ', e.args)
-            #print('conf was:\t', conf)
-            #import sys
-            #sys.exit()
-            
-            self.doParse(self.conf.presetConf.defaultConfDict[self.conf.vocab.configKeys[7]])
-            for key in self.conf.presetConf.defaultConfDict.keys():
-                self.preset.currentDict[key] = self.conf.presetConf.defaultConfDict[key]
-            self.preset.currentDict[self.conf.vocab.configKeys[0]] = 'DEFAULT PRESET'
-            raise e
+
+    def loadConfHelper(self):
         self.tone('TR',self.preset.currentDict['TR'][1],force=True)
         for c in ['A','B','C','D','M']:
             self.vol(c,self.preset.currentDict[c][0],force=True)
@@ -460,8 +442,33 @@ class App():
         self.trem(self.preset.currentDict[self.conf.vocab.configKeys[8]])
         self.vib(self.preset.currentDict[self.conf.vocab.configKeys[9]])
         self.tracking(self.preset.currentDict[self.conf.vocab.configKeys[10]])
+       
+    def loadConf(self, conf):
+        State.printT('loading conf: ' + str(conf))
+        #print('currentDict: ',self.preset.currentDict)
+        #print('keys: ', [key for key in self.preset.currentDict.keys()])
+        for key in self.preset.currentDict.keys():
+            self.preset.currentDict[key] = conf[key]
+            #print('key: ',key, ' processed ok!')
+        self.loadConfHelper()
+        try:
+            #res = self.doParse(conf[self.conf.vocab.configKeys[7]])
+            self.doParse(conf[self.conf.vocab.configKeys[7]])
+            #print('doParse ok')            
+        except Exception as e:
+            #print('loadConf threw exception type:',type(e), ' args: ', e.args)
+            #print('conf was:\t', conf)
+            #import sys
+            #sys.exit()            
+            for key in self.conf.presetConf.defaultConfDict.keys():
+                self.preset.currentDict[key] = self.conf.presetConf.defaultConfDict[key]
+            self.preset.currentDict[self.conf.vocab.configKeys[0]] = 'DEFAULT PRESET'
+            self.loadConfHelper()
+            self.doParse(self.conf.presetConf.defaultConfDict[self.conf.vocab.configKeys[7]])
+            raise e
         gc.collect()
         self.gcd=True
+        return True
 
     def doParse(self,confString):
         sp = sParse.SExpParser(self,confString.strip())
@@ -608,3 +615,42 @@ class App():
 #        self.lcd.setLn(lineNb, line)
 #
 ##############################
+#
+#    def loadConf(self, conf):
+#        State.printT('loading conf: ' + str(conf))
+#        try:
+#            #res = self.doParse(conf[self.conf.vocab.configKeys[7]])
+#            self.doParse(conf[self.conf.vocab.configKeys[7]])
+#            #print('doParse ok')
+#            """
+#            for e in res:
+#                #print(e)
+#                self.outgoing.append(e)
+#            """
+#            #print('currentDict: ',self.preset.currentDict)
+#            #print('keys: ', [key for key in self.preset.currentDict.keys()])
+#            for key in self.preset.currentDict.keys():
+#                self.preset.currentDict[key] = conf[key]
+#                #print('key: ',key, ' processed ok!')
+#        except Exception as e:
+#            #print('loadConf threw exception type:',type(e), ' args: ', e.args)
+#            #print('conf was:\t', conf)
+#            #import sys
+#            #sys.exit()
+#            
+#            self.doParse(self.conf.presetConf.defaultConfDict[self.conf.vocab.configKeys[7]])
+#            for key in self.conf.presetConf.defaultConfDict.keys():
+#                self.preset.currentDict[key] = self.conf.presetConf.defaultConfDict[key]
+#            self.preset.currentDict[self.conf.vocab.configKeys[0]] = 'DEFAULT PRESET'
+#            raise e
+#        self.tone('TR',self.preset.currentDict['TR'][1],force=True)
+#        for c in ['A','B','C','D','M']:
+#            self.vol(c,self.preset.currentDict[c][0],force=True)
+#            self.tone(c,self.preset.currentDict[c][1],force=True)
+#        self.lcdMgr.loadConf()
+#        self.trem(self.preset.currentDict[self.conf.vocab.configKeys[8]])
+#        self.vib(self.preset.currentDict[self.conf.vocab.configKeys[9]])
+#        self.tracking(self.preset.currentDict[self.conf.vocab.configKeys[10]])
+#        gc.collect()
+#        self.gcd=True
+########################################

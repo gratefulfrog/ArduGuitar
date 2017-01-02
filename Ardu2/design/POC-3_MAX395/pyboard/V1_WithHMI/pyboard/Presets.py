@@ -3,7 +3,6 @@ from state import State
 
 # 2016 12 25: changed saveCurrentConfigAsPreset to allow for both save to disk and not to disk
 
-
 # this is where I put all the preset configs
 
 """
