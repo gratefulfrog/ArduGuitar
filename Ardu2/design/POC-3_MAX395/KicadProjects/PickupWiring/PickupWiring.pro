@@ -1,4 +1,4 @@
-update=Mon 02 Jan 2017 02:16:56 PM CET
+update=Fri 06 Jan 2017 08:12:06 PM CET
 version=1
 last_client=kicad
 [pcbnew]
@@ -23,9 +23,19 @@ ModuleOutlineThickness=0.150000000000
 [cvpcb]
 version=1
 NetIExt=net
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceAjustPassiveValues=0
+LabSize=60
+ERC_TestSimilarLabels=1
 [eeschema]
 version=1
-LibDir=
+LibDir=/home/bob/.kicad
 [eeschema/libraries]
 LibName1=power
 LibName2=device
@@ -56,15 +66,8 @@ LibName26=opto
 LibName27=atmel
 LibName28=contrib
 LibName29=valves
-[schematic_editor]
-version=1
-PageLayoutDescrFile=
-PlotDirectoryName=
-SubpartIdSeparator=0
-SubpartFirstId=65
-NetFmtName=
-SpiceAjustPassiveValues=0
-LabSize=60
-ERC_TestSimilarLabels=1
+LibName30=lib/MiscellaneousDevices
+LibName31=lib/switches
+LibName32=lib/switch-misc
 [general]
 version=1
