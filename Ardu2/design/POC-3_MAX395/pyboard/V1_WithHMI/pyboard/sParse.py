@@ -3,7 +3,7 @@
 # 2017 01 02: updated  invert,
 #           : added self.notConcerned to __init__
 #           : updated executable
-
+# 2017 01 08: updated executable to fix defect, called c.upper without parenthesis!
 """
 String expressions are of the form
 * A
@@ -42,6 +42,7 @@ Now, how to interpret the String:
 from parse import ss,pp,connectionList
 from state import State
 
+#print('sParse updated 2017 01 08')
 
 # app call generators
 
@@ -145,7 +146,7 @@ class SExpParser():
                 res1+=c.upper()
                 # line added 2017 01 02
                 try:
-                    self.notConcerned.remove(c.upper)
+                    self.notConcerned.remove(c.upper())  # fixed this call 2017 01 08
                 except ValueError:
                     pass
             elif c in SExpParser.straight:

@@ -23,8 +23,7 @@ from lcdMgr import LCDMgr
 import pyb
 import gc
 
-
-lastUpdate = "updated: 2017 01 02 18:49"
+lastUpdate = "updated: 2017 01 08 12:23 (sParse.py)"
 
 class App():
     """
