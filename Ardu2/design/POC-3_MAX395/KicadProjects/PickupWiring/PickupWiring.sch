@@ -190,41 +190,8 @@ $EndComp
 $Comp
 L SWITCH_SPDT SW7
 U 1 1 586FD7B8
-P 5350 3440
-F 0 "SW7" V 5350 3722 50  0001 C CNN
-F 1 "SWITCH_SPDT" H 5350 3633 50  0001 C CNN
-F 2 "" H 5350 3440 60  0000 C CNN
-F 3 "" H 5350 3440 60  0000 C CNN
-	1    5350 3440
-	0    1    1    0   
-$EndComp
-$Comp
-L SWITCH_SPDT SW5
-U 1 1 586FD7E1
-P 4950 3440
-F 0 "SW5" V 4950 3722 50  0001 C CNN
-F 1 "SWITCH_SPDT" H 4950 3633 50  0001 C CNN
-F 2 "" H 4950 3440 60  0000 C CNN
-F 3 "" H 4950 3440 60  0000 C CNN
-	1    4950 3440
-	0    1    1    0   
-$EndComp
-$Comp
-L SWITCH_SPDT SW3
-U 1 1 586FD837
-P 4750 3440
-F 0 "SW3" V 4750 3722 50  0001 C CNN
-F 1 "SWITCH_SPDT" H 4750 3633 50  0001 C CNN
-F 2 "" H 4750 3440 60  0000 C CNN
-F 3 "" H 4750 3440 60  0000 C CNN
-	1    4750 3440
-	0    1    1    0   
-$EndComp
-$Comp
-L SWITCH_SPDT SW1
-U 1 1 586FD83D
 P 4550 3440
-F 0 "SW1" V 4550 3722 50  0001 C CNN
+F 0 "SW7" V 4550 3722 50  0001 C CNN
 F 1 "SWITCH_SPDT" H 4550 3633 50  0001 C CNN
 F 2 "" H 4550 3440 60  0000 C CNN
 F 3 "" H 4550 3440 60  0000 C CNN
@@ -232,26 +199,59 @@ F 3 "" H 4550 3440 60  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L SWITCH_SPDT SW10
-U 1 1 586FD9BC
+L SWITCH_SPDT SW5
+U 1 1 586FD7E1
 P 5150 4630
-F 0 "SW10" V 5150 4912 50  0001 C CNN
+F 0 "SW5" V 5150 4912 50  0001 C CNN
 F 1 "SWITCH_SPDT" H 5150 4823 50  0001 C CNN
 F 2 "" H 5150 4630 60  0000 C CNN
 F 3 "" H 5150 4630 60  0000 C CNN
 	1    5150 4630
-	0    1    -1   0   
+	0    -1   -1   0   
 $EndComp
 $Comp
-L SWITCH_SPDT SW8
-U 1 1 586FD9C2
+L SWITCH_SPDT SW3
+U 1 1 586FD837
 P 4750 4630
-F 0 "SW8" V 4750 4912 50  0001 C CNN
+F 0 "SW3" V 4750 4912 50  0001 C CNN
 F 1 "SWITCH_SPDT" H 4750 4823 50  0001 C CNN
 F 2 "" H 4750 4630 60  0000 C CNN
 F 3 "" H 4750 4630 60  0000 C CNN
 	1    4750 4630
 	0    1    -1   0   
+$EndComp
+$Comp
+L SWITCH_SPDT SW1
+U 1 1 586FD83D
+P 4350 3440
+F 0 "SW1" V 4350 3722 50  0001 C CNN
+F 1 "SWITCH_SPDT" H 4350 3633 50  0001 C CNN
+F 2 "" H 4350 3440 60  0000 C CNN
+F 3 "" H 4350 3440 60  0000 C CNN
+	1    4350 3440
+	0    1    1    0   
+$EndComp
+$Comp
+L SWITCH_SPDT SW10
+U 1 1 586FD9BC
+P 4950 3440
+F 0 "SW10" V 4950 3722 50  0001 C CNN
+F 1 "SWITCH_SPDT" H 4950 3633 50  0001 C CNN
+F 2 "" H 4950 3440 60  0000 C CNN
+F 3 "" H 4950 3440 60  0000 C CNN
+	1    4950 3440
+	0    -1   1    0   
+$EndComp
+$Comp
+L SWITCH_SPDT SW8
+U 1 1 586FD9C2
+P 4750 3440
+F 0 "SW8" V 4750 3722 50  0001 C CNN
+F 1 "SWITCH_SPDT" H 4750 3633 50  0001 C CNN
+F 2 "" H 4750 3440 60  0000 C CNN
+F 3 "" H 4750 3440 60  0000 C CNN
+	1    4750 3440
+	0    1    1    0   
 $EndComp
 $Comp
 L SWITCH_SPDT SW6
@@ -267,23 +267,23 @@ $EndComp
 $Comp
 L SWITCH_SPDT SW4
 U 1 1 586FD9CE
-P 5370 4630
-F 0 "SW4" V 5370 4912 50  0001 C CNN
-F 1 "SWITCH_SPDT" H 5370 4823 50  0001 C CNN
-F 2 "" H 5370 4630 60  0000 C CNN
-F 3 "" H 5370 4630 60  0000 C CNN
-	1    5370 4630
+P 4550 4630
+F 0 "SW4" V 4550 4912 50  0001 C CNN
+F 1 "SWITCH_SPDT" H 4550 4823 50  0001 C CNN
+F 2 "" H 4550 4630 60  0000 C CNN
+F 3 "" H 4550 4630 60  0000 C CNN
+	1    4550 4630
 	0    1    -1   0   
 $EndComp
 $Comp
 L SWITCH_SPDT SW2
 U 1 1 586FD9D4
-P 4550 4630
-F 0 "SW2" V 4550 4912 50  0001 C CNN
-F 1 "SWITCH_SPDT" H 4550 4823 50  0001 C CNN
-F 2 "" H 4550 4630 60  0000 C CNN
-F 3 "" H 4550 4630 60  0000 C CNN
-	1    4550 4630
+P 4350 4630
+F 0 "SW2" V 4350 4912 50  0001 C CNN
+F 1 "SWITCH_SPDT" H 4350 4823 50  0001 C CNN
+F 2 "" H 4350 4630 60  0000 C CNN
+F 3 "" H 4350 4630 60  0000 C CNN
+	1    4350 4630
 	0    1    -1   0   
 $EndComp
 Text Label 6190 2570 2    60   ~ 0
@@ -301,30 +301,28 @@ F 3 "" H 6390 2520 50  0000 C CNN
 $EndComp
 Text Notes 5350 4170 0    60   ~ 0
 10PDT:\nOut: Carvin Control\nIn:  PyGuitar Control
-Text Label 4750 3290 1    60   ~ 0
+Text Label 4750 4780 3    60   ~ 0
 N-Red
-Text Label 4950 3290 1    60   ~ 0
+Text Label 5150 4780 3    60   ~ 0
 N-White
 Text Label 4950 4780 3    60   ~ 0
 N-Green
-Text Label 5370 4780 3    60   ~ 0
-N-Black
-Text Label 4550 3290 1    60   ~ 0
-Amp_Input
 Text Label 4550 4780 3    60   ~ 0
+N-Black
+Text Label 4350 3290 1    60   ~ 0
+Amp_Input
+Text Label 4350 4780 3    60   ~ 0
 AMP_GND
-Text Label 4750 4780 3    60   ~ 0
+Text Label 4750 3290 1    60   ~ 0
 B-Black
-Text Label 5150 4780 3    60   ~ 0
+Text Label 4950 3290 1    60   ~ 0
 B-Green
-Text Label 5350 3290 1    60   ~ 0
+Text Label 4550 3290 1    60   ~ 0
 B-Red
 Text Label 5150 3290 1    60   ~ 0
 B-White
-Text Label 4600 3590 3    60   ~ 0
+Text Label 4400 3590 3    60   ~ 0
 G_Out+
-Text Label 4600 4480 1    60   ~ 0
-AMP_GND
 $Comp
 L CONN_01X01 P3
 U 1 1 586FE8B6
@@ -373,37 +371,33 @@ Text Label 6190 3520 2    60   ~ 0
 D+
 Text Label 6190 3620 2    60   ~ 0
 D-
-Text Label 4800 3590 3    60   ~ 0
+Text Label 4800 4480 1    60   ~ 0
 NR
-Text Label 4700 3590 3    60   ~ 0
+Text Label 4700 4480 1    60   ~ 0
 A+
-Text Label 4500 3590 3    60   ~ 0
+Text Label 4300 3590 3    60   ~ 0
 OUT+
-Text Label 4900 3590 3    60   ~ 0
+Text Label 5100 4480 1    60   ~ 0
 A-
-Text Label 5320 4480 1    60   ~ 0
+Text Label 4500 4480 1    60   ~ 0
 B-
 Text Label 4900 4480 1    60   ~ 0
 B+
-Text Label 5300 3590 3    60   ~ 0
+Text Label 4500 3590 3    60   ~ 0
 C+
 Text Label 5100 3590 3    60   ~ 0
 C-
-Text Label 5100 4480 1    60   ~ 0
+Text Label 4900 3590 3    60   ~ 0
 D+
-Text Label 4700 4480 1    60   ~ 0
-D-
-Text Label 4500 4480 1    60   ~ 0
+Text Label 4300 4480 1    60   ~ 0
 OUT-
 NoConn ~ 5210 1340
 NoConn ~ 4510 1340
-Text Label 5400 3590 3    60   ~ 0
+Text Label 4600 3590 3    60   ~ 0
 BR
 Text Label 5200 3590 3    60   ~ 0
 BW
-Text Label 5420 4480 1    60   ~ 0
-NB
-Text Label 5000 3590 3    60   ~ 0
+Text Label 5200 4480 1    60   ~ 0
 NW
 $Comp
 L POT RV1
@@ -437,11 +431,7 @@ Wire Wire Line
 Wire Wire Line
 	4810 1340 4910 1340
 Wire Wire Line
-	5000 3590 5000 4480
-Wire Wire Line
-	5200 4480 5200 3590
-Wire Wire Line
-	4800 3590 4800 4480
+	4800 4480 4800 3590
 Connection ~ 4710 1730
 Wire Wire Line
 	4490 1730 4490 1880
@@ -497,4 +487,26 @@ Text Notes 4880 1140 2    39   ~ 0
 c
 Text Notes 4730 1140 2    30   ~ 0
 4 3 2 1 0
+Text Label 4400 4480 1    60   ~ 0
+G_Out-
+Wire Wire Line
+	4600 4480 4600 4320
+Wire Wire Line
+	4600 4320 4400 4320
+Wire Wire Line
+	4400 4320 4400 4480
+Wire Wire Line
+	5000 4480 5000 4320
+Wire Wire Line
+	5000 4320 5200 4320
+Wire Wire Line
+	5200 4320 5200 4480
+Text Label 4700 3590 3    60   ~ 0
+D-
+Wire Wire Line
+	5000 3590 5000 3800
+Wire Wire Line
+	5000 3800 5200 3800
+Wire Wire Line
+	5200 3800 5200 3590
 $EndSCHEMATC
