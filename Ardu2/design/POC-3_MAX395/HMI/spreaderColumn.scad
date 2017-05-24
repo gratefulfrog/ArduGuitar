@@ -46,17 +46,17 @@ module all(wrench,nHeight,sHeight,cHeight,bDia,nEps,bEps){
     rCyl = 2*rNut;
     difference(){
         column(rCyl,cHeight);
-        translate([0,0,sHeight]){
+        #translate([0,0,sHeight]){
             nut(wrench,hNut);
             slot(wNut,4*wNut,nHeight+nEps);
         }
-        translate([0,0,cHeight-sHeight]){
+        #translate([0,0,cHeight-sHeight]){
             rotate([180,0,0]){
                 nut(wrench,hNut);
                 slot(wNut,4*wNut,nHeight+nEps);
             }
         }
-        translate([0,0,-1])
+        #translate([0,0,-1])
             column(bEps+bDia/2.0,cHeight+2);
     }
 }
