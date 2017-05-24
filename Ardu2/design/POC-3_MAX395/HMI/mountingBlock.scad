@@ -136,7 +136,7 @@ module all(wrench,nHeight,sHeight,cHeight,bDia,nEps,bEps, low, smallBlock){
 }
 
 
-translate([-wBlock,0,0]){
+translate([-wBlock-5,0,0]){
     all(wNut,hNut,sHeight,hCol,dBolt,eNut,eBolt,true,true);
     translate([wBlock+5,0,0]){
         all(wNut,hNut,sHeight,hCol,dBolt,eNut,eBolt,true,false);
