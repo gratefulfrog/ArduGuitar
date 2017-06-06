@@ -37,10 +37,67 @@ wPlate = wBlock;
 ePlate=1;
 ratioPlate = 0.5;
 
-// single hol cylindrical spacer
+// single hole cylindrical spacer
 dCy = 20.0;
 hCy = hBlock;
 
+// drilling jig
+// 
+hPanel = 3.0;
+jigEpsilon = 0.2;
+wJigCol = 5;
+wJigHole = 5 + jigEpsilon;
+hJig =  hPlate;
+hJigCol = 2*hJig+ hPanel;
+wJig = wBlock;
+dJig = 50;
+dColBack = 23;
+
+module jigCol(wid,h){
+    cube([wid,wid,hJigCol], center=true);
+}
+module jigCols(doCol){
+    colY = -dJig+dColBack;
+    color("SteelBlue")
+    if(doCol){
+        translate([-wJig/6,colY,hJigCol/2.])
+            jigCol(wJigCol,hJigCol);
+    }
+    else{
+        #translate([wJig/6,colY,0])
+            jigCol(wJigHole,hJigCol);
+    }
+}
+module jigPlate(){
+    db = dBlock;
+    do = dOffset;
+    bDia = dBolt;
+    bEps = eBolt;
+    difference(){  
+        union(){
+            block(hJig,wJig,dBlock);
+            translate([0,(dBlock-dJig)/2.,0])
+              block(hJig,wJig,dJig);
+        }
+        // holes for vertical bolts
+        #translate([wBlock/4.0,db/2.0-do,-10])
+            column(bEps+bDia/2.0,hBlock+20);
+        #translate([-wBlock/4.0,db/2.0-do,-10])
+            column(bEps+bDia/2.0,hBlock+20);
+    }
+}
+
+module jigAll(){
+    difference(){
+        color("SteelBlue")
+        union(){
+            jigPlate();
+            jigCols(true);
+        }
+        jigCols(false);
+    }
+}
+                
 module cyPlate(){
     color("green")
     //scale([1,1,1])
@@ -181,8 +238,11 @@ module blockAll(low,blocks,plates){
 
 
 //cyAll(hCy,dBolt,eBolt,1,0);
-blockAll(true,1,0);
+//blockAll(true,1,0);
 //showThemAll();    
-echo("low hole vertical offset", hlOffset);
-echo("high hole vertical offset", hBlock - hOffset);
+//echo("low hole vertical offset", hlOffset);
+//echo("high hole vertical offset", hBlock - hOffset);
 
+//jigCols();
+//jigPlate();
+jigAll();
