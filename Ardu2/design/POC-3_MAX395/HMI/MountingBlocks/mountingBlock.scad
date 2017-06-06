@@ -195,20 +195,52 @@ module all(cHeight,bDia,bEps,low, blocks,plates){
     }
 }
 
+
+module triPlate(hh=3.0,rr=2){
+    // make a block centered at 0,0,0
+    //color("SteelBlue")
+    x = 33/2.0-rr;
+    y = 34.0-rr;
+    bDia = dBolt;
+    bEps = eBolt;
+    difference(){
+        hull(){
+            translate([-x,-y,0])
+                cylinder(r=rr,h=hh);
+            translate([x,-y,0])
+                cylinder(r=rr,h=hh);
+            translate([0,0,0])
+                cylinder(r=10,h=hh);
+        }
+        // hole for vertical bolt
+        #translate([0,0,-10])
+            column(bEps+bDia/2.0,hh+20);
+    }
+}
+module triAll(){
+    difference(){
+        color("SteelBlue")
+        union(){
+            triPlate();
+            jigCols(true);
+        }
+        jigCols(false);
+    }
+}
 module cyAll(cHeight,bDia,bEps, cols, plates){
     // make a cylindrical column of h=cHeight, 
     // with a bolt diamter of bDia, applying bEps   
     difference(){        
         union(){
             if (cols){
-                cyBlock(hCy,dCy);
+                cyBlock(cHeight,dCy);
             }
             if (plates>0){
                 translate([0,0,-5])
                     cyPlate();
             }
             if (plates>1){
-                translate([0,0,hCy+5])
+                translate([0,0,cHeight+5])
                     cyPlate();
             }
         }
@@ -237,7 +269,7 @@ module blockAll(low,blocks,plates){
 }
 
 
-//cyAll(hCy,dBolt,eBolt,1,0);
+//cyAll(hJig,dBolt,eBolt,1,0);
 //blockAll(true,1,0);
 //showThemAll();    
 //echo("low hole vertical offset", hlOffset);
@@ -245,4 +277,5 @@ module blockAll(low,blocks,plates){
 
 //jigCols();
 //jigPlate();
-jigAll();
+//jigAll();
+triAll();
