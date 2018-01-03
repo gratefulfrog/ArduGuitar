@@ -8,8 +8,8 @@
 
 M107
 M190 S57 ; set bed temperature
-G28								; home all axes (if axis shifting bug is fixed!)
-G32								; execute bed Z-plane  compensation at bed.g 4 points
+;G28								; home all axes (if axis shifting bug is fixed!)
+;G32								; execute bed Z-plane  compensation at bed.g 4 points
 G10 P0 X-16 Y-3 Z0.0 S-273 R-273		; set extruder x,y offsets
 M83								; set extruder to relative mode
 G10 P0 S195 R160					; Set tool 0 operating and standby temperatures
