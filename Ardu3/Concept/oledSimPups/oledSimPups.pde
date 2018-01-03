@@ -22,13 +22,19 @@ color red = color(255,0,0),
 String seq = "(|(+AB)(+CD))",
        seqseq = seq + "\n" + seq;
 
+/* cannot work with javascript
 void settings(){
   size(w,h);
 }
+*/
 
 Pup pupVec[];
 void setup() {
   frameRate(fr);
+<<<<<<< HEAD
+=======
+  size(128,128);
+>>>>>>> master
   pupVec = new Pup[4];
   // pup's vol/tone
   for (int j = 0; j< nbPups;j++){
