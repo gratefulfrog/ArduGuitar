@@ -30,8 +30,8 @@ void settings(){
 
 Pup pupVec[];
 void setup() {
-  frameRate(fr);
   size(128,128);
+  frameRate(fr);
   pupVec = new Pup[4];
   // pup's vol/tone
   for (int j = 0; j< nbPups;j++){
