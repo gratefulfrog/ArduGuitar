@@ -20,8 +20,10 @@ final color red = color(255,0,0),
             yellow = color(255,255,0),
             green =  color(0,255,0);
 
-final String seq = "(|(+AB)(+CD))",
+final String seq = "(|(+AB)(+CD))\n0123456789ABCDEF^",
              seqseq = seq + "\n" + seq;
+             
+PFont font;
 
 Pup pupVec[];
 void setup() {
@@ -41,6 +43,8 @@ void setup() {
   pupVec[nbPups] = new H(nbPups);
   pupVec[nbPups].setVol(1,0);
   background(0);
+  font = loadFont("DejaVuSansMono-20.vlw");
+  textFont(font,12);
 }
 
 void draw() { 
@@ -62,6 +66,8 @@ void draw() {
   
   // display baseline
   displayBaseline();
+  
+  displayText();
 }
 
 void displayBaseline(){
@@ -70,4 +76,8 @@ void displayBaseline(){
   strokeWeight(0.5);
   line(0,baseline,w, baseline);
   popStyle();
+}
+
+void   displayText(){
+  text(seq,puphs,128-th);
 }
