@@ -1,10 +1,11 @@
 int w = 128,
-    h = 128;
+    h = 128,
+    fr = 1;
     
-char conf[] = {'s','s','h'};    
+int coilConf[] = {2,1,2};    
 int  
     th = 20,
-    nbPups = conf.length;
+    nbPups = coilConf.length;
 float
     bvs = 1.5,
     bhs = 6,
@@ -21,30 +22,59 @@ color red = color(255,0,0),
 String seq = "(|(+AB)(+CD))",
        seqseq = seq + "\n" + seq;
 
+/* cannot work with javascript
 void settings(){
   size(w,h);
 }
+*/
 
 Pup pupVec[];
 void setup() {
+  frameRate(fr);
+  size(128,128);
   pupVec = new Pup[4];
+  // pup's vol/tone
   for (int j = 0; j< nbPups;j++){
-    if (conf[j] == 's') {
+    if (coilConf[j] == 1) {
       pupVec[j] = new S(j);
     }
     else{
       pupVec[j] = new H(j);
     }
   }
+  // create master vol/tone
   pupVec[nbPups] = new H(nbPups);
   pupVec[nbPups].setVol(1,0);
+  background(0);
 }
 
 void draw() { 
   background(0);
-  for (int j = 0; j< 4;j++){
+  // update and display pup's vol tone
+  for (int j = 0; j< 3;j++){
+    for (int i =0; i<coilConf[j];i++){
+      pupVec[j].setVol(i,round(random(10)));
+      pupVec[j].setTone(i,round(random(10)));
+    }
     pupVec[j].display();
   }
+  // update and display master vol tone
+  for (int i =0; i<2;i++){
+    pupVec[nbPups].setTone(i,round(random(10)));
+  }
+  pupVec[nbPups].setVol(0,round(random(10)));
+  pupVec[nbPups].display();
+  
+  // display baseline
+  displayBaseline();
+}
+
+void displayBaseline(){
+  pushStyle();
+  stroke (255);
+  strokeWeight(0.5);
+  line(0,baseline,w, baseline);
+  popStyle();
 }
 
 class VT {
@@ -99,7 +129,6 @@ class Pup{
   }
 }
   
-    
 class H extends Pup {
   final int nbVt = 2;
   H(int pos){ // position 0,1,2
