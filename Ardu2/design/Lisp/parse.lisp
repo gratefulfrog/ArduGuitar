@@ -31,7 +31,9 @@
 
 (defun pp (n1 &rest other-nodes)
   "top level PARALLEL connection call, dispatches as needed."
-  (reduce #'p (cons n1 other-nodes)))
+  (if other-nodes
+      (reduce #'p (cons n1 other-nodes))
+    (p n1)))
 
 (defun ss (n1 n2 &rest other-nodes)
   "top level SERIES connection call, dispatches as needed."

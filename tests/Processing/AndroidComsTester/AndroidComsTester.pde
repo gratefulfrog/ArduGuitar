@@ -1,3 +1,14 @@
+import ketai.camera.*;
+import ketai.cv.facedetector.*;
+import ketai.data.*;
+import ketai.net.*;
+import ketai.net.bluetooth.*;
+import ketai.net.nfc.*;
+import ketai.net.nfc.record.*;
+import ketai.net.wifidirect.*;
+import ketai.sensors.*;
+import ketai.ui.*;
+
 /**  Android Comms Tester
  * at last something that works!!!
  */
@@ -7,9 +18,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
-import ketai.net.bluetooth.*;
-import ketai.ui.*;
-import ketai.net.*;
+//import ketai.net.bluetooth.*;
+//import ketai.ui.*;
+//import ketai.net.*;
 
 KetaiBluetooth bt;
 
@@ -124,4 +135,3 @@ byte[] str2bytes(String s){
   }
   return b;
 }
-

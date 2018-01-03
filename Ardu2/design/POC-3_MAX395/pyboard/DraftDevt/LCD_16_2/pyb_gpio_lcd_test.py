@@ -33,18 +33,49 @@ from pyb_gpio_lcd import GpioLcd
 # http://www.instructables.com/id/How-to-drive-a-character-LCD-displays-using-DIP-sw/step2/HD44780-pinout/
 # Add to that the EN, RS, and D4-D7 lines.
 
+class LcdDisplay(GpioLcd):
+    def __init__(self,
+                 rs_pin=Pin.board.Y12,
+                 enable_pin=Pin.board.Y11,
+                 d4_pin=Pin.board.Y5,
+                 d5_pin=Pin.board.Y6,
+                 d6_pin=Pin.board.Y7,
+                 d7_pin=Pin.board.Y8,
+                 num_lines=2,
+                 num_columns=16):
+        GpioLcd.__init__(self,
+                         rs_pin=Pin.board.Y12,
+                         enable_pin=Pin.board.Y11,
+                         d4_pin=Pin.board.Y5,
+                         d5_pin=Pin.board.Y6,
+                         d6_pin=Pin.board.Y7,
+                         d7_pin=Pin.board.Y8,
+                         num_lines=2,
+                         num_columns=16)
+        self.lns =['0123456789ABCDEF','0123456789ABCDEF']
+    
+    def setLn(self, lineNb, val):
+        self.lns[lineNb] = val
+        self.move_to(0,lineNb)
+        self.putstr(val)
+        return self
+  
+    def getLn(self, lineNb):
+        return self.lns[lineNb]
+        
 
 def test_main():
     """Test function for verifying basic functionality."""
     print("Running test_main")
-    lcd = GpioLcd(rs_pin=Pin.board.Y12,
-                  enable_pin=Pin.board.Y11,
-                  d4_pin=Pin.board.Y5,
-                  d5_pin=Pin.board.Y6,
-                  d6_pin=Pin.board.Y7,
-                  d7_pin=Pin.board.Y8,
-                  num_lines=2, num_columns=16)
-    lcd.putstr("It Works!\nSecond Line")
+    lcd = LcdDisplay((rs_pin=Pin.board.Y12,
+                      enable_pin=Pin.board.Y11,
+                      d4_pin=Pin.board.Y5,
+                      d5_pin=Pin.board.Y6,
+                      d6_pin=Pin.board.Y7,
+                      d7_pin=Pin.board.Y8,
+                      num_lines=2,
+                      num_columns=16)
+    #lcd.putstr("It Works!\nSecond Line")
     delay(3000)
     lcd.backlight_off()
     lcd.clear()

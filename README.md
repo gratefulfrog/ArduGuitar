@@ -7,6 +7,8 @@ by gratefulfrog on www.arduguitar.org
 
 V2 is now nearly ready with a new, super evolved circuit allowing nearly limitless possiblities (2015 06).  
 
+Although, that seemed true at the time (June 2015), it took another year to get to the first workable version of both the hardware and the software!  As of 4 September 2016, we have bench tested v0.99 of the PyGuitar software and will soon put that sw on the hardware and give it a go! 
+
 The new circuit is  driven by a [Micropython Pyboard](http://micropython.org/).
 
 The whole story is documented [here](https://docs.google.com/document/d/1oo2Q_3ezPv_WPeJZZisc5ifhc270i9kwir6oPctKts0/edit?usp=sharing)!
@@ -40,3 +42,5 @@ The Processing code is based on the linux python version in the linux directory.
 There are too many people to thank individually for all the help and support that they gave me during this work, but the core team of Blake, Enrico, Jean and Luis really made this project possible. The Brussels Hackerspace community also provided great ideas to advance the work.
 
 My profound thanks to them and to all the others!
+
+Now using SSH 2016 12 24

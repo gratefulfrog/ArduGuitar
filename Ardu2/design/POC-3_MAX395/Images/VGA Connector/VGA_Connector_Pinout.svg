@@ -17,7 +17,7 @@
    xml:space="preserve"
    inkscape:version="0.91 r13725"
    sodipodi:docname="VGA_Connector_Pinout.svg"
-   inkscape:export-filename="/home/bob/ArduGuitar/Ardu2/design/POC-3_MAX395/Images/VGA_Connector_Pinout.png"
+   inkscape:export-filename="/home/bob/ArduGuitar/Ardu2/design/POC-3_MAX395/Images/VGA Connector/VGA_Connector_Pinout.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"><metadata
      id="metadata64"><rdf:RDF><cc:Work
@@ -40,8 +40,8 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:zoom="1.8693641"
-     inkscape:cx="207.59162"
-     inkscape:cy="151.07147"
+     inkscape:cx="126.01308"
+     inkscape:cy="150.00159"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -51,7 +51,7 @@
      style="fill:#ffffff;stroke:#000000;stroke-width:2.59739995"
      id="path4424"
      inkscape:connector-curvature="0" /><path
-     d="m 9.0299225,170.88507 c -14.567,0 -24.4149995,-11.735 -21.8819995,-26.085 l 6.1139995,-34.566 c 2.542,-14.350003 16.537,-26.094003 31.1040005,-26.094003 l 99.198007,0 c 14.564,0 28.559,11.744 31.103,26.094003 l 6.116,34.566 c 2.531,14.35 -7.308,26.085 -21.886,26.085 l -129.8670075,0 0,0 z"
+     d="m 9.0299225,84.140067 c -14.567,0 -24.4149995,11.735 -21.8819995,26.085003 l 6.1139995,34.566 c 2.542,14.35 16.537,26.094 31.1040005,26.094 l 99.198007,0 c 14.564,0 28.559,-11.744 31.103,-26.094 l 6.116,-34.566 c 2.531,-14.350003 -7.308,-26.085003 -21.886,-26.085003 l -129.8670075,0 0,0 z"
      style="fill:none;stroke:#000000;stroke-width:2.59739995"
      id="path4426"
      inkscape:connector-curvature="0" /><g

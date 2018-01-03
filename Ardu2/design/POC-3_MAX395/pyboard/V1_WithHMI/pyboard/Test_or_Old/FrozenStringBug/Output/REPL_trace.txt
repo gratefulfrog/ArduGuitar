@@ -1,0 +1,48 @@
+>>> import bug
+this is FROZEN csv.py
+This is FROZEN Presets.py
+>>> sd=bug.getP()
+returning a Preset instance using config from SD!
+this is config_ from sd-card
+creating preset instance from:  /sd/Data/presets.csv
+>>> fz=bug.getP(False)
+returning a Preset instance using config from FLASH!
+this is FROZEN config
+creating preset instance from:  /sd/Data/presets.csv
+>>> bug.test(sd)
+dict:
+ {'CTone': 3, 'ToneRange': 5, 'ATone': 3, 'TREM': 1, 'BVol': 0, 'VIB': 1, 'S': '(|AD)', 'AUX0': 0, 'AUX1': 0, 'AVol': 4, 'CVol': 0, 'BTone': 3, 'MasterVol': 5, 'VerticalSelector': 3, 'HorizontalSelector': 0, 'DVol': 5, 'MasterTone': 3, 'Name': '(0,3)', 'DTone': 3}
+converted to a list:
+ ['CTone', 'ToneRange', 'ATone', 'TREM', 'BVol', 'VIB', 'S', 'AUX0', 'AUX1', 'AVol', 'CVol', 'BTone', 'MasterVol', 'VerticalSelector', 'HorizontalSelector', 'DVol', 'MasterTone', 'Name', 'DTone']
+l.index("HorizontalSelector"):
+ 14
+l[l.index("HorizontalSelector")]:
+ HorizontalSelector
+p.header[0]:
+ HorizontalSelector
+p.header[0] == l[l.index("HorizontalSelector")]
+ True
+dict[l[l.index("HorizontalSelector")]]:
+ 0
+dict[p.header[0]]:
+ 0
+>>> bug.test(fz)
+dict:
+ {'HorizontalSelector': 0, 'VerticalSelector': 3, 'CTone': 3, 'ToneRange': 5, 'ATone': 3, 'TREM': 1, 'VIB': 1, 'S': '(|AD)', 'BVol': 0, 'AUX0': 0, 'AUX1': 0, 'AVol': 4, 'CVol': 0, 'BTone': 3, 'MasterVol': 5, 'DTone': 3, 'DVol': 5, 'MasterTone': 3, 'Name': '(0,3)'}
+converted to a list:
+ ['HorizontalSelector', 'VerticalSelector', 'CTone', 'ToneRange', 'ATone', 'TREM', 'VIB', 'S', 'BVol', 'AUX0', 'AUX1', 'AVol', 'CVol', 'BTone', 'MasterVol', 'DTone', 'DVol', 'MasterTone', 'Name']
+l.index("HorizontalSelector"):
+ 0
+l[l.index("HorizontalSelector")]:
+ HorizontalSelector
+p.header[0]:
+ HorizontalSelector
+p.header[0] == l[l.index("HorizontalSelector")]
+ True
+dict[l[l.index("HorizontalSelector")]]:
+ 0
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "bug.py", line 56, in test
+KeyError: <value>
+>>> 
