@@ -20,6 +20,7 @@ class JoyStick{
         Y0   = 0;
     
     void calibrateXY();
+    int read(boolean isX) const;
   public:
     JoyStick(int xp,int yp, int pbp, void (*pbISR)());  // last arg is a pointer to the interrupt handler
     int readX() const;

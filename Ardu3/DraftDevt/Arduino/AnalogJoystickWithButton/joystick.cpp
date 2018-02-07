@@ -21,20 +21,26 @@ JoyStick::JoyStick(int xp,int yp, int pbp, void (*pbISR)()) : XPin(xp),
   calibrateXY();
 }
 
-int JoyStick::readX() const{
-  int x = analogRead(XPin);
-  if (abs(x - X0) < pinExpo){
+int JoyStick::read(boolean isX) const{
+  int pin = XPin,
+      V0 = X0;
+  if (!isX){
+    pin = YPin;
+    V0 = Y0;
+  }
+  int v = analogRead(pin);
+  if (abs(v - V0) < pinExpo){
     return 0;
   }
-  return x > X0 ? map(x,X0,maxAnalog,0,maxOutput) : map(x,minAnalog,X0,minOutput,0);
+  return v > V0 ? map(v,V0,maxAnalog,0,maxOutput) : map(v,minAnalog,V0,minOutput,0);
+}
+
+int JoyStick::readX() const{
+  return read(true);
 }
 
 int JoyStick::readY() const{
-  int y = analogRead(YPin);
-  if (abs(y - Y0) < pinExpo){
-    return 0;
-  }
-  return y > Y0 ? map(y,Y0,maxAnalog,0,maxOutput) : map(y,minAnalog,Y0, minOutput,0);
+  return read(false);
 }
 
 

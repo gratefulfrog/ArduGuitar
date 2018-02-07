@@ -1,6 +1,5 @@
 import time
 from joystick import JoyStick
-import pyb
 
 class App:
     
@@ -8,7 +7,6 @@ class App:
         self.displayDelta  = 200  # ms
         self.led = ld
         self.led.off()
-        self.flag = 0
         try:
             self.js = JoyStick(xp,yp,pp, self.onButton)
             print('Starting up...')

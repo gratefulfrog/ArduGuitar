@@ -1,10 +1,14 @@
-from pyb import Pin, ExtInt, ADC
+from pyb import Pin, ADC
 import time
 
 def arduino_map(x, in_min, in_max, out_min, out_max):
     return (x - in_min) * (out_max - out_min) // (in_max - in_min) + out_min
 
 class JoyStick:
+    # expo formula
+    # ouput =((EXPO*POW(input,3))+((1-EXPO)*input))*RATE
+    # where input & output are on  [-1,1]
+    
     def __init__(self,xp,yp, pbp, pbFunc):  # last arg is a pointer to the interrupt handler
          self.XPin = ADC(Pin(xp))
          self.YPin = ADC(Pin(yp))
@@ -40,8 +44,6 @@ class JoyStick:
                 self.onPB()
                 self.lastChangeTime = now
                 
-        
-
     def _read(self, x):
         pin = self.XPin
         V0 =  self.X0
