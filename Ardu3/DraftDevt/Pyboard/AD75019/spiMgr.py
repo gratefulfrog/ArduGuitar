@@ -32,7 +32,7 @@ prescaler     baudrate
 32            2 625 000  i.e. 2.625 MHz
 256           328 125    i.e.   328 kHz
 """
-
+import time
 
 class SPIMgr():
     """
@@ -84,35 +84,31 @@ class SPIMgr():
 	set: HIGH
 
     """
-    def __init__(self,spiOnX,latchPin,prescaler=32,DEBUG=True):
+    def __init__(self,spiOnX,latchPin,prescalerR=32,DEBUG=False):
         # create an SPI.MASTER instance on the 'X' side of the board, 
         # first arg=1 means 'X side' of the board
 
         if DEBUG:
-            from _pyb import SPI,Pin,delay
+            from _pyb import SPI,Pin
         else:
-            from pyb import SPI,Pin,delay
+            from pyb import SPI,Pin
 
         boardSide = 1
         if not spiOnX:
             boardSide = 2
-        self.spi = SPI(boardSide,SPI.MASTER,prescaler=prescaler,polarity=0)
+        self.spi = SPI(boardSide,SPI.MASTER,prescaler=prescalerR,polarity=0,phase=0,firstbit=SPI.MSB)
         # create the pclk pin on the "latch" pin
         self.pclk = Pin(latchPin, Pin.OUT_PP)
+        self.pclk.high()
 
     def update(self,byteArray):
         # set latch to high
         # send the data bits to the shift register
         # unset the latch
         self.pclk.high()
-        # send the bits
-        #print('send:\t' + byteArray)
-        """
-        for b in byteArray:
-            print('send:\t{0:02x}x'.format(b))
-        """
         self.spi.send(byteArray)
         self.pclk.low()
+        #time.sleep_us(1)
         # perhaps a small delay is needed here?? to cover the 65ns min pulse time.
         self.pclk.high()
 
@@ -175,17 +171,16 @@ def xConnect(x,y,c,b,s,debug=0):
     else:
         s.update(b)
     
-def testC1(debug=0,dl=10):
+def testC1(c,debug=0,dl=10):
     s = SPIMgr(True,'X5',DEBUG=debug)
     if debug:
         from _pyb import delay
     else:
         from pyb import delay
-
+    b=bytearray(32)
     for x in range(16):        
         for y in range(16):
-            b=bytearray(32)
-            xConnect(x,y,1,b,s,debug)
+            xConnect(x,y,c,b,s,debug)
             delay(dl)
                 
 def testCA(debug=0,dl=10):
@@ -210,3 +205,43 @@ def testCA(debug=0,dl=10):
 def runCA(debug=0,dl=100):
     while 1:
         testCA(debug,dl)
+
+
+def runUp(dl=500):
+    s=SPIMgr(True,'X5')
+    b= bytearray(32)
+    c= bytearray(32)
+    for i in range(15):
+        for j in range(16):
+            connect(i,j,1,b)
+            print(i,j,'on')
+            s.update(b)
+            time.sleep_ms(dl)
+            print('all off')
+            s.update(c)
+            time.sleep_ms(dl)
+
+        
+"""
+from spiMgr import *
+s=SPIMgr(True,'X5') 
+
+#s=SPIMgr(True,'X5',prescalerR=128)
+#s=SPIMgr(True,'X5',prescalerR=256)
+#s=SPIMgr(True,'X5',prescalerR=32)
+
+#s=SPIMgr(True,'X5',prescalerR=64)
+
+b=bytearray(32)
+d=bytearray(32)
+connect(0,0,1,d)
+c = bytearray([255 for i in range(32)])
+s.update(b)
+s.update(d)
+s.update(c)
+
+#if 6 bytes are 0, i.e. 26 bytes are 255, then it requires 2x updating to 0 to get it all zeroed!
+
+There is strange behavior.... This needs to be further tested and fixed!
+
+"""
