@@ -128,21 +128,20 @@ def connect(x,y,set,b):
     note: this physically modifies the last argument bytearray b 
     """
 
-    # first get the positon of the 2 x bytes:
+    # first get the positon of the 2 x bytes
     x15pos = (15-y)*2
-    newBytes = bytearray([255,255])  # all set
+    # then set the correct bit for the x bit
+    v    = 1 << x
+    # pair contains a bit corresponding to the x pin
+    pair = (((v>>8) & 255), (v & 255))
     
-    v= 1 << x
-    v0 = (v>>8) & 255
-    v1 = v & 255
-    pair = (v0,v1)
-    if set:
-        for i in range(2):
+    for i in range(2):
+        if set:
+            # to set we just or the x bit
             b[x15pos+i] |= pair[i]
-    else:
-        for i in range(2):
-            newBytes[i] ^= pair[i]
-            b[x15pos+i] &= newBytes[i]
+        else:
+            # to unset we and all the bits except the x bit
+            b[x15pos+i] &= (255 ^ pair[i])
 
 def testSPI(debug=0,dl=100):
     s = SPIMgr(True,'X5',DEBUG=debug)
