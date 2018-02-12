@@ -163,7 +163,6 @@ def showBitsL(b):
         s+='{0:08b}'.format(i)
     print(s)
 
-
 def xConnect(x,y,c,b,s,debug=0):
     connect(x,y,c,b)
     if debug:
@@ -205,7 +204,6 @@ def testCA(debug=0,dl=10):
 def runCA(debug=0,dl=100):
     while 1:
         testCA(debug,dl)
-
 
 def runUp(dl=500):
     s=SPIMgr(True,'X5')
