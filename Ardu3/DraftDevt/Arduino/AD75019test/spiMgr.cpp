@@ -24,7 +24,7 @@ void SPIMgr::update() {
   for (int i=0;i<nbBytes;i++){
     tempVec[i]=bitVec[i];
   }
-  SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE1));
+  SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
   for (int i=0;i<nbBytes;i++){
     SPI.transfer(tempVec[i]);
   }

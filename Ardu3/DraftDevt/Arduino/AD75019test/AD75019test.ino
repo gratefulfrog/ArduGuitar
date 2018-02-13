@@ -1,6 +1,35 @@
 #include "spiMgr.h"
 
-const int ledPin = 13;
+const int ledPin = 13,
+          showTime = 5; //secs
+
+
+/* results
+ *  2018 02 13:
+ *  with SPI mode 0
+ *  Vss -7.6v
+ *  Vdd +7.6V
+ *  bits : resistance pin 15, pin 32
+ *  0     : 0L
+ *  1     : 143 165
+ *  0     : 0L
+ *  all 1 : 27 ohm
+ *  0     : 0L
+ *  1     : 144 - 165 Ohm
+ *  0     : 0L
+ *  
+ *  Vss -11.35v
+ *  Vdd +11.3V
+ *  22.7v
+ *  bits : resistance pin 15, pin 32
+ *  0     : 0L
+ *  1     : 143 
+ *  0     : 0L
+ *  all 1 : 27 ohm
+ *  0     : 27 ohm
+ *  1     : 27 ohm
+ *  0     : 27 ohm
+ */
 
 SPIMgr *spiMgr;
 
@@ -60,47 +89,47 @@ void connect00(boolean set){
 }
 
 void loop() {
-  // flash 1x, turn everything off and wait 10 seconds
+  // flash 1x, turn everything off and wait showTime seconds
   Serial.println("\nStep: 1");
-  flash(1);
+  //flash(1);
   allOff();
-  waitSecs(10);
+  waitSecs(showTime);
 
-  // flash 2x, turn on (0,0)  wait 10 seconds,
+  // flash 2x, turn on (0,0)  wait showTime seconds,
   Serial.println("\nStep: 2");
-  flash(2);
+  //flash(2);
   connect00(true);  
-  waitSecs(10);
+  waitSecs(showTime);
 
-  // flash 3x, turn off (0,0) wait 10 seconds,
+  // flash 3x, turn off (0,0) wait showTime seconds,
   Serial.println("\nStep: 3");
-  flash(3);
+  //flash(3);
   connect00(false);
-  waitSecs(10);
+  waitSecs(showTime);
 
-  // flash 4x, turn all on,   wait 10 seconds,
+  // flash 4x, turn all on,   wait showTime seconds,
   Serial.println("\nStep: 4");
-  flash(4);
+  //flash(4);
   allOn();
-  waitSecs(10);
+  waitSecs(showTime);
 
-  // flash 5x, turn all off,  wait 10 seconds,
+  // flash 5x, turn all off,  wait showTime seconds,
   Serial.println("\nStep: 5");
-  flash(5);
+  //flash(5);
   allOff();
-  waitSecs(10);
+  waitSecs(showTime);
   
-  // flash 6x, turn on (0,0), wait 10 seconds,
+  // flash 6x, turn on (0,0), wait showTime seconds,
   Serial.println("\nStep: 6");
-  flash(6);
+  //flash(6);
   connect00(true);
-  waitSecs(10);
+  waitSecs(showTime);
 
-  // flash 7x, turn all off,  wait 10 seconds.
+  // flash 7x, turn all off,  wait showTime seconds.
   Serial.println("\nStep: 7");
-  flash(7);
+  //flash(7);
   allOff();
-  waitSecs(10);
+  waitSecs(showTime);
 
   Serial.println("\nDone");
 }
