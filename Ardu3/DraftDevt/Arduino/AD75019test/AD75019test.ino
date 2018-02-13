@@ -1,7 +1,7 @@
 #include "spiMgr.h"
 
 const int ledPin = 13,
-          showTime = 5; //secs
+          showTime = 10; //secs
 
 
 /* results
@@ -29,6 +29,20 @@ const int ledPin = 13,
  *  0     : 27 ohm
  *  1     : 27 ohm
  *  0     : 27 ohm
+ *  
+ *  Vss -9.5v
+ *  Vdd +9.5V
+ *  19v
+ *  bits : resistance pin 15, pin 32
+ *  0     : 0L
+ *  1     : 155 
+ *  0     : 0L
+ *  all 1 : 27 ohm
+ *  0     : 160 ohm
+ *  1     : 155 ohm
+ *  0     : 0L
+ *  *  
+ *  
  */
 
 SPIMgr *spiMgr;

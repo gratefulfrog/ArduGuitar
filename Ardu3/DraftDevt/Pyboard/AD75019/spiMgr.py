@@ -100,45 +100,127 @@ class SPIMgr():
         # create the pclk pin on the "latch" pin
         self.pclk = Pin(latchPin, Pin.OUT_PP)
         self.pclk.high()
+        self.bitVec =  bytearray(32)
 
-    def update(self,byteArray):
+    def update(self):
         # set latch to high
         # send the data bits to the shift register
         # unset the latch
         self.pclk.high()
-        self.spi.send(byteArray)
+        self.spi.send(self.bitVec)
         self.pclk.low()
         #time.sleep_us(1)
         # perhaps a small delay is needed here?? to cover the 65ns min pulse time.
         self.pclk.high()
+
+    def connect(self, x,y,set):
+        """ 
+        set the value of the bit arr to zero or 1 depending on set argument
+        to disconnect or connect the x,y pins
+        note: this physically modifies the last argument bytearray b 
+        """
+
+        # first get the positon of the 2 x bytes
+        x15pos = (15-y)*2
+        # then set the correct bit for the x bit
+        v    = 1 << x
+        # pair contains a bit corresponding to the x pin
+        pair = (((v>>8) & 255), (v & 255))
+    
+        for i in range(2):
+            if set:
+                # to set we just or the x bit
+                self.bitVec[x15pos+i] |= pair[i]
+            else:
+                # to unset we and all the bits except the x bit
+                self.bitVec[x15pos+i] &= (255 ^ pair[i])
+
+    def clear(self):
+        self.setAll(0)
+
+    def setAll(self,v=255):
+        for i in range(32):
+            self.bitVec[i]=v
 
     def __repr__(self):
         return 'SPIMgr:' + \
             '\n' + str(self.spi) + \
             '\nPCLK:\n' + str(self.pclk)
 
-def connect(x,y,set,b):
-    """ 
-    set the value of the bit arr to zero or 1 depending on set argument
-    to disconnect or connect the x,y pins
-    note: this physically modifies the last argument bytearray b 
-    """
+def waitSecs(n):
+   s = "wait " + str(n) + " seconds..."
+   print(s)
+   time.sleep_ms(1000*n)
 
-    # first get the positon of the 2 x bytes
-    x15pos = (15-y)*2
-    # then set the correct bit for the x bit
-    v    = 1 << x
-    # pair contains a bit corresponding to the x pin
-    pair = (((v>>8) & 255), (v & 255))
-    
-    for i in range(2):
-        if set:
-            # to set we just or the x bit
-            b[x15pos+i] |= pair[i]
-        else:
-            # to unset we and all the bits except the x bit
-            b[x15pos+i] &= (255 ^ pair[i])
 
+def allOff(spi):
+    print("turn everything off")
+    spi.clear()
+    spi.update()
+
+def allOn(spi):
+    print("turn everything on")
+    spi.setAll()
+    spi.update()
+
+def connect00(spi,set):
+    s = "Connecting 0,0: " + str(set)
+    print(s)
+    spi.connect(0,0,set)
+    spi.update()
+
+
+            
+def runLoop(showTime=5):
+    s=SPIMgr(True,'X5')
+
+    while True:
+        # flash 1x, turn everything off and wait showTime seconds
+        print("\nStep: 1")
+        #flash(1)
+        allOff(s)
+        waitSecs(showTime)
+
+        # flash 2x, turn on (0,0)  wait showTime seconds,
+        print("\nStep: 2")
+        #flash(2)
+        connect00(s,True)  
+        waitSecs(showTime)
+        
+        # flash 3x, turn off (0,0) wait showTime seconds,
+        print("\nStep: 3")
+        #flash(3)
+        connect00(s,False)
+        waitSecs(showTime)
+        
+        # flash 4x, turn all on,   wait showTime seconds,
+        print("\nStep: 4")
+        #flash(4)
+        allOn(s)
+        waitSecs(showTime)
+        
+        # flash 5x, turn all off,  wait showTime seconds,
+        print("\nStep: 5")
+        #flash(5)
+        allOff(s)
+        waitSecs(showTime)
+        
+        # flash 6x, turn on (0,0), wait showTime seconds,
+        print("\nStep: 6")
+        #flash(6)
+        connect00(s,True)
+        waitSecs(showTime)
+        
+        # flash 7x, turn all off,  wait showTime seconds.
+        print("\nStep: 7")
+        #flash(7)
+        allOff(s)
+        waitSecs(showTime)
+        
+        print("\nDone")
+  
+
+"""
 def testSPI(debug=0,dl=100):
     s = SPIMgr(True,'X5',DEBUG=debug)
     if debug:
@@ -205,7 +287,7 @@ def runCA(debug=0,dl=100):
     while 1:
         testCA(debug,dl)
 
-def runUp(dl=500):
+def runUp(dl=50):
     s=SPIMgr(True,'X5')
     b= bytearray(32)
     c= bytearray(32)
@@ -218,6 +300,8 @@ def runUp(dl=500):
             print('all off')
             s.update(c)
             time.sleep_ms(dl)
+"""
+
 
         
 """
