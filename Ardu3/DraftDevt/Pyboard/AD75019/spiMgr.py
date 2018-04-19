@@ -102,12 +102,14 @@ class SPIMgr():
         self.pclk.high()
         self.bitVec =  bytearray(32)
 
-    def update(self):
+    def update(self,twice=False):
         # set latch to high
         # send the data bits to the shift register
         # unset the latch
         self.pclk.high()
         self.spi.send(self.bitVec)
+        if twice:
+            self.spi.send(self.bitVec)
         self.pclk.low()
         #time.sleep_us(1)
         # perhaps a small delay is needed here?? to cover the 65ns min pulse time.
@@ -145,7 +147,9 @@ class SPIMgr():
     def __repr__(self):
         return 'SPIMgr:' + \
             '\n' + str(self.spi) + \
-            '\nPCLK:\n' + str(self.pclk)
+            '\nPCLK:\n' + str(self.pclk) +\
+            '\nbitVe:\n' + str(self.bitVec)
+            
 
 def waitSecs(n):
    s = "wait " + str(n) + " seconds..."
@@ -169,7 +173,64 @@ def connect00(spi,set):
     spi.connect(0,0,set)
     spi.update()
 
+def test(y,expectedVal):
+    return y.value() == expectedVal
+    
+def conTest(twice=False,debug=False):
+    if debug:
+        from _pyb import SPI,Pin
+    else:
+        from pyb import SPI,Pin
 
+
+    # initiallize the pins for reading
+    inputPinNameVec = ['Y1','Y2','Y3','Y4',
+                       'Y5','Y6','Y7','Y8',
+                       'Y9','Y10','Y11','Y12',
+                       'X1','X2','X3','X4']
+    inputPinVec =[]
+    for pn in inputPinNameVec:
+        inputPinVec.append(Pin(pn,Pin.IN,Pin.PULL_DOWN))
+    
+    # create the spiMgr instance
+    print('creating the spiMgr and clearing all connections...')
+    s=SPIMgr(True,'X5',DEBUG=debug)
+    s.clear()
+    s.update(twice)
+    alreadyTested = []
+    # now run the big matrix connection loop
+    for x in range(16):
+        for y in range(16):
+            # first connect everyone who already passed
+            print('reconnecting previously connected pins...')
+            for (i,j) in alreadyTested:
+                s.connect(i,j,True)
+            # then make the unitary connection and test for connectivity
+            print('connecting new pins: (',x,y,')')
+            s.connect(x,y,True)
+            s.update(twice)
+            if not test(inputPinVec[y],1):
+                print(x,y, 'connection failed!')
+                print('Already Tested : ', alreadyTested)
+                for (i,j) in alreadyTested:
+                    print('y:',j,'value :', inputPinVec[j].value())
+                raise ValueError
+            # add the current pair to  alreadyTested
+            alreadyTested.append((x,y))
+            # then clear all and test all for for disconnectivity
+            print('disconnecting all pins...')
+            s.clear()
+            s.update(twice)
+            for (i,j) in alreadyTested:
+                if not test(inputPinVec[j],0):
+                    print(i,j, 'Disconnection failed!')
+                    print('already Tested : ', alreadyTested)
+                    for (i,j) in alreadyTested:
+                        print('y:',j,'value :', inputPinVec[j].value())
+                    raise ValueError
+                
+    print('Test Completed!')
+    
             
 def runLoop(showTime=5):
     s=SPIMgr(True,'X5')
