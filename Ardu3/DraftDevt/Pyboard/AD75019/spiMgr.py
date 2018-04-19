@@ -107,9 +107,12 @@ class SPIMgr():
         # send the data bits to the shift register
         # unset the latch
         self.pclk.high()
-        self.spi.send(self.bitVec)
+        
+        print(''.join('{:02x}'.format(x) for x in self.bitVec))
         if twice:
-            self.spi.send(self.bitVec)
+            self.spi.send(self.bitVec+self.bitVec)
+        else:
+            self.spi.send(self.bitVec)    
         self.pclk.low()
         #time.sleep_us(1)
         # perhaps a small delay is needed here?? to cover the 65ns min pulse time.
@@ -151,10 +154,13 @@ class SPIMgr():
             '\nbitVe:\n' + str(self.bitVec)
             
 
-def waitSecs(n):
+def waitSecs(n,debug=False):
    s = "wait " + str(n) + " seconds..."
    print(s)
-   time.sleep_ms(1000*n)
+   if debug:
+          time.sleep(n)
+   else:
+       time.sleep_ms(1000*n)
 
 
 def allOff(spi):
@@ -209,25 +215,33 @@ def conTest(twice=False,debug=False):
             print('connecting new pins: (',x,y,')')
             s.connect(x,y,True)
             s.update(twice)
-            if not test(inputPinVec[y],1):
-                print(x,y, 'connection failed!')
-                print('Already Tested : ', alreadyTested)
-                for (i,j) in alreadyTested:
-                    print('y:',j,'value :', inputPinVec[j].value())
-                raise ValueError
+            if twice:
+                pass
+                #waitSecs(5,debug)
+            elif False:
+                if not test(inputPinVec[y],1):
+                    print(x,y, 'connection failed!')
+                    print('Already Tested : ', alreadyTested)
+                    for (i,j) in alreadyTested:
+                        print('y:',j,'value :', inputPinVec[j].value())
+                    raise ValueError
             # add the current pair to  alreadyTested
             alreadyTested.append((x,y))
             # then clear all and test all for for disconnectivity
             print('disconnecting all pins...')
             s.clear()
             s.update(twice)
-            for (i,j) in alreadyTested:
-                if not test(inputPinVec[j],0):
-                    print(i,j, 'Disconnection failed!')
-                    print('already Tested : ', alreadyTested)
-                    for (i,j) in alreadyTested:
-                        print('y:',j,'value :', inputPinVec[j].value())
-                    raise ValueError
+            if twice:
+                pass
+                 #waitSecs(5,debug)
+            elif False:
+                for (i,j) in alreadyTested:
+                    if not test(inputPinVec[j],0):
+                        print(i,j, 'Disconnection failed!')
+                        print('already Tested : ', alreadyTested)
+                        for (i,j) in alreadyTested:
+                            print('y:',j,'value :', inputPinVec[j].value())
+                        raise ValueError
                 
     print('Test Completed!')
     
