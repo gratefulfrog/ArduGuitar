@@ -238,12 +238,8 @@ F 1 "SW_DPDT_x2" H 2990 3987 50  0001 C CNN
 F 2 "" H 2990 3790 50  0001 C CNN
 F 3 "" H 2990 3790 50  0001 C CNN
 	2    2990 3790
-	1    0    0    1   
+	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	3260 3690 3190 3690
-Wire Wire Line
-	3330 3890 3190 3890
 Wire Wire Line
 	2490 3380 2790 3380
 Wire Wire Line
@@ -252,24 +248,6 @@ Wire Wire Line
 	2490 3880 2790 3880
 Wire Wire Line
 	2790 3880 2790 3790
-Wire Wire Line
-	8380 5390 3330 5390
-Wire Wire Line
-	3330 5390 3330 3890
-Connection ~ 3330 3890
-Wire Wire Line
-	3190 3380 3260 3380
-Wire Wire Line
-	3260 3690 3260 3380
-Connection ~ 3260 3380
-Wire Wire Line
-	3260 3380 4140 3380
-Wire Wire Line
-	3190 3580 3330 3580
-Wire Wire Line
-	3330 3580 3330 3890
-Wire Wire Line
-	3330 3890 3330 3900
 Wire Notes Line
 	2740 4100 3450 4100
 Wire Notes Line
@@ -281,4 +259,22 @@ Wire Notes Line
 Text Notes 3370 3250 2    50   ~ 0
 Inverter
 NoConn ~ 6620 3180
+Wire Wire Line
+	3190 3380 3270 3380
+Wire Wire Line
+	3190 3580 3190 3690
+Wire Wire Line
+	3190 3890 3270 3890
+Wire Wire Line
+	3270 3890 3270 3380
+Connection ~ 3270 3380
+Wire Wire Line
+	3270 3380 4140 3380
+Wire Wire Line
+	8380 5390 3330 5390
+Wire Wire Line
+	3330 5390 3330 3690
+Wire Wire Line
+	3330 3690 3190 3690
+Connection ~ 3190 3690
 $EndSCHEMATC
