@@ -108,7 +108,7 @@ class SPIMgr():
         # unset the latch
         self.pclk.high()
         
-        print(''.join('{:02x}'.format(x) for x in self.bitVec))
+        #print(''.join('{:02x}'.format(x) for x in self.bitVec))
         if twice:
             self.spi.send(self.bitVec+self.bitVec)
         else:
@@ -160,7 +160,7 @@ def waitSecs(n,debug=False):
    if debug:
           time.sleep(n)
    else:
-       time.sleep_ms(1000*n)
+       time.sleep_ms(int(1000*n))
 
 
 def allOff(spi):
@@ -245,7 +245,42 @@ def conTest(twice=False,debug=False):
                 
     print('Test Completed!')
     
-            
+def outTest(delay=5,debug=False):
+    if debug:
+        from _pyb import SPI,Pin
+    else:
+        from pyb import SPI,Pin
+
+
+    # initiallize the pins for reading
+    inputPinNameVec = ['Y1','Y2','Y3','Y4',
+                       'Y5','Y6','Y7','Y8',
+                       'Y9','Y10','Y11','Y12',
+                       'X1','X2','X3','X4']
+    inputPinVec =[]
+    for pn in inputPinNameVec:
+        inputPinVec.append(Pin(pn,Pin.IN,Pin.PULL_DOWN))
+    
+    # create the spiMgr instance
+    print('creating the spiMgr and clearing all connections...')
+    s=SPIMgr(True,'X5',DEBUG=debug)
+    
+    s.clear()
+    s.update(True)
+    while True:    
+        # now run the big matrix connection loop
+        for x in range(16):
+            for y in range(16):
+                # then make the unitary connection and test for connectivity
+                print('connecting new pins: (',y,x,')')
+                s.connect(y,x,True)
+                s.update(True)
+                waitSecs(delay,debug)
+                s.connect(y,x,False)
+    print('Test Completed!')
+
+
+    
 def runLoop(showTime=5):
     s=SPIMgr(True,'X5')
 

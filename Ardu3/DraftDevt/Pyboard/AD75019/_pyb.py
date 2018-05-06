@@ -66,8 +66,10 @@ class SPI():
         self.polarity  = polarity
 
     def send(self,bits):
-        for b in bits:
-            print("Simulated: send:\t{0:#b}".format(b))
+        #print(bits)
+        print(''.join('{:02x}'.format(x) for x in bits))
+        #for b in bits:
+        #    print("Simulated: send:\t{0:#b}".format(b))
         
     def __repr__(self):
         return 'SPI:' + \
@@ -120,11 +122,11 @@ class Pin():
 
     def high(self):
         self.val = 1
-        print(str(self) + '\n\tset: HIGH')
+        #print(str(self) + '\n\tset: HIGH')
 
     def low(self):
         self.val = 0
-        print (str(self) + '\n\tset: LOW')
+        #print (str(self) + '\n\tset: LOW')
 
     def value(self,*args):
         return self.val
