@@ -244,6 +244,8 @@ def conTest(twice=False,debug=False):
                         raise ValueError
                 
     print('Test Completed!')
+
+
     
 def outTest(delay=5,debug=False):
     if debug:
@@ -328,9 +330,41 @@ def runLoop(showTime=5):
         waitSecs(showTime)
         
         print("\nDone")
-  
+
+def rangeConnect(spi,xLim,yLim,set=True):
+    xRange = range(xLim+1)
+    yRange = range(yLim+1)
+    for x in xRange:
+        for y in yRange:
+            spi.connect(x,y,set)
+    spi.update()
+
+inputPinVec =[]
+
+def initPins(debug=False):
+    global inputPinVec
+    if debug:
+        from _pyb import SPI,Pin
+    else:
+        from pyb import SPI,Pin
+    
+    # init Y pins for reading from AD75019
+    # this vec contains the pyboard pin names corresponding to y0, y1, y2...
+    inputPinNameVec = ['Y1','Y2','Y3','Y4',
+                       'Y5','Y6','Y7','Y8',
+                       'Y9','Y10','Y11','Y12',
+                       'X1','X2','X3','X4']
+    # set up for input
+    for pn in inputPinNameVec:
+        inputPinVec.append(Pin(pn,Pin.IN,Pin.PULL_DOWN)) # pull down is only for testing...
+
+def showRange(yLim):
+    for y in range(yLim+1):
+        print('Y: '+ "{:2d}".format(y) + ' = ' + str(inputPinVec[y].value()))
+
 
 """
+
 def testSPI(debug=0,dl=100):
     s = SPIMgr(True,'X5',DEBUG=debug)
     if debug:
@@ -410,11 +444,7 @@ def runUp(dl=50):
             print('all off')
             s.update(c)
             time.sleep_ms(dl)
-"""
 
-
-        
-"""
 from spiMgr import *
 s=SPIMgr(True,'X5') 
 
