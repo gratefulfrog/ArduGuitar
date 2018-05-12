@@ -33,7 +33,12 @@ void processIncoming () {
 
 // When we want to print to the window
 void ShowIncoming() {
-  println(incoming);
+  //println(incoming);
+  int i=0;
+  while(i<incoming.length()){
+    println(incoming.substring(i,i+16));
+    i+=16;
+  }
   print("reply count : ");
   println(++inCount);
 }
@@ -47,16 +52,44 @@ void setup() {
   commsPort = new Serial(this, portName, baudRate);
 }
 
+char processOneChar(char inChar){
+  switch (inChar) {
+    case contactCharacter:
+      commsPort.write(contactCharacter);       // ask for more
+      println("starting...");
+      
+      break;
+    default:      
+      if (!messageArrived){
+        return inChar;
+      }      
+      break;
+  }
+  return '!';
+}
+
 void draw() {
+  if (commsPort.available()>0){
+    char c = processOneChar(commsPort.readChar());
+    if (c != '!'){
+      incoming += c; 
+    }
+  }
+  //println(incoming.length());
+  if (incoming.length() == msgLength){
+    messageArrived = true;
+    println("arrived!");
+  }
   if (messageArrived) {
     background(0);
+    println("goop");
     processIncoming();
     ShowIncoming();
     messageArrived= false;
     incoming = "";
   }
- }
-
+}
+/*
 void serialEvent(Serial commsPort) {
   // read a byte from the serial port:
   char inChar = commsPort.readChar();
@@ -65,30 +98,17 @@ void serialEvent(Serial commsPort) {
       commsPort.write(contactCharacter);       // ask for more
       println("starting...");
       break;
-    case startChar:
-      incoming= "";
-      break;
-    case endChar:
-      messageArrived = true;
-      //println("end of msg");
-      break;
-    default:
-      
+    default:      
       if (!messageArrived){
         incoming += inChar;
-        //print("incoming length : ");
-        //println(incoming.length());
-        if (incoming.length() == msgLength)
-          messageArrived = true;
-      }
-      
+        //println("got one");
+      }      
       break;
   }
 }
-
+*/
 int oneCount=0,
     xlen = 16;
-
 
 void mouseClicked(){
   if (mouseButton == LEFT) {
@@ -97,7 +117,11 @@ void mouseClicked(){
     println('p');
   } 
   else{
-    String s= "x";
+    String s= "x",
+           zerosX16_256 = "";
+    for (int i=0;i<(16+256);i++){
+      zerosX16_256 += '0';
+    }
     for (int i=0;i<oneCount;i++){
       s+="1";
     }
@@ -106,7 +130,7 @@ void mouseClicked(){
     }
     oneCount = (oneCount+1)%(xlen+1);
     print("sending : ");
-    println(s);
-    commsPort.write(s);
+    println(s+zerosX16_256);
+    commsPort.write(s+zerosX16_256  );
   } 
 }
