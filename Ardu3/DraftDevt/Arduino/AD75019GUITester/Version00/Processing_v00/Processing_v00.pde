@@ -7,7 +7,7 @@
 ///////////////////// USER PARAMETERS /////////////////////////////
 
 final int baudRate = 115200;
-final String portName = "/dev/ttyACM0";
+final String portName = "/dev/ttyACM1";
 
 ///////////////////// END of USER PARAMETERS /////////////////////////////
 
@@ -16,6 +16,13 @@ import java.util.*;
 
 Serial commsPort;
 
+final boolean autoExec = true;
+final int autoExecPause = 1500; // milliseconds
+int lastExecTime = 0;
+
+final int maxRecDelay = 15000; // 15 seconds
+int lastRecTime = 0;
+
 final color bg = 0,
             fg = 255;
 final char contactChar = '|',  // confirms arduin handshake
@@ -23,7 +30,7 @@ final char contactChar = '|',  // confirms arduin handshake
            execChar    = 'x';
 
 final String startupMsg = "starting...",
-             nbFormat   = "%3d : ",
+             nbFormat   = "%4d : ",
              recMsg     = "Received : ",
              sendMsg    = "Sent : ";
  
@@ -32,13 +39,15 @@ final int XYValuesLength = 16,
           outMsgLength   = XYValuesLength + spiBitsLength,
           inMsgLength    = 2*XYValuesLength + spiBitsLength;
 
+String outXBits   = "",
+       outSPIBits = "";
+int outXBitsIndex = 0,
+    outSPIBitsIndex = 0;
+
 int inCount=0,
     outCount=0;
 boolean messageArrived = false; 
 String incoming = "";
-
-final int maxRecDelay = 5000; // 5 seconds
-int lastRecTime = 0;
 
 void processIncoming () {
   // do stuff here!
@@ -49,8 +58,18 @@ void ShowIncoming() {
   receiveFromComms(incoming,true,XYValuesLength);
 }
 
+void initOutBits(){
+  for(int i=0;i<XYValuesLength;i++){
+    outXBits+="0";
+  }
+  for(int i=0;i<spiBitsLength;i++){
+    outSPIBits+="0";
+  }
+}
+
 void setup() {
   size(1000, 800); 
+  initOutBits();
   commsPort = new Serial(this, portName, baudRate);
   fill(fg);
   background(bg);
@@ -66,6 +85,9 @@ void draw() {
   }
   if (timeToPoll()){
     poll();
+  }
+  if (autoExec && timeToExec()){
+    exec();
   }
  }
 
@@ -87,19 +109,26 @@ void poll(){
   send2Comms(pollChar,true);
 }
 
-int oneCount=0;
+char notChar(char c){
+  return c== '0' ? '1' : '0';
+}
+
 void exec(){  
-  String s    = String.valueOf(execChar),
-         bits = "";
-  for (int i=0;i<oneCount;i++){
-      bits+="1";
-    }
-    while (bits.length()<outMsgLength){
-      bits+="0";
-    }
-    oneCount = (oneCount+1)%(outMsgLength+1);
-  s+=bits;
-  send2Comms(s,true,XYValuesLength);
+  send2Comms(execChar+outXBits+outSPIBits,true,XYValuesLength);
+  // now inc outbits
+  String newBits = "";
+  for(int i=0;i<XYValuesLength;i++){
+    newBits+= (i==outXBitsIndex ? notChar(outXBits.charAt(i)) : outXBits.charAt(i)); 
+  }
+  outXBitsIndex = (outXBitsIndex+1) % XYValuesLength;
+  outXBits = newBits;
+  newBits = "";
+  for(int i=0;i<spiBitsLength;i++){
+    newBits+= (i==outSPIBitsIndex ? notChar(outSPIBits.charAt(i)) : outSPIBits.charAt(i)); 
+  }
+  outSPIBitsIndex = (outSPIBitsIndex+1) % spiBitsLength;
+  outSPIBits = newBits;
+  lastExecTime = millis();
 }
   
 void mouseClicked(){
@@ -113,7 +142,7 @@ void mouseClicked(){
 
 void showBitsAsString(String bits, int size){
   for(int i=0;i<bits.length(); i+=size){
-    println(String.format("%3d : ",i) + bits.substring(i,i+XYValuesLength));
+    println(String.format(nbFormat,i) + bits.substring(i,i+XYValuesLength));
   }
 }
 
@@ -129,8 +158,9 @@ void send2Comms(char c, boolean countIt){
  void send2Comms(String s, boolean countIt, int size){
   String displayMsg = (countIt ? String.format(nbFormat, outCount++) : "") + sendMsg + s.substring(0,1);
   println(displayMsg);
-  showBitsAsString(s.substring(1,s.length()),XYValuesLength);
+  showBitsAsString(s.substring(1,s.length()),size);
   commsPort.write(s);
+  
  }
  
  void receiveFromComms(String s, boolean countIt, int size){
@@ -145,6 +175,14 @@ void send2Comms(char c, boolean countIt){
 boolean timeToPoll(){
   if (((millis() - lastRecTime) > maxRecDelay) ||
       (millis() < lastRecTime)){
+      return true;
+      }
+  return false;
+}
+
+boolean timeToExec(){
+  if (((millis() - lastExecTime) > autoExecPause) ||
+      (millis() < lastExecTime)){
       return true;
       }
   return false;

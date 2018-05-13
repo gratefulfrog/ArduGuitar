@@ -18,12 +18,21 @@ const int execIncomingLength = 16 + 256;
 
 boolean replyReady = false;
 
-uint16_t xValues = 0,
-         yValues = 0;
-
 const int bitVecNBBytes = 32;
 uint8_t  bitVec[bitVecNBBytes];
-         
+
+// lower left side, these are output pins
+int xPinVec[] = { 28, 39, 14, 30,
+                  32, 34, 36, 40,
+                  38, 29, 15, 31,
+                  33, 35, 37, 41};
+
+// vertical right side these are input pins
+int yPinVec[] = { 2, 3, 4, 5,
+                  6, 7, 8, 9,
+                 10,11,12,18,
+                 19,22,23,24};
+
 
 // We need this function to establish contact with the Processing sketch
 void establishContact() {
@@ -32,6 +41,13 @@ void establishContact() {
     delay(loopPauseTime);
   }
   Serial.read();
+}
+
+void initPins(){
+  for (int i=0;i<16;i++){
+    pinMode(xPinVec[i],OUTPUT);
+    pinMode(yPinVec[i],INPUT);
+  }
 }
 
 void initBitVec(){
@@ -43,7 +59,7 @@ void initBitVec(){
 void setup() {
   Serial.begin(baudRate);
   while (!Serial);
-
+  initPins();
   initBitVec();
   
   // wait for handshake
@@ -61,31 +77,32 @@ String val2String(uint32_t val,int len){
 }
 
 void sendReply(){
-  Serial.print(val2String(xValues,16));
-  Serial.print(val2String(yValues,16));
+  // x pins
+  for (int i=0;i<16;i++){
+    Serial.print(digitalRead(xPinVec[i]));
+  }
+  // y pins
+  for (int i=0;i<16;i++){
+    Serial.print(digitalRead(yPinVec[i]));
+  }
+  // spi bits received
   for (int i=0; i<bitVecNBBytes; i++){
     Serial.print(val2String(bitVec[i],8));
   }
 }
 
 int char2bit(char c){
-  int res = c == '1' ? 1 : 0;
+  //int res = c == '1' ? 1 : 0;
   //Serial.println(String("(") + c + "," + res + ")");
-  return res ;
+  return c == '1' ? 1 : 0; //res ;
 }
 
-void readYValues(){
-  // XXXX only for testing GUI XXX
-  yValues = xValues;
-  // to be completed on real board i.e. yValues[i] |= digitalRead(pin[i]) << i;
-}
 void setXValues(){
-  xValues = 0;
   for (int i=0; i<16; i++){
-    xValues |= char2bit(incomingBits[i]) << (16-1 -i);
+    digitalWrite(xPinVec[i],char2bit(incomingBits[i]));
   }
-  // to be completed on real board i.e. digitalWrite(pin[i[,(xValues & 1<<i) ? 1 : 0);
 }
+
 void setConnections(){
   int strIndex=16;  // first of 256 bit characters
   for (int vecIndex = 0; vecIndex<bitVecNBBytes; vecIndex++){
@@ -94,12 +111,12 @@ void setConnections(){
       bitVec[vecIndex] |= char2bit(incomingBits[strIndex++]) <<(8-1-bitPos);
     }
   }
+  // send bits to chip here!
 }
 
 void execIncoming(){
   setXValues();
   setConnections();  
-  readYValues();
  }
  
 void processIncoming(){
