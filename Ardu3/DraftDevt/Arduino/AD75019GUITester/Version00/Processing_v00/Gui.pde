@@ -5,29 +5,59 @@ class Gui{
   final float hSpace  = 10,
               vSpace  = 10;
   
-  float matrixPercentWindow = 0.6,
-        matrixWidth = width*matrixPercentWindow,
-        matrixHeight = height*matrixPercentWindow,
-        matrixX = width*(1-matrixPercentWindow)/2.,
-        matrixY = height*(1-matrixPercentWindow)/2.,
-        alertDeltaX = ((matrixWidth-hSpace)+(width-(matrixX+matrixWidth)))/2.,
-        alertDeltaY = -vSpace;
+  final float matrixPercentWindow = 0.6,
+              matrixWidth = width*matrixPercentWindow,
+              matrixHeight = height*matrixPercentWindow,
+              matrixX = width*(1-matrixPercentWindow)/2.,
+              matrixY = height*(1-matrixPercentWindow)/2.,
+              alertDeltaX = ((matrixWidth-hSpace)+(width-(matrixX+matrixWidth)))/2.,
+              alertDeltaY = -vSpace;
   
+  final float autoExecXCenter = (2*matrixX+matrixWidth/2.)/2.,
+              connectToggleXCenter = autoExecXCenter + matrixWidth/2.,
+              toggleYCenter = (height + matrixY+matrixHeight)/2.,
+              toggleWidth   = 0.66 *  matrixWidth/2.,
+              toggleHeight  = 0.66 *(height - (matrixY+matrixHeight));
   
+  final int clickEpsilon =  5;
   
-  float connectionRectWidth  = (matrixWidth - hSpace*(nbHorizontal+1))/nbHorizontal,
-        connectionRectHeight = (matrixHeight -vSpace*(nbVertical+1))/nbVertical;
+  final float connectionRectWidth  = (matrixWidth - hSpace*(nbHorizontal+1))/nbHorizontal,
+              connectionRectHeight = (matrixHeight -vSpace*(nbVertical+1))/nbVertical;
         
-  float alertW = 2*connectionRectWidth,
-        alertH = 2*connectionRectHeight;
+  final float toggleCornerArray[][] = {// autoexe {x0,y0,x1,y1}
+                                       {autoExecXCenter - toggleWidth/2.  - clickEpsilon,
+                                        toggleYCenter   - toggleHeight/2. - clickEpsilon,
+                                        autoExecXCenter + toggleWidth/2.  + clickEpsilon,
+                                        toggleYCenter   + toggleHeight/2. + clickEpsilon},
+                                       {// All connections
+                                        connectToggleXCenter - toggleWidth/2.  - clickEpsilon,
+                                        toggleYCenter        - toggleHeight/2. - clickEpsilon,
+                                        connectToggleXCenter + toggleWidth/2.  + clickEpsilon,
+                                        toggleYCenter        + toggleHeight/2. + clickEpsilon},
+                                       {// X area
+                                         matrixX -4*hSpace - connectionRectWidth - clickEpsilon,
+                                         matrixY                                 - clickEpsilon,
+                                         matrixX -2*hSpace                       + clickEpsilon,
+                                         matrixY + matrixHeight                  + clickEpsilon}};
+                                       
+                                        //-(5*hSpace) - connectionRectWidth,-vSpace
+                                        //
+  
+  final int labelSizeVec[] = {30,30};
+  final float toggleXYArray[][] = {{autoExecXCenter,toggleYCenter},
+                                   {connectToggleXCenter, toggleYCenter}};
+  final String toggleLabelVec[] = {"Auto\nExec",
+                                   "All\nConnections"};
+  
+  final float alertW = 2*connectionRectWidth,
+              alertH = 2*connectionRectHeight;
   
   final color red   = #FF0000,
               green = #00FF00,
-              blue  = #0000FF;
+              blue  = #0000FF,
+              yellow = #FFFF00,
+              black  = #000000;
               
-  color guiStroke = #FF0000,
-        guiFill   = #0000FF;
-        
   boolean xPinValues[],
           yPinValues[],
           yCalculatedValues[];
@@ -75,12 +105,25 @@ class Gui{
          2*hSpace + connectionRectWidth,
          vSpace + 16*(connectionRectHeight+vSpace));
     for (int i=0;i<16;i++){
+      // first the boxes
       xPinValues[i] = isTrue(vecBits.charAt(i));
       fill(xPinValues[i] ? green : red);
       rect(hSpace,
            vSpace + i*(connectionRectHeight+vSpace),
            connectionRectWidth,
            connectionRectHeight);
+      // now the labels
+      pushStyle();
+      pushMatrix();
+      translate((2*hSpace+connectionRectWidth)/2.,
+                i*(connectionRectHeight+vSpace) + (3*vSpace+connectionRectHeight)/2.);
+      rectMode(CENTER);
+      textAlign(CENTER);
+      fill(0);
+      textSize(14);
+      text(String.valueOf(i),0,0);
+      popMatrix();
+      popStyle();
     }
     popMatrix();
     popStyle();
@@ -100,6 +143,18 @@ class Gui{
            vSpace,
            connectionRectWidth,
            connectionRectHeight);
+      // now the labels
+      pushStyle();
+      pushMatrix();
+      translate(i*(connectionRectWidth+hSpace) +(2*hSpace+connectionRectWidth)/2.,
+               (3*vSpace+connectionRectHeight)/2.);
+      rectMode(CENTER);
+      textAlign(CENTER);
+      fill(0);
+      textSize(14);
+      text(String.valueOf(i),0,0);
+      popMatrix();
+      popStyle();
     }
     popMatrix();
     popStyle();
@@ -144,11 +199,7 @@ class Gui{
          2*vSpace + connectionRectHeight);
     boolean error = false;
     for (int i=0;i<16;i++){
-      fill(yCalculatedValues[i] ? green : red);
-      rect(hSpace + i*(connectionRectWidth+hSpace),
-           vSpace,
-           connectionRectWidth,
-           connectionRectHeight);
+
       boolean currentError = (yCalculatedValues[i] != yPinValues[i]);
       error |= currentError;
       if(currentError){
@@ -160,18 +211,59 @@ class Gui{
              connectionRectWidth+2*hSpace,
              connectionRectHeight+2*vSpace);
         popStyle();
-        rect(hSpace + i*(connectionRectWidth+hSpace),
+      }
+      fill(yCalculatedValues[i] ? green : red);
+      rect(hSpace + i*(connectionRectWidth+hSpace),
            vSpace,
            connectionRectWidth,
            connectionRectHeight);
-      }
+      // now the labels
+      pushStyle();
+      pushMatrix();
+      translate(i*(connectionRectWidth+hSpace) +(2*hSpace+connectionRectWidth)/2.,
+               (3*vSpace+connectionRectHeight)/2.);
+      rectMode(CENTER);
+      textAlign(CENTER);
+      fill(0);
+      textSize(14);
+      text(String.valueOf(i),0,0);
+      popMatrix();
+      popStyle();
     }
     popMatrix();
     popStyle();
     alert(!error);
   }
   
-  void display(String vecBits){
+  void displayToggle(int index, boolean active){
+    pushStyle();
+    pushMatrix();
+    stroke(blue);
+    if (index==0){
+      fill(active ? green : red); 
+    }
+    else{
+      fill(yellow);
+    }
+    rectMode(CENTER);
+    textAlign(CENTER,CENTER);
+    textSize(labelSizeVec[index]);
+    translate(toggleXYArray[index][0],
+              toggleXYArray[index][1]);
+    rect(0,0,toggleWidth, toggleHeight);
+    fill(black);
+    text(toggleLabelVec[index],0,0);
+    popMatrix();
+    popStyle();
+  }
+  
+  void displayFixedElts(boolean autoExecOn){
+    for (int i=0; i< toggleLabelVec.length; i++){
+      displayToggle(i,autoExecOn);
+    }
+  }
+  
+  void display(String vecBits, boolean autoExecOn){
     displayFrame();
     pushStyle();
     stroke(blue);
@@ -185,6 +277,68 @@ class Gui{
     calculatedYDisplay(reversedBits);
     popMatrix();
     popStyle();
+    displayFixedElts(autoExecOn);
+  }
+  
+  int isAnXbutton(int mX,int mY){
+    final int i= 2;
+    int res = -99;
+    if((mX > toggleCornerArray[i][0]) &&
+       (mY > toggleCornerArray[i][1]) &&
+       (mX < toggleCornerArray[i][2]) &&
+       (mY < toggleCornerArray[i][3])){
+         // we know we're in the zone now to search for the exact one
+         if (mY < toggleCornerArray[i][1] + 1.5*vSpace + connectionRectHeight){
+           res = 0;
+         }
+         else if (mY >= toggleCornerArray[i][3] - 1.5*vSpace - connectionRectHeight){
+          res= 15;
+         }
+         else {
+           float baseY = toggleCornerArray[i][1] + 1.5*vSpace + connectionRectHeight;
+           for (int j=0;j<15;j++){
+             if (mY >=  baseY+ j*(vSpace+connectionRectHeight) &&
+                 mY <   baseY + (j+1)*(vSpace+connectionRectHeight)){
+               res = j+1;
+               break;
+             }
+           }
+         }
+       }
+     return res;
+  }
+  
+  int isAMatrixButton(int mX,int mY){
+    return -99;
+  }
+  int getMouseAction(int mX,int mY){
+    int res = 1000;
+    final int nothing = -99;
+    boolean found = false;
+    for (int i=0;i<toggleLabelVec.length;i++){
+      found = ((mX > toggleCornerArray[i][0]) &&
+               (mY > toggleCornerArray[i][1]) &&
+               (mX < toggleCornerArray[i][2]) &&
+               (mY < toggleCornerArray[i][3]));
+      if (found){
+        return i-2;
+      }
+    }
+    // we are still looking
+    res = isAnXbutton(mX,mY);
+    if (res>=0) {
+      return res;
+    }
+    // search the matrrix
+    res = isAMatrixButton(mX,mY);
+    if (res>=0) {
+      return res;
+    }
+    return nothing;
+    // returns
+    // -2 if all exec toggle was clicked
+    // -1 if all connects toggle  was clicked
+    // a value on [0, 256+16-1] indicating that value in the bitvec string needs to be toggles
   }
   
 }

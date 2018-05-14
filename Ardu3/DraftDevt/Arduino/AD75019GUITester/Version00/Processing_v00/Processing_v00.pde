@@ -16,11 +16,12 @@ import java.util.*;
 
 Serial commsPort;
 
-final boolean autoExec = true;
+boolean lastAll  = false,
+        autoExec = true;
 final int autoExecPause = 1500; // milliseconds
 int lastExecTime = 0;
 
-final int maxRecDelay = 15000; // 15 seconds
+final int maxRecDelay = 3000; // 15 seconds
 int lastRecTime = 0;
 
 final color bg = 0,
@@ -50,6 +51,7 @@ int inCount=0,
     outCount=0;
 boolean messageArrived = false; 
 String incoming = "";
+boolean running = true;
 
 Gui gui;
 
@@ -77,7 +79,7 @@ void setup() {
 }
 
 void processIncoming () {
-  gui.display(incoming);  // do stuff here!
+  gui.display(incoming,autoExec);  // do stuff here!
 }
 void showBitsAsString(String bits, int size){
   for(int i=0;i<bits.length(); i+=size){
@@ -172,8 +174,8 @@ void draw() {
   if (autoExec && timeToExec()){
     exec();
   }
-  //gui.display();
- }
+  gui.displayFixedElts(autoExec);
+}
  
 void serialEvent(Serial commsPort) {
   char inChar = commsPort.readChar();
@@ -205,9 +207,57 @@ void connectionsAllOn(){
 }
 void mouseClicked(){
   if (mouseButton == LEFT) {
-    connectionsAllOn();
+    int actionID = gui.getMouseAction(mouseX,mouseY);
+    switch(actionID){
+      case -2:
+        // all exec toggles
+        println("toggle autoexec");
+        autoExec = ! autoExec;
+        break;
+      case -1:
+        // connections toggles
+        boolean tempAuto = autoExec;
+        autoExec = false;
+        println("toggle all connections");
+        if(lastAll){
+          connectionsAllOff();
+        }
+        else{
+          connectionsAllOn();
+        }
+        send2Comms(execChar+outXBits+outSPIBits,true,XYValuesLength);
+        autoExec=tempAuto;
+        lastAll = !lastAll;
+        break;
+      default:
+        if (actionID >= 0 && actionID <outMsgLength){
+           autoExec = false;
+           println("actionID : ", actionID);
+           if(actionID<XYValuesLength){
+             String newXBits = "";
+             for(int i=0;i<XYValuesLength;i++){
+               newXBits+= (actionID==i ? notChar(outXBits.charAt(i)) : outXBits.charAt(i)); 
+              }
+              outXBits = newXBits;
+              send2Comms(execChar+outXBits+outSPIBits,true,XYValuesLength);
+           }
+           
+           // set the val(actionID) = !val(actionID)
+        }
+          
+        break;
+    }
+  }
+  else { // right mouse
+  }
+}
+
+void keyPressed(){
+  if(running){
+    noLoop();
   }
   else{
-     connectionsAllOff();
-  } 
+    loop();
+  }
+  running = !running ;
 }
