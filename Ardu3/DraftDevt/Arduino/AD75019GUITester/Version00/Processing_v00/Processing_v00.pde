@@ -41,8 +41,10 @@ final int XYValuesLength = 16,
 
 String outXBits   = "",
        outSPIBits = "";
-int outXBitsIndex = 0,
-    outSPIBitsIndex = 0;
+int outXBitsIndex   = 0,
+    outSPIBitsIndex = 0,
+    xStep           = 3,
+    bitStep         = 5;
 
 int inCount=0,
     outCount=0;
@@ -75,7 +77,7 @@ void setup() {
 }
 
 void processIncoming () {
-  gui.matrixDisplay(incoming);  // do stuff here!
+  gui.display(incoming);  // do stuff here!
 }
 void showBitsAsString(String bits, int size){
   for(int i=0;i<bits.length(); i+=size){
@@ -102,13 +104,13 @@ void send2Comms(char c, boolean countIt){
                        ? String.format(nbFormat, outCount++) 
                        : "") 
                        + sendMsg + String.valueOf(c);
-  println(displayMsg);
+  //println(displayMsg);
   commsPort.write(c);
 }
  
 void send2Comms(String s, boolean countIt, int size){
   String displayMsg = (countIt ? String.format(nbFormat, outCount++) : "") + sendMsg + s.substring(0,1);
-  println(displayMsg);
+  //println(displayMsg);
   //showBitsAsString(s.substring(1,s.length()),size);
   commsPort.write(s);
 }
@@ -145,13 +147,13 @@ void exec(){
   for(int i=0;i<XYValuesLength;i++){
     newBits+= (i==outXBitsIndex ? notChar(outXBits.charAt(i)) : outXBits.charAt(i)); 
   }
-  outXBitsIndex = (outXBitsIndex+1) % XYValuesLength;
+  outXBitsIndex = (outXBitsIndex+xStep) % XYValuesLength;
   outXBits = newBits;
   newBits = "";
   for(int i=0;i<spiBitsLength;i++){
     newBits+= (i==outSPIBitsIndex ? notChar(outSPIBits.charAt(i)) : outSPIBits.charAt(i)); 
   }
-  outSPIBitsIndex = (outSPIBitsIndex+1) % spiBitsLength;
+  outSPIBitsIndex = (outSPIBitsIndex+bitStep) % spiBitsLength;
   outSPIBits = newBits;
   lastExecTime = millis();
 }
