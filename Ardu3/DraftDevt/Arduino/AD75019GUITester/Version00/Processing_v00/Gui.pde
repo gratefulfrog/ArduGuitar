@@ -48,7 +48,11 @@ class Gui{
   final float toggleXYArray[][] = {{autoExecXCenter,toggleYCenter},
                                    {connectToggleXCenter, toggleYCenter}};
   final String toggleLabelVec[] = {"Auto\nExec",
-                                   "All\nConnections"};
+                                   "All\nConnections"},
+               xLabel        = "X\nInputs",
+               yLabel        = "Y\nOutputs",
+               computedLable = "Theoretical\nOutputs";
+                                   
   
   final float alertW = 2*connectionRectWidth,
               alertH = 2*connectionRectHeight;
@@ -268,16 +272,16 @@ class Gui{
     textSize(smallLabelSize);
     textAlign(CENTER,CENTER);
     rectMode(CENTER);
-    text("X\nInputs",0,0);
+    text(xLabel,0,0);
     // Y outputs
     popMatrix();
     pushMatrix();
     translate(matrixX + matrixWidth + 1.5*connectionRectWidth,
               matrixY -1.5*(vSpace + connectionRectHeight));
-    text("Y\nOutputs",0,0);
+    text(yLabel,0,0);
     // Computed values
     translate(0,-3*vSpace -connectionRectHeight);
-    text("Theoretical\nOutputs",0,0);
+    text(computedLable,0,0);
     popMatrix();
     popStyle();
   }
