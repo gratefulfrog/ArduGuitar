@@ -230,21 +230,28 @@ void mouseClicked(){
         lastAll = !lastAll;
         break;
       default:
-        if (actionID >= 0 && actionID <outMsgLength){
+        if (actionID >= 0 && actionID < outMsgLength){  
            autoExec = false;
            println("actionID : ", actionID);
-           if(actionID<XYValuesLength){
+           if(actionID<XYValuesLength){    // it's an X button
              String newXBits = "";
              for(int i=0;i<XYValuesLength;i++){
                newXBits+= (actionID==i ? notChar(outXBits.charAt(i)) : outXBits.charAt(i)); 
               }
               outXBits = newXBits;
               send2Comms(execChar+outXBits+outSPIBits,true,XYValuesLength);
+              lastExecTime = millis();
            }
-           
-           // set the val(actionID) = !val(actionID)
-        }
-          
+           else if (actionID >= XYValuesLength && actionID < outMsgLength){  // it's a Matrix Button
+             String newSPIBits = "";
+             for(int i=0;i<spiBitsLength;i++){
+               newSPIBits+= (actionID == i ? notChar(outSPIBits.charAt(i)) : outSPIBits.charAt(i)); 
+             }
+             outSPIBits = newSPIBits;
+             send2Comms(execChar+outXBits+outSPIBits,true,XYValuesLength);
+             lastExecTime = millis();
+           }
+        }  
         break;
     }
   }

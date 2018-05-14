@@ -44,6 +44,7 @@ class Gui{
                                         //
   
   final int labelSizeVec[] = {30,30};
+  final int smallLabelSize = 14;
   final float toggleXYArray[][] = {{autoExecXCenter,toggleYCenter},
                                    {connectToggleXCenter, toggleYCenter}};
   final String toggleLabelVec[] = {"Auto\nExec",
@@ -120,7 +121,7 @@ class Gui{
       rectMode(CENTER);
       textAlign(CENTER);
       fill(0);
-      textSize(14);
+      textSize(smallLabelSize);
       text(String.valueOf(i),0,0);
       popMatrix();
       popStyle();
@@ -257,10 +258,35 @@ class Gui{
     popStyle();
   }
   
+  void displayLabels(){
+    pushStyle();
+    pushMatrix();
+    // X inputs
+    translate((toggleCornerArray[2][0] + toggleCornerArray[2][2])/2.,
+              toggleCornerArray[2][3] + connectionRectHeight);
+    fill(yellow);
+    textSize(smallLabelSize);
+    textAlign(CENTER,CENTER);
+    rectMode(CENTER);
+    text("X\nInputs",0,0);
+    // Y outputs
+    popMatrix();
+    pushMatrix();
+    translate(matrixX + matrixWidth + 1.5*connectionRectWidth,
+              matrixY -1.5*(vSpace + connectionRectHeight));
+    text("Y\nOutputs",0,0);
+    // Computed values
+    translate(0,-3*vSpace -connectionRectHeight);
+    text("Theoretical\nOutputs",0,0);
+    popMatrix();
+    popStyle();
+  }
+  
   void displayFixedElts(boolean autoExecOn){
     for (int i=0; i< toggleLabelVec.length; i++){
       displayToggle(i,autoExecOn);
     }
+    displayLabels();
   }
   
   void display(String vecBits, boolean autoExecOn){
@@ -309,7 +335,7 @@ class Gui{
   }
   
   int isAMatrixButton(int mX,int mY){
-    return -99;
+    return 16;
   }
   int getMouseAction(int mX,int mY){
     int res = 1000;
