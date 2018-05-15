@@ -30,10 +30,11 @@ final char contactChar = '|',  // confirms arduin handshake
            pollChar    = 'p',
            execChar    = 'x';
 
-final String startupMsg = "starting...",
-             nbFormat   = "%4d : ",
-             recMsg     = "Received : ",
-             sendMsg    = "Sent : ";
+final String startupMsg     = "starting...",
+             nbFormat       = "%4d : ",
+             recMsg         = "Received : ",
+             sendMsg        = "Sent : ",
+             actionIDFormat = "%3d";
  
 final int XYValuesLength = 16,
           spiBitsLength  = 256,
@@ -174,7 +175,6 @@ void draw() {
   if (autoExec && timeToExec()){
     exec();
   }
-  gui.displayFixedElts(autoExec);
 }
  
 void serialEvent(Serial commsPort) {
@@ -232,7 +232,8 @@ void mouseClicked(){
       default:
         if (actionID >= 0 && actionID < outMsgLength){  
            autoExec = false;
-           println("actionID : ", actionID);
+           println("actionID : ", String.format(actionIDFormat,actionID));
+           
            if(actionID<XYValuesLength){    // it's an X button
              String newXBits = "";
              for(int i=0;i<XYValuesLength;i++){

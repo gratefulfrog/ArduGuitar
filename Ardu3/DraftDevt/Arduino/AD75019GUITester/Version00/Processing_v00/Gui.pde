@@ -54,8 +54,8 @@ class Gui{
                                    {connectToggleXCenter, toggleYCenter}};
   final String toggleLabelVec[] = {"Auto\nExec",
                                    "All\nConnections"},
-               xLabel        = "X\nInputs",
-               yLabel        = "Y\nOutputs",
+               xLabel        = "X Pin\nInputs",
+               yLabel        = "Y Pin\nOutputs",
                computedLable = "Theoretical\nOutputs";
                                    
   
