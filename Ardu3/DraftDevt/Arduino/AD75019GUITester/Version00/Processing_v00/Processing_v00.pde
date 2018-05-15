@@ -205,6 +205,13 @@ void connectionsAllOn(){
   }
   outSPIBitsIndex=0;
 }
+
+void clearMonitor(){
+  for(int i= 0; i< 100;i++){
+    println();
+  }
+}
+
 void mouseClicked(){
   if (mouseButton == LEFT) {
     int actionID = gui.getMouseAction(mouseX,mouseY);
@@ -258,6 +265,7 @@ void mouseClicked(){
     }
   }
   else { // right mouse
+    clearMonitor();
   }
 }
 
