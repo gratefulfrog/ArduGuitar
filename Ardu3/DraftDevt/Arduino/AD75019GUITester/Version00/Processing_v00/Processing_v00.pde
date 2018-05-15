@@ -244,8 +244,9 @@ void mouseClicked(){
            }
            else if (actionID >= XYValuesLength && actionID < outMsgLength){  // it's a Matrix Button
              String newSPIBits = "";
+             int targetId = actionID - XYValuesLength;
              for(int i=0;i<spiBitsLength;i++){
-               newSPIBits+= (actionID == i ? notChar(outSPIBits.charAt(i)) : outSPIBits.charAt(i)); 
+               newSPIBits+= (targetId == i ? notChar(outSPIBits.charAt(i)) : outSPIBits.charAt(i)); 
              }
              outSPIBits = newSPIBits;
              send2Comms(execChar+outXBits+outSPIBits,true,XYValuesLength);

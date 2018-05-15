@@ -24,24 +24,29 @@ class Gui{
   final float connectionRectWidth  = (matrixWidth - hSpace*(nbHorizontal+1))/nbHorizontal,
               connectionRectHeight = (matrixHeight -vSpace*(nbVertical+1))/nbVertical;
         
-  final float toggleCornerArray[][] = {// autoexe {x0,y0,x1,y1}
+  final float toggleCornerArray[][] = {// {x0,y0,x1,y1}
+                                        // autoexe button
                                        {autoExecXCenter - toggleWidth/2.  - clickEpsilon,
                                         toggleYCenter   - toggleHeight/2. - clickEpsilon,
                                         autoExecXCenter + toggleWidth/2.  + clickEpsilon,
                                         toggleYCenter   + toggleHeight/2. + clickEpsilon},
-                                       {// All connections
+                                       {// All connections button
                                         connectToggleXCenter - toggleWidth/2.  - clickEpsilon,
                                         toggleYCenter        - toggleHeight/2. - clickEpsilon,
                                         connectToggleXCenter + toggleWidth/2.  + clickEpsilon,
                                         toggleYCenter        + toggleHeight/2. + clickEpsilon},
                                        {// X area
-                                         matrixX -4*hSpace - connectionRectWidth - clickEpsilon,
-                                         matrixY                                 - clickEpsilon,
-                                         matrixX -2*hSpace                       + clickEpsilon,
-                                         matrixY + matrixHeight                  + clickEpsilon}};
+                                        matrixX -4*hSpace - connectionRectWidth - clickEpsilon,
+                                        matrixY                                 - clickEpsilon,
+                                        matrixX -2*hSpace                       + clickEpsilon,
+                                        matrixY + matrixHeight                  + clickEpsilon},
+                                       {// connection array
+                                        matrixX                                 - clickEpsilon,
+                                        matrixY                                 - clickEpsilon,
+                                        matrixX + matrixWidth                   + clickEpsilon,
+                                        matrixY + matrixHeight                  + clickEpsilon}};
                                        
-                                        //-(5*hSpace) - connectionRectWidth,-vSpace
-                                        //
+                                        
   
   final int labelSizeVec[] = {30,30};
   final int smallLabelSize = 14;
@@ -310,66 +315,76 @@ class Gui{
     displayFixedElts(autoExecOn);
   }
   
+  int findBoxId(float md,float base, float end, float space, float box){
+    float low  = base + space/2.,
+          high = low + box + space,
+          lastHigh = base;
+    int   index = 0;
+    
+    while(high<=end){
+      if ((md>= lastHigh) && (md < high)){
+        return index;
+      }
+      else{
+        index++;
+        lastHigh=high;
+        high+= box + space;
+      }
+    }
+    return -99; // not found
+  }
+  
   int isAnXbutton(int mX,int mY){
-    final int i= 2;
+    final int i = 2;
     int res = -99;
     if((mX > toggleCornerArray[i][0]) &&
        (mY > toggleCornerArray[i][1]) &&
        (mX < toggleCornerArray[i][2]) &&
        (mY < toggleCornerArray[i][3])){
-         // we know we're in the zone now to search for the exact one
-         if (mY < toggleCornerArray[i][1] + 1.5*vSpace + connectionRectHeight){
-           res = 0;
-         }
-         else if (mY >= toggleCornerArray[i][3] - 1.5*vSpace - connectionRectHeight){
-          res= 15;
-         }
-         else {
-           float baseY = toggleCornerArray[i][1] + 1.5*vSpace + connectionRectHeight;
-           for (int j=0;j<15;j++){
-             if (mY >=  baseY+ j*(vSpace+connectionRectHeight) &&
-                 mY <   baseY + (j+1)*(vSpace+connectionRectHeight)){
-               res = j+1;
-               break;
-             }
-           }
-         }
+         return findBoxId(mY,
+                          toggleCornerArray[i][1],
+                          toggleCornerArray[i][3],
+                          vSpace, 
+                          connectionRectHeight);
        }
+       return -99;
+  }
+ 
+  int isAMatrixButton(int mX,int mY){
+    final int i = 3;
+    int res = -99;
+    if((mX > toggleCornerArray[i][0]) &&
+       (mY > toggleCornerArray[i][1]) &&
+       (mX < toggleCornerArray[i][2]) &&
+       (mY < toggleCornerArray[i][3])){
+         int xPin =   findBoxId(mY,
+                                toggleCornerArray[i][1],
+                                toggleCornerArray[i][3],
+                                vSpace, 
+                                connectionRectHeight),
+             yPin =   findBoxId(mX,
+                                toggleCornerArray[i][0],
+                                toggleCornerArray[i][2],
+                                hSpace, 
+                                connectionRectWidth);
+       res = 255+nbVertical - (16*xPin + yPin) ;  
+       // because the array is reversed and starts afer the 16 Xinput values! 
+     }
      return res;
   }
-  
-  int isAMatrixButton(int mX,int mY){
-    return 16;
-  }
+    
   int getMouseAction(int mX,int mY){
-    int res = 1000;
-    final int nothing = -99;
-    boolean found = false;
     for (int i=0;i<toggleLabelVec.length;i++){
-      found = ((mX > toggleCornerArray[i][0]) &&
-               (mY > toggleCornerArray[i][1]) &&
-               (mX < toggleCornerArray[i][2]) &&
-               (mY < toggleCornerArray[i][3]));
-      if (found){
+      if ((mX > toggleCornerArray[i][0]) &&
+          (mY > toggleCornerArray[i][1]) &&
+          (mX < toggleCornerArray[i][2]) &&
+          (mY < toggleCornerArray[i][3])){
         return i-2;
       }
     }
     // we are still looking
-    res = isAnXbutton(mX,mY);
-    if (res>=0) {
-      return res;
-    }
-    // search the matrrix
-    res = isAMatrixButton(mX,mY);
-    if (res>=0) {
-      return res;
-    }
-    return nothing;
-    // returns
-    // -2 if all exec toggle was clicked
-    // -1 if all connects toggle  was clicked
-    // a value on [0, 256+16-1] indicating that value in the bitvec string needs to be toggles
+    int res = isAnXbutton(mX,mY);
+    return (res>=0) ? res : isAMatrixButton(mX,mY);
   }
-  
 }
   
