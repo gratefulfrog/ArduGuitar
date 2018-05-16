@@ -21,8 +21,8 @@ boolean lastAll  = false,
 final int autoExecPause = 2000; // milliseconds
 int lastExecTime = 0;
 
-final int maxRecDelay = 15000; // 15 seconds
-int lastRecTime = 0;
+final int maxRecDelay = 5000; // 15 seconds
+int lastRecTime = -0;
 
 final color bg = 0,
             fg = 255;

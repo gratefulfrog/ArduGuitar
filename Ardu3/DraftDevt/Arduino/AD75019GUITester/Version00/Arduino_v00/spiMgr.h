@@ -6,7 +6,7 @@
 
 #define SPI_BIT_ORDER (MSBFIRST)
 #define SPI_MODE      (SPI_MODE0)
-#define SPI_CLK_RATE  (5000000)   // 5 MHz
+#define SPI_CLK_RATE  (500000)   // 500KHZ //5 MHz
 
 
 /* usage:
