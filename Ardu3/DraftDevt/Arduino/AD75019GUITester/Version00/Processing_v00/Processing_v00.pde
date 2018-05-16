@@ -18,10 +18,10 @@ Serial commsPort;
 
 boolean lastAll  = false,
         autoExec = true;
-final int autoExecPause = 1500; // milliseconds
+final int autoExecPause = 2000; // milliseconds
 int lastExecTime = 0;
 
-final int maxRecDelay = 3000; // 15 seconds
+final int maxRecDelay = 15000; // 15 seconds
 int lastRecTime = 0;
 
 final color bg = 0,

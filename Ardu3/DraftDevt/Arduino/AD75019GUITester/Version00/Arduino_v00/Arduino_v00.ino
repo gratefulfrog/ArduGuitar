@@ -1,6 +1,11 @@
 /*  Gratefulfrog
  *  2018 05 11
 */
+
+#include "spiMgr.h"
+
+#define AD75019_SS   (53)
+
 const long baudRate = 115200;
 
 const int loopPauseTime =  200; // milli seconds
@@ -14,11 +19,14 @@ state currentState = contact;
 
 int incompingCharCount = 0;
 String incomingBits = "";
-const int execIncomingLength = 16 + 256;
 
 boolean replyReady = false;
 
-const int bitVecNBBytes = 32;
+const int bitVecNBBytes = 32,
+          nbPins        = 16,
+          nbBits        = 256,
+          execIncomingLength = nbPins + nbBits;
+          
 uint8_t  bitVec[bitVecNBBytes];
 
 // lower left side, these are output pins
@@ -33,6 +41,12 @@ int yPinVec[] = { 2, 3, 4, 5,
                  10,11,12,18,
                  19,22,23,24};
 
+// spi manager instance
+
+
+const int ad75019ssPin = AD75019_SS;
+
+ad75019SPIMgr *spi;
 
 // We need this function to establish contact with the Processing sketch
 void establishContact() {
@@ -44,7 +58,7 @@ void establishContact() {
 }
 
 void initPins(){
-  for (int i=0;i<16;i++){
+  for (int i=0;i<nbPins;i++){
     pinMode(xPinVec[i],OUTPUT);
     pinMode(yPinVec[i],INPUT);
   }
@@ -61,6 +75,8 @@ void setup() {
   while (!Serial);
   initPins();
   initBitVec();
+
+  spi = new ad75019SPIMgr(ad75019ssPin);
   
   // wait for handshake
   establishContact();
@@ -78,11 +94,11 @@ String val2String(uint32_t val,int len){
 
 void sendReply(){
   // x pins
-  for (int i=0;i<16;i++){
+  for (int i=0;i<nbPins;i++){
     Serial.print(digitalRead(xPinVec[i]));
   }
   // y pins
-  for (int i=0;i<16;i++){
+  for (int i=0;i<nbPins;i++){
     Serial.print(digitalRead(yPinVec[i]));
   }
   // spi bits received
@@ -91,26 +107,21 @@ void sendReply(){
   }
 }
 
-int char2bit(char c){
-  //int res = c == '1' ? 1 : 0;
-  //Serial.println(String("(") + c + "," + res + ")");
-  return c == '1' ? 1 : 0; //res ;
-}
-
 void setXValues(){
-  for (int i=0; i<16; i++){
+  for (int i=0; i<nbPins; i++){
     digitalWrite(xPinVec[i],char2bit(incomingBits[i]));
   }
 }
 
 void setConnections(){
-  int strIndex=16;  // first of 256 bit characters
+  int strIndex=nbPins;  // first of 256 bit characters
   for (int vecIndex = 0; vecIndex<bitVecNBBytes; vecIndex++){
     bitVec[vecIndex] = 0;
     for (int bitPos = 0; bitPos < 8; bitPos++){ 
       bitVec[vecIndex] |= char2bit(incomingBits[strIndex++]) <<(8-1-bitPos);
     }
   }
+  spi->send(bitVec,bitVecNBBytes);
   // send bits to chip here!
 }
 

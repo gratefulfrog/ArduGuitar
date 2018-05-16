@@ -96,7 +96,7 @@ class Gui{
     pushStyle();
     for (int i=0;i<16;i++){
       for (int j=0;j<16;j++){
-        fill(isTrue(reversedBits.charAt((j*16)+i)) ? green : red);
+        fill(isTrue(reversedBits.charAt((i*16)+j)) ? green : red);
         rect(i*(connectionRectWidth+hSpace),
              j*(connectionRectHeight+vSpace),
              connectionRectWidth,
@@ -171,7 +171,7 @@ class Gui{
   }
   
   boolean shouldBeOn(int xi, int yj, String reversedBits){
-    return xPinValues[xi] && isTrue(reversedBits.charAt(16*xi+yj));
+    return xPinValues[xi] && isTrue(reversedBits.charAt(16*yj+xi));
   }           
   
   boolean yShouldBeOn(int yi,String reversedBits){
@@ -367,7 +367,7 @@ class Gui{
                                 toggleCornerArray[i][2],
                                 hSpace, 
                                 connectionRectWidth);
-       res = 255+nbVertical - (16*xPin + yPin) ;  
+       res = 255+nbVertical - (16*yPin + xPin) ;  
        // because the array is reversed and starts afer the 16 Xinput values! 
      }
      return res;
