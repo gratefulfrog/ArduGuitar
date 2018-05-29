@@ -1,7 +1,7 @@
 /* ProcessingTestDriver
  * gratefulfrog
  * 2018 05 11
- * v_00
+ * v_01
  */
 
 ///////////////////// USER PARAMETERS /////////////////////////////
@@ -16,8 +16,7 @@ import java.util.*;
 
 Serial commsPort;
 
-boolean lastAll  = true,
-        autoExec = false;
+boolean autoExec = false;
 final int autoExecPause = 2000; // milliseconds
 int lastExecTime = 0;
 
@@ -30,7 +29,7 @@ final char contactChar = '|',  // confirms arduin handshake
            pollChar    = 'p',
            execChar    = 'x';
 
-final String startupMsg     = "starting...",
+final String startupMsg     = "Version 01: No Arduino pin reading or writing\nstarting...",
              nbFormat       = "%4d : ",
              recMsg         = "Received : ",
              sendMsg        = "Sent : ",
@@ -213,7 +212,6 @@ void clearMonitor(){
 }
 
 void mouseClicked(){
-  if (mouseButton == LEFT) {
     int actionID = gui.getMouseAction(mouseX,mouseY);
     switch(actionID){
       case -2:
@@ -223,18 +221,15 @@ void mouseClicked(){
         break;
       case -1:
         // connections toggles
-        boolean tempAuto = autoExec;
-        autoExec = false;
-        println("toggle all connections");
-        if(lastAll){
+        if (mouseButton == LEFT) {
+          println("all connections: OFF");
           connectionsAllOff();
         }
         else{
+          println("all connections: ON");
           connectionsAllOn();
         }
         send2Comms(execChar+outXBits+outSPIBits,true,XYValuesLength);
-        autoExec=tempAuto;
-        lastAll = !lastAll;
         break;
       default:
         if (actionID >= 0 && actionID < outMsgLength){  
@@ -242,6 +237,8 @@ void mouseClicked(){
            println("actionID : ", String.format(actionIDFormat,actionID));
            
            if(actionID<XYValuesLength){    // it's an X button
+             println("Not sending anything...");
+             /*         
              String newXBits = "";
              for(int i=0;i<XYValuesLength;i++){
                newXBits+= (actionID==i ? notChar(outXBits.charAt(i)) : outXBits.charAt(i)); 
@@ -249,6 +246,7 @@ void mouseClicked(){
               outXBits = newXBits;
               send2Comms(execChar+outXBits+outSPIBits,true,XYValuesLength);
               lastExecTime = millis();
+              */
            }
            else if (actionID >= XYValuesLength && actionID < outMsgLength){  // it's a Matrix Button
              String newSPIBits = "";
@@ -263,10 +261,6 @@ void mouseClicked(){
         }  
         break;
     }
-  }
-  else { // right mouse
-    clearMonitor();
-  }
 }
 
 void keyPressed(){

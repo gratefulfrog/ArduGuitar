@@ -1,10 +1,16 @@
 /*  Gratefulfrog
  *  2018 05 11
+ *  Version 01 no setting of x pins or reading of y pins
 */
-
 #include "spiMgr.h"
 
-#define AD75019_SS   (10) //(53)
+//#define UNO
+
+#if defined(__AVR_ATmega328P__) || defined(__AVR_ATmega168__)
+#define AD75019_SS   (10)
+#elif defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
+#define AD75019_SS   (53)
+#endif
 
 const long baudRate = 115200;
 
@@ -29,6 +35,7 @@ const int bitVecNBBytes = 32,
           
 uint8_t  bitVec[bitVecNBBytes];
 
+/*
 // lower left side, these are output pins
 int xPinVec[] = { 28, 39, 14, 30,
                   32, 34, 36, 40,
@@ -40,10 +47,9 @@ int yPinVec[] = { 2, 3, 4, 5,
                   6, 7, 8, 9,
                  10,11,12,18,
                  19,22,23,24};
+*/
 
 // spi manager instance
-
-
 const int ad75019ssPin = AD75019_SS;
 
 ad75019SPIMgr *spi;
@@ -56,14 +62,14 @@ void establishContact() {
   }
   Serial.read();
 }
-
+/*
 void initPins(){
   for (int i=0;i<nbPins;i++){
     pinMode(xPinVec[i],OUTPUT);
     pinMode(yPinVec[i],INPUT);
   }
 }
-
+*/
 void initBitVec(){
   for (int i=0; i<bitVecNBBytes; i++){
     bitVec[i]=0;
@@ -73,7 +79,7 @@ void initBitVec(){
 void setup() {
   Serial.begin(baudRate);
   while (!Serial);
-  initPins();
+  //initPins();
   initBitVec();
 
   spi = new ad75019SPIMgr(ad75019ssPin);
@@ -95,24 +101,26 @@ String val2String(uint32_t val,int len){
 void sendReply(){
   // x pins
   for (int i=0;i<nbPins;i++){
-    Serial.print(digitalRead(xPinVec[i]));
+    //Serial.print(digitalRead(xPinVec[i]));
+    Serial.print(0);
   }
   // y pins
   for (int i=0;i<nbPins;i++){
-    Serial.print(digitalRead(yPinVec[i]));
+    //Serial.print(digitalRead(yPinVec[i]));
+    Serial.print(0);
   }
   // spi bits received
   for (int i=0; i<bitVecNBBytes; i++){
     Serial.print(val2String(bitVec[i],8));
   }
 }
-
+/*
 void setXValues(){
   for (int i=0; i<nbPins; i++){
     digitalWrite(xPinVec[i],char2bit(incomingBits[i]));
   }
 }
-
+*/
 void setConnections(){
   int strIndex=nbPins;  // first of 256 bit characters
   for (int vecIndex = 0; vecIndex<bitVecNBBytes; vecIndex++){
@@ -126,7 +134,7 @@ void setConnections(){
 }
 
 void execIncoming(){
-  setXValues();
+  //setXValues();
   setConnections();  
  }
  
@@ -162,4 +170,5 @@ void loop() {
     replyReady=false;
   }
 }
+
 
