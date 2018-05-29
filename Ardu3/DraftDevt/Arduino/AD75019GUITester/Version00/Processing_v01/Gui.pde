@@ -151,6 +151,7 @@ class Gui{
       textAlign(CENTER);
       fill(0);
       textSize(smallLabelSize);
+      //text(String.valueOf(i),0,0);
       text(xLabelVec[i],0,0);
       popMatrix();
       popStyle();
@@ -183,6 +184,7 @@ class Gui{
       textAlign(CENTER);
       fill(0);
       textSize(14);
+      //text(String.valueOf(i),0,0);
       text(yLabelVec[i],0,0);
       popMatrix();
       popStyle();

@@ -258,7 +258,11 @@ void mouseClicked(){
              send2Comms(execChar+outXBits+outSPIBits,true,XYValuesLength);
              lastExecTime = millis();
            }
-        }  
+        }
+        else{
+          // clear the message display
+          clearMonitor();
+        }
         break;
     }
 }
