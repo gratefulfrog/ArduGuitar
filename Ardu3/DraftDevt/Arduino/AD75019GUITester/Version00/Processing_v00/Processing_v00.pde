@@ -16,8 +16,8 @@ import java.util.*;
 
 Serial commsPort;
 
-boolean lastAll  = false,
-        autoExec = true;
+boolean lastAll  = true,
+        autoExec = false;
 final int autoExecPause = 2000; // milliseconds
 int lastExecTime = 0;
 
@@ -73,7 +73,7 @@ void setup() {
   //fullScreen();
   size(1000, 800); 
   initOutBits();
-  commsPort = new Serial(this, portName, baudRate);
+    commsPort = new Serial(this, portName, baudRate);
   fill(fg);
   background(bg);
   gui = new Gui();  

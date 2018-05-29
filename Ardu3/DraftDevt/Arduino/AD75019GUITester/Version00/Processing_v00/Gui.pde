@@ -169,7 +169,7 @@ class Gui{
     popMatrix();
     popStyle();
   }
-  
+  /*
   boolean shouldBeOn(int xi, int yj, String reversedBits){
     return xPinValues[xi] && isTrue(reversedBits.charAt(16*yj+xi));
   }           
@@ -177,6 +177,20 @@ class Gui{
   boolean yShouldBeOn(int yi,String reversedBits){
     for (int xi=0;xi<16;xi++){
       if (shouldBeOn(xi, yi, reversedBits)){
+        return true;
+      }
+    }
+    return false;
+  }
+  */
+  boolean yShouldBeOn(int yi,String reversedBits){
+    for (int xi=0;xi<16;xi++){
+      if (!xPinValues[xi] && isTrue(reversedBits.charAt(16*yi+xi))){
+        return false;
+      }
+    }
+    for (int xi=0;xi<16;xi++){
+      if (xPinValues[xi] && isTrue(reversedBits.charAt(16*yi+xi))){
         return true;
       }
     }

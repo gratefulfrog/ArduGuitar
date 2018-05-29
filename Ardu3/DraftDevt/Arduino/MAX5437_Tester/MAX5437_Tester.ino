@@ -135,6 +135,7 @@ void loop(){
   static uint8_t b = 0;
   static int i = 0;
   g_spi->send(b);
+  Serial.println(b,DEC);
   i= (b ==127 ? -1 : (b == 0) ? 1 : i);
   b = b+i;
   delay(500);
