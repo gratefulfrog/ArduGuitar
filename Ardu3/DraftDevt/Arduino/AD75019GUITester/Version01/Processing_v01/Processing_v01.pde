@@ -4,6 +4,32 @@
  * v_01
  */
 
+/* Wiring of the AD75019 for this experiment
+ * 
+ * SPI     : CLK, DI, SS from the Arduino to the AD75019 as per datasheet
+ * Vdd/Vss : +/-12v from my boost psu, with 100nF decoupling cap to ground
+ * Vcc     : +5v from Arduino, with 100nF decoupling cap to ground
+ * DGND    : to Arduino GND
+ * diodes as per Power Supply Sequencing and Bypassing section of datasheet
+ * startup sequence : +/- 12v then Arduino boot, then +5v
+ *
+ * analog pins:
+ * X0, X1  : signal generator + and GND, i.e. A+ and A-
+ * X2,Y0   == B+
+ * X3,Y1   == B-
+ * ...
+ * X11,Y9  == F+
+ * X12,Y10 == F-
+ * Y11     == O+  (i.e. Amp plus input)
+ * Y12     == O-  (i.e. Amp gnd input)
+ *
+ *  2018 05 29 Results:
+ * 3v Peak to Peak 440Hz sine wave, works as expected,
+ * If all connections are turned on, AD75019 latches up and needs to be completely powered down and then restarted.
+ */
+
+
+
 ///////////////////// USER PARAMETERS /////////////////////////////
 
 final int baudRate = 115200;
