@@ -23,22 +23,13 @@ SPI(2) is on the Y position:
 
 """
 
-DEBUG = True;
-
-
 def char2bit(c):
   return 1 if c == '1' else 0
 
-
 class ad75019SPIMgr:
-
-    def __init_(self,spiOnX,sPinID,baudrate=5000000,DEBUG=True):
-        if DEBUG:
-            import _pyb
-        else:
-            import pyb 
-
-        self.spi=SPI(1 if spiOnX else 2,
+  def __init__(self,spiOnX,sPinID):
+    import pyb 
+    self.spi=pyb.SPI(1 if spiOnX else 2,
                      pyb.SPI.MASTER,
                      prescaler=32 if spiOnX else 16,
                      polarity=0,
@@ -46,29 +37,31 @@ class ad75019SPIMgr:
                      bits=8,
                      firstbit=pyb.SPI.MSB,
                      ti=False, crc=None)
-        self.SS = pyb.Pin(sPinID, Pin.OUT_PP)
-        self.SS.high()
+    self.SS = pyb.Pin(sPinID, pyb.Pin.OUT_PP)
+    self.SS.high()
 
-    def beginTransaction(self):
-        self.SS.high()
+  def beginTransaction(self):
+    self.SS.high()
         
-    def endTransaction(self):
-        self.SS.low()
-        self.SS.high()
+  def endTransaction(self):
+    self.SS.low()
+    self.SS.high()
 
-    def sendBytes(self,b):  # send  a single byte or a vector of bytes over SPI
-        self.beginTransaction()
-        self.spi.send(b)
-        self.endTransaction()
+  def sendBytes(self,b):  # send  a single byte or a vector of bytes over SPI
+    self.beginTransaction()
+    self.spi.send(b)
+    self.endTransaction()
 
-    def sendString(s):
-        """take a string containing only '0' and '1', convert
-        it to a byte array and send it.
-        """
-        byteVec =  bytearray(32)
-        
-    
-        
-    void send(const uint8_t vec[], int size) const; // a vector of bytes, the vector is not overwritten by the reply
-    void send(const String s) const;  // a string of '0' and/or '1'
-};
+  def sendString(self,s):
+    """take a string containing only '0' and '1', convert
+    it to a byte array and send it.
+    The string must be of multiple of 8 in length or it won't fit into bytes!
+    """
+    buf = bytearray(len(s)//8)
+    for si in range(len(s)):
+      i= si//8
+      buf[i] = (buf[i]<<1)|char2bit(s[si])
+    self.beginTransaction()
+    self.spi.send(buf)
+    self.endTransaction()
+
