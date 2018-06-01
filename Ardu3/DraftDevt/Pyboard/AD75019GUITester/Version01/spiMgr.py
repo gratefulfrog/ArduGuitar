@@ -21,6 +21,9 @@ SPI(2) is on the Y position:
  pclk2: frequency of the APB2 bus
 )
 
+So I have to use the spi prescaler to ensure that the clk frequencey is less than 5MHz.
+i.e. prescaler = 32 for SPI(1) or 16 for SPI(2)
+
 """
 
 def char2bit(c):

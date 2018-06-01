@@ -125,7 +125,7 @@ class Gui{
     popStyle();
   }
   
-  void xDisplay(String vecBits){
+  void xDisplay(){
     pushStyle();
     pushMatrix();
     translate(-(5*hSpace) - connectionRectWidth,-vSpace);
@@ -159,7 +159,7 @@ class Gui{
     popMatrix();
     popStyle();
   }
-  void yDisplay(String vecBits){
+  void yDisplay(){
     pushStyle();
     pushMatrix();
     translate(-hSpace, -(5*vSpace) - connectionRectHeight);
@@ -266,8 +266,8 @@ class Gui{
     fill(blue);
     pushMatrix();
     translate(matrixX+hSpace,matrixY+vSpace);
-    xDisplay(vecBits);
-    yDisplay(vecBits);
+    xDisplay();
+    yDisplay();
     String reversedBits = new StringBuffer(vecBits.substring(32)).reverse().toString(); 
     matrixDisplay(reversedBits);
     //calculatedYDisplay(reversedBits);
@@ -308,7 +308,7 @@ class Gui{
                           vSpace, 
                           connectionRectHeight);
        }
-       return -99;
+       return res;
   }
  
   int isAMatrixButton(int mX,int mY){

@@ -59,7 +59,7 @@ class SPI():
     MSB   = 'MSB'
 
     def __init__(self,side,MasterOrSlave,prescaler=256,
-                 polarity=0,phase=0,bits=8,firstbit=MSB):
+                 polarity=0,phase=0,bits=8,firstbit=MSB,ti=0,crc=None):
         self.side      = side
         self.MoS       = MasterOrSlave
         self.prescaler = prescaler
@@ -190,4 +190,15 @@ class ExtInt:
         
     def __repr__(self):
         return 'An ExtInt:\n  Pin:\t%s\n  Irq:\t%s\n  Pull:\t%s\n'% (self.pinName,self.irq,self.pull)
+    
+
+class USB_VCP:
+    def __init__(self):
+        self.something = 0
+    def any(self):
+        return True
+    def write(self, arg):
+        print('Wrote to usb : ' + arg)
+    def read(self):
+        return '|'
     
