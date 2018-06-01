@@ -106,7 +106,7 @@ class App:
         elif self.currentState == self.executeState:
             self.incomingBits += incomingChar
             if len(self.incomingBits) == self.execIncomingLength:
-                #self.execIncoming()
+                self.execIncoming()
                 self.replyReady = True
                 self.setState(self.contactState)
 
@@ -114,7 +114,9 @@ class App:
         self.setConnections()
 
     def setConnections(self):
-        self.spi.sendString(self.incomingBits)
+        #print('outgoingBits: ' + self.incomingBits)
+        #print(type(self.incomingBits[0]))
+        self.spi.sendString(self.incomingBits[self.nbPins:])
 
     def sendReply(self):
         reply= '0' * self.nbPins 
