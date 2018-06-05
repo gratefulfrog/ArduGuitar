@@ -1,6 +1,9 @@
 The ArduGuitar 
 ==========
 
+Following Microsoft's purchase of Github, this project has migrated to gitlab.
+
+
 *Electric guitars with Pyboards or Arduinos inside* 
 
 by gratefulfrog on www.arduguitar.org
